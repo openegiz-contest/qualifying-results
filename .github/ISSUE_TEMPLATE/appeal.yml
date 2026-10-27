@@ -1,0 +1,69 @@
+name: "Appeal / Апелляция"
+description: "One Appeal disputes one fact of a Build Report or of the finding on an attempt to influence the AI Jury (Rules, clause 12.2). / Одна Апелляция оспаривает один факт Отчёта сборки или заключения о попытке повлиять на ИИ-жюри (п. 12.2 Положения)."
+title: "Appeal: team-NNN: "
+labels: ["appeal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        File within 48 hours after the publication of the reports (Rules, clause 12.1). One issue per disputed fact. The result is posted in this issue.
+
+        Подавайте в течение 48 часов после публикации отчётов (п. 12.1 Положения). Одна Апелляция на один оспариваемый факт. Результат публикуется в этой же задаче (issue).
+  - type: input
+    id: team
+    attributes:
+      label: "Team repository / Репозиторий Команды"
+      description: "Format team-NNN, as in the report. / Формат team-NNN, как в отчёте."
+      placeholder: "team-007"
+    validations:
+      required: true
+  - type: dropdown
+    id: document
+    attributes:
+      label: "What is disputed / Что оспаривается"
+      options:
+        - "Build Report fact / Факт Отчёта сборки"
+        - "Detector verdict (attempt to influence the AI Jury) / Заключение детектора (попытка повлиять на ИИ-жюри)"
+    validations:
+      required: true
+  - type: input
+    id: claim
+    attributes:
+      label: "Location in the report (optional) / Место в отчёте (необязательно)"
+      description: "Path to the field in the published JSON of your team (build_report.json or injection_verdict.json), as a JSON pointer. Only the fields came_up, steps, healthchecks, modules, scenarios, concept, built_on_openegiz, notes of the Build Report and verdict, evidence of the detector verdict can be disputed. / Путь к полю в опубликованном JSON вашей Команды (build_report.json или injection_verdict.json) в виде JSON pointer. Оспаривать можно только поля came_up, steps, healthchecks, modules, scenarios, concept, built_on_openegiz, notes Отчёта сборки и verdict, evidence заключения детектора."
+      placeholder: "/modules/1/works"
+    validations:
+      required: false
+  - type: textarea
+    id: quote
+    attributes:
+      label: "The exact statement in the report that is wrong / Точное утверждение в отчёте, которое неверно"
+      description: "Quote it as published. / Процитируйте как опубликовано."
+    validations:
+      required: true
+  - type: textarea
+    id: truth
+    attributes:
+      label: "What is actually true / Что верно на самом деле"
+      description: "The corrected fact, in one or two sentences. / Исправленный факт в одном-двух предложениях."
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: "Evidence / Доказательства"
+      description: "Commands, logs, file paths with a line, commit in the frozen repository. Start each item with command:, log: or file: on its own line; text below belongs to that item until the next one. / Команды, логи, пути к файлам со строкой, коммит в замороженном репозитории. Начинайте каждый пункт со слова command:, log: или file: на отдельной строке; текст ниже относится к этому пункту до следующего."
+      placeholder: |
+        command: curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/mine:vent-1
+        file: services/vent/main.py:42
+        log:
+        2026-10-24T10:15:00Z vent-1 updated
+    validations:
+      required: true
+  - type: checkboxes
+    id: factual
+    attributes:
+      label: "Basis / Основание"
+      options:
+        - label: "This Appeal concerns a factual error, not the points awarded (Rules 12.2: \"Disagreement with the points awarded is not grounds for an Appeal.\"). / Апелляция касается фактической ошибки, а не баллов (п. 12.2 Положения: «Несогласие с выставленными баллами основанием для Апелляции не является.»)."
+          required: true
