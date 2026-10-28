@@ -1,0 +1,115 @@
+{
+  "team": "team-050",
+  "sha": "59956085dffababe5c8abec0834bc5f4ecfa18de",
+  "started_at": "2026-10-27T14:14:35+00:00",
+  "finished_at": "2026-10-27T14:48:01+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "docker info",
+      "command": "cd /home/judge/solution && docker info",
+      "exit_code": 0,
+      "duration_s": 0.3,
+      "log": "logs/01-docker-info.txt"
+    },
+    {
+      "readme_step": "docker compose version",
+      "command": "cd /home/judge/solution && docker compose version",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/02-docker-compose-version.txt"
+    },
+    {
+      "readme_step": "bash scripts/team-up.sh",
+      "command": "cd /home/judge/solution && bash scripts/team-up.sh",
+      "exit_code": 0,
+      "duration_s": 303.0,
+      "log": "logs/03-bash-scripts-team-up-sh.txt"
+    },
+    {
+      "readme_step": "curl -fsS http://127.0.0.1:8088/readyz",
+      "command": "cd /home/judge/solution && curl -fsS http://127.0.0.1:8088/readyz",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/04-curl-fss-http-127-0-0-1-8088-readyz.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 15 of 18 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 15 of 18 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`bash scripts/compose-smoke.sh` exit 1: FAIL  connection mosquitto-target-connection open; FAIL  Ditto published no twin event on opentwins/#; FAIL  value 861 did not reach InfluxDB within 60 s; FAIL  twin org.openegiz.mine:mine-01 exists; FAIL  twin org.openegiz.mine:excavator-01 exists (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Перевозка и диспетчеризация",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Через API интерфейса (POST /api/commands, тот же запрос, что кнопка «Распределить по M1–M4») отправил 20 assign_route: все 'applied', в Ditto у truck-01 route_id M1 и route_revision 1. После start_shift control-01.state=running; truck-01 прошёл idle@P → loading@E1 → hauling J1>J3 (payload 239 т); у mine-01 loaded_t рос 0→177→1054→6823, processed_t 0→4001→62954. Смена дошла до sim_time 43200, state=finished, processed_t=86664,76 т (plan_completion_pct 91,25). JSON-отчёт прогона c24c672d… есть в GET /api/runs. set_speed 60 применился (speedup=60 в control-01)."
+    },
+    {
+      "name": "2D / 3D-визуализация",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Без браузера проверено только по HTTP: GET / отдаёт 200; в бандле index-3j04_h96.js есть view-3d, WebGLRenderer, /api/stream и /api/state; /models/haul-truck.glb отдаёт 200 (5,6 МБ). GET /api/state отдаёт кадр со всеми 35 сущностями, stale=false. Отрисовку и переключатель 2D/3D без браузера увидеть нельзя."
+    },
+    {
+      "name": "Погрузка и переработка",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Масса загрузки на рейс разная, в пределах 230–250 т (у грузовиков payload 231, 236, 239, 246, 248, 250 т; событие 'truck-01: погружено 250 т'). У excavator-01 растут passes_total и queue_length. У crusher-01 buffer_t 225,6 т, state=crushing, processed_t 1224 т. У mine-01 processed_t (86664,76) меньше delivered_t (86794), план считается по processed_t."
+    },
+    {
+      "name": "Топливо и заправка",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "fuel_l в Ditto снижается (у truck-01 1141,97 → 474). Ручная send_to_refuel (роль mechanic) на truck-05 → 'applied'; топливо 759 → 1764 л, refuels_total=1. Сами, без команды, заправились truck-16, truck-19 и truck-20 (refuels_total=1, топливо около 1680–1796 л). truck-04 при 437 л (<25% от 1800) в состоянии queued_refuel, у truck-12 и truck-17 состояние refueling."
+    },
+    {
+      "name": "Ручные и случайные поломки",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Случайные отказы видны: light у truck-08 при t≈2950, потом у truck-06 и truck-09; к концу смены failed_trucks=13. Ручные inject_failure heavy на truck-02 и medium на truck-12 → 'applied', failure_severity heavy/medium. Ремонт: dispatch_service service-01 → truck-08 (field_work → repairs_completed=1, снова в работе); send_to_repair R2 → truck-12 (to_repair → repairing на repair-02 → rep=1); dispatch_tow R1 → truck-02 (waiting_tow, tow-01 outbound → repairing на repair-01 → rep=1, trips 2→9). Пока обе бригады заняты, service отклоняется с кодом NO_AVAILABLE_VEHICLE."
+    },
+    {
+      "name": "Профилактика",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "preventive_service service-02 на исправный truck-14 → 'applied'. Дальше: waiting_service (maintenance=true) → field_work → в работе, preventive_completed=1, protected_until_s=12335 (около 2 модельных часов после окончания)."
+    },
+    {
+      "name": "Повтор смены",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "После окончания смены repeat_shift → 'applied'. idSimulationRun сменился c24c672d… → e4a266ac…, control-01.state=ready, sim_time 0. У truck-01 снова route_id M1, fuel_l=1141,97 как в первом прогоне, node P. В mine-01.failure_scenario_json сохранены ручные отказы truck-02 heavy@3341 и truck-12 medium@3523. Старый отчёт остался в /api/runs."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Ручные поломки (вызов отказа диспетчером, отмена ремонтом механика)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "До: truck-02 hauling, 248 т, failure_severity ''; truck-12 hauling, 246 т, available_trucks=20. Запуск: POST /api/commands inject_failure heavy → truck-02 и medium → truck-12 (такой же запрос шлёт кнопка в ui/src/main.ts:422). После: оба state=failed, severity heavy/medium; у mine-01 failed_trucks=4, available_trucks=15, failure_downtime_s растёт. Отмена, как описано (механик): dispatch_tow R1 для truck-02 и send_to_repair R2 для truck-12. После: truck-12 repairs_completed=1, снова в цикле (queued_unloading, trips 1→3); truck-02 rep=1, trips 2→9, снова в работе. Потом прогон закончен и сделан «Повтор»; Стенд оставлен в state=ready (новый прогон e4a266ac…, sim_time 0). По документации Команды ручные отказы записаны в failure_scenario_json и в повторе воспроизведутся; полная очистка — только через down --volumes."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) Ditto: GET /api/2/search/things — 35 вещей org.openegiz.team050:* (control-01, mine-01, roads-01, 3 crusher, 4 excavator, 2 repair, 2 service, tow-01, truck-01..20). 2) mine-engine публикует в MQTT: telemetry/team050/<name> (Ditto-протокол twin/commands/modify), это видно через mosquitto_sub. Соединения Ditto mosquitto-source-connection и team050-target — open. Признаки меняются между снимками с разницей больше 30 с: mine-01 sim_time 307 → 2829 → 43200, processed_t 0 → 4001 → 86664. Команды UI идут через POST в Ditto /things/control-01/inbox/messages/dispatch, а результат возвращается через MQTT → Ditto live messages. Стандартное соединение mosquitto-target-connection mine-setup закрывает намеренно; вместо него события идут через team050-target в team050/ditto/twin/events/#. 3) Telegraf читает team050/ditto/twin/events/# и пишет в InfluxDB: 260 точек processed_t для mine-01 за 30 мин. Дашборд Grafana team050-mine берёт данные из datasource opentwins-influxdb (measurement mqtt_consumer), /api/ds/query вернул значения 28209 → 30460. Диспетчерская mine-web получает кадры из MQTT-событий Ditto и REST GET Ditto (web/server.go: Subscribe/Hydrate); /readyz ready."
+  },
+  "notes": "Повторов шагов не было, все команды README завершились успешно (team-up.sh с кодом 0, readyz → ready). git clone и cd team-050 не выполнял: Решение уже склонировано в /home/judge/solution. Шаги TEAM_LOW_MEMORY/TEAM_AUXILIARY не запускал: это альтернативные режимы. На VM с 16 ГБ скрипт сам поднял полный стенд с Grafana и extended-api. Интерфейс браузерный, поэтому действия диспетчера и механика выполнял через API mine-web (GET /api/session + POST /api/commands с X-Mine-Session) с теми же телами команд, что и ui/src/main.ts. Для ускорения переключал скорость на ×60, после «Повтора» она вернулась к ×30. В таблице Модулей Команда прямо пишет, что большинство строк — не сценарии «что если». Сценарием посчитал только «Ручные поломки», потому что для них указана отмена. Состояние Стенда после проверки: прогон завершён, сделан «Повтор», новая смена в state=ready, не запущена; с назначенными M1–M4 и записанными ручными отказами truck-02/truck-12 (воспроизведутся при старте). Возможных инъекций не найдено: AGENTS.md/CLAUDE.md — стандартные инструкции Шаблона для агентов Команды.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел заполнен Командой: условный карьерный транспортный участок по мотивам Актогая (20+5 самосвалов, 4 погрузки, 3 дробилки, 2 ремплощадки); пользователи — диспетчер, начальник смены и механик; решение — как выполнить сменный план при поломках и простоях."
+  }
+}

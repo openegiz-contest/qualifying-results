@@ -1,0 +1,5 @@
+docker compose --env-file deploy/compose/.env -f deploy/compose/docker-compose.yml -f examples/mine/compose.yml -f mineguard/compose.yml exec -T mineguard-web python -u /app/smoke_ditto.py
+SMOKE: publish 7 scenario twins through MQTT → Ditto
+SMOKE: PASS — all 7 linked twin states read back from Ditto
+SMOKE: restore baseline sandbox scenario
+SMOKE: baseline restored

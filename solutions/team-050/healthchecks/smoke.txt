@@ -1,0 +1,43 @@
+$ bash scripts/compose-smoke.sh
+Containers
+  ok    init job finished (policy + connections)
+  ok    all health-checked services healthy
+Ditto
+  ok    status/health is UP
+  ok    default policy exists
+  ok    connection mosquitto-source-connection open
+  FAIL  connection mosquitto-target-connection open
+  ok    create test twin
+Ditto memory
+  ok    policies: max heap 256 MiB leaves 512 MiB of its 768 MiB limit
+  ok    things: max heap 256 MiB leaves 512 MiB of its 768 MiB limit
+  ok    things-search: max heap 256 MiB leaves 512 MiB of its 768 MiB limit
+  ok    connectivity: max heap 384 MiB leaves 512 MiB of its 896 MiB limit
+  ok    gateway: max heap 256 MiB leaves 512 MiB of its 768 MiB limit
+Telemetry loop
+  ok    MQTT -> Ditto updated the twin
+  FAIL  Ditto published no twin event on opentwins/#
+  FAIL  value 861 did not reach InfluxDB within 60 s
+Grafana
+  ok    API healthy
+  ok    OpenEgiz app plugin enabled
+  ok    Unity panel plugin loaded
+  ok    InfluxDB datasource healthy
+  ok    OpenEgiz app reaches Ditto (plugin proxy)
+  ok    OpenEgiz app reaches the extended API (plugin proxy)
+Extended API and Unity
+  ok    extended API answers
+  ok    Unity file server serves build/
+Example Mine
+  FAIL  twin org.openegiz.mine:mine-01 exists
+  FAIL  twin org.openegiz.mine:excavator-01 exists
+  FAIL  twin org.openegiz.mine:truck-01 exists
+  FAIL  twin org.openegiz.mine:truck-02 exists
+  FAIL  twin org.openegiz.mine:crusher-01 exists
+  FAIL  no Example Mine telemetry in InfluxDB for the last 2 minutes
+  FAIL  Twins UI lists the Example Mine twins
+  FAIL  dashboard provisioned
+
+Smoke test FAILED.
+
+exit code: 1

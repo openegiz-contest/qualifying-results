@@ -1,0 +1,88 @@
+{
+  "team": "team-007",
+  "judge": "gpt-6.1-sol",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Самостоятельно проверил API Ditto и иерархию в OpenEgiz: присутствуют только пять объектов Example Mine. Заявленные участок газового контроля и ГВУ отвечают 404. Их определения есть в коде, но собственных двойников Команды на Стенде нет.",
+      "references": [
+        "ditto:org.openegiz.mine:horizon-1-section-a",
+        "ditto:org.openegiz.mine:ventilation-fan-01",
+        "team/my_simulator.py:54",
+        "screenshot:team007-twins-children.png"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Повторные чтения с интервалом 70 секунд подтвердили живое поведение только Example Mine: у truck-01 число рейсов выросло с 1 до 2, топливо снизилось с 81,8 до 79,7%. Оба двойника Команды остались недоступны с 404; поведение газового контроля на Стенде не наблюдается.",
+      "references": [
+        "ditto:org.openegiz.mine:truck-01",
+        "ditto:org.openegiz.mine:horizon-1-section-a",
+        "ditto:org.openegiz.mine:ventilation-fan-01",
+        "build_report:modules[3]"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "В браузере проверил Grafana: поиск заявленного дашборда «Мониторинг» не дал результатов; API перечисляет только Example Mine. В SUBMISSION визуализацией названы приборы и графики, а геометрия выработок и работа предприятия не представлены.",
+      "references": [
+        "screenshot:team007-dashboard-search.png",
+        "SUBMISSION.md:60",
+        "build_report:modules[2]",
+        "presentation.pdf:10"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Сам выполнил из team/ указанную команду python3 ~/team-007/team/my_simulator.py: завершение с кодом 2, файл по этому пути отсутствует. До и после попытки участок и ГВУ отвечали 404; последствий нет. Процесс не запустился, отменять нечего, режим Стенда не изменён.",
+      "references": [
+        "SUBMISSION.md:37",
+        "ditto:org.openegiz.mine:horizon-1-section-a",
+        "ditto:org.openegiz.mine:ventilation-fan-01",
+        "build_report:scenarios[0]"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "В коде есть пороговое включение форсажа при CH4 > 1,0%, однако симулятор описанной командой не запускается, двойников и дашборда Команды на Стенде нет. Работающее предупреждение или автоматическое решение самостоятельно не наблюдал.",
+      "references": [
+        "team/my_simulator.py:147",
+        "SUBMISSION.md:37",
+        "build_report:modules[0]",
+        "ditto:org.openegiz.mine:ventilation-fan-01"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Названы конкретная подсистема, пользователи и задача автоматического форсажа вентиляции. Презентация читается и объясняет замысел, но Стенд от него не зависит: работает только Example Mine. Заявления о сквозном работающем контуре, реакции за 2 секунды и автономной защите не подтверждены; конкретное реальное предприятие и данные калибровки не представлены. Поэтому уровень не выше 1.",
+      "references": [
+        "SUBMISSION.md:5",
+        "SUBMISSION.md:14",
+        "SUBMISSION.md:47",
+        "presentation.pdf:10",
+        "presentation.pdf:11",
+        "README.md:14",
+        "ditto:org.openegiz.mine:horizon-1-section-a"
+      ]
+    }
+  ],
+  "total": 3.75
+}

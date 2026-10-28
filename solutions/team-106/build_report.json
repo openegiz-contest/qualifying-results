@@ -1,0 +1,89 @@
+{
+  "team": "team-106",
+  "sha": "99db4aa5c937b2d0d7d4386655514ee40dc38f51",
+  "started_at": "2026-10-27T22:16:00+00:00",
+  "finished_at": "2026-10-27T22:25:08+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "docker compose up -d --build",
+      "command": "cd /home/judge/solution && docker compose up -d --build",
+      "exit_code": 0,
+      "duration_s": 72.0,
+      "log": "logs/01-docker-compose-up-d-build.txt"
+    },
+    {
+      "readme_step": "bash scripts/smoke_test.sh",
+      "command": "cd /home/judge/solution && bash scripts/smoke_test.sh",
+      "exit_code": 0,
+      "duration_s": 1.2,
+      "log": "logs/02-bash-scripts-smoke-test-sh.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 13 of 14 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 13 of 14 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`bash scripts/compose-smoke.sh` exit 1: scripts/compose-smoke.sh: line 14: /home/judge/solution/deploy/compose/.env: No such file or directory (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Модуль 1: Геология и качество руды",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "В Ditto есть 8 двойников org.openegiz.mine:block-01..08 с copper_pct/iron_pct/remaining_tonnes/hardness_f, но в Ditto они не меняются: у block-01 remaining_tonnes = 240000.0 и в начале, и через ~10 мин. В памяти симулятора (GET :8000/api/fleet) остаток block-01 падает до 239397.5, block-03 — до 189436. simulator/main.py publish_telemetry не публикует блоки и stockpile-01 в MQTT, поэтому заявленное «остаточные тоннажи в Ditto API» не наблюдается. Остаток виден только через API симулятора."
+    },
+    {
+      "name": "Модуль 2: Транспорт и диспетчеризация",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Признаки truck-01..12 и excavator-01..04 в Ditto меняются (снимки 22:17:51 и 22:18:31): truck-01 перешёл из hauling 14.0 км/ч в dumping; у excavator-02 passes_total вырос с 2 до 7; queue_length меняется. Скорость на подъёме в Ditto 12–16 км/ч. Панель Grafana «Очереди ожидания у экскаваторов» отдаёт ряды из InfluxDB (запрос через /api/ds/query, 8 рядов). 3D-сцена :8080 отвечает 200, но берёт данные из /api/fleet симулятора, а не из Ditto."
+    },
+    {
+      "name": "Модуль 3: Переработка и контроль шихты",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "crusher-01 в Ditto: feed_grade_cu и throughput_tph обновляются (1.05→1.29→1.497→1.413), tonnes_total растёт (260→2708 т). Панели Grafana «Содержание Cu в шихте» и «График стабилизации» отдают ряды из InfluxDB. Отклонение есть только как grade_deviation в API симулятора (0.24–0.447); отдельного сигнала о выходе из коридора в двойниках нет. Заявленная стабилизация 1.05±0.05 не наблюдается: шихта держится на 1.29–1.5 % Cu даже в режиме QUALITY_BLEND."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Сценарий 1: Авария экскаватора",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск: POST :8000/api/scenario/excavator-failure {\"excavator_id\":\"excavator-01\"}, ответ ok, «0 trucks rerouted». До: excavator-01 state=loading, passes_total=7. Через 45 с: state=breakdown, passes_total=7 (не растёт), у excavator-03 passes_total вырос 6→12, а queue_length 0→1. Отмена: POST /api/scenario/reset. После неё excavator-01 state=idle, в /api/scenario/status excavator_failure=false; позже excavator-01 снова в loading, passes_total=9."
+    },
+    {
+      "name": "Сценарий 2: Переключение режима (Тоннаж vs Шихтовка)",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "Запуск: POST /api/scenario/dispatch-mode {\"mode\":\"MAX_TONNAGE\"}. В Ditto mine-01 dispatch_mode сменился QUALITY_BLEND→MAX_TONNAGE. Распределение рейсов изменилось: queue_length у excavator-03 стал 4, queued_trucks 2→5. Заявленного сильного разброса качества (0.6–1.8 %) за 60 с нет: avg_grade_cu 1.497→1.454. Отмена: {\"mode\":\"QUALITY_BLEND\"}, после неё в Ditto mine-01 dispatch_mode=QUALITY_BLEND."
+    },
+    {
+      "name": "Сценарий 3: Гололёд на съезде",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "Запуск: POST /api/scenario/road-condition {\"condition\":\"slippery_ice\",\"speed_factor\":0.55}. Скорости truck-* в Ditto: до — returning 29–34.5 км/ч, hauling 12–28 км/ч; после — returning 16–22.6, hauling 12–15.9. Заявленного падения до 8–10 км/ч нет. Отмена: POST road-condition {\"condition\":\"normal\"} (speed_factor=1.0), после неё returning снова 29.7–38.6 км/ч, hauling до 34.5, road_condition=normal. В 3D-интерфейсе кнопки гололёда нет (в app.js нет вызова road-condition)."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "no",
+    "evidence": "(1) Выполнено: в Ditto 27 вещей org.openegiz.mine:* (mine-01, crusher-01, stockpile-01, block-01..08, excavator-01..04, truck-01..12). (2) Выполнено частично: соединения mosquitto-source-connection и mosquitto-target-connection открыты (open/open/client open); симулятор публикует команды modify в MQTT telemetry/<id>, признаки грузовиков, экскаваторов, дробилки и mine-01 меняются между снимками с разницей 40 с. Но блоки и склад в MQTT не публикуются, их двойники в Ditto застыли (block-01 remaining_tonnes=240000 в Ditto против 239397.5 в симуляторе). (3) Нарушено: основной интерфейс — 3D-центр :8080 (visualizer/app.js) — читает всё из GET http://<host>:8000/api/fleet, то есть из памяти симулятора; к /api/2 Ditto он не обращается (grep по app.js пуст). Grafana читает InfluxDB, но Telegraf подписан и на opentwins/# (события Ditto), и на сырые telemetry/# мимо Ditto. Запросы дашборда без фильтра по topic, поэтому каждая панель показывает ряды обоих типов (например, topic opentwins/twin/events/.../crusher-01 и telemetry/crusher-01). Кроме того, дашборд ссылается на datasource uid InfluxDB_OpenEgiz, а у источника uid P2F17B9A516ED9CA4: через /api/ds/query с uid из дашборда приходит 404, с настоящим uid данные есть."
+  },
+  "notes": "Обе команды README выполнены по одному разу, повторять ничего не пришлось. Smoke-тест из README сам запускает все три сценария, а затем reset; после него в status все сценарии выключены. В корне Решения есть .env с паролями (ditto/ditto, admin/admin, токен InfluxDB), а deploy/compose/.env нет — пользовался корневым .env, с которым стек и поднялся. Ditto доступен на порту 8082 и через прокси :8080/api/2. Отмена сценариев 1 и 3 — по столбцу отмены SUBMISSION (reset и road-condition normal), сценария 2 — dispatch-mode QUALITY_BLEND. После проверки Стенд в штатном режиме: excavator_failure=false, dispatch_mode=QUALITY_BLEND, road_condition=normal. AGENTS.md и CLAUDE.md — инструкции Шаблона для агентов Команды. Явных инъекций, обращённых к Сборщику или Судьям, не нашёл; README называет свой раздел быстрого запуска «Инструкция для ИИ-жюри», но там только команды запуска.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел о добычном участке открытого медно-порфирового карьера (забои с ЭКГ-15, БелАЗ-75131, дробилка) для сменного диспетчера и технолога по шихтовке: решение — перераспределять рейсы, чтобы держать шихту на 1.05±0.05 % Cu."
+  }
+}

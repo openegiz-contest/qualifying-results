@@ -1,0 +1,95 @@
+{
+  "team": "team-032",
+  "judge": "gpt-6.1-sol",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 2,
+      "max": 25,
+      "points": 12.5,
+      "reasoning": "Через Ditto прочитал 26 объектов: шахту, пять зон, вентиляторы, датчики, работников и технику. Есть газовые показатели, режимы оборудования, иерархия датчик→зона→шахта и связи воздушного потока. Выбранное звено узнаётся и выходит за типовой карьер, но состояния персонала и техники минимальны, а рабочие связи и изменения остаются в отдельной локальной модели.",
+      "references": [
+        "ditto:org.openegiz.safety:zone-main-drift",
+        "ditto:org.openegiz.safety:sensor-main-drift",
+        "ditto:org.openegiz.safety:worker-04",
+        "screenshot:openegiz-twins.png"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Повторные чтения Ditto с интервалом более минуты показали неизменные состояния: главный вентилятор running, поток штрека 2,8 м/с, метан участка A 0,35%. При авариях эти значения также не менялись. Локальный симулятор реагирует на сценарии, но его цикл публикует историю напрямую, не обновляя состояния двойников.",
+      "references": [
+        "ditto:org.openegiz.safety:fan-main",
+        "ditto:org.openegiz.safety:sensor-main-drift",
+        "ditto:org.openegiz.safety:sensor-section-a",
+        "team/mine-safety/app.py:292",
+        "team/mine-safety/model.py:638"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 1,
+      "max": 25,
+      "points": 6.25,
+      "reasoning": "В браузере открылась схема пяти зон с показаниями, вентиляторами, людьми и техникой; аварии меняют цвета и маршруты. Однако это условная схема без подтверждённого масштаба и геометрии выработок, производственный процесс не показан. Данные карты поступают из локального /api/state, а не из обновляемых двойников.",
+      "references": [
+        "screenshot:normal.png",
+        "screenshot:fan-failure.png",
+        "screenshot:fire.png",
+        "team/mine-safety/static/app.js:462",
+        "team/mine-safety/static/index.html:98"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 1,
+      "max": 10,
+      "points": 2.5,
+      "reasoning": "Сам запустил кнопками все четыре сценария и после каждого выполнил сброс. Локально отказ вентилятора затронул пять зон и десять человек, метан — трёх работников, пожар распространился на четыре зоны, перекрытие оставило трёх человек без маршрута. Последствия видны на карте, но соответствующие двойники Ditto остаются штатными, поэтому полноценные связанные сценарии двойника не подтверждены. Итоговое состояние проверено: none, normal, вентиляторы работают, связи активны.",
+      "references": [
+        "screenshot:fan-failure.png",
+        "screenshot:methane.png",
+        "screenshot:fire.png",
+        "screenshot:blocked.png",
+        "ditto:org.openegiz.safety:fan-main",
+        "ditto:org.openegiz.safety:sensor-section-a",
+        "team/mine-safety/app.py:298"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 3,
+      "max": 5,
+      "points": 3.75,
+      "reasoning": "Подтвердил три содержательные функции локального сервиса: советник сравнивает прогнозы и рекомендует скорости вентиляторов; энергетический расчёт сравнивает мощность и стоимость режимов; маршрутизатор строит путь для трёх работников при метане и обнаруживает отсутствие пути при перекрытии. Пороговая оценка риска также работает. Четырёх содержательных модулей разных направлений нет.",
+      "references": [
+        "screenshot:normal.png",
+        "screenshot:fan-failure.png",
+        "screenshot:methane.png",
+        "screenshot:blocked.png",
+        "team/mine-safety/model.py:272",
+        "team/mine-safety/model.py:377",
+        "team/mine-safety/model.py:493"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Своя задача сформулирована конкретно: диспетчеру вымышленной шахты нужны оценка вентиляции и план эвакуации; интерфейс и сценарии ей соответствуют. Презентация читается, но её ключевое утверждение о едином сквозном потоке через Ditto противоречит коду и проверке: двойники статичны, история публикуется в обход них. Это ограничивает уровень единицей. Параметры синтетические, перенесённых данных предприятия или аналогов нет.",
+      "references": [
+        "presentation.pdf:5",
+        "presentation.pdf:9",
+        "team/mine-safety/app.py:292",
+        "ditto:org.openegiz.safety:fan-main",
+        "build_report:built_on_openegiz",
+        "build_report:steps[3]"
+      ]
+    }
+  ],
+  "total": 28.75
+}

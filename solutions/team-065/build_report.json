@@ -1,0 +1,168 @@
+{
+  "team": "team-065",
+  "sha": "b50545382499d34ee55f8f3961fd81dee35d95ed",
+  "started_at": "2026-10-27T19:57:21+00:00",
+  "finished_at": "2026-10-27T20:16:09+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update && sudo apt-get install -y make",
+      "command": "cd /home/judge/solution && sudo apt-get update && sudo apt-get install -y make",
+      "exit_code": 0,
+      "duration_s": 11.7,
+      "log": "logs/01-sudo-apt-get-update-sudo-apt-get-install.txt"
+    },
+    {
+      "readme_step": "make up",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 0,
+      "duration_s": 86.0,
+      "log": "logs/02-make-up.txt"
+    },
+    {
+      "readme_step": "make smoke",
+      "command": "cd /home/judge/solution && make smoke",
+      "exit_code": 0,
+      "duration_s": 10.6,
+      "log": "logs/03-make-smoke.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 15 of 18 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 15 of 18 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Dispatch and grade control (fleet-management system)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "During the S2 failure scenario the trucks were re-dispatched to the remaining shovels (shovel-s2.state=down). Grade control started on its own: kpi.gc_reclaim_tph 0→356 and stockpile-hg.reclaim_tph=356, with the event 'grade control: ROM grade 0.498% below 0.50% target -> reclaiming high-grade stockpile'. A later event recorded 'ROM grade back on target, high-grade reclaim stopped'. With dispatch_fixed, dispatch.dispatch_policy_active changed dynamic→fixed and back after undo. Truck assigned_shovel changes between snapshots (for example truck-03: shovel-s2→shovel-s1)."
+    },
+    {
+      "name": "Predictive maintenance",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Every truck publishes health_pct, coolant_temp_c, oil_fe_ppm, next_pm_due_h and work_order_open, and these change over time (truck-03 health_pct 87.6→86.1 in 35 s). With predictive_maintenance on, truck-04 got work_order_open=1 (health 1.0) and the event '[t=15.51h] truck-04: predictive work order raised (coolant 108C)' appeared. The kpi twin publishes current/baseline_unplanned_failures and current_planned_repairs (4/4/0). The claimed long-term effect (−23 % failures over 200 mine hours) cannot be checked in the available time."
+    },
+    {
+      "name": "Energy and CO2",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "kpi publishes current/baseline fuel_l_h, energy_kwh_h and co2_t_h, and substation-01.load_kw changes (76390→76015→68349 under curtailment). Under grid curtailment, mill-sag-01.power_kw went 28000→21000, energy_kwh_h −10.35 % and CO2 −9.64 %. Under trolley assist, diesel was −3.2 % with CO2 about unchanged (+0.07 %)."
+    },
+    {
+      "name": "3D web interface mine-ui (port 8000)",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "GET http://127.0.0.1:8000/ returns 200. The nginx proxy /ditto/ reaches the Ditto API (/ditto/api/2/things/kz.kyzyltas.mine:kpi/features/sim_time_h → value), and /influx/query reaches InfluxDB (17536 kpi points in 10 minutes; 66 twins in the mqtt_consumer measurement). The 3D rendering itself was not checked because there is no browser."
+    },
+    {
+      "name": "Grafana dashboard 'Kyzyl-Tas Mine - KPIs vs baseline'",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Dashboard uid kyzyl-tas-mine has about 18 panels with Flux queries on bucket default, measurement mqtt_consumer, thingId kz.kyzyltas.mine:kpi/stockpile-hg/fan-pit-01, datasource opentwins-influxdb (http://influxdb:8086). /api/ds/query for the 'SAG mill feed' panel returned 137 points over 15 minutes."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Shovel S2 failure",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Ran the UI's PATCH /ditto/api/2/things/kz.kyzyltas.mine:scenario (defaults + shovel_down_id=shovel-s2, active_scenario=shovel_failure) → 204. Before: shovel-s2 loading, gc 0. After 60 s: shovel-s2.state=down, dig_rate 0; ore_mined −19.75 %, grade −5.37 %, haul cycle +27.57 %; gc_reclaim_tph 356; event 'grade control ... reclaiming'. After undo (PATCH of defaults): shovel-s2 loading, event 'shovel-s2: returned to service', every delta 0.0 %."
+    },
+    {
+      "name": "Slope radar alarm (east wall)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Before: road-ramp-ore-up closed=0; slope-radar-01 green, 1.3 mm/day. After 50 s: closed=1, traffic 0; radar red, 55 mm/day; ore −16.61 %, cycle +19.64 %. After undo: closed=0, radar green, 1.1 mm/day, deltas 0."
+    },
+    {
+      "name": "Post-blast fume delay (winter inversion)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Before: shovel-s1 queued, shovel-s3 loading. After 45 s: both state=blocked, dig_rate 0; ore −9.85 %, moved −9.82 %. After undo: both loading, event 'shovel-s3: fume exclusion lifted (scenario cleared)'."
+    },
+    {
+      "name": "Siberian cold snap (−38 °C)",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "weather-station-01 went 14.1 °C/3.9 m/s/clear → −38 °C/12 m/s/blizzard/300 m. fan-pit-01.watering_on went 1→0 and road_pm10 228.8→289.5. Haul cycle +8.65 % as claimed, but ore mined was +1.19 % instead of the claimed −5 % (about 1 mine hour of observation). After undo: 14.5 °C, clear."
+    },
+    {
+      "name": "Spring thaw (wet haul roads)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "road-ramp-ore-up.rolling_resistance_pct 3.0→5.5→3.0 after undo. During the scenario: ore −14.32 %, cycle +29.21 %. Deltas returned to 0."
+    },
+    {
+      "name": "Fleet cut (−2 trucks)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "truck-13 and truck-14 got parked=1; ore −7.25 %, moved −5.22 %. After undo both have parked=0 and deltas are 0."
+    },
+    {
+      "name": "Fleet-management system offline",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "dispatch.dispatch_policy_active went dynamic→fixed. gc_reclaim_tph went 800→0 (grade control off; mined grade was 0.52 at the time). Ore +0.16 %, about 0 % as claimed. After undo: dynamic."
+    },
+    {
+      "name": "Intensify blast (PF 0.30 -> 0.40 kg/t)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "mill-sag-01.x80_feed_mm 608.9→484.7 and throughput 3425→3789. Mill feed +10.61 %, Cu +10.37 %, NSR +10.43 %. After undo: 3425, deltas 0."
+    },
+    {
+      "name": "Harder ore domain (BWi 14 -> 16)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "mill-sag-01 throughput 3425→2607 and p80 180→217.7. Mill feed −23.87 %, Cu −24.43 %, kWh/t +31.36 %. After undo: 3425, p80 180."
+    },
+    {
+      "name": "Grid power curtailment (mills at 75%)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "mill-sag-01.power_kw 28000→21000 and throughput 2569; substation-01.load_kw 76015→68349. Mill feed −25 %, Cu −24.65 %, energy −10.35 %, CO2 −9.64 %. After undo: 28000 kW, 3425 t/h."
+    },
+    {
+      "name": "Enable trolley assist",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "After 50 s: fuel_l_h −3.21 % (claimed −4 %), ore +2.13 %, cycle −2.52 %, CO2 +0.07 % (about unchanged, as claimed). After undo, deltas are 0."
+    },
+    {
+      "name": "Copper price drop (−25%)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "NSR −18.66 %, margin −21.83 %, cu_tph 0 % (physical KPIs unchanged). After undo: NSR delta 0."
+    },
+    {
+      "name": "Predictive maintenance (vs reactive)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "active_scenario=predictive_maintenance. Event 'truck-04: predictive work order raised (coolant 108C)', truck-04.work_order_open=1. Unplanned failures 4/4 against baseline; the team says there is no effect yet in a short window. After undo the scenario twin is at defaults (active_scenario none) and truck-04 is hauling."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "(1) Ditto: GET /api/2/search/things/count?namespaces=kz.kyzyltas.mine = 87 (21 types + 66 instances: truck-01..14, shovel-s1..s4, mill-sag-01, kpi, scenario and others). (2) Values change between snapshots 35 s apart (truck-03 trips_total 3→5, road_segment and assigned_shovel changed; kpi.sim_time_h 1.387→2.037). Connections mosquitto-source-connection (telemetry/#) and mosquitto-target-connection are both open. mine-engine publishes to MQTT telemetry/<twin> (mine/engine/ditto_io.py:100); its only HTTP call to Ditto is a GET of the scenario twin (engine.py:100). make smoke passed 'MQTT -> Ditto -> Telegraf -> InfluxDB'. (3) The Grafana dashboard kyzyl-tas-mine reads the platform InfluxDB (datasource opentwins-influxdb, measurement mqtt_consumer) and returned 137 points. mine-ui reads Ditto through the /ditto/ proxy and InfluxDB through /influx/query, and writes scenarios with a PATCH to the scenario twin in Ditto."
+  },
+  "notes": "All README steps succeeded on the first try; there were no repeats. make smoke is marked optional in the README and was run. The scenarios run from browser buttons, so I reproduced the UI's request with a script outside the Solution, taken from mine/ui/src (ScenarioPanel.tsx:30, useMineStore.ts:146, lib/ditto.ts, lib/scenarios.ts): PATCH http://127.0.0.1:8000/ditto/api/2/things/kz.kyzyltas.mine:scenario with all SCENARIO_DEFAULTS fields, the scenario's fields, active_scenario and a new run_id. Undo is the same PATCH with defaults (buildResetPatch). All 13 scenarios were undone; the scenario twin is left at defaults (active_scenario none). The Custom what-if was not checked separately. Observation windows were short (35–60 s, about 0.5–1 mine hour), so effects claimed for long windows were not checked. Random truck failures happened during the run (2–4 trucks down at times). No injections found.",
+  "concept": {
+    "filled": "no",
+    "evidence": "SUBMISSION.md has no Concept/Замысел section: it opens with a description of the fictional Kyzyl-Tas copper mine (Bozshakol/Aktogay data) and goes straight to Team and Mine model, without naming who uses the twin or what decision it supports."
+  }
+}

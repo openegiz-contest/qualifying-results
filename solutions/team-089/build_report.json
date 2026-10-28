@@ -1,0 +1,84 @@
+{
+  "team": "team-089",
+  "sha": "e6bcf128ae59bf478928ceb57ff7c114066c2272",
+  "started_at": "2026-10-27T21:03:00+00:00",
+  "finished_at": "2026-10-27T21:07:28+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt install -y make   # if make is missing (clean Ubuntu)",
+      "command": "cd /home/judge/solution && sudo apt install -y make",
+      "exit_code": 0,
+      "duration_s": 3.3,
+      "log": "logs/01-sudo-apt-install-y-make-if-make-is-missi.txt"
+    },
+    {
+      "readme_step": "make up            # the OpenEgiz platform",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 0,
+      "duration_s": 70.0,
+      "log": "logs/02-make-up-the-openegiz-platform.txt"
+    },
+    {
+      "readme_step": "make example-mine  # the Example Mine: twins, simulator, dashboard",
+      "command": "cd /home/judge/solution && make example-mine",
+      "exit_code": 0,
+      "duration_s": 32.0,
+      "log": "logs/03-make-example-mine-the-example-mine-twins.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 14 of 17 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 14 of 17 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Well monitoring",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "README поднимает только платформу и Пример рудника из Шаблона. В Ditto (GET /api/2/search/things) только org.openegiz.mine:crusher-01, excavator-01, mine-01, truck-01, truck-02; двойников oilfield-01/WELL-01..03 нет. Контейнеров oilguard-setup/oilguard-simulator нет: examples/oilguard/compose.yml ни одна команда README не подключает. Сама Команда пишет: «Not yet deployed; local CSV and chart are available»."
+    },
+    {
+      "name": "Safety detection",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "На Стенде не наблюдается: двойников скважин и статусов NORMAL/DANGER в Ditto нет, сервис oilguard не запущен. В SUBMISSION указано: «Verified locally using MQTT dry-run output»."
+    },
+    {
+      "name": "Grafana dashboard OilGuard (раздел OilGuard AI Platform Integration)",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "В Grafana (GET /api/search) есть только папка «OpenEgiz Examples» и дашборд openegiz-example-mine «Example Mine». Дашборда OilGuard нет."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "High-pressure incident (WELL-02)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Сценарий не запускается на Стенде: Команда пишет «not yet controllable on the Stand», двойника WELL-02 в Ditto нет. Я ничего не запускал, Стенд не изменён. Отмена — «Regenerate the baseline simulation» (локальный CSV)."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "no",
+    "evidence": "Платформа поднялась (make up, затем make example-mine). В Ditto работают только двойники Примера рудника из Шаблона (org.openegiz.mine:*): features truck-01 менялись между снимками с интервалом 30 с (route_position 1.215 → 3.035). Своих двойников рудника/месторождения у Команды в Ditto нет: oilfield-01 и WELL-01..03 не созданы, симулятор oilguard не публикует в MQTT, дашборда OilGuard в Grafana нет. Интеграция examples/oilguard/compose.yml не подключается командами README. Команда сама пишет, что регистрация двойников, live MQTT и Grafana «not yet verified»."
+  },
+  "notes": "README — неизменённый Шаблон: в нём только sudo apt install -y make, make up и make example-mine. Все три команды выполнены дословно с первого раза, повторов не было. Поднялись платформа и Пример рудника Шаблона. Интеграцию OilGuard (examples/oilguard/compose.yml) README не запускает, поэтому я её не запускал. Возможных инъекций не найдено. Сценарии не запускались, Стенд не изменялся.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел заполнен: OilGuard AI — двойник вымышленного нефтяного месторождения на западе Казахстана (три скважины), для операторов и инженеров; помогает решить, когда снизить добычу, остановить оборудование или провести обслуживание."
+  }
+}

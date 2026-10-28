@@ -1,0 +1,77 @@
+{
+  "team": "team-122",
+  "judge": "opus-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Двойников на Стенде нет. В копии платформы Команды скрипт openegiz/deploy/compose/ditto/40-htpasswd.sh закоммичен с режимом 100644 (проверил git ls-files -s), поэтому htpasswd не создаётся. Ditto nginx на поиск с паролем из .env отвечает 403, а не 5xx: это ошибка конфигурации Команды, а не сбой платформы. Контейнер init завершился с exit 1 (403 Forbidden в логе), ventobserve остался в состоянии Created. В коде есть модель сети из 9 ветвей и 10 узлов с данными (app/network.py, app/data/gucheng-network.csv), но в OpenEgiz она двойниками не представлена.",
+      "references": [
+        "build_report:healthchecks[1]",
+        "build_report:built_on_openegiz",
+        "openegiz/deploy/compose/ditto/40-htpasswd.sh:1",
+        "app/network.py:14"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Живого состояния нет: сервис ventobserve не запущен, Ditto отвечает 403, снять состояние дважды нельзя. Расчёт вентиляционной сети в коде (характеристики вентиляторов, сопротивления из CSV) выглядит правдоподобно, но на Стенде он не работает, а баллы даются только за работающее поведение.",
+      "references": [
+        "build_report:modules[0]",
+        "app/network.py:27"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Интерфейс http://localhost:8765/ не открывается (ERR_EMPTY_RESPONSE), curl /api/state возвращает 000. Ни один признак визуализации в браузере не виден.",
+      "references": [
+        "screenshot:ventobserve-8765-empty.png",
+        "build_report:came_up"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Пять сценариев заявлены как кнопки в интерфейсе, но интерфейс недоступен, поэтому ни один сценарий запустить не удалось. Стенд я не менял.",
+      "references": [
+        "build_report:scenarios[0]",
+        "SUBMISSION.md:11"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Работы ни одного из Модулей — наблюдения метана, выбора восстановления, прогноза — на Стенде не видно: сервис ventobserve в состоянии Created, API не отвечает.",
+      "references": [
+        "build_report:modules[1]",
+        "build_report:modules[2]"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Замысел продуманный и не типовой: реальная вентиляционная сеть шахты Gucheng из открытой статьи (DOI указан), данные перенесены в app/data/gucheng-network.csv, пользователь — инженер вентиляции, решение — какое измерение восстановить. Однако на Стенде ничего из этого не видно. Кроме того, presentation.pdf:8 утверждает, что «живая цепочка подтверждена», а Стенд показывает обратное: Ditto отвечает 403, сервис не запущен. Ключевое утверждение презентации противоречит Стенду, поэтому уровень не выше 1.",
+      "references": [
+        "SUBMISSION.md:3",
+        "presentation.pdf:8",
+        "app/data/gucheng-network.csv",
+        "build_report:concept"
+      ]
+    }
+  ],
+  "total": 3.75
+}

@@ -1,0 +1,83 @@
+{
+  "team": "team-081",
+  "sha": "36c97230496bd27b269d3d2c40d825274b6131e0",
+  "started_at": "2026-10-27T20:41:08+00:00",
+  "finished_at": "2026-10-27T20:50:13+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update && sudo apt-get install -y make",
+      "command": "cd /home/judge/solution && sudo apt-get update && sudo apt-get install -y make",
+      "exit_code": 0,
+      "duration_s": 8.6,
+      "log": "logs/01-sudo-apt-get-update-sudo-apt-get-install.txt"
+    },
+    {
+      "readme_step": "make aktogay",
+      "command": "cd /home/judge/solution && make aktogay",
+      "exit_code": 0,
+      "duration_s": 101.0,
+      "log": "logs/02-make-aktogay.txt"
+    },
+    {
+      "readme_step": "make aktogay-verify",
+      "command": "cd /home/judge/solution && make aktogay-verify",
+      "exit_code": 0,
+      "duration_s": 129.0,
+      "log": "logs/03-make-aktogay-verify.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 15 of 18 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 15 of 18 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`make smoke` exit 2: FAIL  value 287 did not reach InfluxDB within 60 s (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Транспорт и диспетчеризация (симулятор + динамический диспетчер самосвалов, прогноз меди к концу смены)",
+      "claimed_in_submission": false,
+      "works": "yes",
+      "evidence": "Таблица модулей в SUBMISSION.md пуста; функция описана только в README. Контейнер openegiz-aktogay-sim-1 healthy. За 40 с kz.aktogay:ht-01: state loading→hauling, payload 29.6→233.2 т, speed 0→28.6 км/ч. У ex-01 production 0→221 т, queue 0→2. В логе симулятора: «forecast at 08:04: 182.5 t Cu (baseline 182.5)»."
+    },
+    {
+      "name": "Дашборд Grafana «Актогай — транспорт и диспетчеризация» (uid aktogay-haulage)",
+      "claimed_in_submission": false,
+      "works": "yes",
+      "evidence": "Все панели берут данные из источника opentwins-influxdb (Flux, bucket default). Запрос панели «Скорость самосвалов, км/ч» через /api/ds/query за 15 минут вернул 14 рядов по 56–77 точек, без ошибок."
+    },
+    {
+      "name": "3D-стенд с панелью диспетчера и кнопками what-if (порт 8070)",
+      "claimed_in_submission": false,
+      "works": "yes",
+      "evidence": "GET http://127.0.0.1:8070/ отдаёт HTML «Актогай — цифровой двойник карьера». app.js читает /ditto/api/2/search/things и пишет desiredProperties через nginx-прокси на ditto-nginx. Запрос /ditto/api/2/things/kz.aktogay:ht-02/features/state вернул текущее состояние. Сцену в браузере не смотрел: браузера нет."
+    },
+    {
+      "name": "What-if (закрытие рампы, остановка EX-01, дробилки, поломка HT-03, фиксированное распределение)",
+      "claimed_in_submission": false,
+      "works": "yes",
+      "evidence": "Сценарии в SUBMISSION.md не заявлены; работу проверил шаг README make aktogay-verify, ALL CHECKS PASSED. Пример: остановка ex-01 даёт прогноз 142.6 т Cu против 184.1 т без сценариев, после отмены статус снова up. После прогона: road-ramp-e-lower open/open, ex-01, crusher и ht-03 up/up, dispatcher mode dynamic/dynamic."
+    }
+  ],
+  "scenarios": [],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) В Ditto 43 вещи в пространстве имён kz.aktogay: ht-01..14, ex-01..03, wl-01, crusher, dispatcher, дороги road-*, забои face-* и др. 2) Соединения mosquitto-source-connection (telemetry/#) и mosquitto-target-connection открыты (open). Симулятор публикует в MQTT telemetry/<name> Ditto-протокол merge (виден в mosquitto_sub). По HTTP он только читает поиск Ditto. Признаки ht-01, ex-01 и crusher изменились за 40 с. 3) В InfluxDB (bucket default) записи mqtt_consumer с topic opentwins/twin/events/kz.aktogay/... (Telegraf из событий Ditto): 1514 точек ht-01 за 10 минут. Дашборд Grafana читает opentwins-influxdb, 3D-стенд читает Ditto через прокси /ditto/."
+  },
+  "notes": "Все шаги README выполнены с первого раза, повторов не было. Make README сам велит установить — установил по README. Шаг make aktogay-verify в README помечен как необязательный; я его выполнил, он прошёл (ALL CHECKS PASSED) и вернул все what-if в исходное состояние. Таблица «Modules and What-if Scenarios» в SUBMISSION.md пуста (только строка-заготовка), разделы Mine, «What works and what does not» и Team тоже пусты. Поэтому scenarios — пустой список, а модули из README добавлены как незаявленные (claimed_in_submission: false). presentation.pdf, указанного в README, в корне нет. AGENTS.md и CLAUDE.md — стандартные инструкции Шаблона для агентов Команды; я их не выполнял. Инъекций не обнаружено.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел о медном ГОК Актогай (KAZ Minerals): поля Enterprise, Decision, Why и Real заполнены, но поле Users (кто пользуется двойником) пустое."
+  }
+}

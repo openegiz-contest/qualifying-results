@@ -1,0 +1,91 @@
+{
+  "team": "team-118",
+  "sha": "c80398384965b184216b84a7238c3cf17a3816cb",
+  "started_at": "2026-10-27T23:01:41+00:00",
+  "finished_at": "2026-10-27T23:06:37+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update && sudo apt-get install -y make",
+      "command": "cd /home/judge/solution && sudo apt-get update && sudo apt-get install -y make",
+      "exit_code": 0,
+      "duration_s": 9.0,
+      "log": "logs/01-sudo-apt-get-update-sudo-apt-get-install.txt"
+    },
+    {
+      "readme_step": "make inkai-test",
+      "command": "cd /home/judge/solution && make inkai-test 2>&1 | tail -8",
+      "exit_code": 0,
+      "duration_s": 1.2,
+      "log": "logs/02-make-inkai-test.txt"
+    },
+    {
+      "readme_step": "make inkai",
+      "command": "cd /home/judge/solution && make inkai",
+      "exit_code": 0,
+      "duration_s": 82.0,
+      "log": "logs/03-make-inkai.txt"
+    },
+    {
+      "readme_step": "make inkai-smoke",
+      "command": "cd /home/judge/solution && make inkai-smoke",
+      "exit_code": 0,
+      "duration_s": 6.7,
+      "log": "logs/04-make-inkai-smoke.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 14 of 16 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 14 of 16 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Acid-delivery timing and commissioning (delay 0–42 days + baseline comparison)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "POST /api/control {configure day 30, delay_days 28} (это запрос кнопки «Delay 28 days · compare» из web/app.js). В Ditto все 18 двойников перешли с _revision 10 на 11. mpp/sat1/sat2-b1,b2: producing/ramping → waiting_acid. acid-*.acid_received_t: 300 → 0. site.product_kg_u: 231300.8 → 188160.0. solution_m3_day у mpp: 18212.8 → 18000. На day 38 все шесть новых групп в состоянии ramping, acid_start_day=31, acid_received 900 t. Всё совпадает с описанием в README."
+    },
+    {
+      "name": "Assumption-sensitivity module (27-case grid)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Признак Ditto scenario.features.state.properties.sensitivity: case_count=27, min_product_delta_kg_u=-61664.59, max=0.0, min/max_delayed_groups=3/6. Это совпадает с заявленными значениями −61.66…0 t U и 3–6 групп."
+    },
+    {
+      "name": "Spatial UI / Ditto-only gateway (inkai, :8088)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Контейнер openegiz-inkai-1 в состоянии healthy. GET / , /app.js, /style.css, /health отвечают 200; /health = status ok, twins 18. /api/state отдаёт source 'Eclipse Ditto REST /api/2/things', и его состояние совпало с model.twin_states(comparison(0,0)). make inkai-smoke: 12/12 групп проверок passed. Сам интерфейс в браузере не проверялся (браузера нет)."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Acid-delivery timing and commissioning (Delay 28 days · compare)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "До (baseline, day 30, delay 0, rev 10): b1-группы producing, b2-группы ramping, acid_received_t=300 на каждую зону, site.product_kg_u=231300.8. Запуск: curl POST /api/control {\"action\":\"configure\",\"day\":30,\"delay_days\":28} (запрос кнопки из app.js). После (rev 11): 6 групп waiting_acid, acid_received_t=0, product_kg_u=188160.0, pending_kg_u=0. На day 38 группы ramping с acid_start_day=31. Отмена: POST {\"action\":\"reset\"} (кнопка «Reset · day 0»). Результат (rev 13): day=0, delay=0, B0 ready, B1/B2 planned, acid 100/80/110 t, product 0. Состояние всех 18 двойников совпало с моделью day0/delay0. Стенд оставлен в day 0 / delay 0, как и задумано документированной отменой."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) В Ditto 18 вещей в namespace org.minemind.inkai (GET /api/2/search/things). 2) Соединения mosquitto-source-connection и mosquitto-target-connection в статусе open. server.py создаёт вещи через REST PUT, а все изменения признаков публикует в MQTT telemetry/org.minemind.inkai/<name> командами modify. После каждой команды управления _revision всех двойников рос (2→10→11→12→13). В InfluxDB (bucket default) лежит 2528 точек mqtt_consumer от Telegraf с thingId org.minemind.inkai:*. Оговорка: без действий пользователя двойники статичны — два снимка с интервалом 45 с совпали (site _revision 10, тот же _modified). Это симуляция, управляемая событиями: данные меняются только по командам UI (configure/advance/Play), и каждый раз через MQTT→Ditto. 3) UI :8088 читает состояние только из Ditto REST /api/2/things; если ревизии двойников не совпадают, отдаёт 503, запасного пути с данными модели нет. Своего дашборда Grafana у Команды нет: в /api/search только 'OpenEgiz Examples'."
+  },
+  "notes": "Все шаги README выполнены с первой попытки, повторов не было. Отклонение: команду make inkai-test я запустил с конвейером `2>&1 | tail -8`, чтобы обрезать вывод. Сама команда make не менялась, вывод — 29 тестов OK. Отмечаю это ради точности. make inkai-smoke меняет сценарий и оставляет baseline day 30, так написано в README. После моей проверки сценария Стенд остался в day 0 / delay 0 после документированной отмены (Reset). Чтобы вернуть day 30, есть кнопка «Baseline · day 30». Двойники меняются только по командам интерфейса, сами по себе не обновляются. Grafana-дашборда Команды нет. Возможных инъекций не найдено: AGENTS.md и CLAUDE.md — стандартные инструкции Шаблона для агентов Команды.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Concept написан Командой: часть JV Inkai (ПСВ урана, участки MPP, Sat-1, Sat-2 и сушка/упаковка). Пользователи — планировщик ввода блоков и руководитель производства. Решение — как задержка поставок серной кислоты сдвигает закисление и запуск новых блоков и выпуск продукции."
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "team": "team-038",
+  "judge": "gpt-6-astra",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "Через Ditto проверены 75 двойников, 15 типов; в OpenEgiz — дочерние объекты рудника. Есть блоки с остатками, содержанием и твёрдостью, назначения и маршруты самосвалов, материальная цепочка ROM → дробилка → COS → питание фабрики, топливо, энергетика и ТО. История читается из InfluxDB. Это подробная собственная модель, но глубина звеньев неодинакова: фабрика представлена потребителем питания с постоянным извлечением, поэтому уровень 4 не выполнен.",
+      "references": [
+        "ditto:org.twinvision.copper:blocks-north",
+        "ditto:org.twinvision.copper:truck-03",
+        "ditto:org.twinvision.copper:stockpile-cos",
+        "twinvision/sim/twins.py:62",
+        "twinvision/sim/engine.py:828",
+        "screenshot:screenshots/openegiz-hierarchy.png"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 4,
+      "max": 20,
+      "points": 20,
+      "reasoning": "Повторные чтения с интервалом более минуты показали движение, загрузку и разгрузку техники, рост добычи и изменение запасов; остатки трёх балансов равны нулю. Производительности, загрузки и скорости правдоподобны, ограничения и межобъектные последствия работают. Калибровка проверена непосредственно: код читает 2000 анализов и 60 испытаний GeoMet; рассчитанные из них блоки полностью совпали с атрибутами Ditto. Среднее извлечение по 52 заполненным LCT равно 0,878868 и воспроизводится параметром 0,879 в расчёте меди.",
+      "references": [
+        "ditto:org.twinvision.copper:mine",
+        "ditto:org.twinvision.copper:truck-03",
+        "ditto:org.twinvision.copper:blocks-north",
+        "twinvision/sim/blocks.py:27",
+        "twinvision/sim/roads.py:42",
+        "twinvision/sim/engine.py:828",
+        "twinvision/sim/engine.py:886",
+        "twinvision/data/geomet/flotation.csv:2"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "В браузере проверены виды Mine, Pit и Plant: карьер с уступами и отметками, дорожная сеть, блоки, производственные объекты, меняющиеся состояния техники, тоннажи и очереди. При сценариях карта показывает остановленную дробилку и ограниченное питание фабрики с GRID CAP; рядом доступны сравнение и тренд. Приближение и выбор дробилки открывают данные live/baseline. До уровня 4 не хватает качества взаимодействия: в общем виде выбор дробилки и дороги перехватывался другими SVG-элементами; уверенный выбор дробилки получился после перехода в Plant.",
+      "references": [
+        "screenshot:screenshots/normal-viewport.png",
+        "screenshot:screenshots/final-pit-view.png",
+        "screenshot:screenshots/plant-inspect.png",
+        "screenshot:screenshots/crusher-failure.png",
+        "screenshot:screenshots/combined-mine-map.png"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 4,
+      "max": 10,
+      "points": 10,
+      "reasoning": "Лично запущены и отменены три сценария разных звеньев. Отказ дробилки остановил дробление, снизил COS с 4218,7 до 3713,9 т и увеличил ROM с 29733,6 до 30304,9 т. Совместно запущенные закрытие s04 и лимит мощности дали closed, рост перенаправлений с 5 до 7, мощность 28000 кВт и питание 1593,6 вместо 2000 т/ч. Последствия отображаются на карте, интерфейс показывает live/baseline и дельты. После DELETE дробилка снова дробит, дорога открыта, лимит снят, питание 2000 т/ч; все сценарии выключены, модули включены.",
+      "references": [
+        "README.md:88",
+        "ditto:org.twinvision.copper:crusher-01",
+        "ditto:org.twinvision.copper:stockpile-cos",
+        "ditto:org.twinvision.copper:road-s04",
+        "ditto:org.twinvision.copper:power-grid",
+        "ditto:org.twinvision.copper:scenario-controller",
+        "screenshot:screenshots/crusher-failure.png",
+        "screenshot:screenshots/combined-mine-map.png",
+        "screenshot:screenshots/restored-mine.png"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 3,
+      "max": 5,
+      "points": 3.75,
+      "reasoning": "Подтверждены три содержательных модуля. Диспетчер перенаправлял грузы на ROM при отказе дробилки и перестраивал маршруты при закрытии дороги. Планировщик рассчитал для truck-05 вероятность отказа 38% и ожидаемые потери 1802 т против 1800 т планового простоя; затем техника перешла в ТО. Энергоменеджер вычислил ограничение подачи и удерживал мощность на 28 МВт. Решения и причины читаются в двойниках и интерфейсе. Четвёртого самостоятельного модуля нет.",
+      "references": [
+        "ditto:org.twinvision.copper:dispatcher",
+        "ditto:org.twinvision.copper:maintenance",
+        "ditto:org.twinvision.copper:power-grid",
+        "twinvision/sim/engine.py:1251",
+        "twinvision/sim/engine.py:1348"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 3,
+      "max": 15,
+      "points": 11.25,
+      "reasoning": "Замысел отвечает конкретной задаче диспетчера, планировщика ТО и энергетика: оценить влияние изменения режима на питание фабрики и выпуск меди. Связанные запасы, качество материала, энергетические ограничения и параллельная базовая копия реализованы и проверены. Данные аналогов действительно используются кодом. Презентация читается, основные утверждения соответствуют проверкам, ограничения раскрыты. Есть небольшая неточность: заявлены 53 испытания извлечения, найдено 52 заполненных LCT; среднее 87,9% подтверждается. Уровень 4 исключён вымышленностью предприятия.",
+      "references": [
+        "SUBMISSION.md:3",
+        "twinvision/sim/blocks.py:95",
+        "twinvision/sim/params.py:71",
+        "presentation.pdf:4",
+        "presentation.pdf:8",
+        "presentation.pdf:11",
+        "screenshot:screenshots/combined-mine-map.png"
+      ]
+    }
+  ],
+  "total": 82.5
+}

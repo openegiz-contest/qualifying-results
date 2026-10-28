@@ -1,0 +1,87 @@
+{
+  "team": "team-007",
+  "judge": "gpt-6-astra",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Через API Ditto и Children в OpenEgiz проверены только пять объектов Example Mine. Заявленные участок газового контроля и ГВУ отвечают 404. Их состояния и родительская связь описаны в коде, но собственных двойников команды на Стенде нет.",
+      "references": [
+        "ditto:org.openegiz.mine:horizon-1-section-a",
+        "ditto:org.openegiz.mine:ventilation-fan-01",
+        "team/my_simulator.py:54",
+        "screenshot:screenshots/team-007-twins.png"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "За 61 секунду truck-01 изменился: hauling → loading, груз 90 → 87.8 т, рейсы 2 → 3. Это поведение Примера рудника, которое не засчитывается. Двойники команды отсутствуют; фазовая симуляция выброса и продувки существует в коде, но живое поведение газового контроля на Стенде не наблюдается.",
+      "references": [
+        "ditto:org.openegiz.mine:truck-01",
+        "ditto:org.openegiz.mine:horizon-1-section-a",
+        "team/my_simulator.py:121",
+        "build_report:modules[3]"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "В браузере адрес дашборда команды показывает Dashboard not found; API Grafana перечисляет только Example Mine. Заявленная визуализация состоит из Gauge, Stat и Time Series, а геометрия выработок и работа предприятия на Стенде не представлены.",
+      "references": [
+        "screenshot:screenshots/team-007-dashboard-missing.png",
+        "SUBMISSION.md:60",
+        "build_report:modules[2]"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Лично выполнена команда из SUBMISSION.md: python3 ~/team-007/team/my_simulator.py из каталога team. Она завершилась с кодом 2: файл /home/judge/team-007/team/my_simulator.py не найден. До и после оба затрагиваемых двойника отвечают 404; последствий нет. Процесс не запустился, поэтому отменять через Ctrl+C нечего; режим Стенда не изменён.",
+      "references": [
+        "SUBMISSION.md:37",
+        "ditto:org.openegiz.mine:horizon-1-section-a",
+        "ditto:org.openegiz.mine:ventilation-fan-01",
+        "build_report:scenarios[0]"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "В коде найдено пороговое включение EMERGENCY_BOOST при CH4 > 1.0%, но на Стенде нет ни соответствующих двойников, ни дашборда, а описанный запуск симулятора завершается ошибкой. Работающего предупреждения или автоматического управления лично не наблюдал.",
+      "references": [
+        "team/my_simulator.py:146",
+        "ditto:org.openegiz.mine:ventilation-fan-01",
+        "screenshot:screenshots/team-007-dashboard-missing.png"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Названы конкретная подсистема, пользователи и задача автоматического форсажа вентиляции. Собственный код соответствует этой теме, однако работающий Стенд содержит только Example Mine и от замысла не зависит. Презентация читается и понятна, но заявления о действующих двойниках, оперативном пульте и 100% автономности защиты не подтверждаются Стендом. Конкретное реальное предприятие и источники параметров не указаны.",
+      "references": [
+        "SUBMISSION.md:5",
+        "SUBMISSION.md:14",
+        "SUBMISSION.md:17",
+        "presentation.pdf:4",
+        "presentation.pdf:10",
+        "presentation.pdf:11",
+        "screenshot:screenshots/team-007-twins.png",
+        "screenshot:screenshots/team-007-dashboard-missing.png"
+      ]
+    }
+  ],
+  "total": 3.75
+}

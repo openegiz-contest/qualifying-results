@@ -1,0 +1,93 @@
+{
+  "team": "team-065",
+  "judge": "opus-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "Через Ditto API насчитал 87 вещей в namespace kz.kyzyltas.mine: 21 тип и 66 экземпляров. Звенья: карьер с 10 уступами (role, grade_pct, elevation), 14 самосвалов двух моделей, 4 экскаватора, 2 бурстанка, 12 участков дорог; фабрика — дробилка, конвейеры, SAG-мельница, 2 шаровые мельницы, флотация, хвостохранилище; 4 склада с массой и содержанием; подстанция, метеостанция, 2 радара борта, станции пыли, двойники kpi и scenario. Иерархия задана в _parents (mine→pit/dispatch/plant), поток материала — в feeds (shovel→stockpile-rom→crusher→…→mill→flotation→tailings; substation питает дробилку, конвейеры и мельницы), экскаватор знает свой уступ (bench). Живые связи: assigned_shovel и road_segment у самосвала, closed у дороги. Связи управляют данными: при закрытии рампы traffic_count упал до 0; при отказе S2 запустилась выдача со склада stockpile-hg (reclaim_tph 305). Это далеко за пределами Типового Решения. До уровня 4 не хватает самого массива: у уступов только статичные role и grade_pct, без запасов и блоков (bench-06 в двух снимках одинаков).",
+      "references": [
+        "ditto:kz.kyzyltas.mine:truck-03",
+        "ditto:kz.kyzyltas.mine:shovel-s1",
+        "ditto:kz.kyzyltas.mine:substation-01",
+        "ditto:kz.kyzyltas.mine:bench-06",
+        "mine/setup/model.json"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 4,
+      "max": 20,
+      "points": 20,
+      "reasoning": "Снял два снимка с разницей 70 с (около 1,2 часа шахтного времени). sim_time 28,85→30,02; на ROM-складе масса 1441→1946 т; здоровье экскаватора и мельницы плавно снижается; случился отказ shovel-s3 с MTTR 3,6 ч; в работе 13 самосвалов из 14. Величины правдоподобны: EX3600 копает 2354 т/ч, цикл 22,4 мин, SAG — 3425 т/ч при 28 МВт, 21 кВт·ч/т, извлечение Cu 79,4 %. Баланс сходится: 3425·0,513 %·79,4 % ≈ 13,96 т/ч Cu, ровно как в kpi. Ограничения есть: склад дроблёной руды полон (100 %), поэтому дробилка ограничена подачей в мельницу; очереди у экскаваторов; случайные отказы. Процессы связаны. Калибровка лежит в репозитории: в mine/engine/models/constants.py паспорта Cat 785C (136 т), Komatsu 830E, EX3600, а также параметры фабрики Бозшаколь с тегами [R]/[V] и ссылками на 03_domain.md. Стенд их воспроизводит: payload 136 т, дробилка 4186 т/ч, мельница 3425 т/ч ≈ 30 Mt/a, извлечение 79,4 % при отчётных 79,7 %.",
+      "references": [
+        "mine/engine/models/constants.py:13",
+        "ditto:kz.kyzyltas.mine:kpi",
+        "ditto:kz.kyzyltas.mine:mill-sag-01",
+        "ditto:kz.kyzyltas.mine:stockpile-rom",
+        "ditto:kz.kyzyltas.mine:flotation-01"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "Открыл http://localhost:8000: React/three.js, 3D-карьер с уступами и двумя рампами, фабрика, склады (Terrain.tsx, Plant.tsx, Equipment.tsx). Сами изображения в этом прогоне я разглядеть не мог: признаки подтверждены доступностным снимком DOM с подписями 3D-сцены и кодом, скриншоты сохранены. Живые данные: метки экскаваторов показывают содержание забоя и состояние ('S2 · ore 0.58% Cu, 1 truck queued', 'S3 · waste, DOWN - failed'), у дробилки и SAG видна производительность, у склада — запас в часах подачи. Есть мини-карта с легендой состояний самосвалов, режимы Whole site/Pit/Plant, вид Twin model. По клику открывается инспектор с живыми данными и связями (part of dispatch, digs bench-07, feeds stockpile-rom). Последствия сценария видны на самой визуализации: метка 'Main ramp CLOSED', 'West ramp (ore detour)', баннер с причинной цепочкой, журнал событий. Пять признаков есть, уровень 3. Уровень 4 не ставлю: сам рельеф и плавность картинки глазами не проверил.",
+      "references": [
+        "screenshot:ui-normal.png",
+        "screenshot:ui-pit-inspector.png",
+        "screenshot:ui-slope-alarm.png",
+        "screenshot:ui-custom-combo.png",
+        "mine/ui/src/three/Terrain.tsx"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 4,
+      "max": 10,
+      "points": 10,
+      "reasoning": "Сам запускал всё кнопками интерфейса и отменял кнопкой '↺ Undo'. (1) Slope radar alarm. До: closed 0, радар green, 1,5 мм/сут. Через 60 с: closed 1, traffic 0, радар red, 55 мм/сут; ore mined −22,8 %, цикл +20,5 %, дизель +2,1 %; в 3D метка 'Main ramp CLOSED'. После Undo: closed 0, green. (2) Harder ore — другое звено, фабрика: SAG 3425→2607 т/ч, P80 180→217,7, Cu −24,4 %, кВт·ч/т +31 %. (3) Комбинация через Custom what-if (S2 выведен + BWi 16): shovel-s2 down, ore −11 %, grade −5,6 %, цикл +17 %, мельница 2607 т/ч, grade control сам начал выдачу 337 т/ч. После Undo: S2 loading, 3425 т/ч, все delta 0, scenario в defaults (active_scenario none). Интерфейс сам показывает «до/после» таблицей Baseline/Now/Δ на фоне теневой базовой симуляции. Звеньев затронуто три: карьер, фабрика, экономика и энергия. Стенд оставлен в исходном режиме.",
+      "references": [
+        "ditto:kz.kyzyltas.mine:road-ramp-ore-up",
+        "ditto:kz.kyzyltas.mine:slope-radar-01",
+        "ditto:kz.kyzyltas.mine:scenario",
+        "ditto:kz.kyzyltas.mine:kpi",
+        "screenshot:ui-slope-alarm.png",
+        "screenshot:ui-custom-combo.png"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 3,
+      "max": 5,
+      "points": 3.75,
+      "reasoning": "Сам видел grade control, содержательный модуль: при отказе S2 содержание на ROM упало до 0,497 %, и модуль сам начал выдачу со склада высокосортной руды в пропорции, восстанавливающей цель (337 т/ч, событие 'reclaiming high-grade stockpile'). Диспетчеризацию по кратчайшей очереди с обходом сломанных экскаваторов видно в коде (modules/dispatch.py) и в Отчёте сборки: truck-03 переназначен с s2 на s1. Предиктивное ТО оценивает здоровье по coolant и oil_fe и открывает наряды: у самосвалов на Стенде health_pct, next_pm_due_h, а Сборщик видел событие 'predictive work order raised'. Энергия и CO2 — учёт, а не решение, его не засчитываю. Итого два-три содержательных модуля. До уровня 4 нужно четыре содержательных.",
+      "references": [
+        "mine/engine/modules/grade_control.py",
+        "mine/engine/modules/dispatch.py",
+        "mine/engine/modules/maintenance.py",
+        "ditto:kz.kyzyltas.mine:stockpile-hg",
+        "build_report:modules[0]",
+        "build_report:modules[1]"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Раздела Concept/Замысел в SUBMISSION.md нет: вводный абзац называет вымышленный медно-золотой рудник Кызыл-Тас с фабрикой 30 Mt/a и аналоги (Бозшаколь, Актогай), затем сразу идут Team и Mine model. Пользователь двойника и решение, которое он помогает принять, не названы ни в SUBMISSION.md, ни в презентации. Объект и источники цифр проработаны хорошо, параметры перенесены в constants.py, но рубрика для уровня 2 требует пользователя и решение. Презентация на 10 страниц понятна и в основном совпадает со Стендом: 87 двойников, 13 сценариев с Undo, связи, KPI против базовой симуляции. Есть расхождения: заявленные −5 % руды при морозе Стенд не подтвердил (по Отчёту +1,2 %); эффект предиктивного ТО на коротком окне не виден.",
+      "references": [
+        "SUBMISSION.md:1",
+        "presentation.pdf:1",
+        "presentation.pdf:7",
+        "build_report:concept",
+        "build_report:scenarios[3]"
+      ]
+    }
+  ],
+  "total": 75
+}

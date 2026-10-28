@@ -1,0 +1,157 @@
+{
+  "team": "team-111",
+  "sha": "5ebc7ee3615d5ad4ea9ef00a2ef79027defefd5d",
+  "started_at": "2026-10-27T23:22:30+00:00",
+  "finished_at": "2026-10-27T23:35:24+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "bash scripts/compose-env.sh",
+      "command": "cd /home/judge/solution && bash scripts/compose-env.sh",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/01-bash-scripts-compose-env-sh.txt"
+    },
+    {
+      "readme_step": "docker compose --env-file deploy/compose/.env \\ -f deploy/compose/docker-compose.yml \\ -f ademix/compose.yml \\ up -d --build --wait --wait-timeout 900",
+      "command": "cd /home/judge/solution && docker compose --env-file deploy/compose/.env \\\n  -f deploy/compose/docker-compose.yml \\\n  -f ademix/compose.yml \\\n  up -d --build --wait --wait-timeout 900",
+      "exit_code": 0,
+      "duration_s": 77.0,
+      "log": "logs/02-docker-compose-env-file-deploy-compose-e.txt"
+    },
+    {
+      "readme_step": "python smoke_check.py --base-url http://ademix-ui",
+      "command": "cd /home/judge/solution && docker compose --env-file deploy/compose/.env \\\n  -f deploy/compose/docker-compose.yml \\\n  -f ademix/compose.yml \\\n  run --rm --no-deps ademix-simulator \\\n  python smoke_check.py --base-url http://ademix-ui",
+      "exit_code": 0,
+      "duration_s": 0.8,
+      "log": "logs/03-python-smoke-check-py-base-url-http-adem.txt"
+    },
+    {
+      "readme_step": "curl --fail http://localhost:8088/api/health",
+      "command": "cd /home/judge/solution && curl --fail http://localhost:8088/api/health",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/04-curl-fail-http-localhost-8088-api-health.txt"
+    },
+    {
+      "readme_step": "curl --fail http://localhost:8088/api/state",
+      "command": "cd /home/judge/solution && curl --fail http://localhost:8088/api/state",
+      "exit_code": 0,
+      "duration_s": 0.3,
+      "log": "logs/05-curl-fail-http-localhost-8088-api-state.txt"
+    },
+    {
+      "readme_step": "curl --fail -X POST http://localhost:8088/api/scenario \\ -H 'Content-Type: application/json' \\ -d '{\"scenario\":\"crusher_slowdown\"}'",
+      "command": "cd /home/judge/solution && curl --fail -X POST http://localhost:8088/api/scenario \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"scenario\":\"crusher_slowdown\"}'",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/06-curl-fail-x-post-http-localhost-8088-api.txt"
+    },
+    {
+      "readme_step": "sleep 3",
+      "command": "cd /home/judge/solution && sleep 3",
+      "exit_code": 0,
+      "duration_s": 3.2,
+      "log": "logs/07-sleep-3.txt"
+    },
+    {
+      "readme_step": "curl --fail http://localhost:8088/api/state",
+      "command": "cd /home/judge/solution && curl --fail http://localhost:8088/api/state",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/08-curl-fail-http-localhost-8088-api-state.txt"
+    },
+    {
+      "readme_step": "python verify_scenarios.py --url http://ademix-ui",
+      "command": "cd /home/judge/solution && docker compose --env-file deploy/compose/.env \\\n  -f deploy/compose/docker-compose.yml \\\n  -f ademix/compose.yml \\\n  run --rm --no-deps ademix-simulator \\\n  python verify_scenarios.py --url http://ademix-ui",
+      "exit_code": 0,
+      "duration_s": 164.0,
+      "log": "logs/09-python-verify-scenarios-py-url-http-adem.txt"
+    },
+    {
+      "readme_step": "python -m unittest discover -s /app/simulator -p 'test_*.py' -v",
+      "command": "cd /home/judge/solution && docker compose --env-file deploy/compose/.env \\\n  -f deploy/compose/docker-compose.yml \\\n  -f ademix/compose.yml \\\n  run --rm --no-deps ademix-simulator \\\n  python -m unittest discover -s /app/simulator -p 'test_*.py' -v 2>&1 | tail -8",
+      "exit_code": 0,
+      "duration_s": 3.7,
+      "log": "logs/10-python-m-unittest-discover-s-app-simulat.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 15 of 18 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 15 of 18 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`bash scripts/compose-smoke.sh` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Live fleet supervision",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Twins truck-01..06 в Ditto содержат state, payload_t, fuel_pct, speed_kmh, position_x/z, trips_total, cycle_time_min, и они меняются: truck-01 был returning/39.41%/fuel 85.3 при sim 900 с, стал queued_at_excavator/0%/fuel 84.98 при sim 1600 с. UI http://127.0.0.1:4173 отдаёт 200, /api/state через прокси UI отдаёт source=eclipse-ditto и 11 twins. smoke_check: PASS по 11 twins и 143 полям. 3D-отрисовку без браузера не проверял."
+    },
+    {
+      "name": "Production-flow monitor",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Твины mine-01 (production_t, throughput_tph, fleet_utilization, average_cycle_min, bottleneck) и crusher-01 (capacity_tph, rom_inventory_t, processed_total_t, queue_length, utilization_pct) есть в Ditto и обновляются: production_t 225→400→525→2686 по мере роста sim_time_s. Сами KPI-карточки в браузере не смотрел."
+    },
+    {
+      "name": "Smart Dispatch",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Отправил POST /api/dispatch {policy:smart} (этот запрос шлёт кнопка C). В baseline scenario-controller показал required/cycling/standby 4/6/0→4/4/2, truck-01 и truck-06 перешли в state=standby. При breakdown 4/4/1, truck-02 в standby. После {policy:fixed} снова 4/6/0, standby-грузовиков нет. verify_scenarios: PASS для smart во всех четырёх условиях."
+    },
+    {
+      "name": "Scenario comparison",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "scenario-controller публикует baseline_throughput_tph=770 и projected_throughput_tph: 770 (baseline/breakdown), 647.35 (road_closure), 495 (crusher_slowdown), плюс impact_pct (-36 при crusher) и bottleneck_reason. Карточку сравнения в браузере не видел, проверены только данные."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Truck breakdown (Truck HT-01 breakdown)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Выполнил POST /api/scenario {scenario:truck_breakdown}, этот запрос шлёт кнопка UI (IngestionLayer.tsx:1828). До: truck-01 в state loading, trucks_in_cycle 6. После: truck-01 в state breakdown, 0 km/h, mine-01.active_scenario=truck_breakdown, trucks_in_cycle 5, fleet_utilization 58.99→55.64. HT-01 сломался у забоя, поэтому road-main.blockage осталась none и blocked_trucks=0, блокировку полосы в этом запуске не увидел; verify_scenarios.py её подтвердил (PASS face_bound lane affected). Отмена через A (POST baseline + dispatch fixed): truck-01 снова loading, active=baseline, trucks_in_cycle 6."
+    },
+    {
+      "name": "Road restriction (Main road restriction)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Выполнил POST /api/scenario {scenario:road_closure}. road-main: open/25 → restricted/speed_limit 10.72. Движущиеся truck-01, 02, 05, 06 перешли с 25 на 10.72 km/h. scenario-controller: trucks_required 8, projected 647.35 t/h. Отмена (POST baseline): road-main снова open/25, грузовики едут 25 km/h."
+    },
+    {
+      "name": "Crusher slowdown (Crusher capacity −45%)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Выполнил POST /api/scenario {scenario:crusher_slowdown}. crusher-01: operating/900 → constrained/495 t/h. projected_throughput 495, trucks_required 3, rom_inventory 133.75→177.75 t. Отмена (POST baseline): crusher-01 снова operating/900, active=baseline."
+    },
+    {
+      "name": "Smart Dispatch (C — Smart dispatch)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Выполнил POST /api/dispatch {policy:smart}: dispatch_policy fixed→smart, cycling/standby 6/0→4/2, truck-01 и truck-06 в standby. Отмена через повторное C (POST {policy:fixed}): fixed, 6/0, standby-грузовиков нет. Итоговое состояние Стенда: baseline/fixed."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "(1) GET /api/2/search/things вернул 11 вещей org.openegiz.ademix: mine-01, crusher-01, excavator-01, road-main, scenario-controller, truck-01..06. (2) Признаки меняются между снимками с разницей 35 с: sim_time_s 900→1600, production_t 225→400, truck-01 returning→queued_at_excavator. Соединения mosquitto-source-connection (telemetry/#) и mosquitto-target-connection в статусе open. mosquitto_sub по telemetry/# показал сообщения Ditto Protocol (modify /features) от симулятора. В коде simulator/app.py:69 публикация идёт в MQTT; прямой HTTP PUT в Ditto есть только в одноразовом setup_twins.py, который создаёт твины. В InfluxDB (org opentwins, bucket default) за 5 минут ~4144 точек mqtt_consumer от Telegraf. (3) Пользовательский интерфейс (3D UI :4173) читает /api/state, а app.py получает его из Ditto (GET /api/2/things?ids=…), ответ содержит source=eclipse-ditto. Своих дашбордов Grafana у Команды нет, есть только папка OpenEgiz Examples."
+  },
+  "notes": "Все шаги README выполнились с первого раза, повторов не было. Многострочные команды README (с переносами через \\) передавал целиком одной командой; в readme_step они приведены в одну строку. Отклонение: к шагу unittest я по ошибке дописал «2>&1 | tail -8», поэтому код выхода этого шага — код tail. Сам вывод показал «Ran 98 tests … OK»; повторно шаг не запускал. Разделы README «complete stack restart» и «Stop or reset» не выполнял: они для перезапуска и остановки, а не для подъёма. Шаг README с POST crusher_slowdown оставил сценарий включённым, затем verify_scenarios.py сбросил Стенд в fixed/baseline (PASS reset). Сценарии запускаются из браузера кнопками; я отправлял те же запросы curl по коду frontend/src/IngestionLayer.tsx (POST /api/scenario и /api/dispatch через прокси UI :4173). В конце Стенд в состоянии baseline/fixed. Браузера нет, поэтому 3D-сцену и KPI-карточки визуально не проверял, только данные API. Инъекций не нашёл: AGENTS.md и CLAUDE.md — обычные инструкции для разработки.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Concept заполнен: 3D-двойник погрузки, откатки, дороги и первичной дробилки карьера для диспетчера и сменного мастера; помогает решать, как держать поток руды при поломке самосвала, закрытии дороги или падении мощности дробилки."
+  }
+}

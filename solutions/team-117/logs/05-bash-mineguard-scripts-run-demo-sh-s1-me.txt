@@ -1,0 +1,2 @@
+{"scenario_id":"S1_METHANE_LEAK","status":"RUNNING","elapsed_seconds":0.0,"duration_seconds":180.0,"simulation_only":true,"applied_actions":["METHANE_SOURCE_APPLIED"]}
+Scenario started. Open http://127.0.0.1:8091/scenarios

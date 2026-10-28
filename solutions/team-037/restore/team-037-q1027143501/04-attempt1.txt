@@ -1,0 +1,23 @@
+$ cd /home/judge/solution && make aktogay-check
+Контейнеры карьера
+  [31mFAIL[0m  aktogay-sim: не запущен (make aktogay)
+  [31mFAIL[0m  aktogay-ui: не запущен (make aktogay)
+Интерфейс
+  [31mFAIL[0m  открывается http://127.0.0.1:8095
+  [31mFAIL[0m  интерфейс читает двойники из Ditto (прокси /ditto/)
+Двойники в Ditto
+  [31mFAIL[0m  двойник управления org.aktogay:control
+  [31mFAIL[0m  нет двойников: mine crusher stockpile plant heap-leach sxew tailings concentrate weather energy cost crusher-2 plant-2 substation-1 camp checkpoint fuel-depot repair-shop water-tanks control-room laboratory explosives-magazine truck-101 excavator-1 drill-1
+  [31mFAIL[0m  нет теневого расчёта org.aktogay.fixed:mine
+  [31mFAIL[0m  двойников карьера всего 0 — симулятор ещё создаёт их или не запущен
+Смена идёт
+  [31mFAIL[0m  время смены не растёт (? → ?): симулятор на паузе или остановлен
+  [31mFAIL[0m  нет признака mined_total у двойника рудника
+Поток данных
+  [31mFAIL[0m  в InfluxDB нет данных карьера за последние 2 минуты
+  [31mFAIL[0m  дашборд Grafana «Aktogay» загружен
+
+Проверка не прошла — см. строки FAIL выше. Логи: make logs S=aktogay-sim
+make: *** [Makefile:58: aktogay-check] Error 1
+
+exit code: 2

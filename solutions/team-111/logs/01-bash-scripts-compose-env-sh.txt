@@ -1,0 +1,1 @@
+Created /home/judge/solution/deploy/compose/.env with new random credentials.

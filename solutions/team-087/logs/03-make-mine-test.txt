@@ -1,0 +1,27 @@
+docker build -q -t openegiz/arqa-vent:local team/vent >/dev/null
+docker run --rm openegiz/arqa-vent:local python -m unittest -v test_model
+--- stderr ---
+test_fan_trip_start_reserve (test_model.Advisor.test_fan_trip_start_reserve) ... ok
+test_intake_fire_reverse (test_model.Advisor.test_intake_fire_reverse) ... ok
+test_local_fan_trip_start_reserve_local_fan (test_model.Advisor.test_local_fan_trip_start_reserve_local_fan) ... ok
+test_return_fire_do_not_reverse (test_model.Advisor.test_return_fire_do_not_reverse) ... ok
+test_continuity_at_every_junction (test_model.AirNetwork.test_continuity_at_every_junction) ... ok
+test_design_air_quantity (test_model.AirNetwork.test_design_air_quantity) ... ok
+test_fan_within_rated_power (test_model.AirNetwork.test_fan_within_rated_power) ... ok
+test_opening_a_regulator_adds_air (test_model.AirNetwork.test_opening_a_regulator_adds_air) ... ok
+test_reversal_gives_at_least_60_percent (test_model.AirNetwork.test_reversal_gives_at_least_60_percent) ... ok
+test_square_law_around_meshes (test_model.AirNetwork.test_square_law_around_meshes) ... ok
+test_fire_in_a_descending_drift_reverses_the_air_without_the_fan (test_model.FireBuoyancy.test_fire_in_a_descending_drift_reverses_the_air_without_the_fan) ... ok
+test_fire_in_a_rising_working_helps_the_air (test_model.FireBuoyancy.test_fire_in_a_rising_working_helps_the_air) ... ok
+test_fan_trip_accumulates_methane_and_trips_power (test_model.Gas.test_fan_trip_accumulates_methane_and_trips_power) ... ok
+test_fire_co_downstream_only (test_model.Gas.test_fire_co_downstream_only) ... ok
+test_normal_state_within_limits (test_model.Gas.test_normal_state_within_limits) ... ok
+test_reserve_fan_clears_methane (test_model.Gas.test_reserve_fan_clears_methane) ... ok
+test_degassing_failure_sends_goaf_gas_to_the_return (test_model.HeadingAndDegassing.test_degassing_failure_sends_goaf_gas_to_the_return) ... ok
+test_local_fan_trip_cuts_power_and_layers_methane (test_model.HeadingAndDegassing.test_local_fan_trip_cuts_power_and_layers_methane) ... ok
+test_reserve_local_fan_restores_the_heading (test_model.HeadingAndDegassing.test_reserve_local_fan_restores_the_heading) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 10.164s
+
+OK

@@ -1,0 +1,76 @@
+{
+  "team": "team-007",
+  "judge": "opus-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Я сам запросил двойников через API Ditto. На Стенде только двойники Примера рудника: crusher-01, excavator-01, mine-01, truck-01, truck-02. Двойников Команды horizon-1-section-a и ventilation-fan-01 нет, Сборщик получил на них 404. В коде (team/my_simulator.py:54-86) задуманы всего два двойника: участок газового контроля с 4 датчиками и ГВУ с fan_status, rpm и power_kw, оба с _parents mine-01. Но они не созданы: симулятор по README не запускается. Путь ~/team-007 в VM не существует, paho-mqtt не установлен. Своих двойников на Стенде нет, поэтому уровень 0. Даже в коде было бы не выше уровня 1: два объекта.",
+      "references": [
+        "ditto:org.openegiz.mine:mine-01",
+        "build_report:modules[1]",
+        "team/my_simulator.py:54"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "На Стенде меняется только Пример рудника Шаблона. Двойники газа и ГВУ не существуют, их состояние не обновляется. По коду (team/my_simulator.py:121-150) поведение — синусоида плюс шум, а выброс метана включается по расписанию: каждые 20 шагов. На Стенде я этого не наблюдал, поэтому уровень 0.",
+      "references": [
+        "build_report:modules[0]",
+        "team/my_simulator.py:125"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "В Grafana есть только папка «OpenEgiz Examples» с дашбордом Example Mine. Дашборд Команды «Мониторинг газовой безопасности и ГВУ» не загружен, это видно на скриншоте. По SUBMISSION визуализация Команды — это вообще только панели Gauge, Stat и Time Series, без плана выработок. Это уровень 0 даже при работающем дашборде.",
+      "references": [
+        "screenshot:team007-dashboards-list.png",
+        "build_report:modules[2]"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Единственный сценарий — выброс метана и форсаж ГВУ. По SUBMISSION он запускается командой `python3 ~/team-007/team/my_simulator.py`, но путь ~/team-007 в VM не существует (проверил ls), а модуля paho в Python нет. Сценарий запустить нельзя, состояние Стенда я не менял. Кроме того, «сценарий» встроен в симулятор как периодическое событие и не управляется пользователем.",
+      "references": [
+        "build_report:scenarios[0]",
+        "team/my_simulator.py:24"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Задуман один простой Модуль: пороговое правило CH4 > 1.0% → EMERGENCY_BOOST (team/my_simulator.py:147). На Стенде он не работает: симулятор не запущен, двойников и дашборда нет. Работающих Модулей нет.",
+      "references": [
+        "build_report:modules[0]",
+        "team/my_simulator.py:147"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Замысел есть и выходит за типовой карьер: аэрогазовый контроль и ГВУ шахты на горизонте -200 м, пользователи — диспетчеры и инженеры ПБ, решение — авто-форсаж ГВУ. Но объект не назван, и ссылок на источники цифр нет. «Decision» описан как архитектура стека, а не как решение пользователя. Главное — на Стенде от Замысла ничего нет. SUBMISSION и презентация утверждают, что сквозной пайплайн работает «без критических ошибок» (presentation.pdf:5, presentation.pdf:10, presentation.pdf:11), а это противоречит Стенду. Поэтому не выше уровня 1. Попыток повлиять на Судью не нашёл.",
+      "references": [
+        "SUBMISSION.md:3",
+        "presentation.pdf:11",
+        "presentation.pdf:5",
+        "build_report:concept"
+      ]
+    }
+  ],
+  "total": 3.75
+}

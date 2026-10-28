@@ -1,0 +1,5 @@
+{"at": "2026-10-27T10:58:20.005394+00:00", "host": "update.googleapis.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T10:58:20.058974+00:00", "host": "accounts.google.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T10:58:20.061671+00:00", "host": "www.google.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T10:58:20.089970+00:00", "host": "127.0.0.1", "port": 8095, "allowed": true}
+{"at": "2026-10-27T10:58:20.186678+00:00", "host": "127.0.0.1", "port": 8095, "allowed": true}

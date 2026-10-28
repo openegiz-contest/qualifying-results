@@ -1,0 +1,124 @@
+{
+  "team": "team-002",
+  "sha": "8b8c2716e49aa90f48a6ec1074e5e7b06a1dc1ac",
+  "started_at": "2026-10-27T10:01:25+00:00",
+  "finished_at": "2026-10-27T10:20:39+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update",
+      "command": "cd /home/judge/solution && sudo apt-get update",
+      "exit_code": 0,
+      "duration_s": 6.0,
+      "log": "logs/01-sudo-apt-get-update.txt"
+    },
+    {
+      "readme_step": "sudo apt-get install -y git make python3",
+      "command": "cd /home/judge/solution && sudo apt-get install -y git make python3",
+      "exit_code": 0,
+      "duration_s": 8.0,
+      "log": "logs/02-sudo-apt-get-install-y-git-make-python3.txt"
+    },
+    {
+      "readme_step": "make up",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 0,
+      "duration_s": 95.0,
+      "log": "logs/03-make-up.txt"
+    },
+    {
+      "readme_step": "docker compose -f deploy/compose/docker-compose.yml -f qazmine/overlay.yml \\",
+      "command": "cd /home/judge/solution && docker compose -f deploy/compose/docker-compose.yml -f qazmine/overlay.yml \\\n  up -d --build --wait --wait-timeout 900",
+      "exit_code": 0,
+      "duration_s": 33.0,
+      "log": "logs/04-docker-compose-f-deploy-compose-docker-c.txt"
+    },
+    {
+      "readme_step": "make smoke",
+      "command": "cd /home/judge/solution && make smoke",
+      "exit_code": 0,
+      "duration_s": 9.6,
+      "log": "logs/05-make-smoke.txt"
+    },
+    {
+      "readme_step": "python3 qazmine/scripts/verify.py",
+      "command": "cd /home/judge/solution && python3 qazmine/scripts/verify.py",
+      "exit_code": 0,
+      "duration_s": 10.3,
+      "log": "logs/06-python3-qazmine-scripts-verify-py.txt"
+    },
+    {
+      "readme_step": "python3 -m unittest discover -s tests -v",
+      "command": "cd /home/judge/solution && python3 -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "duration_s": 0.3,
+      "log": "logs/07-python3-m-unittest-discover-s-tests-v.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 14 of 17 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 14 of 17 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Транспорт и диспетчеризация",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Things org.qazmine.flow:haul-01..03 меняют state/road/payload/speed/x/y в Ditto: haul-01 travel_to_face road-b x=223.3 (10:06) → loading (10:06:57) → hauling road-b payload 80 → road-main → dumping x=685,y=210 → travel_to_face road-detour-2 → road-a (assigned_face A, trips=1). exc-b/exc-a loading с указанием truck, ожидание wait растёт. Карта http://127.0.0.1:8765 отвечает 200, /api/state возвращает source 'Eclipse Ditto REST API' и 14 двойников."
+    },
+    {
+      "name": "Геология и качество руды",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "face-b.ore_remaining 10000 → 9920 → 9840 → 9760 при погрузках, mine.ore_mined 0→320, mine.feed_grade 0 → 1.1 после первой разгрузки (160 т руды B), haul-01 потом назначен на участок A (grade 0.45). Усреднение смеси A/B в feed_grade за время проверки не наблюдалось (до разгрузки руды A не дошло). Переключение режимов basic/adaptive не нажимал (оно пересоздаёт модель и сбросило бы Стенд); /api/benchmark через verify.py вернул basic grade 0.45 / adaptive 0.792, как в SUBMISSION."
+    },
+    {
+      "name": "Переработка (первичное дробление)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "crusher: state idle → unloading, queue 0 → 1 (haul-03 waiting_crusher), throughput 0 → 109.9 → 173.5 т/ч, tonnes_total 0 → 80 → 160; rated_capacity 450 (225 при сценарии). Дашборд Grafana uid qazmine-flow-2026 'QazMine Flow - live copper mine' (6 панелей Flux к InfluxDB, datasource opentwins-influxdb) — в bucket default есть точки за 15 мин: ore_delivered/feed_grade/throughput/average_wait по 29, speed/payload по 87, measurement mqtt_consumer, topic opentwins/twin/events/org.qazmine.flow/*."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Дорога закрыта (Перекрытие главной дороги)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск — тот же запрос, что шлёт переключатель в qazmine/web/app.js: curl POST http://127.0.0.1:8765/api/scenario {\"name\":\"road_closed\",\"enabled\":true} → {\"active\":[\"road_closed\"]}. До: road-main open, haul-02 hauling на road-main x=512.056 speed 21. После: road-main closed, mine.scenarios 'road_closed', haul-02 стоит на road-main (x=512.056, speed 0) ~2 мин, haul-03 поехал road-b → road-detour-1 → road-detour-2, haul-01 к забою по road-detour-2 → road-detour-1. Отмена — тот же запрос с enabled:false: road-main open, scenarios '', haul-02 поехал дальше (x 649.6, speed 21) и затем dumping."
+    },
+    {
+      "name": "Авария EX-B",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "POST /api/scenario {\"name\":\"excavator_failure\",\"enabled\":true} (запрос переключателя из app.js). До: exc-b idle, haul-02 assigned_face B. После: exc-b.state maintenance, mine.scenarios 'excavator_failure'; следующий освободившийся самосвал haul-02 назначен на A (road-main, travel_to_face). Новое назначение на A мог дать и адаптивный режим (feed_grade 1.1 выше цели 0.78), а заморозку погрузки не проверить: на EX-B в момент запуска никто не грузился. Отмена (enabled:false): exc-b idle, scenarios ''."
+    },
+    {
+      "name": "Половинная мощность дробилки",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "POST /api/scenario {\"name\":\"crusher_reduced\",\"enabled\":true}. До: crusher.rated_capacity 450, queue 0, throughput 172.5. После: rated_capacity 225, scenarios 'crusher_reduced', через ~55 с queue 1 (haul-01 waiting_crusher), throughput 161.8. Отмена (enabled:false): rated_capacity 450, scenarios ''."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) GET /api/2/search/things вернул 14 Things org.qazmine.flow:* (mine, face-a/b, exc-a/b, haul-01..03, crusher, 5 дорог), иерархия через attributes._parents. 2) mine.time_minutes 5.0 (10:06:16) → 8.0 (10:06:57) → 15.667 → 60.0, признаки самосвалов меняются; подключения mosquitto-source-connection (telemetry/#) и mosquitto-target-connection в состоянии open (make smoke и /api/2/connections); qazmine/server.py публикует команды Ditto Protocol modify в MQTT telemetry/<id> (paho), в Ditto напрямую не пишет. 3) Дашборд Grafana qazmine-flow-2026 строит Flux-запросы к InfluxDB (bucket default), данные туда пишет Telegraf из событий Ditto (topic opentwins/twin/events/...); веб-карта на :8765 через /api/state читает каждый Thing GET-запросом к Ditto REST (get_one в server.py)."
+  },
+  "notes": "Каждая команда README прошла с первого раза, повторов не было. README сам велит поставить make (sudo apt-get update / apt-get install -y git make python3) — выполнил как шаги README. Многострочную команду docker compose (с переносом «\\») выполнил одним вызовом. В steps её readme_step — первая строка из README (вторая: «  up -d --build --wait --wait-timeout 900»). Тесты из раздела «Программные тесты» (python3 -m unittest discover -s tests -v) тоже выполнил: 6 OK. Сценарии в README запускаются только переключателями интерфейса, поэтому отправил curl теми же POST /api/scenario, что шлёт qazmine/web/app.js, и отменил все три тем же запросом с enabled:false. Кнопки режима basic/adaptive и «Сбросить симуляцию» не нажимал: они пересоздают модель. Стенд оставлен в режиме adaptive, сценарии выключены (mine.scenarios ''). Симуляция медленная: при SIM_TICK_SECONDS=5 одна реальная минута ≈ 4 минуты модели. AGENTS.md и CLAUDE.md — стандартные инструкции Шаблона для агентов Команды, я их не выполнял; инъекций, обращённых к Сборщику, не нашёл.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел — вымышленный малый медный карьер (цикл «два участка → погрузка → дороги → дробилка»); пользователь — сменный диспетчер, который решает, куда направлять самосвалы, чтобы держать загрузку дробилки, ожидание техники и содержание Cu около 0,78%."
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "team": "team-112",
+  "judge": "gpt-6.1-sol",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Через API Ditto прочитал пять двойников, в OpenEgiz осмотрел иерархию: рудник, экскаватор, два самосвала и дробилка. Все соответствуют неизменённому Example Mine Организатора. Своих двойников Команда не создала.",
+      "references": [
+        "ditto:org.openegiz.mine:mine-01",
+        "examples/mine/twins.json:2",
+        "build_report:notes"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Два чтения API с интервалом более минуты подтвердили живую симуляцию: truck-01 перешёл из loading в returning, число рейсов выросло с 1 до 2, тоннаж дробилки — со 180 до 270 т. Однако это поведение неизменённого примера Организатора; собственной симуляции Команды нет.",
+      "references": [
+        "ditto:org.openegiz.mine:truck-01",
+        "ditto:org.openegiz.mine:crusher-01",
+        "examples/mine/simulator.py:3",
+        "build_report:notes"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "В браузере открыл Example Mine: показаны числовые показатели и временные графики положения, загрузки, содержания и топлива. Геометрии рудника и собственной визуализации Команды нет. Открытый дашборд принадлежит примеру Организатора.",
+      "references": [
+        "screenshot:team-112-example-mine.png",
+        "examples/mine/README.md:21",
+        "SUBMISSION.md:52"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Таблица сценариев пустая, способы запуска и отмены не описаны. Проверяемых сценариев нет; вмешательств в Стенд не выполнял.",
+      "references": [
+        "SUBMISSION.md:35",
+        "build_report:scenarios"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Модули не заявлены, собственного функционального кода Команды не обнаружено. На Стенде увидел только двойники и показатели Example Mine; работающих функций, выдающих план, прогноз или решение, нет.",
+      "references": [
+        "SUBMISSION.md:35",
+        "team/README.md:3",
+        "build_report:modules[0]"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 0,
+      "max": 15,
+      "points": 0,
+      "reasoning": "Раздел Concept остался заготовкой: предприятие, пользователь, решение и обоснование не заполнены. README также шаблонный. presentation_info подтвердил отсутствие presentation.pdf. Собственного Замысла нет.",
+      "references": [
+        "SUBMISSION.md:9",
+        "SUBMISSION.md:13",
+        "README.md:1",
+        "build_report:concept"
+      ]
+    }
+  ],
+  "total": 0
+}

@@ -1,0 +1,68 @@
+Containers
+  [32mok[0m    twinvision-setup created the twins
+  [32mok[0m    twinvision-sim healthy
+Twins in Ditto
+  [32mok[0m    75 twins (live + baseline) indexed
+  [32mok[0m    twin mine exists
+  [32mok[0m    twin pit exists
+  [32mok[0m    twin crusher-01 exists
+  [32mok[0m    twin stockpile-cos exists
+  [32mok[0m    twin plant-feed exists
+  [32mok[0m    twin truck-01 exists
+  [32mok[0m    twin ex-01 exists
+  [32mok[0m    twin road-s04 exists
+  [32mok[0m    twin blocks-north exists
+  [32mok[0m    twin dispatcher exists
+  [32mok[0m    twin scenario-controller exists
+  [32mok[0m    twin mine-baseline exists
+  [32mok[0m    twin truck-01-baseline exists
+  [32mok[0m    twin crusher-01-baseline exists
+  [32mok[0m    truck-01 is a child of the pit (_parents)
+  [32mok[0m    twin types, counts, parents and relations match SCHEMA.md
+Simulation
+  [32mok[0m    live mine twin advances (sim_time_h)
+  [32mok[0m    baseline mine twin advances
+  [32mok[0m    mine mass_balance_residual_t = 0.0 t
+  [32mok[0m    mine fuel_balance_residual_l = 0.0 L
+  [32mok[0m    mine energy_balance_residual_kwh = 0.0 kWh
+  [32mok[0m    mine-baseline mass_balance_residual_t = 0.0 t
+  [32mok[0m    mine-baseline fuel_balance_residual_l = 0.0 L
+  [32mok[0m    mine-baseline energy_balance_residual_kwh = 0.0 kWh
+  [32mok[0m    trucks move (x changes)
+Telemetry in InfluxDB
+  [32mok[0m    points for mine in the last 2 min
+  [32mok[0m    points for mine-baseline in the last 2 min
+  [32mok[0m    points for truck-03 in the last 2 min
+  [32mok[0m    points for crusher-01 in the last 2 min
+Grafana
+  [32mok[0m    TwinVision dashboard provisioned
+Web UI
+  [32mok[0m    twinvision-web healthy
+  [32mok[0m    map page served at http://127.0.0.1:8095
+  [32mok[0m    map geometry from twin attributes (/api/static)
+  [32mok[0m    live state from Ditto (/api/state)
+  [32mok[0m    trend from InfluxDB (/api/trend)
+What-if round trip (crusher failure, then undo)
+  [32mok[0m    scenario started through the web API
+  [32mok[0m    live crusher failed
+  [32mok[0m    baseline crusher unaffected
+  [32mok[0m    live crusher throughput 0 t/h
+  [32mok[0m    live tph_crushed below baseline by > 500 t/h
+        delta vs baseline after the failure: -511.2 t/h
+  [32mok[0m    undo through the web API
+  [32mok[0m    live crusher back in service
+  [32mok[0m    live crushing KPI recovers (tph_crushed)
+  [32mok[0m    gap to baseline closes (tph_crushed)
+        delta vs baseline after undo: -321.4 t/h
+Decision module switch (maintenance off, then undo)
+  [32mok[0m    maintenance module switched off through the web API
+  [32mok[0m    live maintenance planner reports module off
+  [32mok[0m    baseline maintenance planner stays on
+  [32mok[0m    live twin lists the module as off (mine modules_off)
+  [32mok[0m    undo through the web API
+  [32mok[0m    live maintenance planner back on
+Resync live to baseline
+  [32mok[0m    resync requested through the web API
+  [32mok[0m    live and baseline report identical totals (mined_total_t)
+
+TwinVision smoke test passed.

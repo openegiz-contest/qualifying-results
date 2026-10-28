@@ -1,0 +1,69 @@
+{
+  "team": "team-075",
+  "judge": "sonnet-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Двойников в Ditto нет (search/things пуст, ecomine:smart-mine 404); сервисы не поднялись. В коде лишь одна Thing с телеметрией 4 самосвалов.",
+      "references": [
+        "build_report:modules[3]",
+        "build_report:built_on_openegiz"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Симулятор не запущен, данных нет, состояние не меняется.",
+      "references": [
+        "build_report:modules[0]"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Только дашборд Grafana без данных; своей визуализации рудника нет.",
+      "references": [
+        "build_report:modules[1]"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Сценариев нет, команда сама это заявляет.",
+      "references": [
+        "build_report:scenarios"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Модули не работают: сервисы не созданы, алерт без данных.",
+      "references": [
+        "build_report:modules[4]"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Раздела Concept нет; Project Overview общий: мониторинг выбросов на смоделированном карьере, пользователь и решение не названы. Заявленное не подтверждается Стендом.",
+      "references": [
+        "SUBMISSION.md:1",
+        "build_report:concept"
+      ]
+    }
+  ],
+  "total": 3.75
+}

@@ -1,0 +1,94 @@
+{
+  "team": "team-117",
+  "judge": "gpt-6.1-sol",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "Через API Ditto и OpenEgiz в Grafana проверены 16 двойников пяти типов: участок, зоны, выработки, вентиляторы и комбайн. Есть содержательные состояния, иерархия и действующие связи вентиляционной сети и блокировок. До уровня 4 не хватает массива с запасами и столь же подробного представления нескольких производственных звеньев; датчики представлены атрибутами зон.",
+      "references": [
+        "ditto:mineguard:mine-01",
+        "ditto:mineguard:zone-z04",
+        "ditto:mineguard:airway-e03",
+        "ditto:mineguard:shearer-z04"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 3,
+      "max": 20,
+      "points": 15,
+      "reasoning": "В штатном режиме за 63 секунды tick вырос с 143 до 270, CH₄ Z04 — с 0,15869 до 0,16171 %. Расходы согласованы: 39,63 = 14,92 + 24,71 м³/с. Проверены перераспределение воздуха, перенос газа вниз по сети, отключение комбайна и изменение мощности вентиляторов. Код сохраняет газовый баланс; ограничения упрощены. Калибровки по опубликованным данным нет.",
+      "references": [
+        "ditto:mineguard:zone-z04",
+        "ditto:mineguard:zone-z05",
+        "mineguard/backend/app/physics/gas_transport.py:79",
+        "mineguard/backend/app/physics/airflow.py:88",
+        "SUBMISSION.md:158"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 2,
+      "max": 25,
+      "points": 12.5,
+      "reasoning": "Открыты пространственный вид участка и план вентиляционной сети, проверен выбор зоны с живыми показаниями. На карте видны расходы, состояния оборудования и последствия сценариев: E03 показывает 3,9 м³/с и ×250, Z04 меняет состояние. Представление специализировано под вентиляцию, но геометрия иллюстративная, её масштаб и соответствие модельным выработкам не подтверждены достаточно для уровня 3.",
+      "references": [
+        "screenshot:screenshots/baseline-selected.png",
+        "screenshot:screenshots/s3-obstruction.png",
+        "screenshot:screenshots/s1-emergency.png",
+        "mineguard/frontend/src/v3/MineEngine.js:31"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 3,
+      "max": 10,
+      "points": 7.5,
+      "reasoning": "Сам запустил S1–S4 описанными командами. S1 дал 1,83 % CH₄, остановку комбайна и вентиляторы 100 %; S2 — отказ главного вентилятора и нулевые расходы; S3 — перераспределение E03/E02 с WARNING; S4 — STALE, UNKNOWN_DATA и запрет оптимизации. Последствия отражались в интерфейсе. После каждого Reset проверено восстановление двойников; итоговый режим IDLE. Совмещение сценариев блокируется, сравнение до/после для них не подтверждено.",
+      "references": [
+        "SUBMISSION.md:103",
+        "ditto:mineguard:zone-z04",
+        "ditto:mineguard:fan-main",
+        "ditto:mineguard:airway-e03",
+        "screenshot:screenshots/s1-emergency.png",
+        "screenshot:screenshots/s2-failure.png",
+        "screenshot:screenshots/s3-obstruction.png",
+        "screenshot:screenshots/s4-stale.png"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 3,
+      "max": 5,
+      "points": 3.75,
+      "reasoning": "Подтверждены два содержательных механизма: управление безопасностью с блокировкой комбайна, командами вентиляторам и обработкой недостоверных данных; VOD с прогнозом и перебором допустимых режимов. Применил рекомендацию main 60 % / aux 40 %: в Ditto мощность главного вентилятора снизилась с 67,5 до 34,56 кВт. Историю, проверку баланса и трассировку отдельно как дополнительные управляющие модули не считаю. Четырёх содержательных модулей нет.",
+      "references": [
+        "mineguard/backend/app/control/vod_controller.py:45",
+        "ditto:mineguard:fan-main",
+        "ditto:mineguard:shearer-z04",
+        "ditto:mineguard:zone-z04",
+        "presentation.pdf:9"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 2,
+      "max": 15,
+      "points": 7.5,
+      "reasoning": "Конкретная задача вентиляции газообильного участка, пользователи и решения обоснованы; модель, сценарии и энергетическая рекомендация ей соответствуют. Презентация читается, основные проверенные числа совпали, синтетический характер и ограничения названы честно. Однако параметры вымышленного объекта преимущественно подобраны как проектные допущения: числовые данные аналогов в модели не подтверждены, поэтому полные требования уровня 3 не выполнены.",
+      "references": [
+        "SUBMISSION.md:5",
+        "SUBMISSION.md:33",
+        "SUBMISSION.md:158",
+        "presentation.pdf:5",
+        "presentation.pdf:7",
+        "presentation.pdf:9",
+        "presentation.pdf:14"
+      ]
+    }
+  ],
+  "total": 65
+}

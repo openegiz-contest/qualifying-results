@@ -1,0 +1,20 @@
+$ bash scripts/compose-smoke.sh
+Containers
+  FAIL  init job exit code: not run
+  ok    all health-checked services healthy
+Ditto
+  ok    status/health is UP
+  ok    default policy exists
+  ok    connection mosquitto-source-connection open
+  ok    connection mosquitto-target-connection open
+  ok    create test twin
+Ditto memory
+  FAIL  policies: could not read max heap (? MiB) or container limit (? MiB)
+  FAIL  things: could not read max heap (? MiB) or container limit (? MiB)
+  FAIL  things-search: could not read max heap (? MiB) or container limit (? MiB)
+  FAIL  connectivity: could not read max heap (? MiB) or container limit (? MiB)
+  FAIL  gateway: could not read max heap (? MiB) or container limit (? MiB)
+Telemetry loop
+service "mosquitto" is not running
+
+exit code: 1

@@ -1,0 +1,101 @@
+{
+  "team": "team-038",
+  "judge": "opus-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "Двойников смотрел через API Ditto. Их 75: 38 живых и 37 копий baseline, 15 типов. Это Mine, Pit, BlockCluster, Excavator, HaulTruck, RoadSegment, Crusher, Stockpile (ROM и COS), PlantFeed, WasteDump, DispatcherController, MaintenancePlanner, FuelBay, PowerGrid, ScenarioController. Состояния осмысленные. У blocks-north есть блочная модель из 72 блоков по 3900 т с содержанием Cu и BWi, текущий блок, remaining_t 267014 т. У crusher-01 есть capacity_tph, зависящая от крепости, kWh/t, health и P(fail). У stockpile-cos: stock, grade, hours_of_feed. У power-grid: 15-минутная нагрузка, cap, throttle. Иерархия задана через _parents (mine → pit → техника), физические связи — атрибутами feeds, supplies, excavator. Динамические связи у самосвала — assigned_to, destination, segment, и они меняются: при поломке ex-01 распределение стало 0/2/6. Событие в одном звене меняет другие: при отказе дробилки COS упал с 3954 до 3255 т, приток на ROM вырос до 1623 т/ч против 826 в baseline, диспетчер пишет «ore to ROM (crusher failed)». История лежит в InfluxDB. Это заметно больше Типового Решения: массив с блоками, энергия, топливо, ТО, двойник baseline. До уровня 4 не хватает одинаковой глубины звеньев: обогатительная фабрика — только приёмник питания с постоянным извлечением, без схемы измельчения и флотации. По сути это подробный карьер с дробилкой и складами.",
+      "references": [
+        "ditto:org.twinvision.copper:blocks-north",
+        "ditto:org.twinvision.copper:crusher-01",
+        "ditto:org.twinvision.copper:stockpile-cos",
+        "ditto:org.twinvision.copper:power-grid",
+        "ditto:org.twinvision.copper:dispatcher",
+        "twinvision/sim/twins.py:1",
+        "build_report:modules[5]"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 3,
+      "max": 20,
+      "points": 15,
+      "reasoning": "Сравнил снимки с разницей примерно в минуту. Самосвалы движутся и меняют состояния: loading, hauling, queued, maintenance. Груз 217–229 т при паспортных 226.8 т (Cat 793F). Груженый самосвал на уклоне 8 % едет около 14 км/ч. Производительность экскаваторов 1100–5000 т/ч. Фабрика берёт 2000 т/ч при 33.8 МВт (около 16.7 кВт·ч/т по закону Бонда). Дизель около 0.2 л/т. Всё правдоподобно. Невязки баланса массы, топлива и энергии равны 0.000 на обеих копиях. Ограничения есть: очереди, карман дробилки, износ с вероятностью отказа, ТО, ёмкость складов, лимит сети. Процессы связаны: отказ дробилки → ROM → COS → фабрика, низкое содержание → перешихтовка у диспетчера. Датасет GeoMet лежит в репозитории, blocks.py читает из него Cu и вычисляет BWi. Блоки на Стенде (0.04–2.2 % Cu, BWi 16–25) соответствуют распределению: медиана 0.5, p90 1.82. Извлечение 0.879 взято из flotation.csv. Но этим калибруются только входные распределения. Паспортные значения техники — константы в params.py, а скорости, циклы и производительность против опубликованных данных не сверены. Поэтому оставляю 3.",
+      "references": [
+        "twinvision/sim/blocks.py:27",
+        "twinvision/sim/params.py:14",
+        "twinvision/data/geomet/drillholes.csv",
+        "ditto:org.twinvision.copper:mine",
+        "ditto:org.twinvision.copper:truck-03",
+        "ditto:org.twinvision.copper:plant-feed"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "Открыл в браузере карту http://localhost:8095. Признаки проверял по DOM страницы; сами снимки экрана мне не видны, поэтому вывод держится на DOM. (1) Геометрия: 2D-план на SVG с уступами карьера («Main pit · floor -150 m»), блочными кластерами, раскрашенными по содержанию Cu (tooltip каждого блока: % Cu, BWi, т), и 12 дорогами с длиной, уклоном и лимитом скорости. Есть дробилка, ROM, COS, фабрика, отвал, топливный склад с мастерской. (2) Живые данные: опрос Ditto раз в секунду, позиции и состояния самосвалов меняются между снимками. (3) Процесс: подписи у объектов — «Crusher 2,525 t/h crushing · queue 0», «ROM 30.3 kt loader reclaiming», «EX-03 4,959 t/h loading». Есть датчики складов с маркером baseline и карточки здоровья техники. (4) Сценарий: при отказе на дробилке появилась подпись «Crusher 0 t/h failed · 0 kW», в шапке — «what-if: Crusher failure, Road closure». (5) Есть виды Mine/Pit/Plant, масштаб колесом, инспектор объекта с атрибутами Ditto и features live рядом с baseline (открыл для CR-01). Клик по самосвалу на карте не прошёл: элементы перекрываются, и он же ловит pan. Уровень 4 не ставлю: рельеф передан только подписями отметок в 2D, техника — значки на линиях дорог, и до уровня коммерческих систем диспетчеризации не дотягивает.",
+      "references": [
+        "screenshot:map-normal.png",
+        "screenshot:map-plant-view.png",
+        "screenshot:inspector-crusher.png",
+        "screenshot:scenario-crusher-failure.png",
+        "screenshot:scenario-crusher-plus-road.png",
+        "twinvision/web/static/app.js:166"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 4,
+      "max": 10,
+      "points": 10,
+      "reasoning": "Запустил сам четыре сценария из семи.\n- Отказ дробилки (кнопка Run в интерфейсе): crusher-01 перешёл в failed, а в baseline продолжает дробить. COS упал с 3954 до 3255 т, приток на ROM 1623 т/ч против 826, диспетчер отправляет руду на ROM.\n- Закрытие дороги s04 (Run, вместе с отказом дробилки): road-s04 closed, у pit roads_closed=1, reroutes вырос с 8 до 9, очередь 1.11 мин против 0.94. В шапке видны оба сценария сразу.\n- Поломка экскаватора ex-01 (curl по README): ex-01 failed, самосвалы перераспределены с 2/1/5 на 0/2/6.\n- Зона низкого содержания на blocks-east (curl по README, вместе с поломкой ex-01): face_grade 0.401 → 0.201, диспетчер шихтует («blend: ex-02 face 0.20% Cu would push feed…»).\nСценарии затрагивают разные звенья: переработку, транспорт, выемку, массив. Сочетаются. Интерфейс сам показывает «до/после»: таблица KPI live, baseline и Δ, датчики с маркерами baseline, инспектор live рядом с baseline. Отменил всё через DELETE /api/scenarios/<name>: дробилка снова crushing, s04 open, ex-01 loading, face_grade 0.401. В конце /api/scenarios не показывает ни одного активного сценария и ни одного выключенного модуля. Недостаток: живая копия хранит историю. Топливный склад после прогона Сборщика всё ещё ниже baseline, но для выравнивания есть кнопка Resync.",
+      "references": [
+        "screenshot:scenario-crusher-failure.png",
+        "screenshot:scenario-crusher-plus-road.png",
+        "screenshot:scenario-excavator-lowgrade.png",
+        "ditto:org.twinvision.copper:crusher-01",
+        "ditto:org.twinvision.copper:road-s04",
+        "ditto:org.twinvision.copper:ex-01",
+        "ditto:org.twinvision.copper:blocks-east",
+        "build_report:scenarios[0]"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 3,
+      "max": 5,
+      "points": 3.75,
+      "reasoning": "Видел три содержательных Модуля.\n- Диспетчер: алгоритм с журналом причин, например «truck-08 -> ex-01, not ex-02 (+2.1 min wait): rate balance…» или «blend: ex-02 face 0.40% Cu would push feed…». Сам выключил его через POST /api/modules/dispatcher: появилась «fixed allocation» 2/2/4, module_enabled=false. Undo вернул его.\n- Планировщик ТО: решения по риску с числами («CRUSHER-01 PM scheduled: health 56%, P(fail in 8 h) 14%, expected loss 1,804 t; building COS…»), на Стенде truck-05 ушёл на плановое ТО.\n- Энергоменеджер: в журнале power-grid решения о дросселировании фабрики под лимит («throttled to 1,574 t/h to hold the 28,000 kW cap»), а без Модуля — load shed.\nВсе три влияют на работу рудника. Четвёртого отдельного Модуля нет: топливное нормирование и перешихтовка входят в диспетчер.",
+      "references": [
+        "ditto:org.twinvision.copper:dispatcher",
+        "ditto:org.twinvision.copper:power-grid",
+        "ditto:org.twinvision.copper:mine",
+        "twinvision/sim/engine.py:1",
+        "build_report:modules[0]",
+        "build_report:modules[1]",
+        "build_report:modules[2]"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 3,
+      "max": 15,
+      "points": 11.25,
+      "reasoning": "Замысел конкретный. Звено — карьер → дробилка → склады → питание фабрики, с топливом и энергией. Пользователи — диспетчер смены, планировщик ТО, энергетик. Решение — принимать ли изменение режима, по разнице живой копии и baseline с тем же seed. Выбор объяснён связностью величин. Объект вымышленный: сказано, на что он похож (медно-порфировый карьер), и откуда цифры. GeoMet лежит в репозитории и действительно используется, паспортные параметры техники перенесены в params.py. На Стенде Замысел узнаётся: двойник baseline, KPI с Δ, сценарии и Модули отвечают на вопрос пользователя. Презентация (11 стр.) понятна, утверждения совпали со Стендом: 75 двойников, 7 сценариев с отменой, балансы 0, три Модуля с журналами. Ограничения названы: 2D, фабрика как приёмник, вымышленный объект. Числа сравнения за 24 ч получены headless-прогоном, на живом Стенде я их не проверял. Уровень 4 невозможен: объект вымышленный.",
+      "references": [
+        "SUBMISSION.md:3",
+        "presentation.pdf:2",
+        "presentation.pdf:4",
+        "presentation.pdf:7",
+        "presentation.pdf:11",
+        "twinvision/data/geomet/flotation.csv"
+      ]
+    }
+  ],
+  "total": 77.5
+}

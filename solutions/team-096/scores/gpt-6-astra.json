@@ -1,0 +1,81 @@
+{
+  "team": "team-096",
+  "judge": "gpt-6-astra",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Через API Ditto и приложение OpenEgiz проверены только пять двойников Примера: рудник, экскаватор, два самосвала и дробилка. Их состояния и иерархия соответствуют examples/mine/twins.json. Собственных двойников нет; изменения после начального коммита затрагивают только SUBMISSION.md.",
+      "references": [
+        "ditto:org.openegiz.mine:mine-01",
+        "examples/mine/twins.json:2",
+        "build_report:built_on_openegiz"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Два чтения API с интервалом 65 секунд подтвердили обновления: tonnes_mined выросло с 270 до 360 т, passes_total — с 20 до 30, truck-01 перешёл из returning в hauling. Однако это поведение неизменённого симулятора Примера; собственной реализации поведения нет.",
+      "references": [
+        "ditto:org.openegiz.mine:mine-01",
+        "ditto:org.openegiz.mine:excavator-01",
+        "ditto:org.openegiz.mine:truck-01",
+        "examples/mine/simulator.py:3"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "В браузере открыт Example Mine: только числовые показатели и временные графики тоннажа, положения, загрузки и топлива. Геометрии рудника и собственной визуализации Команды нет; соответствующий раздел заявки пуст.",
+      "references": [
+        "screenshot:team-096-example-mine.png",
+        "SUBMISSION.md:50",
+        "examples/mine/README.md:21"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Таблица сценариев пуста, способов запуска и отмены Команда не описала. Проверяемых сценариев нет. Ничего не запускал, состояние Стенда не изменял.",
+      "references": [
+        "SUBMISSION.md:29",
+        "SUBMISSION.md:35"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Модули не заявлены и не обнаружены в коде или интерфейсе. На Стенде работают только двойники и дашборд Примера; отображение существующих показателей самостоятельным Модулем не является.",
+      "references": [
+        "SUBMISSION.md:33",
+        "screenshot:team-096-example-mine.png",
+        "build_report:modules"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Назван вымышленный медный карьер по аналогии с Актогаем и Бозшаколем и задача уменьшения экологического ущерба и планирования восстановления земель. Пользователь определён широко, источники параметров только обещаны. Стенд от замысла не зависит: экологическая модель, визуализация и сценарии отсутствуют. presentation_info подтвердил отсутствие presentation.pdf. Для уровня 2 нужна реализация собственной задачи на Стенде.",
+      "references": [
+        "SUBMISSION.md:7",
+        "SUBMISSION.md:9",
+        "SUBMISSION.md:13",
+        "SUBMISSION.md:15",
+        "ditto:org.openegiz.mine:mine-01"
+      ]
+    }
+  ],
+  "total": 3.75
+}

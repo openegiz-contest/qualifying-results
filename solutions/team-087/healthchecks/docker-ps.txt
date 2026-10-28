@@ -1,0 +1,17 @@
+openegiz-grafana-1	running	Up 19 minutes (healthy)	grafana/grafana:12.3.0
+openegiz-vent-twin-1	running	Up 19 minutes (healthy)	3db3d340c153
+openegiz-extended-api-1	running	Up 19 minutes	openegiz/ditto-extended-api:local-b49663d
+openegiz-vent-setup-1	exited	Exited (0) 19 minutes ago	3db3d340c153
+openegiz-init-1	exited	Exited (0) 19 minutes ago	curlimages/curl:8.10.1
+openegiz-ditto-nginx-1	running	Up 20 minutes (healthy)	nginx:1.25-alpine
+openegiz-telegraf-1	running	Up 20 minutes	telegraf:1.37-alpine
+openegiz-gateway-1	running	Up 20 minutes (healthy)	eclipse/ditto-gateway:3.3.7
+openegiz-policies-1	running	Up 20 minutes (healthy)	eclipse/ditto-policies:3.3.7
+openegiz-connectivity-1	running	Up 20 minutes (healthy)	eclipse/ditto-connectivity:3.3.7
+openegiz-things-1	running	Up 20 minutes (healthy)	eclipse/ditto-things:3.3.7
+openegiz-things-search-1	running	Up 20 minutes (healthy)	eclipse/ditto-things-search:3.3.7
+openegiz-unity-1	running	Up 20 minutes	nginx:1.25-alpine
+openegiz-grafana-plugins-1	exited	Exited (0) 19 minutes ago	busybox:1.36
+openegiz-mongodb-1	running	Up 20 minutes (healthy)	mongo:6.0
+openegiz-mosquitto-1	running	Up 20 minutes (healthy)	eclipse-mosquitto:2.0.18
+openegiz-influxdb-1	running	Up 20 minutes (healthy)	influxdb:2.7.4-alpine

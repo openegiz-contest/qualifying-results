@@ -1,0 +1,14 @@
+openegiz-mine-visualizer-1	running	Up 7 minutes	openegiz/mine-visualizer:latest
+openegiz-mine-mine-simulator-1	running	Up 7 minutes	openegiz/mine-simulator:latest
+openegiz-mine-init-1	exited	Exited (0) 7 minutes ago	curlimages/curl:8.10.1
+openegiz-mine-ditto-nginx-1	running	Up 8 minutes (healthy)	nginx:1.25-alpine
+openegiz-mine-things-1	running	Up 8 minutes (healthy)	eclipse/ditto-things:3.3.7
+openegiz-mine-telegraf-1	running	Up 7 minutes	telegraf:1.37-alpine
+openegiz-mine-grafana-1	running	Up 8 minutes (healthy)	grafana/grafana:12.3.0
+openegiz-mine-connectivity-1	running	Up 8 minutes (healthy)	eclipse/ditto-connectivity:3.3.7
+openegiz-mine-things-search-1	running	Up 8 minutes (healthy)	eclipse/ditto-things-search:3.3.7
+openegiz-mine-gateway-1	running	Up 8 minutes (healthy)	eclipse/ditto-gateway:3.3.7
+openegiz-mine-policies-1	running	Up 8 minutes (healthy)	eclipse/ditto-policies:3.3.7
+openegiz-mine-mongodb-1	running	Up 8 minutes (healthy)	mongo:6.0
+openegiz-mine-mosquitto-1	running	Up 8 minutes (healthy)	eclipse-mosquitto:2.0.18
+openegiz-mine-influxdb-1	running	Up 8 minutes (healthy)	influxdb:2.7.4-alpine

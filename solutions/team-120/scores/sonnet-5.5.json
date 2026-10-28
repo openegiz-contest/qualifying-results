@@ -1,0 +1,68 @@
+{
+  "team": "team-120",
+  "judge": "sonnet-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "В Ditto нет двойников рудника: поиск вернул items=[] и count=0 (build_report:built_on_openegiz). Модель живёт только в JS браузера.",
+      "references": [
+        "build_report:built_on_openegiz"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Двойников и живых данных на Стенде нет. Логика диспетчеризации исполняется только в браузере, и я её не наблюдал.",
+      "references": [
+        "build_report:modules[0]"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 1,
+      "max": 25,
+      "points": 6.25,
+      "reasoning": "Страницы WebGL-симуляции карьера открываются и отдают ассеты. Скриншоты в браузере мне снять не удалось: оба вызова дали таймаут. Данные берутся не из двойников, а из собственного JS, поэтому признак «живые данные» не выполнен. Выше уровня 1 поставить нельзя.",
+      "references": [
+        "build_report:modules[0]"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Сценарии работают только в клиентском браузерном коде и не затрагивают двойники. Сборщик их не запускал (works=no). Я их тоже не запускал и не засчитываю.",
+      "references": [
+        "build_report:scenarios"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Работающих модулей на Стенде я не подтвердил. Логика диспетчеризации и обучения исполняется только в браузере. Мониторинг Grafana не работает (works=no).",
+      "references": [
+        "build_report:modules"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Замысел конкретный: транспортное звено Сарбайского и Соколовского карьеров ССГПО, пользователь — диспетчер. Но Стенд построен не на OpenEgiz и не опирается на двойники. Презентацию я не проверял. Наивысший уровень здесь — 1.",
+      "references": [
+        "build_report:concept",
+        "build_report:built_on_openegiz"
+      ]
+    }
+  ],
+  "total": 10
+}

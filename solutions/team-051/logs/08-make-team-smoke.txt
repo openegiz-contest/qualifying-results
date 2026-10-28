@@ -1,0 +1,41 @@
+PASS service + MQTT ready
+PASS UI reads real Ditto twins
+PASS 18 Ditto twins, independent instruments and hierarchy
+PASS actual Ditto MQTT source QoS 1
+PASS three provisioned Grafana dashboards
+PASS haul and processing cycles
+PASS MQTT control 0 -> model
+PASS signed UI telemetry 0
+PASS model -> Ditto anomaly 0
+PASS model -> Ditto direction 0
+PASS Ditto -> Telegraf -> InfluxDB signed offset 0
+PASS MQTT control 1 -> model
+PASS signed UI telemetry 1
+PASS model -> Ditto anomaly 1
+PASS model -> Ditto direction 1
+PASS Ditto -> Telegraf -> InfluxDB signed offset 1
+PASS MQTT control -1 -> model
+PASS signed UI telemetry -1
+PASS model -> Ditto anomaly -1
+PASS model -> Ditto direction -1
+PASS Ditto -> Telegraf -> InfluxDB signed offset -1
+PASS MQTT control 0 -> model
+PASS signed UI telemetry 0
+PASS model -> Ditto anomaly 0
+PASS model -> Ditto direction 0
+PASS Ditto -> Telegraf -> InfluxDB signed offset 0
+PASS anti-fraud, conserved mass/Fe, reset and persistent audit trail
+PASS independent delayed measurements, typed contracts and semantic links
+PASS HTTP -> MQTT -> Ditto scenario plant_erp=1
+PASS plant stop -> full buffer -> two loaded trucks -> excavator IDLE
+PASS HTTP -> MQTT -> Ditto scenario plant_erp=0
+PASS ERP reset and mill resumes without discarding inventory
+PASS HTTP -> MQTT -> Ditto scenario sensor_bias=1
+PASS scale bias classified as instrument fault
+PASS HTTP -> MQTT -> Ditto scenario sensor_bias=0
+PASS sensor calibration reset confirmed
+PASS HTTP -> MQTT -> Ditto scenario rain=1
+PASS rain: stale ERP moisture classified without a theft claim
+PASS HTTP -> MQTT -> Ditto scenario rain=0
+PASS rain reset and fresh humidity measurements confirmed
+PASS plant_erp, sensor_bias and rain, safe reset and persistent scenario audit trail

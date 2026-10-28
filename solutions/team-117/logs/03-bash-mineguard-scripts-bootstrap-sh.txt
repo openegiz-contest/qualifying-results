@@ -1,0 +1,319 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.03kB done
+#1 DONE 0.0s
+
+#2 [mineguard-backend internal] load build definition from Dockerfile
+#2 transferring dockerfile: 661B done
+#2 DONE 0.0s
+
+#3 [mineguard-ui internal] load build definition from Dockerfile
+#3 transferring dockerfile: 471B done
+#3 DONE 0.0s
+
+#4 [mineguard-ui internal] load metadata for docker.io/library/node:24.16.0-alpine
+#4 ...
+
+#5 [mineguard-ui internal] load metadata for docker.io/library/nginx:1.25-alpine
+#5 DONE 0.2s
+
+#6 [mineguard-backend internal] load metadata for docker.io/library/python:3.12.12-slim
+#6 DONE 1.0s
+
+#4 [mineguard-ui internal] load metadata for docker.io/library/node:24.16.0-alpine
+#4 ...
+
+#7 [mineguard-backend internal] load .dockerignore
+#7 transferring context: 221B done
+#7 DONE 0.0s
+
+#8 [mineguard-backend internal] load build context
+#8 transferring context: 221.46kB done
+#8 DONE 0.0s
+
+#9 [mineguard-backend 1/6] FROM docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c
+#9 resolve docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c 0.0s done
+#9 sha256:2d517a4d89f51a6619f3e61d8e80559d6e1529e85e8343bfcdc6ce0536f2195f 248B / 248B 0.0s done
+#9 sha256:a546a81ba946fd444a8e2632f1d09e8ce28083a58f8f066327d665d943a6695b 1.29MB / 1.29MB 0.0s done
+#9 sha256:90b93dccd534efdf46d219fcfa008ddce66480ce0259a99f6e756f629f018030 12.11MB / 12.11MB 0.1s done
+#9 sha256:206356c42440674ecbdf1070cf70ce8ef7885ac2e5c56f1ecf800b758f6b0419 24.12MB / 29.78MB 0.2s
+#9 sha256:206356c42440674ecbdf1070cf70ce8ef7885ac2e5c56f1ecf800b758f6b0419 29.78MB / 29.78MB 0.2s done
+#9 extracting sha256:206356c42440674ecbdf1070cf70ce8ef7885ac2e5c56f1ecf800b758f6b0419
+#9 extracting sha256:206356c42440674ecbdf1070cf70ce8ef7885ac2e5c56f1ecf800b758f6b0419 0.6s done
+#9 DONE 0.9s
+
+#4 [mineguard-ui internal] load metadata for docker.io/library/node:24.16.0-alpine
+#4 ...
+
+#9 [mineguard-backend 1/6] FROM docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c
+#9 extracting sha256:a546a81ba946fd444a8e2632f1d09e8ce28083a58f8f066327d665d943a6695b 0.1s done
+#9 extracting sha256:90b93dccd534efdf46d219fcfa008ddce66480ce0259a99f6e756f629f018030 0.3s done
+#9 DONE 1.2s
+
+#9 [mineguard-backend 1/6] FROM docker.io/library/python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c
+#9 extracting sha256:2d517a4d89f51a6619f3e61d8e80559d6e1529e85e8343bfcdc6ce0536f2195f 0.0s done
+#9 DONE 1.2s
+
+#10 [mineguard-backend 2/6] WORKDIR /opt/mineguard/backend
+#10 DONE 0.2s
+
+#4 [mineguard-ui internal] load metadata for docker.io/library/node:24.16.0-alpine
+#4 ...
+
+#11 [mineguard-backend 3/6] COPY backend/requirements.txt .
+#11 DONE 0.0s
+
+#12 [mineguard-backend 4/6] RUN pip install --no-cache-dir --require-hashes -r requirements.txt     && useradd --create-home --uid 10001 mineguard
+#12 ...
+
+#4 [mineguard-ui internal] load metadata for docker.io/library/node:24.16.0-alpine
+#4 DONE 3.3s
+
+#13 [mineguard-ui internal] load .dockerignore
+#13 transferring context: 73B done
+#13 DONE 0.0s
+
+#14 [mineguard-ui stage-1 1/3] FROM docker.io/library/nginx:1.25-alpine@sha256:516475cc129da42866742567714ddc681e5eed7b9ee0b9e9c015e464b4221a00
+#14 resolve docker.io/library/nginx:1.25-alpine@sha256:516475cc129da42866742567714ddc681e5eed7b9ee0b9e9c015e464b4221a00 0.1s done
+#14 DONE 0.2s
+
+#15 [mineguard-ui internal] load build context
+#15 transferring context: 745.54kB 0.0s done
+#15 DONE 0.1s
+
+#16 [mineguard-ui build 1/6] FROM docker.io/library/node:24.16.0-alpine@sha256:21f403ab171f2dc89bad4dd69d7721bfd15f084ccb46cdd225f31f2bc59b5c9a
+#16 resolve docker.io/library/node:24.16.0-alpine@sha256:21f403ab171f2dc89bad4dd69d7721bfd15f084ccb46cdd225f31f2bc59b5c9a 0.1s done
+#16 ...
+
+#17 [mineguard-ui stage-1 2/3] COPY nginx.conf /etc/nginx/conf.d/default.conf
+#17 DONE 0.0s
+
+#16 [mineguard-ui build 1/6] FROM docker.io/library/node:24.16.0-alpine@sha256:21f403ab171f2dc89bad4dd69d7721bfd15f084ccb46cdd225f31f2bc59b5c9a
+#16 sha256:11d7f429a94251819ed6f3466a0ca802a27e5b05a98bab4a9c89fd5e3acef87f 0B / 445B 0.2s
+#16 sha256:05e549e56e21842998587c0c0eabaed973fd91e24d1892de984ee0554a7156a5 0B / 1.26MB 0.2s
+#16 sha256:348e31f64a7605c2328b8152ce3be8c8c86d66f4684ed1949b213efaf6774203 0B / 52.28MB 0.2s
+#16 sha256:55afa1ecc21d2bb5e5045f32dafee56272ffd89860bac26f6c32123439af26a4 0B / 3.85MB 0.2s
+#16 sha256:11d7f429a94251819ed6f3466a0ca802a27e5b05a98bab4a9c89fd5e3acef87f 445B / 445B 0.8s done
+#16 sha256:05e549e56e21842998587c0c0eabaed973fd91e24d1892de984ee0554a7156a5 1.26MB / 1.26MB 1.6s done
+#16 sha256:55afa1ecc21d2bb5e5045f32dafee56272ffd89860bac26f6c32123439af26a4 1.05MB / 3.85MB 1.7s
+#16 sha256:55afa1ecc21d2bb5e5045f32dafee56272ffd89860bac26f6c32123439af26a4 3.85MB / 3.85MB 1.9s done
+#16 extracting sha256:55afa1ecc21d2bb5e5045f32dafee56272ffd89860bac26f6c32123439af26a4 0.1s done
+#16 sha256:348e31f64a7605c2328b8152ce3be8c8c86d66f4684ed1949b213efaf6774203 6.29MB / 52.28MB 2.3s
+#16 sha256:348e31f64a7605c2328b8152ce3be8c8c86d66f4684ed1949b213efaf6774203 9.44MB / 52.28MB 2.6s
+#16 sha256:348e31f64a7605c2328b8152ce3be8c8c86d66f4684ed1949b213efaf6774203 13.63MB / 52.28MB 2.9s
+#16 sha256:348e31f64a7605c2328b8152ce3be8c8c86d66f4684ed1949b213efaf6774203 17.83MB / 52.28MB 3.2s
+#16 sha256:348e31f64a7605c2328b8152ce3be8c8c86d66f4684ed1949b213efaf6774203 22.02MB / 52.28MB 3.5s
+#16 sha256:348e31f64a7605c2328b8152ce3be8c8c86d66f4684ed1949b213efaf6774203 25.17MB / 52.28MB 3.8s
+#16 sha256:348e31f64a7605c2328b8152ce3be8c8c86d66f4684ed1949b213efaf6774203 29.36MB / 52.28MB 4.1s
+#16 sha256:348e31f64a7605c2328b8152ce3be8c8c86d66f4684ed1949b213efaf6774203 33.55MB / 52.28MB 4.4s
+#16 sha256:348e31f64a7605c2328b8152ce3be8c8c86d66f4684ed1949b213efaf6774203 37.75MB / 52.28MB 4.7s
+#16 sha256:348e31f64a7605c2328b8152ce3be8c8c86d66f4684ed1949b213efaf6774203 41.94MB / 52.28MB 5.0s
+#16 sha256:348e31f64a7605c2328b8152ce3be8c8c86d66f4684ed1949b213efaf6774203 46.14MB / 52.28MB 5.3s
+#16 sha256:348e31f64a7605c2328b8152ce3be8c8c86d66f4684ed1949b213efaf6774203 49.28MB / 52.28MB 5.6s
+#16 sha256:348e31f64a7605c2328b8152ce3be8c8c86d66f4684ed1949b213efaf6774203 52.28MB / 52.28MB 5.8s done
+#16 extracting sha256:348e31f64a7605c2328b8152ce3be8c8c86d66f4684ed1949b213efaf6774203
+#16 extracting sha256:348e31f64a7605c2328b8152ce3be8c8c86d66f4684ed1949b213efaf6774203 0.9s done
+#16 extracting sha256:05e549e56e21842998587c0c0eabaed973fd91e24d1892de984ee0554a7156a5 0.0s done
+#16 extracting sha256:11d7f429a94251819ed6f3466a0ca802a27e5b05a98bab4a9c89fd5e3acef87f 0.0s done
+#16 DONE 6.9s
+
+#12 [mineguard-backend 4/6] RUN pip install --no-cache-dir --require-hashes -r requirements.txt     && useradd --create-home --uid 10001 mineguard
+#12 1.515 Collecting annotated-doc==0.0.5 (from -r requirements.txt (line 7))
+#12 2.022   Downloading annotated_doc-0.0.5-py3-none-any.whl (5.3 kB)
+#12 2.167 Collecting annotated-types==0.8.0 (from -r requirements.txt (line 11))
+#12 2.304   Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+#12 2.494 Collecting anyio==4.15.1 (from -r requirements.txt (line 15))
+#12 2.613   Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
+#12 3.010 Collecting click==8.5.0 (from -r requirements.txt (line 21))
+#12 3.135   Downloading click-8.5.0-py3-none-any.whl (125 kB)
+#12 3.522 Collecting fastapi==0.143.1 (from -r requirements.txt (line 25))
+#12 3.643   Downloading fastapi-0.143.1-py3-none-any.whl (144 kB)
+#12 3.823 Collecting h11==0.16.0 (from -r requirements.txt (line 29))
+#12 3.954   Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#12 4.141 Collecting httptools==0.9.0 (from -r requirements.txt (line 33))
+#12 4.273   Downloading httptools-0.9.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (552 kB)
+#12 4.428      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 552.8/552.8 kB 2.9 MB/s eta 0:00:00
+#12 4.572 Collecting idna==3.20 (from -r requirements.txt (line 153))
+#12 4.701   Downloading idna-3.20-py3-none-any.whl (69 kB)
+#12 4.873 Collecting opentelemetry-api==1.45.1 (from -r requirements.txt (line 157))
+#12 5.005   Downloading opentelemetry_api-1.45.1-py3-none-any.whl (60 kB)
+#12 5.147 Collecting paho-mqtt==2.1.0 (from -r requirements.txt (line 161))
+#12 5.274   Downloading paho_mqtt-2.1.0-py3-none-any.whl (67 kB)
+#12 5.700 Collecting pydantic==2.14.1 (from -r requirements.txt (line 165))
+#12 5.826   Downloading pydantic-2.14.1-py3-none-any.whl (488 kB)
+#12 7.540 Collecting pydantic-core==2.50.1 (from -r requirements.txt (line 171))
+#12 7.657   Downloading pydantic_core-2.50.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.2 MB)
+#12 7.945      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 7.4 MB/s eta 0:00:00
+#12 ...
+
+#18 [mineguard-ui build 2/6] WORKDIR /build
+#18 DONE 0.2s
+
+#19 [mineguard-ui build 3/6] COPY package.json package-lock.json ./
+#19 DONE 0.0s
+
+#12 [mineguard-backend 4/6] RUN pip install --no-cache-dir --require-hashes -r requirements.txt     && useradd --create-home --uid 10001 mineguard
+#12 8.084 Collecting python-dotenv==1.2.4 (from -r requirements.txt (line 310))
+#12 ...
+
+#20 [mineguard-ui build 4/6] RUN npm ci --no-audit --no-fund
+#20 ...
+
+#12 [mineguard-backend 4/6] RUN pip install --no-cache-dir --require-hashes -r requirements.txt     && useradd --create-home --uid 10001 mineguard
+#12 8.202   Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+#12 8.380 Collecting pyyaml==6.0.3 (from -r requirements.txt (line 314))
+#12 8.507   Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)
+#12 8.579      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 14.0 MB/s eta 0:00:00
+#12 8.745 Collecting starlette==1.8.0 (from -r requirements.txt (line 389))
+#12 8.876   Downloading starlette-1.8.0-py3-none-any.whl (79 kB)
+#12 9.032 Collecting typing-extensions==4.16.0 (from -r requirements.txt (line 393))
+#12 9.152   Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#12 9.298 Collecting typing-inspection==0.4.4 (from -r requirements.txt (line 404))
+#12 9.427   Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+#12 9.584 Collecting uvicorn==0.54.0 (from -r requirements.txt (line 410))
+#12 9.714   Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
+#12 9.905 Collecting uvloop==0.23.0 (from -r requirements.txt (line 414))
+#12 10.02   Downloading uvloop-0.23.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (4.5 MB)
+#12 10.53      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.5/4.5 MB 9.0 MB/s eta 0:00:00
+#12 10.76 Collecting watchfiles==1.3.0 (from -r requirements.txt (line 477))
+#12 10.88   Downloading watchfiles-1.3.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (458 kB)
+#12 11.27 Collecting websockets==17.2 (from -r requirements.txt (line 512))
+#12 11.39   Downloading websockets-17.2-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (225 kB)
+#12 11.47 Installing collected packages: websockets, uvloop, typing-extensions, pyyaml, python-dotenv, paho-mqtt, idna, httptools, h11, click, annotated-types, annotated-doc, uvicorn, typing-inspection, pydantic-core, opentelemetry-api, anyio, watchfiles, starlette, pydantic, fastapi
+#12 12.33 Successfully installed annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 click-8.5.0 fastapi-0.143.1 h11-0.16.0 httptools-0.9.0 idna-3.20 opentelemetry-api-1.45.1 paho-mqtt-2.1.0 pydantic-2.14.1 pydantic-core-2.50.1 python-dotenv-1.2.4 pyyaml-6.0.3 starlette-1.8.0 typing-extensions-4.16.0 typing-inspection-0.4.4 uvicorn-0.54.0 uvloop-0.23.0 watchfiles-1.3.0 websockets-17.2
+#12 12.33 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#12 12.83 
+#12 12.83 [notice] A new release of pip is available: 25.0.1 -> 26.2.2
+#12 12.83 [notice] To update, run: pip install --upgrade pip
+#12 DONE 13.3s
+
+#20 [mineguard-ui build 4/6] RUN npm ci --no-audit --no-fund
+#20 ...
+
+#21 [mineguard-backend 5/6] COPY backend/app ./app
+#21 DONE 0.0s
+
+#22 [mineguard-backend 6/6] COPY data /opt/mineguard/data
+#22 DONE 0.0s
+
+#23 [mineguard-backend] exporting to image
+#23 exporting layers
+#23 exporting layers 1.2s done
+#23 exporting manifest sha256:ee7f9be1b5ded74f59bbf7a8dab19e2cda63997f87c2535b86ff19aee9340dc7 done
+#23 exporting config sha256:26549b8a222503ded0589597175e60a9bc102bbc9b4a46ddfd6d24c01000bde8 done
+#23 exporting attestation manifest sha256:7c1d75456820db0b65fb26d2b87a4d2ad825b52924a5c7eff04297dd961e1138 0.0s done
+#23 exporting manifest list sha256:a5fd44451558c3f247a7021d618ae2e84cfff107437e0e1dd8154b47f49ff461 done
+#23 naming to docker.io/library/mineguard-x-backend:local done
+#23 unpacking to docker.io/library/mineguard-x-backend:local
+#23 unpacking to docker.io/library/mineguard-x-backend:local 0.3s done
+#23 DONE 1.5s
+
+#24 [mineguard-backend] resolving provenance for metadata file
+#24 DONE 0.0s
+
+#20 [mineguard-ui build 4/6] RUN npm ci --no-audit --no-fund
+#20 7.125 
+#20 7.125 added 246 packages in 7s
+#20 7.127 npm notice
+#20 7.127 npm notice New major version of npm available! 11.13.0 -> 12.2.1
+#20 7.127 npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+#20 7.127 npm notice To update run: npm install -g npm@12.2.1
+#20 7.127 npm notice
+#20 DONE 7.4s
+
+#25 [mineguard-ui build 5/6] COPY . .
+#25 DONE 0.1s
+
+#26 [mineguard-ui build 6/6] RUN npm run build
+#26 0.244 
+#26 0.244 > mineguard-x-frontend@0.5.0 build
+#26 0.244 > tsc -b && vite build
+#26 0.244 
+#26 2.604 vite v8.3.4 building client environment for production...
+#26 2.615 transforming...
+#26 2.872 ✓ 1968 modules transformed.
+#26 2.964 rendering chunks...
+#26 3.098 computing gzip size...
+#26 3.108 dist/index.html                   0.46 kB │ gzip:   0.29 kB
+#26 3.108 dist/assets/index-usRaqAJ0.css  117.98 kB │ gzip:  26.43 kB
+#26 3.108 dist/assets/index-BCZiYZMj.js   964.80 kB │ gzip: 266.39 kB
+#26 3.108 
+#26 3.111 ✓ built in 506ms
+#26 DONE 3.2s
+
+#27 [mineguard-ui stage-1 3/3] COPY --from=build /build/dist /usr/share/nginx/html
+#27 DONE 0.0s
+
+#28 [mineguard-ui] exporting to image
+#28 exporting layers 0.1s done
+#28 exporting manifest sha256:a64378cf842e166c7fb935dfc3ea1a51c783bb10b9f92a7a26fccb3e0c8c97f9 done
+#28 exporting config sha256:a99e755e1d16f8e180a9d2a2bd21410586e9a3c59b54e768f654d82e82a64d90 done
+#28 exporting attestation manifest sha256:7c32d3c736a8a02a8a399e4a1b48a9c59c9da182722e33202ab00ceab8f67c52 0.0s done
+#28 exporting manifest list sha256:f11de62120df4b7c6f956d831696a8ad43deaa0aa09acf1f274d17a7b15406e9 0.0s done
+#28 naming to docker.io/library/mineguard-x-ui:local done
+#28 unpacking to docker.io/library/mineguard-x-ui:local 0.1s done
+#28 DONE 0.3s
+
+#29 [mineguard-ui] resolving provenance for metadata file
+#29 DONE 0.0s
+ mineguard-x-backend:local  Built
+ mineguard-x-ui:local  Built
+ Container openegiz-mongodb-1  Running
+ Container openegiz-mosquitto-1  Running
+ Container openegiz-influxdb-1  Running
+ Container openegiz-gateway-1  Running
+ Container openegiz-ditto-nginx-1  Running
+ Container openegiz-mineguard-backend-1  Creating
+ Container openegiz-grafana-1  Recreate
+ Container openegiz-mineguard-backend-1  Created
+ Container openegiz-mineguard-ui-1  Creating
+ Container openegiz-mineguard-ui-1  Created
+ Container openegiz-grafana-1  Recreated
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-grafana-plugins-1  Starting
+ Container openegiz-grafana-plugins-1  Started
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-grafana-1  Starting
+ Container openegiz-grafana-1  Started
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-init-1  Starting
+ Container openegiz-init-1  Started
+ Container openegiz-init-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-init-1  Exited
+ Container openegiz-mineguard-backend-1  Starting
+ Container openegiz-mineguard-backend-1  Started
+ Container openegiz-mineguard-backend-1  Waiting
+ Container openegiz-mineguard-backend-1  Healthy
+ Container openegiz-mineguard-ui-1  Starting
+ Container openegiz-mineguard-ui-1  Started
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-gateway-1  Waiting
+ Container openegiz-mineguard-ui-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-init-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-grafana-1  Waiting
+ Container openegiz-mineguard-backend-1  Waiting
+ Container openegiz-mineguard-backend-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-grafana-1  Healthy
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-gateway-1  Healthy
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-init-1  Exited
+ Container openegiz-mineguard-ui-1  Healthy
+MineGuard X ready: http://127.0.0.1:8091
+Eclipse Ditto synchronization: connected
+All controls are simulation-only.

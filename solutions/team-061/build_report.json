@@ -1,0 +1,281 @@
+{
+  "team": "team-061",
+  "sha": "351a1cef4103f1270478251b7ee6afb26ad7173b",
+  "started_at": "2026-10-27T18:32:38+00:00",
+  "finished_at": "2026-10-27T19:13:23+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update",
+      "command": "cd /home/judge/solution && sudo apt-get update",
+      "exit_code": 0,
+      "duration_s": 24.7,
+      "log": "logs/01-sudo-apt-get-update.txt"
+    },
+    {
+      "readme_step": "sudo apt-get install -y make curl git",
+      "command": "cd /home/judge/solution && sudo apt-get install -y make curl git",
+      "exit_code": 0,
+      "duration_s": 5.1,
+      "log": "logs/02-sudo-apt-get-install-y-make-curl-git.txt"
+    },
+    {
+      "readme_step": "docker info > /dev/null",
+      "command": "cd /home/judge/solution && docker info > /dev/null",
+      "exit_code": 0,
+      "duration_s": 0.3,
+      "log": "logs/03-docker-info-dev-null.txt"
+    },
+    {
+      "readme_step": "docker compose version",
+      "command": "cd /home/judge/solution && docker compose version",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/04-docker-compose-version.txt"
+    },
+    {
+      "readme_step": "make mine",
+      "command": "cd /home/judge/solution && make mine",
+      "exit_code": 2,
+      "duration_s": 1131.0,
+      "log": "logs/05-make-mine.txt"
+    },
+    {
+      "readme_step": "make mine",
+      "command": "cd /home/judge/solution && make mine",
+      "exit_code": 0,
+      "duration_s": 647.0,
+      "log": "logs/06-make-mine.txt"
+    },
+    {
+      "readme_step": "curl --fail --silent http://localhost:8200/ditto/api/2/search/things/count?namespaces=kz.kentash",
+      "command": "cd /home/judge/solution && curl --fail --silent http://localhost:8200/ditto/api/2/search/things/count?namespaces=kz.kentash",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/07-curl-fail-silent-http-localhost-8200-dit.txt"
+    },
+    {
+      "readme_step": "docker compose -f deploy/compose/docker-compose.yml -f mine/compose.yml exec -T kentash-sim python healthcheck.py",
+      "command": "cd /home/judge/solution && docker compose -f deploy/compose/docker-compose.yml -f mine/compose.yml exec -T kentash-sim python healthcheck.py",
+      "exit_code": 0,
+      "duration_s": 0.3,
+      "log": "logs/08-docker-compose-f-deploy-compose-docker-c.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 15 of 17 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 15 of 17 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`make smoke` exit 2: FAIL  value 101 did not reach InfluxDB within 60 s (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Транспорт и диспетчеризация",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Двойники truck-TR-01..06 меняют x/y/state/speed между снимками (например, TR-01 haul → parked → to_load); после truck_down в mine.trucks_working стало 5 вместо 6, а TR-03 ушёл в to_ws/repair."
+    },
+    {
+      "name": "Энергетика",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "gpp-t1.load_mw=19.1 и feeder-mill.load_kw=29545 в работе; при grid_out они стали 0 и 'нет питания или отключён', после отмены gpp-t1 снова 'в работе'."
+    },
+    {
+      "name": "Переработка и управление цепочкой",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "При обесточивании mine.cu_tph упал с 8.683 до 0; после отмены за ~10 модельных минут выпуск не восстановился (cu_tph=0, feeder-mill.load_kw=0). Команда пишет о пуске мельниц за 25 мин, полный цикл пуска я не дождался."
+    },
+    {
+      "name": "Геология и усреднение",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Не проверял из-за нехватки времени: сборка заняла ~50 из 75 минут. Видел только mine.head_grade и cu_tph в двойнике mine."
+    },
+    {
+      "name": "Буровзрывные работы",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Не проверял из-за нехватки времени."
+    },
+    {
+      "name": "Производственный план",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Не проверял из-за нехватки времени."
+    },
+    {
+      "name": "Качество готового концентрата",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Не проверял из-за нехватки времени."
+    },
+    {
+      "name": "Водоотлив и технологическая вода",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Не проверял из-за нехватки времени."
+    },
+    {
+      "name": "Хвостовое хозяйство",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Не проверял из-за нехватки времени."
+    },
+    {
+      "name": "АЗС и склад ГСМ",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Не проверял из-за нехватки времени."
+    },
+    {
+      "name": "ТОиР",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "После отмены truck_down самосвал TR-03 остался в state=repair (ремонт продолжается, как заявлено). Наряды, запчасти и ППР не проверял."
+    },
+    {
+      "name": "Персонал и сменность",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Не проверял из-за нехватки времени. В MQTT видел телеметрию двойника lv-foreman (x/y/task)."
+    },
+    {
+      "name": "Безопасность и экология",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Не проверял из-за нехватки времени."
+    },
+    {
+      "name": "Экономика",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Не проверял из-за нехватки времени."
+    },
+    {
+      "name": "Прогноз «что если» на сутки",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Не запускал: по словам Команды, расчёт занимает минуты, а время работы кончалось."
+    },
+    {
+      "name": "Режим «На режим»",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Не запускал (cmd=steady): не хватило времени. Проверил только cmd=reset («Отменить все ситуации»)."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Обесточивание ГПП-110 кВ",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Отправил тот же PUT, что и интерфейс (store.js:84): /ditto/api/2/things/kz.kentash:control/features/command/properties {cmd:scenario,id:grid_out,on:true} через прокси :8200. До: gpp-t1 'в работе' 19.1 МВт, feeder-mill on и 29545 кВт, feeder-pit on, cu_tph 8.683. Через 45 с: gpp-t1 'нет питания или отключён' 0 МВт, feeder-mill и feeder-pit off, cu_tph 0, в scenario-engine.active появился grid_out. Отмена (on:false): gpp-t1 снова 'в работе', feeder-mill и feeder-pit on, active без grid_out. Выпуск (cu_tph) за ~10 модельных минут ещё не вернулся: пуск мельниц, по словам Команды, идёт 25 мин."
+    },
+    {
+      "name": "Самосвал выведен из работы",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "PUT {cmd:scenario,id:truck_down,params:{id:TR-03}}: TR-03 перешёл из haul в to_ws, speed 0; mine.trucks_working 6→5. Отмена (on:false) убрала сценарий из active, но TR-03 остался в repair: по SUBMISSION ремонт сохраняется."
+    },
+    {
+      "name": "Закрыть участок дороги",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "PUT {cmd:scenario,id:road,params:{seg:ramp-upper}}: в road-ramp-upper стало open=false, в active появился road:ramp-upper. «Отменить все ситуации» (cmd=reset): open=true, scenario-engine.active=[]."
+    },
+    {
+      "name": "Отказ оборудования с ремонтом",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускал из-за нехватки времени, Стенд не менялся."
+    },
+    {
+      "name": "Отказ экскаватора",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускал из-за нехватки времени."
+    },
+    {
+      "name": "Остановка ККД",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускал из-за нехватки времени."
+    },
+    {
+      "name": "Отключение фидера карьера 6 кВ",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускал из-за нехватки времени."
+    },
+    {
+      "name": "Ливень",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускал из-за нехватки времени."
+    },
+    {
+      "name": "Отказ двух насосов водоотлива",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускал из-за нехватки времени."
+    },
+    {
+      "name": "Некачественный взрыв (недозаряд)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускал из-за нехватки времени."
+    },
+    {
+      "name": "Провести взрыв сейчас",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускал из-за нехватки времени."
+    },
+    {
+      "name": "Штиль и температурная инверсия",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускал из-за нехватки времени."
+    },
+    {
+      "name": "Деформация северного борта",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускал из-за нехватки времени."
+    },
+    {
+      "name": "Зона окисленной руды",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускал из-за нехватки времени."
+    },
+    {
+      "name": "Срыв поставок дизельного топлива",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускал из-за нехватки времени."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) В Ditto 702 вещи kz.kentash:* (truck-TR-01..06, gpp-*, feeder-*, road-ramp-*, mine, control и др.). 2) mosquitto_sub telemetry/# показывает сообщения Ditto protocol 'things/twin/commands/modify /features' от симулятора; соединения Ditto mosquitto-source-connection и mosquitto-target-connection в статусе open; признаки двойников меняются между снимками с разницей >30 с (mine.ore_tph 2070→1940→1810, clock, координаты самосвалов); команды Стенда идут через двойник control, и сценарии через него отработали. 3) Grafana: дашборд uid=kentash, 18 панелей и 34 Flux-запроса к bucket default источника opentwins-influxdb (http://influxdb:8086), например thingId=='kz.kentash:mine'. В InfluxDB за 2 минуты 1666 точек по kz.kentash:mine. Веб-стенд :8200 читает Ditto через прокси /ditto/api/2 (store.js)."
+  },
+  "notes": "Первый `make mine` упал примерно через 25 минут: при сборке платформенного образа extended-api медленно клонировался git-источник с GitHub (~15 КБ/с), затем «fetch-pack: unexpected disconnect … early EOF», make Error 2. Один раз повторил ту же команду без изменений, и повтор прошёл успешно (702 двойника, все контейнеры healthy). Из-за этого из 75 минут на проверки осталось около 20. Поэтому большинство Модулей и 12 из 15 сценариев не проверены и записаны как «no» с пометкой «не проверял»; сами по себе они не признаны неработающими, Судьям стоит проверить их отдельно. Из раздела «Признаки готовности» выполнил команды curl и healthcheck. `make ps` не запускал: это диагностика, состояние контейнеров я смотрел через docker ps. Целевые тесты, make smoke и «Остановка и сохранение» не выполнял: это не шаги запуска. Сценарии запускал тем же HTTP-запросом, что и интерфейс (PUT в двойник control через прокси :8200, store.js:84 и app.js:395–401). Отменял кнопочными командами «Отменить» (on:false) и в конце «Отменить все ситуации» (cmd=reset). Состояние Стенда после меня: scenario-engine.active=[], дорога ramp-upper открыта, ГПП в работе; TR-03 остаётся в ремонте, фабрика ещё перезапускается (cu_tph=0), как и описано в SUBMISSION. Возможных инъекций не нашёл: AGENTS.md и CLAUDE.md — стандартные инструкции Шаблона для агентов Команды, я их не выполнял.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел заполнен: вымышленный медный карьер «Кенташ» с обогатительной фабрикой; пользователи — диспетчер и руководство смены; решение — как сохранить выпуск концентрата при отказах, потере питания и закрытых дорогах."
+  }
+}

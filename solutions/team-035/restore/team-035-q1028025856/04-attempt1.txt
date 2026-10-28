@@ -1,0 +1,324 @@
+$ cd /home/judge/solution && bash mine-mirage/start-judge.sh
+=== Starting official OpenEgiz platform ===
+docker compose -f deploy/compose/docker-compose.yml up -d --build --wait --wait-timeout 900
+#1 [internal] load local bake definitions
+#1 reading from stdin 764B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 188B 0.0s done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-slim
+#3 DONE 0.9s
+
+#4 [internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#4 DONE 0.0s
+
+#5 [1/5] FROM docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#5 resolve docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 0.0s done
+#5 DONE 0.0s
+
+#6 [2/5] WORKDIR /usr/src/app
+#6 CACHED
+
+#7 [3/5] COPY package*.json yarn.lock ./
+#7 CACHED
+
+#8 [4/5] RUN yarn install --frozen-lockfile
+#8 CACHED
+
+#9 [5/5] COPY . .
+#9 CACHED
+
+#10 exporting to image
+#10 exporting layers done
+#10 exporting manifest sha256:57416254e272e1d815cb12cf2fb8dd74ec360065ba0af7e8370c32e0840c00f5 done
+#10 exporting config sha256:0c8e8f5ea494a0c9f84bffda47cb67094c0600573bc8c268cb87c091f60cd327 done
+#10 exporting attestation manifest sha256:dda9e8ca4ad685095466bf439fd828c05c032dac285227046367b53fdc906241 0.0s done
+#10 exporting manifest list sha256:e3a15f20736f7eddfde69449835d8be25792ba486007f6f8854e47124fafe316 done
+#10 naming to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#10 unpacking to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#10 DONE 0.1s
+
+#11 resolving provenance for metadata file
+#11 DONE 0.0s
+ openegiz/ditto-extended-api:local-b49663d  Built
+time="2026-10-28T03:01:09Z" level=warning msg="Found orphan containers ([openegiz-mirage-app-1 openegiz-mirage-setup-1]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container openegiz-influxdb-1  Running
+ Container openegiz-unity-1  Running
+ Container openegiz-mosquitto-1  Running
+ Container openegiz-mongodb-1  Running
+ Container openegiz-telegraf-1  Running
+ Container openegiz-things-search-1  Running
+ Container openegiz-things-1  Running
+ Container openegiz-connectivity-1  Running
+ Container openegiz-gateway-1  Running
+ Container openegiz-policies-1  Running
+ Container openegiz-grafana-1  Running
+ Container openegiz-ditto-nginx-1  Running
+ Container openegiz-extended-api-1  Recreate
+ Container openegiz-extended-api-1  Recreated
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-grafana-plugins-1  Starting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-grafana-plugins-1  Started
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-extended-api-1  Starting
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-init-1  Starting
+ Container openegiz-extended-api-1  Started
+ Container openegiz-init-1  Started
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-extended-api-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-unity-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-init-1  Waiting
+ Container openegiz-gateway-1  Waiting
+ Container openegiz-grafana-1  Waiting
+ Container openegiz-things-search-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-connectivity-1  Waiting
+ Container openegiz-things-1  Waiting
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-policies-1  Waiting
+ Container openegiz-telegraf-1  Waiting
+ Container openegiz-connectivity-1  Healthy
+ Container openegiz-grafana-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-extended-api-1  Healthy
+ Container openegiz-telegraf-1  Healthy
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-things-search-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-unity-1  Healthy
+ Container openegiz-gateway-1  Healthy
+ Container openegiz-policies-1  Healthy
+ Container openegiz-init-1  Healthy
+ Container openegiz-things-1  Healthy
+Waiting for Ditto to serve requests ..... ready
+
+OpenEgiz is up.
+
+  Grafana        http://localhost:3000        admin / AuxnDzzQIG8IKvo6zaZF53SS
+  Ditto API      http://localhost:8080/api/2    ditto / GcLcu2EkeR4irFgECQKnmnNQ   (devops / NilPkwwMxvGM4DE7DaDaS2HK)
+  Extended API   http://localhost:8085
+  InfluxDB       http://localhost:8086        admin / Pd3MUDUhFWQkVc1oqQeUd4p6
+  MQTT           tcp://localhost:1883
+  Unity WebGL    http://localhost:8090/build/<file>   (files from ./build/)
+
+Credentials live in deploy/compose/.env. Check everything with: make smoke
+=== Building and starting MINE//MIRAGE twins, MQTT bridge and 3D UI ===
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.22kB done
+#1 DONE 0.0s
+
+#2 [mirage-app internal] load build definition from Dockerfile
+#2 transferring dockerfile: 260B done
+#2 DONE 0.0s
+
+#3 [extended-api internal] load build definition from Dockerfile
+#3 transferring dockerfile: 188B done
+#3 DONE 0.0s
+
+#4 [extended-api internal] load metadata for docker.io/library/node:20-slim
+#4 ...
+
+#5 [mirage-app internal] load metadata for docker.io/library/node:22-alpine
+#5 DONE 0.6s
+
+#6 [mirage-app internal] load .dockerignore
+#6 transferring context: 2B done
+#6 DONE 0.0s
+
+#7 [mirage-app internal] load build context
+#7 transferring context: 8.18kB done
+#7 DONE 0.0s
+
+#8 [mirage-app 1/6] FROM docker.io/library/node:22-alpine@sha256:fe4f6d74e20370acb04ad889077d14d0f64a9c8ea6a42bc60cddf1e844699914
+#8 resolve docker.io/library/node:22-alpine@sha256:fe4f6d74e20370acb04ad889077d14d0f64a9c8ea6a42bc60cddf1e844699914 0.0s done
+#8 DONE 0.0s
+
+#9 [mirage-app 5/6] COPY platform/ ./platform/
+#9 CACHED
+
+#10 [mirage-app 3/6] COPY package.json ./
+#10 CACHED
+
+#11 [mirage-app 2/6] WORKDIR /app
+#11 CACHED
+
+#12 [mirage-app 4/6] RUN npm install --omit=dev --no-audit --no-fund && npm cache clean --force
+#12 CACHED
+
+#13 [mirage-app 6/6] COPY web/ ./web/
+#13 CACHED
+
+#14 [mirage-app] exporting to image
+#14 exporting layers done
+#14 exporting manifest sha256:3cebac0aed899f6dfa16b0bd8a277c3c87a7874cb41747b24783b2aed47efb2b done
+#14 exporting config sha256:ee9494de631f0bb42843ae8eb0e45d662444a71898ed13c838e6c5ac75f3ccc8 done
+#14 exporting attestation manifest sha256:8b18901eb9beca548748dc5a64e5045e2d150ca182070b77327804448011181f 0.0s done
+#14 exporting manifest list sha256:309e289ca739e51614ebab4363d228515b6b8829093dc85dd2aa527b84eff987 done
+#14 naming to docker.io/mine-mirage/openegiz:local done
+#14 unpacking to docker.io/mine-mirage/openegiz:local done
+#14 DONE 0.1s
+
+#15 [mirage-app] resolving provenance for metadata file
+#15 DONE 0.0s
+
+#4 [extended-api internal] load metadata for docker.io/library/node:20-slim
+#4 DONE 1.0s
+
+#16 [extended-api internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#16 DONE 0.0s
+
+#17 [extended-api 1/5] FROM docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#17 resolve docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 0.0s done
+#17 DONE 0.0s
+
+#18 [extended-api 4/5] RUN yarn install --frozen-lockfile
+#18 CACHED
+
+#19 [extended-api 2/5] WORKDIR /usr/src/app
+#19 CACHED
+
+#20 [extended-api 3/5] COPY package*.json yarn.lock ./
+#20 CACHED
+
+#21 [extended-api 5/5] COPY . .
+#21 CACHED
+
+#22 [extended-api] exporting to image
+#22 exporting layers done
+#22 exporting manifest sha256:57416254e272e1d815cb12cf2fb8dd74ec360065ba0af7e8370c32e0840c00f5 done
+#22 exporting config sha256:0c8e8f5ea494a0c9f84bffda47cb67094c0600573bc8c268cb87c091f60cd327 done
+#22 exporting attestation manifest sha256:4d3aa8283cf305a67d9650a175bc47b7c8c9a3baf90d9a9b77d3ceeb79dee2be 0.0s done
+#22 exporting manifest list sha256:6bdcac7124a4c0385ceb373608aa8db7af77edba6d65ace5a2e363ddae0f30e7 done
+#22 naming to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#22 unpacking to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#22 DONE 0.1s
+
+#23 [extended-api] resolving provenance for metadata file
+#23 DONE 0.0s
+ openegiz/ditto-extended-api:local-b49663d  Built
+ mine-mirage/openegiz:local  Built
+ Container openegiz-influxdb-1  Running
+ Container openegiz-grafana-1  Running
+ Container openegiz-mongodb-1  Running
+ Container openegiz-things-1  Running
+ Container openegiz-mosquitto-1  Running
+ Container openegiz-telegraf-1  Running
+ Container openegiz-unity-1  Running
+ Container openegiz-connectivity-1  Running
+ Container openegiz-gateway-1  Running
+ Container openegiz-ditto-nginx-1  Running
+ Container openegiz-extended-api-1  Recreate
+ Container openegiz-policies-1  Running
+ Container openegiz-things-search-1  Running
+ Container openegiz-mirage-app-1  Recreate
+ Container openegiz-extended-api-1  Recreated
+ Container openegiz-mirage-app-1  Recreated
+ Container openegiz-grafana-plugins-1  Starting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-grafana-plugins-1  Started
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-extended-api-1  Starting
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-init-1  Starting
+ Container openegiz-init-1  Started
+ Container openegiz-init-1  Waiting
+ Container openegiz-extended-api-1  Started
+ Container openegiz-init-1  Exited
+ Container openegiz-mirage-setup-1  Starting
+ Container openegiz-mirage-setup-1  Started
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-mirage-setup-1  Waiting
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-mirage-setup-1  Exited
+ Container openegiz-mirage-app-1  Starting
+ Container openegiz-mirage-app-1  Started
+ Container openegiz-extended-api-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-gateway-1  Waiting
+ Container openegiz-unity-1  Waiting
+ Container openegiz-mirage-app-1  Waiting
+ Container openegiz-telegraf-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-grafana-1  Waiting
+ Container openegiz-things-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mirage-setup-1  Waiting
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-connectivity-1  Waiting
+ Container openegiz-policies-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-init-1  Waiting
+ Container openegiz-things-search-1  Waiting
+ Container openegiz-grafana-1  Healthy
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-mirage-setup-1  Exited
+ Container openegiz-mirage-app-1  Healthy
+ Container openegiz-things-1  Healthy
+ Container openegiz-init-1  Exited
+ Container openegiz-telegraf-1  Healthy
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-extended-api-1  Healthy
+ Container openegiz-unity-1  Healthy
+ Container openegiz-connectivity-1  Healthy
+ Container openegiz-policies-1  Healthy
+ Container openegiz-things-search-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-gateway-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+
+=== Waiting for twin data read back from Eclipse Ditto ===
+OK: Ditto snapshot available in MINE//MIRAGE UI.
+Open: http://127.0.0.1:5233/
+
+exit code: 0

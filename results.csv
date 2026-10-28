@@ -1,0 +1,95 @@
+rank,team,name,score,ceiling,gpt-6.1-sol,gpt-6-astra,opus-5.5,judges_scored,came_up,built_on_openegiz,injection_verdict,status,judges_not_counted,reason
+1,team-053,Только я,90,,88.75,88.75,92.5,3,True,yes,clean,ranked,,
+2,team-041,Alinkali,89.58,,87.5,87.5,93.75,3,True,yes,clean,ranked,,
+3,team-100,hard skills,89.17,,88.75,88.75,90,3,True,yes,clean,ranked,,
+4,team-046,4SPARTA,85,,86.25,86.25,82.5,3,True,yes,clean,ranked,,
+5,team-082,NomadGeo,84.17,,80,82.5,90,3,True,yes,clean,ranked,,
+6,team-061,DBA,82.08,,81.25,81.25,83.75,3,True,yes,clean,ranked,,
+7,team-038,TwinVision,80.83,,82.5,82.5,77.5,3,True,yes,clean,ranked,,
+8,team-084,Суперкрошки,77.5,,73.75,75,83.75,3,True,yes,clean,ranked,,
+9,team-014,KazSaq METU,75.42,,77.5,71.25,77.5,3,True,yes,clean,ranked,,
+10,team-037,Anilynx,73.33,,68.75,68.75,82.5,3,True,yes,clean,ranked,,
+11,team-087,Didar_RInat,73.33,,68.75,73.75,77.5,3,True,yes,clean,ranked,,
+12,team-011,NETA genius,72.08,,68.75,68.75,78.75,3,True,yes,clean,ranked,,
+13,team-025,alikhvn,72.08,,58.75,81.25,76.25,3,True,yes,clean,ranked,,
+14,team-040,Abzal,71.67,,68.75,75,71.25,3,True,yes,clean,ranked,,
+15,team-064,Tau-Ken Labs,70.83,,68.75,68.75,75,3,True,yes,clean,ranked,,
+16,team-101,KenTwin,70.83,,67.5,67.5,77.5,3,True,yes,clean,ranked,,
+17,team-045,ML,68.33,,65,65,75,3,True,yes,clean,ranked,,
+18,team-065,DeepCore Labs,67.5,,71.25,56.25,75,3,True,yes,clean,ranked,,
+19,team-060,TeamSpirit,66.25,,67.5,68.75,62.5,3,True,yes,clean,ranked,,
+20,team-051,Daniyar,65,,63.75,63.75,67.5,3,True,yes,clean,ranked,,
+21,team-111,Ademix,62.92,,58.75,72.5,57.5,3,True,yes,clean,ranked,,
+22,team-036,dauren,61.67,,65,60,60,3,True,yes,clean,ranked,,
+23,team-034,Ctrl+S,61.25,,56.25,65,62.5,3,True,yes,clean,ranked,,
+24,team-118,MineMind,60,,58.75,62.5,58.75,3,True,yes,clean,ranked,,
+25,team-081,Байтерек,59.17,,61.25,61.25,55,3,True,yes,clean,ranked,,
+26,team-050,Zuma,55,,58.75,58.75,47.5,3,True,yes,clean,ranked,,
+27,team-035,CADNOVA,52.5,,55,45,57.5,3,True,yes,clean,ranked,,
+28,team-002,Forward X,47.5,,48.75,48.75,45,3,True,yes,clean,ranked,,
+29,team-026,Zhanibek Oralbekuly,47.5,,52.5,50,40,3,True,yes,clean,ranked,,
+30,team-077,AURA,43.75,,40,43.75,47.5,3,True,yes,suspicious,ranked,,
+31,team-117,Nova X,40,did_not_come_up,65,65,73.75,3,False,yes,clean,ranked,,
+32,team-058,Zhenisbek,40,not_built_on_openegiz,45,45,31.25,3,True,no,clean,ranked,,
+33,team-106,adixssc,39.58,not_built_on_openegiz,35,35,48.75,3,True,no,suspicious,ranked,,
+34,team-032,ARA-Solution,31.25,did_not_come_up;not_built_on_openegiz,28.75,28.75,36.25,3,False,no,clean,ranked,,
+35,team-018,Scram,20,did_not_come_up;not_built_on_openegiz,22.5,27.5,10,3,False,no,clean,ranked,,
+36,team-030,Жарық,16.25,did_not_come_up;not_built_on_openegiz,18.75,16.25,13.75,3,False,no,clean,ranked,,
+37,team-120,Origami,14.58,did_not_come_up;not_built_on_openegiz,16.25,13.75,13.75,3,False,no,clean,ranked,,
+38,team-092,Nurdilda Maira,10,did_not_come_up;not_built_on_openegiz,10,10,10,3,False,no,clean,ranked,,
+39,team-007,Prime Genesis,3.75,not_built_on_openegiz,3.75,3.75,3.75,3,True,no,clean,ranked,,
+40,team-031,ayv,3.75,did_not_come_up;not_built_on_openegiz,3.75,3.75,3.75,3,False,no,clean,ranked,,
+41,team-075,Karakat,3.75,did_not_come_up;not_built_on_openegiz,3.75,3.75,3.75,3,False,no,clean,ranked,,
+42,team-089,Ерасыл,3.75,not_built_on_openegiz,3.75,3.75,3.75,3,True,no,clean,ranked,,
+43,team-122,Серики,3.75,did_not_come_up;not_built_on_openegiz,3.75,3.75,3.75,3,False,no,clean,ranked,,
+44,team-088,Kaznu23,2.5,not_built_on_openegiz,3.75,3.75,0,3,True,no,clean,ranked,,
+45,team-096,Cool Thanks,2.5,not_built_on_openegiz,3.75,3.75,0,3,True,no,clean,ranked,,
+46,team-112,Shansharkhan Zhandos,0,,0,0,0,3,True,yes,clean,ranked,,
+,team-001,erkevibe,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-003,Abosh,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-005,Soup,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-006,yefinity,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-008,KENSHI,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-009,Matcha Club,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-010,Karately,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-012,Great ginger,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-013,Fix,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-015,POPRIKOLU,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-016,IDA,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-017,Miras,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-019,Winner,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-020,TagleD,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-021,Sozaq,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-022,Nova,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-023,AutoDev,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-027,Rasul,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-028,Bonnie and Claude,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-029,Консилиум ZLA,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-033,Solo,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-039,Всемогущие,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-043,EarthAI,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-044,Huibo robotics,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-047,Verszachee,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-048,SmartMine AI,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-049,MIMISIDE,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-052,TERENGIZ,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-054,Цифровой Ангел,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-055,Hope,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-062,/.dev,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-063,Bondarev,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-078,Рудный,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-079,Набиев Рахымжан,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-085,Яблочник,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-086,ArkLight,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-090,Dream team,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-091,DamnIT,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-095,Cool Tanks,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-097,Team Zhandos,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-103,DoubleTwink,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-104,НД,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-105,Metrica,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-110,Айым,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-113,Шайхслам Ақбота,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-114,OneSpirit,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-116,Dream team,0,,,,,0,,,,empty,,no work: identical to a Template version
+,team-119,DIKO,0,,,,,0,,,,empty,,no work: identical to a Template version

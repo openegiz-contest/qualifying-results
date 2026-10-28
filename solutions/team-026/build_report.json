@@ -1,0 +1,142 @@
+{
+  "team": "team-026",
+  "sha": "fe88be31b9d1f5468156a7970d6661db0342d9c6",
+  "started_at": "2026-10-27T10:35:58+00:00",
+  "finished_at": "2026-10-27T10:43:50+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update",
+      "command": "cd /home/judge/solution && sudo apt-get update",
+      "exit_code": 0,
+      "duration_s": 7.9,
+      "log": "logs/01-sudo-apt-get-update.txt"
+    },
+    {
+      "readme_step": "sudo apt-get install -y make",
+      "command": "cd /home/judge/solution && sudo apt-get install -y make",
+      "exit_code": 0,
+      "duration_s": 3.0,
+      "log": "logs/02-sudo-apt-get-install-y-make.txt"
+    },
+    {
+      "readme_step": "make mineguard",
+      "command": "cd /home/judge/solution && make mineguard",
+      "exit_code": 0,
+      "duration_s": 263.0,
+      "log": "logs/03-make-mineguard.txt"
+    },
+    {
+      "readme_step": "docker compose --env-file deploy/compose/.env -f deploy/compose/docker-compose.yml -f examples/mine/compose.yml -f mineguard/compose.yml run --rm --no-deps --entrypoint python mineguard-ai -m unittest discover -s /app/tests -v",
+      "command": "cd /home/judge/solution && docker compose --env-file deploy/compose/.env -f deploy/compose/docker-compose.yml -f examples/mine/compose.yml -f mineguard/compose.yml run --rm --no-deps --entrypoint python mineguard-ai -m unittest discover -s /app/tests -v",
+      "exit_code": 0,
+      "duration_s": 2.7,
+      "log": "logs/04-docker-compose-env-file-deploy-compose-e.txt"
+    },
+    {
+      "readme_step": "curl -fsS http://localhost:8501/_stcore/health",
+      "command": "cd /home/judge/solution && curl -fsS http://localhost:8501/_stcore/health",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/05-curl-fss-http-localhost-8501-stcore-heal.txt"
+    },
+    {
+      "readme_step": "make mineguard-check",
+      "command": "cd /home/judge/solution && make mineguard-check",
+      "exit_code": 0,
+      "duration_s": 2.7,
+      "log": "logs/06-make-mineguard-check.txt"
+    },
+    {
+      "readme_step": "RUN_TESTS=1 make mineguard-smoke",
+      "command": "cd /home/judge/solution && RUN_TESTS=1 make mineguard-smoke",
+      "exit_code": 0,
+      "duration_s": 6.3,
+      "log": "logs/07-run-tests-1-make-mineguard-smoke.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 16 of 20 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 16 of 20 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Live AI Fleet",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Контейнер openegiz-mineguard-ai-1 работает и подписан на telemetry/+. Двойник org.mineguard.team026:live-truck-01 за 35 с сменился так: state returning→hauling, payload_t 0→90, risk_score 0→25, updated_utc 10:41:30→10:42:06. Он повторяет org.openegiz.mine:truck-01. Публикация идёт через MQTT topic telemetry/mg026-live-truck-*. В InfluxDB за 15 мин 146 точек mineguard_ml (risk_score max 25, ml_scored=1, есть score), за 10 мин по ~640 точек Telegraf на live-truck-01/02. Дашборд Grafana uid team026-mineguard существует. Его панели Risk Score и ML-аномалии читают measurement mineguard_ml, который monitor.py пишет в InfluxDB напрямую. Панели груза и топлива читают данные Telegraf по org.openegiz.mine:truck-0x. За время проверки аномалий не было (anomaly max 0)."
+    },
+    {
+      "name": "2D Connected Mine",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "В Ditto есть 9 двойников org.mineguard.team026 (pit-01, loader-01, truck-01/02, haul-road-01, crusher-01, fuel-bay-01, live-truck-01/02) с attributes.connected_to. Streamlit на :8501 отвечает (/_stcore/health ok, / 200). В коде what_if_app.py:147,172 карта читает twins через read_twin_values (Ditto HTTP). Саму SVG-карту без браузера проверить нельзя: Streamlit отдаёт её через websocket."
+    },
+    {
+      "name": "ML atypical trip",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Это расчёт во вкладке Safety Streamlit, без браузера его не открыть. В контейнере прошли тесты test_shipped_model_detects_known_outlier и test_shipped_model_detects_known_haul_outlier. Живой монитор применяет IsolationForest: 78 точек со score в InfluxDB, в логах 78 строк ML-оценки."
+    },
+    {
+      "name": "Evidence export",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Это st.download_button в Streamlit (what_if_app.py:304). Его HTTP-эндпоинта нет, без браузера выгрузку JSON проверить не удалось."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Overload / low fuel («Перегрузка + мало топлива»)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Сценарий запускается только кнопкой Streamlit «Применить AFTER в Ditto». Streamlit передаёт нажатие через websocket, отдельного HTTP-запроса для curl в коде нет, поэтому сценарий не запускал. Стенд не менялся."
+    },
+    {
+      "name": "Slippery road («Скользкая дорога»)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Кнопку UI нажать нельзя (Streamlit websocket). Тот же путь публикации запускает команда README `make mineguard-check` (smoke_ditto.py: Scenario road_slowdown_pct=45 при базовых payload 70, fuel 60, speed 25, как в пресете), затем её откат на BASELINE / RESET. По точкам Telegraf из событий Ditto: haul-road-01.slowdown_pct 0→45→0, pit-01.shift_tonnes 3920→2380→3920 (10:42:40 и 10:42:48). Скрипт вывел «PASS — all 7 linked twin states read back from Ditto» и «baseline restored». После отката: haul-road-01 state=open, slowdown 0, effective_speed 25; pit-01 mode='BASELINE / RESET', 3920 t."
+    },
+    {
+      "name": "Crusher congestion («Очередь на дробилке»)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Запуск только кнопкой Streamlit через websocket, HTTP-запроса нет, сценарий не запускал. crusher-01 остался в базовом режиме: state crushing, dump_delay_seconds 0."
+    },
+    {
+      "name": "Truck repair («Ремонт одного самосвала»)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Запуск только кнопкой Streamlit через websocket, HTTP-запроса нет, сценарий не запускал. Стенд не менялся."
+    },
+    {
+      "name": "Low fuel / refuel («Низкий уровень топлива»)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Запуск только кнопкой Streamlit через websocket, HTTP-запроса нет, сценарий не запускал. Стенд не менялся."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) В Ditto /api/2/search/things 14 вещей: 9 org.mineguard.team026:* и 5 org.openegiz.mine:*. 2) Соединение mosquitto-source-connection открыто (connectionStatus open, telemetry/#). live-truck-01 за 35 с изменился: payload_t 0→90, state returning→hauling. monitor.py и ditto_bridge.py публикуют Ditto-протокол в MQTT telemetry/mg026-*, а по REST только создают и читают двойники. Telegraf пишет события этих двойников в InfluxDB (~640 точек на live-truck за 10 мин). 3) Streamlit читает двойники из Ditto HTTP API (what_if_app.py:147,172). 4 из 6 панелей Grafana читают данные Telegraf по Ditto-двойникам. Оговорка: 2 панели Grafana (Risk Score, ML-аномалии) читают measurement mineguard_ml, который monitor.py пишет в InfluxDB напрямую, мимо Ditto. Те же risk_score и anomaly одновременно уходят через MQTT в двойники live-truck-*."
+  },
+  "notes": "Все шаги README прошли с первого раза, повторов не было. sudo apt-get install make выполнен, потому что этого требует сам README. Хостовую команду `python3 -m unittest discover -s mineguard/tests -v` не запускал: README сразу пишет, что на образе судьи локальные зависимости не нужны, и даёт вместо неё команду в контейнере. Её я выполнил: 34/34 OK. Опциональные проверки `make mineguard-check` и `RUN_TESTS=1 make mineguard-smoke` прошли (PASS). Они публикуют сценарий «мокрая дорога» и откатывают его на BASELINE / RESET. Поэтому двойники-песочницы после меня в режиме 'BASELINE / RESET' (pit-01 3920 t, truck-01 payload 70), а не в начальном seed-состоянии (shift_tonnes 0). Это штатный базовый режим Команды. Сценарии запускаются только кнопками Streamlit через websocket, HTTP-запросов для curl нет, поэтому через UI я их не запускал. Монитор пишет mineguard_ml в InfluxDB напрямую, мимо Ditto (это видно и в архитектуре README), но основные данные идут через MQTT→Ditto. Возможных инъекций не обнаружено.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел описывает учебный транспортный участок карьера (погрузчик, два 90-т самосвала, дорога 3,2 км, дробилка, заправка); пользователи — диспетчер и инженер по промбезопасности, решение — компромисс между добычей и безопасностью."
+  }
+}

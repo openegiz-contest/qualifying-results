@@ -1,0 +1,140 @@
+{
+  "team": "team-064",
+  "sha": "aafaa9968d01c25d388c63f1ea0e4898cdbaf4b6",
+  "started_at": "2026-10-27T19:50:46+00:00",
+  "finished_at": "2026-10-27T20:04:31+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update",
+      "command": "cd /home/judge/solution && sudo apt-get update",
+      "exit_code": 0,
+      "duration_s": 7.0,
+      "log": "logs/01-sudo-apt-get-update.txt"
+    },
+    {
+      "readme_step": "sudo apt-get install -y make",
+      "command": "cd /home/judge/solution && sudo apt-get install -y make",
+      "exit_code": 0,
+      "duration_s": 2.8,
+      "log": "logs/02-sudo-apt-get-install-y-make.txt"
+    },
+    {
+      "readme_step": "make aktogay",
+      "command": "cd /home/judge/solution && make aktogay",
+      "exit_code": 0,
+      "duration_s": 124.0,
+      "log": "logs/03-make-aktogay.txt"
+    },
+    {
+      "readme_step": "make test-aktogay",
+      "command": "cd /home/judge/solution && make test-aktogay 2>&1 | tail -15",
+      "exit_code": 0,
+      "duration_s": 1.9,
+      "log": "logs/04-make-test-aktogay.txt"
+    },
+    {
+      "readme_step": "bash scripts/verify-aktogay.sh",
+      "command": "cd /home/judge/solution && bash scripts/verify-aktogay.sh",
+      "exit_code": 0,
+      "duration_s": 14.0,
+      "log": "logs/05-bash-scripts-verify-aktogay-sh.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 14 of 17 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 14 of 17 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Haulage and dispatch",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Двойники Ditto org.aktogay:truck-01..08, shovel-01/02, road-main/north, dispatcher-01 меняются: truck-03 был loaded_haul (route_position 0.35, trips_total 0), через 35 с стал queue_at_shovel (trips_total 2); у dispatcher-01 decision_count растёт 43→133, last_decision вида 'HT-08 to face-west: adaptive dispatch; target 0.34% Cu'; у дорог видны очереди и occupancy, у экскаваторов — utilization и bucket_capacity."
+    },
+    {
+      "name": "ROM, crushing and plant",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "rom-01 level 6970→7541 т за 35 с, crusher-01 throughput около 3142–3170 т/ч, tonnes_total растёт; concentrator-01 recovery около 90 %, concentrate_rate около 39 т/ч; ограничение мощности: substation-01 при 45 МВт даёт feed 2142.86 т/ч (=45000/21); на mine-01 mass_balance_error 0. В Grafana-дашборде aktogay-shift-twin панель ROM inventory из InfluxDB вернула 270 точек за 5 мин."
+    },
+    {
+      "name": "Paired decision experiment",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "POST /api/compare {id:crusher-outage}: в Ditto mine-01/features/operator_state появился comparison (horizon 60 мин; baseline: processed_t 3155, feed 3157 т/ч; alternative: processed_t 0, rom_t 10945). Скрипт verify-aktogay.sh: PASS 'Paired forecast returns through Ditto' и 'Matched dispatch experiment confirmed through Ditto'."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Crusher outage",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "POST /api/scenario {id:crusher-outage} (запрос кнопки Run selected scenario из ui.js). До: crusher-01 running, 3151 т/ч; rom-01 7746 т. После: crusher-01 state fault, throughput 0; concentrator-01 'no feed', feed_rate 0; rom-01 9530 т. Отмена {id:baseline} (кнопка Restore normal conditions): crusher-01 running, 3157 т/ч; mine-01 scenario=baseline."
+    },
+    {
+      "name": "Truck breakdown",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "До: truck-03 loading, payload 116; maintenance-crew-01 available. После: truck-03 state maintenance, payload 119.55 сохранён, стоит на месте (через 10 с без изменений); maintenance-crew-01 working, active_job truck-03; dispatcher-01 scenario truck-breakdown. После baseline: truck-03 loading, trips_total 5→6; бригада available."
+    },
+    {
+      "name": "Main road closure",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "До: road-main open, у road-north admitted_loaded 0. После: road-main 'closed; committed trips clearing', occupancy 0; road-north occupancy 7, admitted_loaded 8; все 8 грузовиков на route road-north; dispatcher-01 active_route road-north. После baseline: road-main open, все грузовики снова на road-main."
+    },
+    {
+      "name": "Power curtailment",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "До: substation-01 available_power 75, state normal; concentrator-01 feed 3170 т/ч. После: available_power 45, state curtailed, plant_demand 45.0; feed 2142.86 т/ч. После baseline: 75 МВт, normal; feed 3171 т/ч."
+    },
+    {
+      "name": "Low-grade F2",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "До: face-east grade 0.39. После: face-east grade 0.18; dispatcher-01 направлял грузовики на face-west; изменение сортности ROM небольшое (0.35→0.34, смешение идёт с задержкой, как заявлено). После baseline: face-east grade 0.39."
+    },
+    {
+      "name": "Shovel outage",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "До: shovel-02 loading, 2003 т/ч; shovel-01 available. После: shovel-02 state fault, payload_rate 0; shovel-01 loading на face-west (truck-07). После baseline: shovel-02 loading, 1882 т/ч."
+    },
+    {
+      "name": "Road congestion",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "До: road-main capacity_per_lane 36, waiting 0. После: capacity_per_lane 12, waiting 3, затем 4. После baseline: capacity_per_lane 36, waiting 0."
+    },
+    {
+      "name": "Hard F3",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "До: face-north hardness 15.0. После: face-north hardness 20.0; dispatcher-01 направлял на face-east, так что F3 обходится. Влияния на завод за 25 с не видно (Команда сама предупреждает, что оно может быть малым). После baseline: hardness 15.0."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) В Ditto /api/2/search/things — 29 вещей org.aktogay:* (mine-01, забои, дороги, truck-01..08, shovel-01/02, crusher-01, rom-01, concentrator-01, substation-01 и др.). 2) Соединение mosquitto-source-connection (mqtt-5, topic telemetry/#) — connectionStatus open; mosquitto_sub получает telemetry/face-west и др. в формате Ditto Protocol modify; признаки двойников меняются между снимками через 35 с (rom-01 level 6970→7541, у truck-03 изменились state и trips_total). 3) Сервис aktogay-mine публикует в MQTT и читает состояние обратно из Ditto (GET things/org.aktogay:mine-01, признак operator_state). /api/state отдаёт transport source=eclipse-ditto, fresh=true. Дашборд Grafana aktogay-shift-twin берёт данные из InfluxDB opentwins-influxdb (bucket default, thingId org.aktogay:*), куда их пишет Telegraf из событий Ditto (topic opentwins/twin/events/..., originator nginx:ditto). Запрос панели вернул 270 точек."
+  },
+  "notes": "Все шаги README прошли с первой попытки, повторов не было. make и apt-get update выполнены, потому что README сам велит их установить. make test-aktogay: 31 тест OK. bash scripts/verify-aktogay.sh: все проверки PASS, скрипт перезаписал docs/evidence/stand-report.json, как и описано в README. Выбор при неоднозначности: кнопки интерфейса (Start Simulation, Run selected scenario, Restore normal conditions) я выполнял запросами curl, найденными в team/aktogay/static/ui.js: POST /api/control {action:start}, POST /api/scenario {id}, POST /api/scenario {id:baseline}. Состояние Стенда после проверки: симуляция запущена (status running) в режиме baseline, все 8 сценариев отменены. Инструкции для ИИ в AGENTS.md/CLAUDE.md обращены к агентам Команды, а не к Сборщику, и попыток повлиять на проверку в них нет. Возможных инъекций не обнаружено.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел — одна сульфидная линия реального рудника Актогай (забои, откатка, ROM, дробилка, обогатительная фабрика). Пользователь — сменный диспетчер, решение — как перераспределять самосвалы и шихту после отказов, чтобы питание фабрики оставалось стабильным."
+  }
+}

@@ -1,0 +1,11 @@
+PASS source=eclipse-ditto; twins=11; frontend contract=complete
+PASS baseline: road open, 25 km/h, crusher 900 t/h
+PASS smart dispatch: 4 trucks cycling, 2 parked on standby
+PASS truck_breakdown: HT-01 stopped at 0 km/h; face_bound lane affected, opposing lane open
+PASS road_closure: road and moving trucks restricted to 10.72 km/h
+PASS crusher_slowdown: constrained at 495 t/h
+PASS smart + baseline: required=4, cycling=4, standby=2
+PASS smart + truck_breakdown: required=4, cycling=4, standby=1
+PASS smart + road_closure: required=8, cycling=6, standby=0
+PASS smart + crusher_slowdown: required=3, cycling=3, standby=3
+PASS reset: no stale breakdown/blockage state

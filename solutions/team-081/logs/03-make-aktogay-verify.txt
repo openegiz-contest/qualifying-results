@@ -1,0 +1,47 @@
+Twins in Ditto
+  PASS  43 twins in namespace kz.aktogay (expected 43)
+  PASS  trucks move: 3 of 4 sampled trucks changed position in 6 s
+        shift 1 08:14: ore to crusher 0 t, Cu in ore 0.0 t
+
+Stand web interface
+  PASS  http://localhost:8070/ serves the 3D scene
+  PASS  the interface reads the twins from Ditto through its proxy
+
+Telemetry history
+  PASS  truck telemetry reaches InfluxDB via Telegraf
+
+What-if: close the lower East ramp
+  PASS  kz.aktogay:road-ramp-e-lower status: desired 'closed' applied by the simulator and reported back
+  PASS  dispatcher recalculated the end-of-shift forecast
+        forecast 163.9 t Cu, without scenarios 183.7 t Cu, loss 19.8 t Cu; ore to crusher 36251 t (without scenarios 36222 t)
+        reroutes around closed roads so far: 1
+  PASS  undone: kz.aktogay:road-ramp-e-lower status back to 'open'
+
+What-if: stop excavator EX-01
+  PASS  kz.aktogay:ex-01 status: desired 'down' applied by the simulator and reported back
+  PASS  dispatcher recalculated the end-of-shift forecast
+        forecast 142.6 t Cu, without scenarios 184.1 t Cu, loss 41.5 t Cu; ore to crusher 28819 t (without scenarios 36551 t)
+  PASS  dispatcher sends no empty truck to the stopped EX-01
+  PASS  undone: kz.aktogay:ex-01 status back to 'up'
+
+What-if: stop the primary crusher
+  PASS  kz.aktogay:crusher status: desired 'down' applied by the simulator and reported back
+  PASS  dispatcher recalculated the end-of-shift forecast
+        forecast 208.7 t Cu, without scenarios 186.7 t Cu, loss -22.0 t Cu; ore to crusher 221 t (without scenarios 35724 t)
+  PASS  sulphide ore is routed to the ROM stockpile while the crusher is down
+  PASS  undone: kz.aktogay:crusher status back to 'up'
+
+What-if: truck HT-03 breaks down
+  PASS  kz.aktogay:ht-03 status: desired 'down' applied by the simulator and reported back
+  PASS  dispatcher recalculated the end-of-shift forecast
+        forecast 170.4 t Cu, without scenarios 181.1 t Cu, loss 10.7 t Cu; ore to crusher 35476 t (without scenarios 35583 t)
+  PASS  fleet twin counts the truck as down
+  PASS  undone: kz.aktogay:ht-03 status back to 'up'
+
+What-if: dispatcher off: fixed truck allocation
+  PASS  kz.aktogay:dispatcher mode: desired 'fixed' applied by the simulator and reported back
+  PASS  dispatcher recalculated the end-of-shift forecast
+        forecast 169.1 t Cu, without scenarios 180.5 t Cu, loss 11.4 t Cu; ore to crusher 35679 t (without scenarios 35632 t)
+  PASS  undone: kz.aktogay:dispatcher mode back to 'dynamic'
+
+ALL CHECKS PASSED

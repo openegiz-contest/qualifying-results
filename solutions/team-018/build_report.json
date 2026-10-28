@@ -1,0 +1,150 @@
+{
+  "team": "team-018",
+  "sha": "809470a515f7974759c4a23dc8403206c53256cc",
+  "started_at": "2026-10-27T11:05:36+00:00",
+  "finished_at": "2026-10-27T11:07:27+00:00",
+  "came_up": false,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update && sudo apt-get install -y make curl jq",
+      "command": "cd /home/judge/solution && sudo apt-get update && sudo apt-get install -y make curl jq",
+      "exit_code": 0,
+      "duration_s": 14.0,
+      "log": "logs/01-sudo-apt-get-update-sudo-apt-get-install.txt"
+    },
+    {
+      "readme_step": "cd team-018-main",
+      "command": "cd /home/judge/solution && cd team-018-main",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/02-cd-team-018-main.txt"
+    },
+    {
+      "readme_step": "bash scripts/compose-env.sh",
+      "command": "cd /home/judge/solution && cd team-018-main && bash scripts/compose-env.sh; ls -la deploy/compose/.env; cat compose.yml",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/03-bash-scripts-compose-env-sh.txt"
+    },
+    {
+      "readme_step": "docker compose up -d --build",
+      "command": "cd /home/judge/solution && cd team-018-main && docker compose up -d --build",
+      "exit_code": 1,
+      "duration_s": 0,
+      "log": "logs/04-docker-compose-up-d-build.txt"
+    },
+    {
+      "readme_step": "docker compose up -d --build",
+      "command": "cd /home/judge/solution && cd team-018-main && docker compose up -d --build",
+      "exit_code": 1,
+      "duration_s": 0,
+      "log": "logs/05-docker-compose-up-d-build.txt"
+    },
+    {
+      "readme_step": "until curl -sf http://localhost:8080/health >/dev/null; do sleep 3; done",
+      "command": "cd /home/judge/solution && until curl -sf http://localhost:8080/health >/dev/null; do sleep 3; done",
+      "exit_code": -1,
+      "duration_s": 40.0,
+      "log": "logs/06-until-curl-sf-http-localhost-8080-health.txt"
+    },
+    {
+      "readme_step": "curl -f http://localhost:8080/health && echo \"OpenEgiz Stand is Healthy!\"",
+      "command": "cd /home/judge/solution && curl -f http://localhost:8080/health && echo \"OpenEgiz Stand is Healthy!\"",
+      "exit_code": 7,
+      "duration_s": 0.2,
+      "log": "logs/07-curl-f-http-localhost-8080-health-echo-o.txt"
+    },
+    {
+      "readme_step": "curl -f http://localhost:8080/health && echo \"OpenEgiz Stand is Healthy!\"",
+      "command": "cd /home/judge/solution && curl -f http://localhost:8080/health && echo \"OpenEgiz Stand is Healthy!\"",
+      "exit_code": 7,
+      "duration_s": 0.2,
+      "log": "logs/08-curl-f-http-localhost-8080-health-echo-o.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": false,
+      "evidence": "docker ps -a: 0 of 0 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": false,
+      "evidence": "docker ps -a: nothing running (0 of 0 containers running)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Trolley-Assist & BESS Microgrid (TrolleyEnergyManager)",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Решение не поднялось: `docker compose up -d --build` дважды завершился ошибкой «services.grafana conflicts with imported resource», `docker ps -a` пуст, Grafana :3000 и Ditto :8080 не отвечают."
+    },
+    {
+      "name": "Adaptive EKF-PID Grade Blending Dispatcher (GradeBlendingController)",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Решение не поднялось (compose падает с «services.grafana conflicts with imported resource»), контейнеров нет, проверить панели и двойники нельзя."
+    },
+    {
+      "name": "ISO 3450 Wet Friction & TKPH Tire Monitor (TkphThermalProtector)",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Решение не поднялось, контейнеров нет, Grafana и Ditto недоступны."
+    },
+    {
+      "name": "Gyratory Crushing & Standby Unit (CrusherProtectionUnit)",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Решение не поднялось, контейнеров нет, двойник crusher-01 в Ditto проверить нельзя."
+    },
+    {
+      "name": "Pit Sump Dewatering & ATS Protection (DewateringController)",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Решение не поднялось, контейнеров нет, двойник pump-station-01 проверить нельзя."
+    },
+    {
+      "name": "Sensor Degradation & Health Diagnostics (SensorDegradationSimulator)",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Ditto REST API (:8080) недоступен (curl: (7) Failed to connect), фичу sensor_diagnostics проверить нельзя."
+    },
+    {
+      "name": "Concentrator Comminution & Financial Engine (SmartKenishModel)",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Решение не поднялось, Grafana-панели 3/26/27/32 недоступны, контейнеров нет."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Scenario 1: Catenary Power Fault (trolley-fault)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускался: Стенд не поднялся (compose падает с «services.grafana conflicts with imported resource», контейнеров нет), менять нечего."
+    },
+    {
+      "name": "Scenario 2: Tramp Metal Ingestion in Primary Crusher (crusher-fault)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускался: Стенд не поднялся, контейнеров нет."
+    },
+    {
+      "name": "Scenario 3: Deep Pit Horizon -60m Aquifer Inrush (water-influx)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускался: Стенд не поднялся, контейнеров нет."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "no",
+    "evidence": "На Стенде подтвердить не удалось: `docker compose up -d --build` (из team-018-main, по README) дважды упал с «services.grafana conflicts with imported resource» (team/compose.yml переопределяет сервис grafana из подключённого через include deploy/compose/docker-compose.yml). `docker ps -a` пуст, Ditto :8080 не отвечает, поэтому ни двойников в Ditto, ни изменения данных, ни соединений MQTT наблюдать нельзя. По коду намерение правильное: team/simulator.py публикует сообщения Ditto Protocol через paho-mqtt в mosquitto, team-setup создаёт двойники через ditto-nginx, а team/dashboard.json упоминает influx 122 раза. Но условие требует, чтобы это наблюдалось на Стенде."
+  },
+  "notes": "Решение не поднялось. Шаги README выполнены по порядку. «cd team-018-main» сначала выполнен отдельным вызовом. Поскольку отдельный вызов не сохраняет каталог, в следующих командах я добавлял `cd team-018-main` перед командой README: это самое буквальное прочтение последовательности шагов. Отклонение: в вызов с `bash scripts/compose-env.sh` я по ошибке дописал разведочные `ls -la deploy/compose/.env; cat compose.yml`. Команда README в нём выполнена без изменений и создала .env. `docker compose up -d --build` упал с ошибкой «services.grafana conflicts with imported resource», повтор без изменений упал так же. Шаг healthcheck `until curl ...` запущен в фоне и не мог завершиться, потому что сервис так и не появился. Позже я пытался остановить этот цикл через pkill, но связь с VM на этом вызове оборвалась (exit 255), так что остановился ли он, неизвестно. `curl -f .../health` упал (curl 7), повтор тоже. Раздела «What works and what does not» в SUBMISSION.md нет. Сценарии описаны в разделе 3, отдельно от таблицы Модулей. Корневой SUBMISSION.md совпадает с team-018-main/SUBMISSION.md. Явных инъекций не обнаружено. Строку `.clinerules`, HANDOFF_CLINE.md и .agents/plugins (файлы для агентов Команды) я не выполнял; беглый grep по ключевым словам ничего подозрительного в них не нашёл.\n\nПроверки пайплайна:\n- шаг 6: задание `cd /home/judge/solution && until curl -sf http://localhost:8080/health >/dev/null; do sleep 3; done` не завершилось к концу работы Сборщика\n- шаг «docker compose up -d --build»: упал и при повторе без изменений\n- шаг «until curl -sf http://localhost:8080/health >/dev/null; do sleep 3; done»: упал и не повторён (по правилам упавший шаг повторяется один раз без изменений), шаг не выполнен\n- шаг «curl -f http://localhost:8080/health && echo \"OpenEgiz Stand is Healthy!\"»: упал и при повторе без изменений",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Раздел «1. Concept» описывает ГОК открытой разработки медно-порфировой руды «Ақтау-Мыс» на 12 Mt/a, пользователей (диспетчер, энергетик, технолог, геотехник) и решения, которые двойник помогает принять (шихтовка, троллейвозная откатка, защита шин, эвакуация при FoS<1.15)."
+  }
+}

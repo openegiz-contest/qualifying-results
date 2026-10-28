@@ -1,0 +1,2983 @@
+{
+  "generated_at": "2026-10-28T04:08:23+00:00",
+  "judges": [
+    {
+      "name": "gpt-6.1-sol",
+      "agent": "codex",
+      "model": "gpt-6.1-sol"
+    },
+    {
+      "name": "gpt-6-astra",
+      "agent": "codex",
+      "model": "gpt-6-astra"
+    },
+    {
+      "name": "opus-5.5",
+      "agent": "claude",
+      "model": "claude-opus-5-5"
+    }
+  ],
+  "builder": {
+    "agent": "claude",
+    "model": "claude-opus-5-5"
+  },
+  "ceiling": {
+    "max_total": 40,
+    "triggers": [
+      "did_not_come_up",
+      "not_built_on_openegiz"
+    ]
+  },
+  "removed_judges": [
+    {
+      "judge": "sonnet-5.5",
+      "scored": 44
+    }
+  ],
+  "excluded_judges": [],
+  "rows": [
+    {
+      "rank": 1,
+      "team": "team-053",
+      "name": "Только я",
+      "sha": "c0ad931f9970ba8bf343313d341d50656fe0c5fd",
+      "status": "ranked",
+      "score": 90,
+      "mean_total": 90,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 88.75,
+        "gpt-6-astra": 88.75,
+        "opus-5.5": 92.5
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 62.5
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 25,
+        "behavior": 20,
+        "visualization": 18.75,
+        "scenarios": 10,
+        "modules": 3.75,
+        "concept": 12.5
+      }
+    },
+    {
+      "rank": 2,
+      "team": "team-041",
+      "name": "Alinkali",
+      "sha": "56f1f6962a1bc361ea85f69468ee04c3edc6a15b",
+      "status": "ranked",
+      "score": 89.58,
+      "mean_total": 89.58,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 87.5,
+        "gpt-6-astra": 87.5,
+        "opus-5.5": 93.75
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 87.5
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 25,
+        "behavior": 20,
+        "visualization": 20.83,
+        "scenarios": 7.5,
+        "modules": 5,
+        "concept": 11.25
+      }
+    },
+    {
+      "rank": 3,
+      "team": "team-100",
+      "name": "hard skills",
+      "sha": "9c8b37ff76bcc22d28b76ba459bf15ed8e1cf837",
+      "status": "ranked",
+      "score": 89.17,
+      "mean_total": 89.17,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 88.75,
+        "gpt-6-astra": 88.75,
+        "opus-5.5": 90
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 85
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 25,
+        "behavior": 20,
+        "visualization": 18.75,
+        "scenarios": 10,
+        "modules": 4.17,
+        "concept": 11.25
+      }
+    },
+    {
+      "rank": 4,
+      "team": "team-046",
+      "name": "4SPARTA",
+      "sha": "0c5d346296cbba7a119c0e17d7d2d0384ae44eb8",
+      "status": "ranked",
+      "score": 85,
+      "mean_total": 85,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 86.25,
+        "gpt-6-astra": 86.25,
+        "opus-5.5": 82.5
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 68.75
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 25,
+        "behavior": 18.33,
+        "visualization": 18.75,
+        "scenarios": 7.5,
+        "modules": 4.17,
+        "concept": 11.25
+      }
+    },
+    {
+      "rank": 5,
+      "team": "team-082",
+      "name": "NomadGeo",
+      "sha": "2305b482c94c435ef613fd561839e04cdde70aa7",
+      "status": "ranked",
+      "score": 84.17,
+      "mean_total": 84.17,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 80,
+        "gpt-6-astra": 82.5,
+        "opus-5.5": 90
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 82.5
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 20.83,
+        "behavior": 20,
+        "visualization": 18.75,
+        "scenarios": 9.17,
+        "modules": 4.17,
+        "concept": 11.25
+      }
+    },
+    {
+      "rank": 6,
+      "team": "team-061",
+      "name": "DBA",
+      "sha": "351a1cef4103f1270478251b7ee6afb26ad7173b",
+      "status": "ranked",
+      "score": 82.08,
+      "mean_total": 82.08,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 81.25,
+        "gpt-6-astra": 81.25,
+        "opus-5.5": 83.75
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 65
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 25,
+        "behavior": 15,
+        "visualization": 18.75,
+        "scenarios": 8.33,
+        "modules": 3.75,
+        "concept": 11.25
+      }
+    },
+    {
+      "rank": 7,
+      "team": "team-038",
+      "name": "TwinVision",
+      "sha": "19c03068897fb6b6bb0708cfec86458f9a107d8b",
+      "status": "ranked",
+      "score": 80.83,
+      "mean_total": 80.83,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 82.5,
+        "gpt-6-astra": 82.5,
+        "opus-5.5": 77.5
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 70
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 18.75,
+        "behavior": 18.33,
+        "visualization": 18.75,
+        "scenarios": 10,
+        "modules": 3.75,
+        "concept": 11.25
+      }
+    },
+    {
+      "rank": 8,
+      "team": "team-084",
+      "name": "Суперкрошки",
+      "sha": "c409df5918c286022618a72ed092ec8882f526a0",
+      "status": "ranked",
+      "score": 77.5,
+      "mean_total": 77.5,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 73.75,
+        "gpt-6-astra": 75,
+        "opus-5.5": 83.75
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 76.25
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 18.75,
+        "behavior": 20,
+        "visualization": 14.58,
+        "scenarios": 8.33,
+        "modules": 4.58,
+        "concept": 11.25
+      }
+    },
+    {
+      "rank": 9,
+      "team": "team-014",
+      "name": "KazSaq METU",
+      "sha": "e5152b2774ff687fa27fd70b3a8b94498fd295c4",
+      "status": "ranked",
+      "score": 75.42,
+      "mean_total": 75.42,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 77.5,
+        "gpt-6-astra": 71.25,
+        "opus-5.5": 77.5
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 70
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 18.75,
+        "behavior": 15,
+        "visualization": 16.67,
+        "scenarios": 10,
+        "modules": 3.75,
+        "concept": 11.25
+      }
+    },
+    {
+      "rank": 10,
+      "team": "team-037",
+      "name": "Anilynx",
+      "sha": "76f36ae330944ef2281286c8a11e837a226badbd",
+      "status": "ranked",
+      "score": 73.33,
+      "mean_total": 73.33,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 68.75,
+        "gpt-6-astra": 68.75,
+        "opus-5.5": 82.5
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 65
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 20.83,
+        "behavior": 15,
+        "visualization": 18.75,
+        "scenarios": 5.83,
+        "modules": 4.17,
+        "concept": 8.75
+      }
+    },
+    {
+      "rank": 11,
+      "team": "team-087",
+      "name": "Didar_RInat",
+      "sha": "83f2e276571c2f5b1ce23e351d9f6c5e559cc24d",
+      "status": "ranked",
+      "score": 73.33,
+      "mean_total": 73.33,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 68.75,
+        "gpt-6-astra": 73.75,
+        "opus-5.5": 77.5
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 70
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 18.75,
+        "behavior": 16.67,
+        "visualization": 14.58,
+        "scenarios": 8.33,
+        "modules": 3.75,
+        "concept": 11.25
+      }
+    },
+    {
+      "rank": 12,
+      "team": "team-011",
+      "name": "NETA genius",
+      "sha": "240ac22152457250b3584e011486025f67423142",
+      "status": "ranked",
+      "score": 72.08,
+      "mean_total": 72.08,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 68.75,
+        "gpt-6-astra": 68.75,
+        "opus-5.5": 78.75
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 76.25
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 18.75,
+        "behavior": 20,
+        "visualization": 14.58,
+        "scenarios": 7.5,
+        "modules": 2.5,
+        "concept": 8.75
+      }
+    },
+    {
+      "rank": 13,
+      "team": "team-025",
+      "name": "alikhvn",
+      "sha": "1da99599d28fe34f79b5fcbbca29503d9201aa0c",
+      "status": "ranked",
+      "score": 72.08,
+      "mean_total": 72.08,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 58.75,
+        "gpt-6-astra": 81.25,
+        "opus-5.5": 76.25
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 58.75
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 18.75,
+        "behavior": 16.67,
+        "visualization": 14.58,
+        "scenarios": 8.33,
+        "modules": 2.5,
+        "concept": 11.25
+      }
+    },
+    {
+      "rank": 14,
+      "team": "team-040",
+      "name": "Abzal",
+      "sha": "aaa7227aa9eec61932a8239bee13195db3e612d0",
+      "status": "ranked",
+      "score": 71.67,
+      "mean_total": 71.67,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 68.75,
+        "gpt-6-astra": 75,
+        "opus-5.5": 71.25
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 46.25
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 18.75,
+        "behavior": 15,
+        "visualization": 16.67,
+        "scenarios": 7.5,
+        "modules": 3.75,
+        "concept": 10
+      }
+    },
+    {
+      "rank": 15,
+      "team": "team-064",
+      "name": "Tau-Ken Labs",
+      "sha": "aafaa9968d01c25d388c63f1ea0e4898cdbaf4b6",
+      "status": "ranked",
+      "score": 70.83,
+      "mean_total": 70.83,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 68.75,
+        "gpt-6-astra": 68.75,
+        "opus-5.5": 75
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 75
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 18.75,
+        "behavior": 15,
+        "visualization": 14.58,
+        "scenarios": 7.5,
+        "modules": 3.75,
+        "concept": 11.25
+      }
+    },
+    {
+      "rank": 16,
+      "team": "team-101",
+      "name": "KenTwin",
+      "sha": "a47495b33700346ff24928a6d9b8c3f3b5cebd13",
+      "status": "ranked",
+      "score": 70.83,
+      "mean_total": 70.83,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 67.5,
+        "gpt-6-astra": 67.5,
+        "opus-5.5": 77.5
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 60
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 18.75,
+        "behavior": 15,
+        "visualization": 14.58,
+        "scenarios": 8.33,
+        "modules": 2.92,
+        "concept": 11.25
+      }
+    },
+    {
+      "rank": 17,
+      "team": "team-045",
+      "name": "ML",
+      "sha": "19648147d10f5b2efeb3eeb41a06b746ca04ce7d",
+      "status": "ranked",
+      "score": 68.33,
+      "mean_total": 68.33,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 65,
+        "gpt-6-astra": 65,
+        "opus-5.5": 75
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 68.75
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 18.75,
+        "behavior": 15,
+        "visualization": 14.58,
+        "scenarios": 7.5,
+        "modules": 3.75,
+        "concept": 8.75
+      }
+    },
+    {
+      "rank": 18,
+      "team": "team-065",
+      "name": "DeepCore Labs",
+      "sha": "b50545382499d34ee55f8f3961fd81dee35d95ed",
+      "status": "ranked",
+      "score": 67.5,
+      "mean_total": 67.5,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 71.25,
+        "gpt-6-astra": 56.25,
+        "opus-5.5": 75
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 77.5
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 18.75,
+        "behavior": 15,
+        "visualization": 18.75,
+        "scenarios": 10,
+        "modules": 3.75,
+        "concept": 1.25
+      }
+    },
+    {
+      "rank": 19,
+      "team": "team-060",
+      "name": "TeamSpirit",
+      "sha": "1ab6fe74f72568efb66c5f2d8fefed9817c39341",
+      "status": "ranked",
+      "score": 66.25,
+      "mean_total": 66.25,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 67.5,
+        "gpt-6-astra": 68.75,
+        "opus-5.5": 62.5
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 66.25
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 16.67,
+        "behavior": 15,
+        "visualization": 12.5,
+        "scenarios": 7.5,
+        "modules": 3.33,
+        "concept": 11.25
+      }
+    },
+    {
+      "rank": 20,
+      "team": "team-051",
+      "name": "Daniyar",
+      "sha": "c86b8af457cc31b82bba504ca5a777230c99e719",
+      "status": "ranked",
+      "score": 65,
+      "mean_total": 65,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 63.75,
+        "gpt-6-astra": 63.75,
+        "opus-5.5": 67.5
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 55
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 18.75,
+        "behavior": 15,
+        "visualization": 12.5,
+        "scenarios": 7.5,
+        "modules": 2.5,
+        "concept": 8.75
+      }
+    },
+    {
+      "rank": 21,
+      "team": "team-111",
+      "name": "Ademix",
+      "sha": "5ebc7ee3615d5ad4ea9ef00a2ef79027defefd5d",
+      "status": "ranked",
+      "score": 62.92,
+      "mean_total": 62.92,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 58.75,
+        "gpt-6-astra": 72.5,
+        "opus-5.5": 57.5
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 63.75
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 10.42,
+        "behavior": 18.33,
+        "visualization": 14.58,
+        "scenarios": 6.67,
+        "modules": 2.92,
+        "concept": 10
+      }
+    },
+    {
+      "rank": 22,
+      "team": "team-036",
+      "name": "dauren",
+      "sha": "70292c1cea3d1d1a5b24254894303d0524590379",
+      "status": "ranked",
+      "score": 61.67,
+      "mean_total": 61.67,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 65,
+        "gpt-6-astra": 60,
+        "opus-5.5": 60
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 36.25
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 16.67,
+        "behavior": 15,
+        "visualization": 14.58,
+        "scenarios": 7.5,
+        "modules": 2.92,
+        "concept": 5
+      }
+    },
+    {
+      "rank": 23,
+      "team": "team-034",
+      "name": "Ctrl+S",
+      "sha": "fdfbc9c2093272b6d56eeb847fd83cb816df175a",
+      "status": "ranked",
+      "score": 61.25,
+      "mean_total": 61.25,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 56.25,
+        "gpt-6-astra": 65,
+        "opus-5.5": 62.5
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 60
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 12.5,
+        "behavior": 16.67,
+        "visualization": 8.33,
+        "scenarios": 7.5,
+        "modules": 3.75,
+        "concept": 12.5
+      }
+    },
+    {
+      "rank": 24,
+      "team": "team-118",
+      "name": "MineMind",
+      "sha": "c80398384965b184216b84a7238c3cf17a3816cb",
+      "status": "ranked",
+      "score": 60,
+      "mean_total": 60,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 58.75,
+        "gpt-6-astra": 62.5,
+        "opus-5.5": 58.75
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 52.5
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 16.67,
+        "behavior": 15,
+        "visualization": 8.33,
+        "scenarios": 5,
+        "modules": 2.5,
+        "concept": 12.5
+      }
+    },
+    {
+      "rank": 25,
+      "team": "team-081",
+      "name": "Байтерек",
+      "sha": "36c97230496bd27b269d3d2c40d825274b6131e0",
+      "status": "ranked",
+      "score": 59.17,
+      "mean_total": 59.17,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 61.25,
+        "gpt-6-astra": 61.25,
+        "opus-5.5": 55
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 63.75
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 16.67,
+        "behavior": 15,
+        "visualization": 12.5,
+        "scenarios": 7.5,
+        "modules": 3.75,
+        "concept": 3.75
+      }
+    },
+    {
+      "rank": 26,
+      "team": "team-050",
+      "name": "Zuma",
+      "sha": "59956085dffababe5c8abec0834bc5f4ecfa18de",
+      "status": "ranked",
+      "score": 55,
+      "mean_total": 55,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 58.75,
+        "gpt-6-astra": 58.75,
+        "opus-5.5": 47.5
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 48.75
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 16.67,
+        "behavior": 15,
+        "visualization": 6.25,
+        "scenarios": 5,
+        "modules": 2.08,
+        "concept": 10
+      }
+    },
+    {
+      "rank": 27,
+      "team": "team-035",
+      "name": "CADNOVA",
+      "sha": "13a07683081970000ee436e7356e918a61dd4146",
+      "status": "ranked",
+      "score": 52.5,
+      "mean_total": 52.5,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 55,
+        "gpt-6-astra": 45,
+        "opus-5.5": 57.5
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 52.5
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 12.5,
+        "behavior": 11.67,
+        "visualization": 12.5,
+        "scenarios": 5.83,
+        "modules": 2.5,
+        "concept": 7.5
+      }
+    },
+    {
+      "rank": 28,
+      "team": "team-002",
+      "name": "Forward X",
+      "sha": "8b8c2716e49aa90f48a6ec1074e5e7b06a1dc1ac",
+      "status": "ranked",
+      "score": 47.5,
+      "mean_total": 47.5,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 48.75,
+        "gpt-6-astra": 48.75,
+        "opus-5.5": 45
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 48.75
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 10.42,
+        "behavior": 15,
+        "visualization": 6.25,
+        "scenarios": 5.83,
+        "modules": 2.5,
+        "concept": 7.5
+      }
+    },
+    {
+      "rank": 29,
+      "team": "team-026",
+      "name": "Zhanibek Oralbekuly",
+      "sha": "fe88be31b9d1f5468156a7970d6661db0342d9c6",
+      "status": "ranked",
+      "score": 47.5,
+      "mean_total": 47.5,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 52.5,
+        "gpt-6-astra": 50,
+        "opus-5.5": 40
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 28.75
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 10.42,
+        "behavior": 11.67,
+        "visualization": 6.25,
+        "scenarios": 8.33,
+        "modules": 3.33,
+        "concept": 7.5
+      }
+    },
+    {
+      "rank": 30,
+      "team": "team-077",
+      "name": "AURA",
+      "sha": "a3147c12c017f5a156448840fba0324fb19ddde2",
+      "status": "ranked",
+      "score": 43.75,
+      "mean_total": 43.75,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 40,
+        "gpt-6-astra": 43.75,
+        "opus-5.5": 47.5
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 48.75
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "suspicious",
+      "criteria": {
+        "model": 12.5,
+        "behavior": 6.67,
+        "visualization": 12.5,
+        "scenarios": 6.67,
+        "modules": 1.67,
+        "concept": 3.75
+      }
+    },
+    {
+      "rank": 31,
+      "team": "team-117",
+      "name": "Nova X",
+      "sha": "e3a5f070f1ce9b15d349bc8abc0e3cad4fd11799",
+      "status": "ranked",
+      "score": 40,
+      "mean_total": 67.92,
+      "ceiling": [
+        "did_not_come_up"
+      ],
+      "judges": {
+        "gpt-6.1-sol": 65,
+        "gpt-6-astra": 65,
+        "opus-5.5": 73.75
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 65
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": false,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 18.75,
+        "behavior": 15,
+        "visualization": 14.58,
+        "scenarios": 7.5,
+        "modules": 3.33,
+        "concept": 8.75
+      }
+    },
+    {
+      "rank": 32,
+      "team": "team-058",
+      "name": "Zhenisbek",
+      "sha": "2408fc5fa212842214dce4676aee5ba5cc9bb5cf",
+      "status": "ranked",
+      "score": 40,
+      "mean_total": 40.42,
+      "ceiling": [
+        "not_built_on_openegiz"
+      ],
+      "judges": {
+        "gpt-6.1-sol": 45,
+        "gpt-6-astra": 45,
+        "opus-5.5": 31.25
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 41.25
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "no",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 10.42,
+        "behavior": 13.33,
+        "visualization": 6.25,
+        "scenarios": 0.83,
+        "modules": 3.33,
+        "concept": 6.25
+      }
+    },
+    {
+      "rank": 33,
+      "team": "team-106",
+      "name": "adixssc",
+      "sha": "99db4aa5c937b2d0d7d4386655514ee40dc38f51",
+      "status": "ranked",
+      "score": 39.58,
+      "mean_total": 39.58,
+      "ceiling": [
+        "not_built_on_openegiz"
+      ],
+      "judges": {
+        "gpt-6.1-sol": 35,
+        "gpt-6-astra": 35,
+        "opus-5.5": 48.75
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 42.5
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "no",
+      "injection_verdict": "suspicious",
+      "criteria": {
+        "model": 12.5,
+        "behavior": 6.67,
+        "visualization": 8.33,
+        "scenarios": 5.83,
+        "modules": 2.5,
+        "concept": 3.75
+      }
+    },
+    {
+      "rank": 34,
+      "team": "team-032",
+      "name": "ARA-Solution",
+      "sha": "9ef5fc83815c855ba6708e8c5edd7c9559a07074",
+      "status": "ranked",
+      "score": 31.25,
+      "mean_total": 31.25,
+      "ceiling": [
+        "did_not_come_up",
+        "not_built_on_openegiz"
+      ],
+      "judges": {
+        "gpt-6.1-sol": 28.75,
+        "gpt-6-astra": 28.75,
+        "opus-5.5": 36.25
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 40
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": false,
+      "built_on_openegiz": "no",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 12.5,
+        "behavior": 1.67,
+        "visualization": 6.25,
+        "scenarios": 3.33,
+        "modules": 3.75,
+        "concept": 3.75
+      }
+    },
+    {
+      "rank": 35,
+      "team": "team-018",
+      "name": "Scram",
+      "sha": "809470a515f7974759c4a23dc8403206c53256cc",
+      "status": "ranked",
+      "score": 20,
+      "mean_total": 20,
+      "ceiling": [
+        "did_not_come_up",
+        "not_built_on_openegiz"
+      ],
+      "judges": {
+        "gpt-6.1-sol": 22.5,
+        "gpt-6-astra": 27.5,
+        "opus-5.5": 10
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 3.75
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": false,
+      "built_on_openegiz": "no",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 14.58,
+        "behavior": 1.67,
+        "visualization": 0,
+        "scenarios": 0,
+        "modules": 0,
+        "concept": 3.75
+      }
+    },
+    {
+      "rank": 36,
+      "team": "team-030",
+      "name": "Жарық",
+      "sha": "d4430ec5d9652c1f0180e05fe9958165ad01bf7c",
+      "status": "ranked",
+      "score": 16.25,
+      "mean_total": 16.25,
+      "ceiling": [
+        "did_not_come_up",
+        "not_built_on_openegiz"
+      ],
+      "judges": {
+        "gpt-6.1-sol": 18.75,
+        "gpt-6-astra": 16.25,
+        "opus-5.5": 13.75
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 20
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": false,
+      "built_on_openegiz": "no",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 4.17,
+        "behavior": 0,
+        "visualization": 6.25,
+        "scenarios": 1.67,
+        "modules": 0.42,
+        "concept": 3.75
+      }
+    },
+    {
+      "rank": 37,
+      "team": "team-120",
+      "name": "Origami",
+      "sha": "05c904a69c0b307c6f07911540ffa1b008d80d02",
+      "status": "ranked",
+      "score": 14.58,
+      "mean_total": 14.58,
+      "ceiling": [
+        "did_not_come_up",
+        "not_built_on_openegiz"
+      ],
+      "judges": {
+        "gpt-6.1-sol": 16.25,
+        "gpt-6-astra": 13.75,
+        "opus-5.5": 13.75
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 10
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": false,
+      "built_on_openegiz": "no",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 0,
+        "behavior": 0,
+        "visualization": 6.25,
+        "scenarios": 0.83,
+        "modules": 1.25,
+        "concept": 6.25
+      }
+    },
+    {
+      "rank": 38,
+      "team": "team-092",
+      "name": "Nurdilda Maira",
+      "sha": "558c0cb0337fa63a33def85197076d548b4d5924",
+      "status": "ranked",
+      "score": 10,
+      "mean_total": 10,
+      "ceiling": [
+        "did_not_come_up",
+        "not_built_on_openegiz"
+      ],
+      "judges": {
+        "gpt-6.1-sol": 10,
+        "gpt-6-astra": 10,
+        "opus-5.5": 10
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 10
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": false,
+      "built_on_openegiz": "no",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 6.25,
+        "behavior": 0,
+        "visualization": 0,
+        "scenarios": 0,
+        "modules": 0,
+        "concept": 3.75
+      }
+    },
+    {
+      "rank": 39,
+      "team": "team-007",
+      "name": "Prime Genesis",
+      "sha": "70ca457fd02e6544732cdc82a760d625f714358a",
+      "status": "ranked",
+      "score": 3.75,
+      "mean_total": 3.75,
+      "ceiling": [
+        "not_built_on_openegiz"
+      ],
+      "judges": {
+        "gpt-6.1-sol": 3.75,
+        "gpt-6-astra": 3.75,
+        "opus-5.5": 3.75
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "no",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 0,
+        "behavior": 0,
+        "visualization": 0,
+        "scenarios": 0,
+        "modules": 0,
+        "concept": 3.75
+      }
+    },
+    {
+      "rank": 40,
+      "team": "team-031",
+      "name": "ayv",
+      "sha": "f88fc815f98cdd50addb09db258adeea8fb6b946",
+      "status": "ranked",
+      "score": 3.75,
+      "mean_total": 3.75,
+      "ceiling": [
+        "did_not_come_up",
+        "not_built_on_openegiz"
+      ],
+      "judges": {
+        "gpt-6.1-sol": 3.75,
+        "gpt-6-astra": 3.75,
+        "opus-5.5": 3.75
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 3.75
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": false,
+      "built_on_openegiz": "no",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 0,
+        "behavior": 0,
+        "visualization": 0,
+        "scenarios": 0,
+        "modules": 0,
+        "concept": 3.75
+      }
+    },
+    {
+      "rank": 41,
+      "team": "team-075",
+      "name": "Karakat",
+      "sha": "67cb8f1184220c7526b9475ae50275d41bbffdd8",
+      "status": "ranked",
+      "score": 3.75,
+      "mean_total": 3.75,
+      "ceiling": [
+        "did_not_come_up",
+        "not_built_on_openegiz"
+      ],
+      "judges": {
+        "gpt-6.1-sol": 3.75,
+        "gpt-6-astra": 3.75,
+        "opus-5.5": 3.75
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 3.75
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": false,
+      "built_on_openegiz": "no",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 0,
+        "behavior": 0,
+        "visualization": 0,
+        "scenarios": 0,
+        "modules": 0,
+        "concept": 3.75
+      }
+    },
+    {
+      "rank": 42,
+      "team": "team-089",
+      "name": "Ерасыл",
+      "sha": "e6bcf128ae59bf478928ceb57ff7c114066c2272",
+      "status": "ranked",
+      "score": 3.75,
+      "mean_total": 3.75,
+      "ceiling": [
+        "not_built_on_openegiz"
+      ],
+      "judges": {
+        "gpt-6.1-sol": 3.75,
+        "gpt-6-astra": 3.75,
+        "opus-5.5": 3.75
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 3.75
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "no",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 0,
+        "behavior": 0,
+        "visualization": 0,
+        "scenarios": 0,
+        "modules": 0,
+        "concept": 3.75
+      }
+    },
+    {
+      "rank": 43,
+      "team": "team-122",
+      "name": "Серики",
+      "sha": "5b83d9eafe21b24caa5d3c37144f4b9a4be96bee",
+      "status": "ranked",
+      "score": 3.75,
+      "mean_total": 3.75,
+      "ceiling": [
+        "did_not_come_up",
+        "not_built_on_openegiz"
+      ],
+      "judges": {
+        "gpt-6.1-sol": 3.75,
+        "gpt-6-astra": 3.75,
+        "opus-5.5": 3.75
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 3.75
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": false,
+      "built_on_openegiz": "no",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 0,
+        "behavior": 0,
+        "visualization": 0,
+        "scenarios": 0,
+        "modules": 0,
+        "concept": 3.75
+      }
+    },
+    {
+      "rank": 44,
+      "team": "team-088",
+      "name": "Kaznu23",
+      "sha": "8984e65243e357d7e13e778ad1278e6ef867d870",
+      "status": "ranked",
+      "score": 2.5,
+      "mean_total": 2.5,
+      "ceiling": [
+        "not_built_on_openegiz"
+      ],
+      "judges": {
+        "gpt-6.1-sol": 3.75,
+        "gpt-6-astra": 3.75,
+        "opus-5.5": 0
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 3.75
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "no",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 0,
+        "behavior": 0,
+        "visualization": 0,
+        "scenarios": 0,
+        "modules": 0,
+        "concept": 2.5
+      }
+    },
+    {
+      "rank": 45,
+      "team": "team-096",
+      "name": "Cool Thanks",
+      "sha": "1ef64a51bb132843d4610a988ab8544d2557d76b",
+      "status": "ranked",
+      "score": 2.5,
+      "mean_total": 2.5,
+      "ceiling": [
+        "not_built_on_openegiz"
+      ],
+      "judges": {
+        "gpt-6.1-sol": 3.75,
+        "gpt-6-astra": 3.75,
+        "opus-5.5": 0
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 3.75
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "no",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 0,
+        "behavior": 0,
+        "visualization": 0,
+        "scenarios": 0,
+        "modules": 0,
+        "concept": 2.5
+      }
+    },
+    {
+      "rank": 46,
+      "team": "team-112",
+      "name": "Shansharkhan Zhandos",
+      "sha": "b16c867146602459c01d8dac8f5e858c295e664f",
+      "status": "ranked",
+      "score": 0,
+      "mean_total": 0,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 0,
+        "gpt-6-astra": 0,
+        "opus-5.5": 0
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 0,
+        "behavior": 0,
+        "visualization": 0,
+        "scenarios": 0,
+        "modules": 0,
+        "concept": 0
+      }
+    },
+    {
+      "rank": null,
+      "team": "team-001",
+      "name": "erkevibe",
+      "sha": "6367f0299c90f1d0fdb9942b38d45878e2068fc0",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-003",
+      "name": "Abosh",
+      "sha": "2110b14831b584c9205cae40157b41e564420ed8",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-005",
+      "name": "Soup",
+      "sha": "c73171fafd2f084d93a1bcf9d2b8aa1e807f5067",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-006",
+      "name": "yefinity",
+      "sha": "0b5a72f90d002fe6121c4c3bdb0b1b778037c301",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-008",
+      "name": "KENSHI",
+      "sha": "f8ce7a2a8307744f7e83a8ba88e18f19e68b8b1f",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-009",
+      "name": "Matcha Club",
+      "sha": "a200fb23ccd6086f25954d42e8e9eaa8fe65b809",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-010",
+      "name": "Karately",
+      "sha": "d1d5d37433be10a0fcf9524774c7b1d09db9074b",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-012",
+      "name": "Great ginger",
+      "sha": "fc15608fa6346ade8892fc06e8dbcd960c67b2e8",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-013",
+      "name": "Fix",
+      "sha": "6b4f0554c5fa9d9e6ccf1e715b5a7605cd4a3967",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-015",
+      "name": "POPRIKOLU",
+      "sha": "9b1c515dd67de237185bff47fa9db1b97bf34dd0",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-016",
+      "name": "IDA",
+      "sha": "217b5298c7de45433d1977663d5ed9b2a23a5f9b",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-017",
+      "name": "Miras",
+      "sha": "6856bc22ba3783fdc03e6bcfeedf58673b0ad7ef",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-019",
+      "name": "Winner",
+      "sha": "1a2e787337b7e5d8d8e6353f5227605bc2dfe603",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-020",
+      "name": "TagleD",
+      "sha": "529771bb6c73b076c40066247c9200d4dc91c490",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-021",
+      "name": "Sozaq",
+      "sha": "73b678bcd6d2bcec6259c3eb65b1c923b6e583fa",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-022",
+      "name": "Nova",
+      "sha": "a5aefb6344ad3202b82b7f321fccd5496585a0b0",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-023",
+      "name": "AutoDev",
+      "sha": "f0c20afe1ffc39d5052c4bd3ec746c22c34d167d",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-027",
+      "name": "Rasul",
+      "sha": "0e72c03a5dae4c47299249ef60b1ba339c43d486",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-028",
+      "name": "Bonnie and Claude",
+      "sha": "d20df5396acc7dc314a08416ab3ce0104e50fd25",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-029",
+      "name": "Консилиум ZLA",
+      "sha": "899c19aefd39654272f39b001633626939428edd",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-033",
+      "name": "Solo",
+      "sha": "29c1234f5045434e22d3ea6703683776e5ec57d1",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-039",
+      "name": "Всемогущие",
+      "sha": "9210c8b49043d89cdc8c8aa6356e8e17a5fe4377",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-043",
+      "name": "EarthAI",
+      "sha": "9761165e2a34d291f3123803784a1bc78f9a18d0",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-044",
+      "name": "Huibo robotics",
+      "sha": "65f4545119fe23d638cd83cf4aa16067327dd9c2",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-047",
+      "name": "Verszachee",
+      "sha": "a476f393f7fd7ec7bf817367247dd592bc589796",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-048",
+      "name": "SmartMine AI",
+      "sha": "d6790cb3881738ed45990a52de09002b8e289cc8",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-049",
+      "name": "MIMISIDE",
+      "sha": "e7fb73bc7e43ec423e4806d188e483bc4e2558e1",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-052",
+      "name": "TERENGIZ",
+      "sha": "16a0266d0a83055a0e5a2d0661384e2af5705708",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-054",
+      "name": "Цифровой Ангел",
+      "sha": "c462c6def57f3edc900be3b7c04a94f773d8dfc2",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-055",
+      "name": "Hope",
+      "sha": "fb08094464d04792d7c6608d0dcbc4e57609e8bc",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-062",
+      "name": "/.dev",
+      "sha": "f00c1a709fac8344c020db9d0c06d3024421716b",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-063",
+      "name": "Bondarev",
+      "sha": "569b03b94f0aae0807355bfe64f0f9873f451142",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-078",
+      "name": "Рудный",
+      "sha": "181f5eb4b6cc72e350365a8650590fc6b942a222",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-079",
+      "name": "Набиев Рахымжан",
+      "sha": "08b7728a9ac3b0a9f720941e117293ef4ad8bbcc",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-085",
+      "name": "Яблочник",
+      "sha": "6836c26392f2a563ecb37463491fcd3cd7ba00b4",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-086",
+      "name": "ArkLight",
+      "sha": "2f6d89a177483ba6bb87a4ef3a2435386496f1b6",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-090",
+      "name": "Dream team",
+      "sha": "1325aac8e682eeed66a5aad19959f3d19ff0abee",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-091",
+      "name": "DamnIT",
+      "sha": "7a41046c06e2eccaa1a7ebd594d25ef856696975",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-095",
+      "name": "Cool Tanks",
+      "sha": "564f5fa52d72c7abfb454b7e4771ee211ae5c6fc",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-097",
+      "name": "Team Zhandos",
+      "sha": "a341cd7a826e541725049815c6b5ea0ff2885039",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-103",
+      "name": "DoubleTwink",
+      "sha": "12ee75402c581d18e849a7b021bfe110e11d2af7",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-104",
+      "name": "НД",
+      "sha": "a9676c6948be4a2aab03a9f387d89e2bcdf400f0",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-105",
+      "name": "Metrica",
+      "sha": "d2291b337967161461d006fa56b3a2ee995397e0",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-110",
+      "name": "Айым",
+      "sha": "571541bfa18f50efbaf93cee4fcf9c385b29a021",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-113",
+      "name": "Шайхслам Ақбота",
+      "sha": "d3482b0b2376f80a78c2f40e994188e8e4618e3a",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-114",
+      "name": "OneSpirit",
+      "sha": "47fd587d70931559521c63dc082a47a59f441834",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-116",
+      "name": "Dream team",
+      "sha": "76cd71fa8aca717bd7145016e202856d3c041356",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    },
+    {
+      "rank": null,
+      "team": "team-119",
+      "name": "DIKO",
+      "sha": "9159b96b361353f070b23f6e29e9d35683277627",
+      "status": "empty",
+      "score": 0,
+      "mean_total": null,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": null,
+        "gpt-6-astra": null,
+        "opus-5.5": null
+      },
+      "judge_notes": {
+        "gpt-6.1-sol": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "gpt-6-astra": "skipped: empty Solution: main has the Template's tree (Freeze manifest)",
+        "opus-5.5": "skipped: empty Solution: main has the Template's tree (Freeze manifest)"
+      },
+      "not_counted": [],
+      "removed_judges": {},
+      "reason": "no work: identical to a Template version",
+      "scored_by": 0,
+      "jury": 3,
+      "came_up": null,
+      "built_on_openegiz": null,
+      "injection_verdict": null
+    }
+  ],
+  "appeals": []
+}

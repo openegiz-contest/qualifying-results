@@ -1,0 +1,151 @@
+{
+  "team": "team-046",
+  "sha": "0c5d346296cbba7a119c0e17d7d2d0384ae44eb8",
+  "started_at": "2026-10-27T13:46:34+00:00",
+  "finished_at": "2026-10-27T14:15:18+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update && sudo apt-get install -y make",
+      "command": "cd /home/judge/solution && sudo apt-get update && sudo apt-get install -y make",
+      "exit_code": 0,
+      "duration_s": 8.0,
+      "log": "logs/01-sudo-apt-get-update-sudo-apt-get-install.txt"
+    },
+    {
+      "readme_step": "make bozshakol-pull",
+      "command": "cd /home/judge/solution && make bozshakol-pull",
+      "exit_code": 0,
+      "duration_s": 40.0,
+      "log": "logs/02-make-bozshakol-pull.txt"
+    },
+    {
+      "readme_step": "make bozshakol",
+      "command": "cd /home/judge/solution && make bozshakol",
+      "exit_code": 0,
+      "duration_s": 56.0,
+      "log": "logs/03-make-bozshakol.txt"
+    },
+    {
+      "readme_step": "make bozshakol-check",
+      "command": "cd /home/judge/solution && make bozshakol-check",
+      "exit_code": 0,
+      "duration_s": 124.0,
+      "log": "logs/04-make-bozshakol-check.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 19 of 22 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 19 of 22 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`make smoke` exit 2: FAIL  value 41 did not reach InfluxDB within 60 s (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Координатор (bz-core): модельное время, смены, погода, итоговые показатели в mine",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Контейнер openegiz-bz-core-1 работает. В kz.bozshakol:mine sim_time идёт ×10: 08:34:11 в 13:53:42 и 08:53:21 в 13:55:35. Обновляются temperature/wind, ore_to_plants, plan_fulfilment 96.9→98.0, feed_cu и cu_concentrate_shift 6.4→10.1, есть признаки scenario_* (0/1) и active_scenarios. Дашборд bozshakol-overview (20 панелей) берёт данные из opentwins-influxdb."
+    },
+    {
+      "name": "Транспорт и диспетчеризация (bz-haulage)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Есть 28 двойников truck-01…28 и dispatch. Координаты меняются: truck-01 x −569.7→−929.5 за 48 с, state hauling, payload 135, fuel 84.2→82.1. У dispatch mode=auto, есть назначения на экскаваторы, растут delivered_crusher_t и delivered_dump_t, считаются trucks_needed (23.6) и queue_crusher. Видны состояния самосвалов reserve и refueling (truck-09 reserve, truck-10 refueling → fuel-station). Дашборд bozshakol-haulage — 18 панелей из InfluxDB."
+    },
+    {
+      "name": "Геология, качество руды, БВР (bz-geology)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "У face-01…06 есть cu_grade, clay_pct, p80, loading_factor и recommended_destination. Пример face-01: cu 0.366, p80 416, lf 1.02. Значения меняются: face-03 clay_pct 6.6→7.0→7.1. Буровой drill-01 в состоянии drilling, блок Б13-04-2, meters_total растёт. У drill-summary drills_needed 2.47, feed_cu_target 0.39 и feed_cu_actual 0.39. Дашборд bozshakol-geology — 19 панелей; запрос cu_grade к face-01 через Grafana /api/ds/query вернул 0.42."
+    },
+    {
+      "name": "Переработка и энергия (bz-processing)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "crusher-01 в состоянии running, throughput 4853.7, бункер 270 т. У conveyor-01 intake 4853.7. stockpile-coarse: 12240 т, stop_forecast 15:51. plant-sulphide: feed 3360.7 при плане 3361, recovery 75.5, specific_energy 28.7. plant-clay: 714.6 при плане 715. Работают sag-mill-01 и flotation-01 (concentrate_tph 43.35). power-grid: load 109.56 МВт. Дашборд bozshakol-processing — 30 панелей."
+    },
+    {
+      "name": "Советник диспетчера (bz-advisor)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В advisor.advice появляются советы с цифрами. Без сценариев: «Лишние самосвалы… ≈4 — поставить в резерв». При blizzard: «вывоз… упадёт примерно на 16 %». При clay_face: «Забой face-03 даёт глину 45 %…». При crusher_stop: «Фабрика встанет в 14:35 (запас склада 3.3 ч)…». После отмены сценария совет пропадает. Сверка с реальностью публикуется (дашборд bozshakol-reality — 9 панелей)."
+    },
+    {
+      "name": "3D-сцена (bz-web)",
+      "claimed_in_submission": false,
+      "works": "partly",
+      "evidence": "Отрисовка в браузере не проверялась: браузера нет. Через HTTP: страница http://127.0.0.1:8095 отвечает 200; прокси /ditto/ на ditto-nginx отдаёт 64 двойника kz.bozshakol. В app.js сцена читает данные через /ditto/api/2/search/things, а сценарии переключает PUT /ditto/api/2/things/kz.bozshakol:scenarios/features/<имя>/properties/value."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "blizzard — метель",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Включение PUT scenarios/features/blizzard/properties/value=true (204). Двойник mine: visibility 5000→300, speed_limit 50→20, wind 4.8→15.8, active_scenarios «метель». Максимальная скорость самосвалов 53.8 до включения, 23.1 через 75 с. Появился совет «Метель… упадёт примерно на 16 %». После false: visibility 5000, speed_limit 50, wind 5.2, максимальная скорость 44.1, совета нет."
+    },
+    {
+      "name": "dispatch_off — диспетчеризация выключена",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "dispatch.mode auto→manual, trucks_reserve 0, active_scenarios «диспетчеризация отключена». Перегруз фабрики, по словам Команды, копится часами, и за 75 с его не видно. После false: mode auto, trucks_reserve 1."
+    },
+    {
+      "name": "road_closed — дорога закрыта (road-ramp-2)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "road-ramp-2: open true→false, trucks_on_road 6→0 и держится 0 через 40 и 80 с; на road-ramp-1 число машин выросло 6→14 (объезд). После false: open true, на road-ramp-2 2 машины, active_scenarios «нет»."
+    },
+    {
+      "name": "excavator_down — экскаватор сломан (excavator-02)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "excavator-02.state idle→down. В dispatch.assignments на excavator-02 до включения было 3 назначения, через 70 с — 1 (truck-10, на заправке). truck-07 переназначен на excavator-06, truck-08 на excavator-03. Совет о привозе обещан через модельный час; столько не ждал. После false: state idle, на excavator-02 снова 2 назначения."
+    },
+    {
+      "name": "clay_face — глинистый забой (face-03)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "face-03: ore_type sulphide→clay, clay_pct 7.0→45, recommended_destination crusher-01→stockpile-clay. truck-10 (excavator-03) везёт груз clay на stockpile-clay. Совет: «Забой face-03 даёт глину 45 % — направлять его руду на склад глинистой руды…». После false: sulphide, 7.1 %, crusher-01, совета нет."
+    },
+    {
+      "name": "bad_blast — неудачный взрыв (face-01)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "face-01: p80 416→900, loading_factor 1.02→0.69. crusher-01: capacity 4854→4129, feed_p80 584. После false: p80 416, loading_factor 1.02, active_scenarios «нет»."
+    },
+    {
+      "name": "crusher_stop — остановка дробилки",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Включён командой из README (curl PUT …crusher_stop… -d true). crusher-01: state stopped, accepting false, stop_reason «сценарий «Остановка дробилки»», throughput 0. Очередь у дробилки (trucks_queued и dispatch.queue_crusher) 0→4→6 за 100 с. conveyor-01: load 87.7→0, state idle. Склад 11555→11176 т, прогноз «14:35». Совет «Фабрика встанет в 14:35…». После -d false через 60 с: running, accepting true, throughput 4853.7, очередь 1, совета нет."
+    },
+    {
+      "name": "sag_maintenance — ТО мельницы",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "plant-sulphide: running→maintenance, feed_rate 3360.7→0. sag-mill-01 в состоянии maintenance. Склад stockpile-coarse 10521→10791→11399 т за 90 с, overflow_forecast «склад переполнится в 23:43 — дробилка встанет». После false: plant-sulphide и sag-mill running, 3360.7 т/ч. Все 8 признаков scenarios в итоге false."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) Двойники в Ditto: в namespace kz.bozshakol 64 вещи (mine, scenarios, advisor, pit-central, face-01…06, drill-01…05, truck-01…28, excavator-01…06, дороги, дробилка, конвейер, склады, фабрики, power-grid), плюс 19 типов kz.bozshakol.types:*. 2) MQTT → Ditto: соединения mosquitto-source-connection (mqtt-5, источник telemetry/#) и mosquitto-target-connection открыты (status open). В bzlib/platform.py класс Telemetry публикует в MQTT telemetry/<thingId> команды Ditto protocol modify /features; чужие двойники читаются из Ditto (HTTP-снимок и события opentwins/…). Запись по HTTP только в setup.py (создание двойников) и при переключении сценариев. Признаки меняются между снимками с разницей больше 30 с: truck-01 x −569.7→−929.5, mine.sim_time 08:34→08:53. 3) Интерфейс читает из платформы: все 5 дашбордов Бозшаколь используют datasource opentwins-influxdb (measurement mqtt_consumer от Telegraf); запросы через Grafana вернули данные. 3D-сцена читает Ditto через nginx-прокси /ditto/ → ditto-nginx. make bozshakol-check: «за 2 минуты в InfluxDB записано 79389 точек kz.bozshakol»."
+  },
+  "notes": "Все 4 шага README прошли с первого раза, повторов не было. Шаги README «make down» и «make up» (остановить и снова поднять) не выполнял: они не нужны для запуска, а Стенд должен остаться работающим для Судей. make bozshakol-check показал «Итог: всё в порядке»; при этом он сам включал и выключал blizzard и перезапускал bz-processing и bz-haulage. Сценарии включал тем же PUT в API Ditto, что указан в README и SUBMISSION (признак kz.bozshakol:scenarios/features/<имя>/properties/value); crusher_stop — дословной командой из README, остальные — тем же запросом через вспомогательный скрипт. Все сценарии в конце false, active_scenarios «нет». 3D-сцену в браузере не проверял (браузера нет), только HTTP и прокси к Ditto. Совет excavator_down «через модельный час» не дожидался. AGENTS.md и CLAUDE.md — стандартные инструкции Шаблона для агентов Команды; текстов, обращённых к Сборщику или Судьям, не нашёл; возможных инъекций нет.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел заполнен Командой: медный карьер Бозшаколь (KAZ Minerals) и путь руды до двух фабрик; пользователь — горный диспетчер смены; решение — какие забои отрабатывать, куда направлять самосвалы и как перестроиться при сбоях."
+  }
+}

@@ -1,0 +1,31 @@
+PASS UI reads integrated Eclipse Ditto state
+PASS Confirmed simulation clock advances
+PASS Normal operation produces feed
+PASS Atomic snapshot and numeric telemetry match
+PASS Pause holds simulation time
+PASS Scenario crusher-outage
+PASS crusher-outage material balances
+PASS Scenario truck-breakdown
+PASS truck-breakdown material balances
+PASS Scenario road-closure
+PASS road-closure material balances
+PASS Scenario power-limit
+PASS power-limit material balances
+PASS Scenario low-grade
+PASS low-grade material balances
+PASS Scenario hard-ore
+PASS hard-ore material balances
+PASS Scenario shovel-outage
+PASS shovel-outage material balances
+PASS Scenario road-congestion
+PASS road-congestion material balances
+PASS Paired forecast returns through Ditto
+PASS Matched dispatch experiment confirmed through Ditto
+PASS Experiment preserves live clock
+PASS Accounting twin waste-dump-01
+PASS Accounting twin tailings-01
+PASS Telegraf / InfluxDB stores recent Aktogay feed points
+PASS Grafana database healthy
+PASS Aktogay dashboard provisioned
+PASS Reset returns ready baseline
+Report: /home/judge/solution/docs/evidence/stand-report.json

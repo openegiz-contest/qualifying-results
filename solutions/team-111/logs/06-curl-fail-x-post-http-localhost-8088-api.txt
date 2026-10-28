@@ -1,0 +1,7 @@
+{"scenario":"crusher_slowdown","status":"activated"}
+--- stderr ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100    83  100    52  100    31  14050   8376 --:--:-- --:--:-- --:--:-- 27666

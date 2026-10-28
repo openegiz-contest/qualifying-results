@@ -1,0 +1,71 @@
+{
+  "team": "team-089",
+  "judge": "sonnet-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "На Стенде в Ditto только двойники Примера рудника из Шаблона. Двойников oilfield-01 и WELL-01..03 нет, интеграция не подключена в README.",
+      "references": [
+        "build_report:built_on_openegiz",
+        "build_report:modules[0]"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Меняются только двойники Примера рудника. Симулятор oilguard не запущен, собственного поведения Команды на Стенде нет.",
+      "references": [
+        "build_report:built_on_openegiz"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Визуализации Команды на Стенде нет: дашборда OilGuard в Grafana нет, есть только «Example Mine» из Шаблона. Я открыл Grafana и снял скриншот страницы входа, дальше не смотрел.",
+      "references": [
+        "screenshot:stand.png",
+        "build_report:modules[2]"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Сценарий WELL-02 на Стенде не запускается: двойника нет, Команда сама пишет, что сценарий пока не управляется на Стенде. Запустить и отменить нечего.",
+      "references": [
+        "build_report:scenarios[0]"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Заявленные Модули (мониторинг скважин, детекция безопасности) на Стенде не работают: сервис oilguard не запущен, статусов NORMAL/DANGER в Ditto нет.",
+      "references": [
+        "build_report:modules[0]",
+        "build_report:modules[1]"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Замысел заполнен: вымышленное нефтяное месторождение в Казахстане, операторы и инженеры. Он не вытекает в Стенд: там только Пример рудника. Презентацию я не читал. Максимум для такого случая — уровень 1.",
+      "references": [
+        "build_report:concept",
+        "build_report:built_on_openegiz"
+      ]
+    }
+  ],
+  "total": 3.75
+}

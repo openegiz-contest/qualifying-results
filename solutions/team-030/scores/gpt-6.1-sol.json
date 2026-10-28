@@ -1,0 +1,87 @@
+{
+  "team": "team-030",
+  "judge": "gpt-6.1-sol",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 1,
+      "max": 25,
+      "points": 6.25,
+      "reasoning": "Через API найден один собственный агрегатный двойник рудника с production=800, scenario_production=1080 и improvement=35. Состояние есть, но техника, производственные звенья, связи и иерархия двойниками не представлены. До уровня 2 модель не доходит.",
+      "references": [
+        "ditto:org.openegiz.kachar:mine-01",
+        "team/kachar-mine/twins.json:2"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Снимки API в 11:03:56 и 11:04:58 UTC показывают одинаковые состояния. Код однократно вычисляет показатели из констант, публикует сообщение MQTT и завершается. Движение и накопление тоннажа в браузере состояния двойника не меняют.",
+      "references": [
+        "ditto:org.openegiz.kachar:mine-01",
+        "team/kachar-mine/mqtt_simulator.py:5",
+        "team/kachar-mine/mqtt_simulator.py:33",
+        "team/kachar-mine/web/index.html:212"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 1,
+      "max": 25,
+      "points": 6.25,
+      "reasoning": "В браузере открывается схема с экскаватором, пунктом разгрузки и движущимися значками самосвалов. Это типовая демонстрационная схема без геометрии Качарского карьера и масштаба. Показатели Ditto выведены отдельно; анимация и тоннаж рассчитываются локально, поэтому работа по живым данным двойников не подтверждена.",
+      "references": [
+        "screenshot:kachar-view.png",
+        "team/kachar-mine/web/index.html:124",
+        "team/kachar-mine/web/index.html:457",
+        "README.md:80"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 1,
+      "max": 10,
+      "points": 2.5,
+      "reasoning": "Сам переключил число экскаваторов в Grafana с 2 на 3: результат изменился с 800 на 1080. Последствие ограничено одним числом: запрос считает min(n×400,1080), состояния Ditto остались прежними. Отменил выбором 2 и проверил возврат 800. Связанных последствий в объектах нет.",
+      "references": [
+        "screenshot:grafana-before.png",
+        "screenshot:grafana-scenario-3.png",
+        "screenshot:grafana-restored.png",
+        "ditto:org.openegiz.kachar:mine-01",
+        "deploy/compose/grafana/dashboards/kachar-dashboard-ready.json:139"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "На Стенде подтверждены отображение показателей и арифметический переключатель сценария, уже учтённый в scenarios. Мониторинг показывает существующие данные; отдельного работающего решения, прогноза или управления поверх состояний двойников не обнаружено. Подсказка об ограничивающей технике в веб-интерфейсе считается из локальных значений ползунков.",
+      "references": [
+        "team/kachar-mine/web/index.html:140",
+        "team/kachar-mine/web/index.html:157",
+        "deploy/compose/grafana/dashboards/kachar-dashboard-ready.json:139",
+        "screenshot:kachar-view.png"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Названы реальный Качарский карьер, пользователи и вопрос об эффекте третьего экскаватора. Однако реализация — универсальный расчёт пропускной способности с демонстрационными константами: особенности выбранного предприятия в модели и схеме не представлены. Презентация понятна, числа совпадают со Стендом, отсутствие реальных данных и изменения Ditto при сценарии раскрыто честно.",
+      "references": [
+        "SUBMISSION.md:5",
+        "SUBMISSION.md:13",
+        "SUBMISSION.md:81",
+        "presentation.pdf:4",
+        "presentation.pdf:6",
+        "team/kachar-mine/simulator.py:24",
+        "screenshot:kachar-view.png"
+      ]
+    }
+  ],
+  "total": 18.75
+}

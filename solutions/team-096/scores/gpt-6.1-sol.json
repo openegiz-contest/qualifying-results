@@ -1,0 +1,82 @@
+{
+  "team": "team-096",
+  "judge": "gpt-6.1-sol",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Через API Ditto и приложение OpenEgiz проверены пять двойников: рудник, экскаватор, два самосвала и дробилка. Все соответствуют Примеру рудника; собственных объектов и состояний Команды нет. История изменений содержит только правки SUBMISSION.md.",
+      "references": [
+        "ditto:org.openegiz.mine:mine-01",
+        "examples/mine/twins.json:2",
+        "build_report:built_on_openegiz"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Состояния прочитаны в 21:20:57 и 21:22:00 UTC: passes_total экскаватора вырос с 10 до 20, truck-01 сменил returning на hauling, payload вырос с 0 до 90 т. Однако это поведение неизменённого симулятора Примера, а не работа Команды.",
+      "references": [
+        "ditto:org.openegiz.mine:excavator-01",
+        "ditto:org.openegiz.mine:truck-01",
+        "examples/mine/simulator.py:3",
+        "build_report:built_on_openegiz"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "В браузере открыт Example Mine: показатели и графики тоннажа, содержания, положения и загрузки самосвалов. Геометрии рудника и собственной визуализации Команды нет; раздел визуализации оставлен пустым.",
+      "references": [
+        "screenshot:team-096-example-dashboard.png",
+        "SUBMISSION.md:50",
+        "README.md:22"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Таблица сценариев пуста, способов запуска и отмены нет. Проверять нечего; сценарии не запускались, Стенд не изменялся.",
+      "references": [
+        "SUBMISSION.md:33",
+        "build_report:scenarios"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Модули не заявлены и в интерфейсе не обнаружены. Доступный дашборд Примера показывает существующие данные, но не выдаёт планов, прогнозов или рекомендаций.",
+      "references": [
+        "SUBMISSION.md:33",
+        "screenshot:team-096-example-dashboard.png",
+        "build_report:modules"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Назван вымышленный медный карьер по аналогии с Актогаем и Бозшаколем и задача снижения экологического ущерба и рекультивации. Пользователь определён широко, источники параметров только обещаны. На Стенде замысел не реализован: работает лишь Пример рудника. presentation.pdf отсутствует, что также ограничивает уровень единицей.",
+      "references": [
+        "SUBMISSION.md:7",
+        "SUBMISSION.md:9",
+        "SUBMISSION.md:13",
+        "SUBMISSION.md:15",
+        "build_report:built_on_openegiz",
+        "build_report:notes"
+      ]
+    }
+  ],
+  "total": 3.75
+}

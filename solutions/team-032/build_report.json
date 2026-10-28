@@ -1,0 +1,134 @@
+{
+  "team": "team-032",
+  "sha": "9ef5fc83815c855ba6708e8c5edd7c9559a07074",
+  "started_at": "2026-10-27T11:11:26+00:00",
+  "finished_at": "2026-10-27T11:19:18+00:00",
+  "came_up": false,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update",
+      "command": "cd /home/judge/solution && sudo apt-get update",
+      "exit_code": 0,
+      "duration_s": 7.0,
+      "log": "logs/01-sudo-apt-get-update.txt"
+    },
+    {
+      "readme_step": "sudo apt-get install -y make",
+      "command": "cd /home/judge/solution && sudo apt-get install -y make",
+      "exit_code": 0,
+      "duration_s": 4.0,
+      "log": "logs/02-sudo-apt-get-install-y-make.txt"
+    },
+    {
+      "readme_step": "make up",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 0,
+      "duration_s": 82.0,
+      "log": "logs/03-make-up.txt"
+    },
+    {
+      "readme_step": "make smoke",
+      "command": "cd /home/judge/solution && make smoke",
+      "exit_code": 2,
+      "duration_s": 10.0,
+      "log": "logs/04-make-smoke.txt"
+    },
+    {
+      "readme_step": "make smoke",
+      "command": "cd /home/judge/solution && make smoke",
+      "exit_code": 2,
+      "duration_s": 8.0,
+      "log": "logs/05-make-smoke.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 14 of 17 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 14 of 17 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`make smoke` exit 2: make: *** [Makefile:48: smoke] Error 127 (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Оперативная 2D-карта",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Контейнер openegiz-mine-safety-1 healthy, GET http://127.0.0.1:8091/ → 200, /api/state отдаёт зоны, связи, датчики, вентиляторы, 10 работников, технику, incident. В дашборде Grafana openegiz-underground-mine-safety есть text-панель с iframe src=http://127.0.0.1:8091/. Карта берёт данные из собственного /api/state сервиса (static/app.js: fetch('/api/state')), а не из Ditto или InfluxDB."
+    },
+    {
+      "name": "Синтетическая телеметрия",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "В Ditto 26 двойников org.openegiz.safety:* (mine-01, 5 зон, 3 вентилятора, 5 датчиков, worker-01..10, loader-01, transport-01). Но с 11:13 по 11:18:32 у всех _revision=1, search gt(_revision,1) → пусто; sensor-section-a methane_pct в Ditto всё время 0.35. Сервис каждые 2 с публикует сам в топик opentwins/twin/events/... (originator=org.openegiz.safety:mine-safety). Telegraf пишет эти события в InfluxDB: methane section_a 0.357, меняется. Топик telemetry/# (вход Ditto) пуст, mosquitto_sub ничего не получил за 4 с."
+    },
+    {
+      "name": "Детерминированная оценка риска",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В /api/state при метане в section_a: risk critical, affected_zones [section_a], 3 человека. После reset: normal, затронутых нет. mine-01 overall_risk в InfluxDB: critical → normal. В Ditto не отражается."
+    },
+    {
+      "name": "Советник по вентиляции с прогнозом",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В /api/state поле ventilation_advisor: stable, горизонт 10 мин, fan_targets_percent, прогноз without_action/… При отказе вентилятора статус action_required, после reset снова stable. Расчёт идёт в локальном сервисе."
+    },
+    {
+      "name": "Энергетика вентиляторов",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В /api/state поле fan_energy: current 217.97 кВт, 1089.84 ₸ за 10 мин, recommended, full_speed_reference 270 кВт, comparison."
+    },
+    {
+      "name": "Маршруты эвакуации",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В /api/state поле evacuation_plan: в норме standby. При метане ready, при пожаре caution, при перекрытии section_b blocked, unrouted_people=3. После reset снова standby."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Отказ главного вентилятора",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "Запуск: curl POST :8091/api/scenarios/main_fan_failure с телом {} (тот же запрос шлёт кнопка в static/app.js). В /api/state fan-main running → stopped, airflow main_drift 2.78 → 0.22, risk critical, затронуты 5 зон и 10 человек. В InfluxDB airflow main_drift 2.81 → 0.22, overall_risk critical. В Ditto fan-main остался state=running, speed 100, rev 1; sensor-main-drift airflow 2.8 — двойники не изменились. После POST /api/reset: normal, airflow 2.88 в InfluxDB."
+    },
+    {
+      "name": "Выброс метана",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "Запуск: POST /api/scenarios/methane_release {\"zone\":\"section_a\"}. В API и InfluxDB CH4 section_a 0.362 → 2.8, critical, 3 человека. В Ditto sensor-section-a methane_pct остался 0.35, rev 1. После reset: 0.359, normal."
+    },
+    {
+      "name": "Пожар",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "Запуск: POST /api/scenarios/fire {\"zone\":\"main_drift\"}. В main_drift CO 5.4 → 75, дым 0.8, температура 58; ниже по потоку CO 41.2. 4 зоны, 9 человек, evac caution. В InfluxDB CO main_drift 75. В Ditto sensor-main-drift co_ppm остался 5, rev 1. После reset: CO 4.6, normal."
+    },
+    {
+      "name": "Перекрытие выработки",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "Запуск: POST /api/scenarios/blocked_working {\"zone\":\"section_b\"}. Связь main_drift→section_b active=false, airflow section_b 1.98 → 0.1, evac blocked, 3 человека без маршрута. В InfluxDB airflow 0.1. В Ditto sensor-section-b airflow_mps остался 2.0, rev 1. После reset: связь активна, airflow 2.04, normal."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "no",
+    "evidence": "1) Двойники в Ditto есть: 26 вещей org.openegiz.safety:*. 2) Данные через Ditto не идут. Все двойники остались на _revision=1 с момента setup (11:13) до 11:18:32, filter gt(_revision,1) → пусто, значения статичны. В том числе при сценариях: fan-main остаётся running, когда модель его остановила. Соединения Ditto mosquitto-source/target открыты (smoke ok), но сервис mine-safety не шлёт команды во входной топик telemetry/# — там пусто. Вместо этого он сам публикует поддельные события Ditto в выходной топик opentwins/twin/events/org.openegiz.safety/<name> (app.py publish_history_snapshot; publish_snapshot через Ditto не вызывается). Telegraf берёт их напрямую: в InfluxDB originator=org.openegiz.safety:mine-safety. Это прямо описано в README и SUBMISSION. 3) Панели Grafana с временными рядами читают InfluxDB opentwins-influxdb, но там данные мимо Ditto. Главная карта (iframe :8091) читает локальный /api/state сервиса, а не Ditto или InfluxDB."
+  },
+  "notes": "«make up» прошёл с первого раза. «make smoke» упал дважды: первая попытка и один повтор без изменений, оба раза exit 2. Скрипт платформы compose-smoke.sh каждый раз печатал «Smoke test passed.», но следующая строка Makefile вызывает `python`, а в VM есть только python3: «make: python: No such file or directory». Поэтому smoke_test.py команды не запускался. README не просит ставить python, я его не ставил. Шаги apt-get из README выполнил: make в VM не было. Make на Windows и `make example-mine` не нужны (Linux, README говорит, что example-mine не требуется). Сценарии в SUBMISSION запускаются только кнопками интерфейса. Я выполнил тот же HTTP-запрос из static/app.js: POST /api/scenarios/<id> с {\"zone\":...}, отмена через POST /api/reset (указан в SUBMISSION). Все четыре сценария отменены, Стенд в штатном режиме (scenario none, risk normal). AGENTS.md и CLAUDE.md обращены к агентам Команды и к Сборщику не относятся. Попыток повлиять на проверку не нашёл.\n\nПроверки пайплайна:\n- шаг «make smoke»: упал и при повторе без изменений",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел заполнен: вымышленная подземная шахта с приточной вентиляцией, пользователи — диспетчер и специалисты по вентиляции и промбезопасности, решение — оценить газовую обстановку, выбрать режим вентиляции и маршрут эвакуации."
+  }
+}

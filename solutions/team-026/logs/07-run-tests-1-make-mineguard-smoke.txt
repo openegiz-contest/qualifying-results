@@ -1,0 +1,62 @@
+PASS: Docker services running
+PASS: Streamlit healthy
+PASS: Monitor connected to MQTT
+PASS: InfluxDB has recent ML/risk measurements
+PASS: Grafana API responding (dashboard content not verified here)
+SMOKE: publish 7 scenario twins through MQTT → Ditto
+SMOKE: PASS — all 7 linked twin states read back from Ditto
+SMOKE: restore baseline sandbox scenario
+SMOKE: baseline restored
+PASS: Ditto round-trip and baseline reset
+kept: org.mineguard.team026:pit-01
+kept: org.mineguard.team026:loader-01
+kept: org.mineguard.team026:truck-01
+kept: org.mineguard.team026:truck-02
+kept: org.mineguard.team026:haul-road-01
+kept: org.mineguard.team026:crusher-01
+kept: org.mineguard.team026:fuel-bay-01
+kept: org.mineguard.team026:live-truck-01
+kept: org.mineguard.team026:live-truck-02
+MineGuard: 9 Ditto twins ready
+PASS: Container regression tests
+MineGuard smoke: PASS
+--- stderr ---
+test_all_original_twins_have_relations_and_policy (test_ditto_bridge.DittoBridgeTests.test_all_original_twins_have_relations_and_policy) ... ok
+test_native_ditto_protocol_and_telemetry_topic (test_ditto_bridge.DittoBridgeTests.test_native_ditto_protocol_and_telemetry_topic) ... ok
+test_recreation_does_not_replace_existing_twins (test_ditto_bridge.DittoBridgeTests.test_recreation_does_not_replace_existing_twins) ... ok
+test_road_scenario_changes_connected_road_and_output (test_ditto_bridge.DittoBridgeTests.test_road_scenario_changes_connected_road_and_output) ... ok
+test_scenario_updates_all_seven_related_twins (test_ditto_bridge.DittoBridgeTests.test_scenario_updates_all_seven_related_twins) ... ok
+test_many_off_domain_samples_do_not_invoke_model (test_ml_gate.MLGateTests.test_many_off_domain_samples_do_not_invoke_model) ... ok
+test_moving_loaded_haul_is_scored (test_ml_gate.MLGateTests.test_moving_loaded_haul_is_scored) ... ok
+test_shipped_model_detects_known_haul_outlier (test_ml_gate.MLGateTests.test_shipped_model_detects_known_haul_outlier) ... ok
+test_skipped_ml_keeps_separate_heuristic_risk (test_ml_gate.MLGateTests.test_skipped_ml_keeps_separate_heuristic_risk) ... ok
+test_state_not_case_sensitive (test_ml_gate.MLGateTests.test_state_not_case_sensitive) ... ok
+test_stopped_or_empty_haul_not_scored (test_ml_gate.MLGateTests.test_stopped_or_empty_haul_not_scored) ... ok
+test_unscored_for_normal_nonhaul_states (test_ml_gate.MLGateTests.test_unscored_for_normal_nonhaul_states) ... ok
+test_deterministic_unchanged (test_visual_and_mc.MonteCarloTests.test_deterministic_unchanged) ... ok
+test_invalid_sample_count (test_visual_and_mc.MonteCarloTests.test_invalid_sample_count) ... ok
+test_percentiles_ordered (test_visual_and_mc.MonteCarloTests.test_percentiles_ordered) ... ok
+test_quarry_render_is_escaped (test_visual_and_mc.MonteCarloTests.test_quarry_render_is_escaped) ... ok
+test_same_seed_same_results (test_visual_and_mc.MonteCarloTests.test_same_seed_same_results) ... ok
+test_stochastic_parameters_change_production (test_visual_and_mc.MonteCarloTests.test_stochastic_parameters_change_production) ... ok
+test_crusher_congestion_reduces_throughput (test_what_if.HaulCycleTests.test_crusher_congestion_reduces_throughput) ... ok
+test_maintenance_zero_is_equivalent_to_base (test_what_if.HaulCycleTests.test_maintenance_zero_is_equivalent_to_base) ... ok
+test_payload_capped_at_capacity (test_what_if.HaulCycleTests.test_payload_capped_at_capacity) ... ok
+test_produces_ore_and_monotonic_timeline (test_what_if.HaulCycleTests.test_produces_ore_and_monotonic_timeline) ... ok
+test_reduced_loaded_speed_changes_delivery (test_what_if.HaulCycleTests.test_reduced_loaded_speed_changes_delivery) ... ok
+test_refuelling_is_accounted_for (test_what_if.HaulCycleTests.test_refuelling_is_accounted_for) ... ok
+test_reject_invalid (test_what_if.HaulCycleTests.test_reject_invalid) ... ok
+test_repeatable (test_what_if.HaulCycleTests.test_repeatable) ... ok
+test_road_slowdown_reduces_throughput (test_what_if.HaulCycleTests.test_road_slowdown_reduces_throughput) ... ok
+test_truck_repair_reduces_throughput (test_what_if.HaulCycleTests.test_truck_repair_reduces_throughput) ... ok
+test_zero_payload (test_what_if.HaulCycleTests.test_zero_payload) ... ok
+test_exact_thresholds (test_what_if.RiskRegressionTests.test_exact_thresholds) ... ok
+test_invalid_or_nonfinite_values (test_what_if.RiskRegressionTests.test_invalid_or_nonfinite_values) ... ok
+test_known_baseline (test_what_if.RiskRegressionTests.test_known_baseline) ... ok
+test_overload_low_fuel (test_what_if.RiskRegressionTests.test_overload_low_fuel) ... ok
+test_shipped_model_detects_known_outlier (test_what_if.RiskRegressionTests.test_shipped_model_detects_known_outlier) ... ok
+
+----------------------------------------------------------------------
+Ran 34 tests in 0.322s
+
+OK

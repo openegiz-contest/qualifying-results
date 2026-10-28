@@ -1,0 +1,125 @@
+{
+  "team": "team-060",
+  "sha": "1ab6fe74f72568efb66c5f2d8fefed9817c39341",
+  "started_at": "2026-10-28T02:18:09+00:00",
+  "finished_at": "2026-10-28T02:37:58+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update && sudo apt-get install -y make",
+      "command": "cd /home/judge/solution && sudo apt-get update && sudo apt-get install -y make",
+      "exit_code": 0,
+      "duration_s": 8.0,
+      "log": "logs/01-sudo-apt-get-update-sudo-apt-get-install.txt"
+    },
+    {
+      "readme_step": "make pit",
+      "command": "cd /home/judge/solution && make pit",
+      "exit_code": 0,
+      "duration_s": 105.0,
+      "log": "logs/02-make-pit.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 15 of 18 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 15 of 18 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`make smoke` exit 2: FAIL  value 116 did not reach InfluxDB within 60 s (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Транспорт и диспетчеризация",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Самосвалы двигаются: у kz.aktogay.pit:ht01 x/y было −129.1/−127.0, состояние loading, затем −182.0/−262.9, hauling. В dispatch: mode=dynamic, need_ore_trucks=4, on_ore_trucks=4. Когда закрыли съезд A, самосвалы пошли в объезд через съезд B (r-ramp-b-up trucks_on=4), on_ore вырос до 6. В Grafana есть дашборд teamspirit-aktogay-pit с панелью «Самосвалы: на руде факт / нужно по модели» (Flux к InfluxDB, 41 точка за 30 мин). Пульт :8095 отвечает: / → 200, /api/state отдаёт features из Ditto."
+    },
+    {
+      "name": "Поддержка решений диспетчера",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Feature recommendations у kz.aktogay.pit:dispatch меняется под ситуацию. В норме: «Норма: питание мельницы обеспечено…». При закрытом съезде A: «…4.5 км вместо 2.2 км, цикл 23 мин вместо 17 мин. Для питания мельницы нужно 5 самосвалов на руде». Отдельные рекомендации появляются для ЭКГ-2, ККД, гололёда и фиксированного режима. ore_route, ore_cycle и ore_dig_capacity пересчитываются."
+    },
+    {
+      "name": "Переработка: дробление и склад перед мельницей",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "kz.aktogay.pit:crusher: state=crushing, throughput=4500, pocket=278 т, ore_in_tph_1h=2672. У kz.aktogay.pit:cos меняются level (30048→29948→29416 т), hours_left и mill_feed=2850. Панели Grafana по cos берут данные из InfluxDB (41 точка)."
+    },
+    {
+      "name": "Геология и качество руды",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "face_grade у sh01=0.386, у sh02=0.302→0.31 (меняется), у ht01 load_grade=0.384, feed_grade_1h у crusher и mine=0.343."
+    },
+    {
+      "name": "Энергетика",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "kz.aktogay.pit:mine: fuel_total 44→524 л, fuel_per_t=0.284 л/т, energy_per_t=0.824 кВт·ч/т. power у sh02: 1900 при погрузке, 0 в ремонте, 350 в ожидании. В Grafana есть панель «Удельные расходы»."
+    },
+    {
+      "name": "Топливная логистика",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В журнале dispatch.events: «08:33 HT05: топливо 14 % — на АЗС», «08:53 HT05: заправлен», «08:52 HT02: топливо 14 % — на АЗС». Перед этим у ht05 было fuel=14.9 %."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Закрыть съезд A",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск: make scenario K=ramp_a_closed V=true. До: r-ramp-a-up state=open, ore_route=2.21 км, ore_cycle=16.7 мин, need_ore=4. После: r-ramp-a-up=closed, в r-ramp-b-up trucks_on=4, ore_route=4.49, ore_cycle=22.9, need_ore=5, on_ore=6; в events «объезд через…», рекомендация с цифрами. Отмена: V=false. После неё open, 2.21 км, 16.7 мин, need=4, рекомендация «Норма»."
+    },
+    {
+      "name": "Поломка ЭКГ-2",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск: make scenario K=sh02_down V=true. sh02: state waiting_trucks→down, power=0; ore_dig_capacity 9614→4807; рекомендация «ЭКГ-2 в ремонте: … Самосвалы с ЭКГ-2 — на ЭКГ-1 и вскрышу». Отмена: V=false. После неё sh02=waiting_trucks, power=350, capacity=9614, «Норма»."
+    },
+    {
+      "name": "Остановка ККД",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск: make scenario K=crusher_down V=true. crusher: crushing/4500→stopped/0; rom: 15000→15231 т (растёт); cos: 29838→29416 т (убывает), hours_left=10.3; рекомендация «ККД стоит: руду — на рудный склад…». Отмена: V=false. После неё crushing/4500, cos растёт (29534 т), «Норма»."
+    },
+    {
+      "name": "Гололёд",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск: make scenario K=winter V=true. speed_limit у r-floor 30→21, у r-ramp-b-up 40→28 (−30 %); ore_cycle 16.7→21.7, need_ore 4→5; рекомендация «Гололёд…». Отмена: V=false. После неё 30/40, 16.7 мин, need=4."
+    },
+    {
+      "name": "Самосвалов без водителей: 0–4",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск: make scenario K=parked_trucks V=2. trucks_parked в mine 0→1 через 2 мин; ht10 state=parked, ht09 state=to_park. Отмена: V=0. После неё trucks_parked=0, ht09=loading, ht10=to_shovel."
+    },
+    {
+      "name": "Диспетчеризация по плану смены",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск: make scenario K=dispatch_mode V='\"fixed\"'. dispatch.mode dynamic→fixed, рекомендация «Фиксированное закрепление: в очередях 1 самосвалов, простаивают ЭКГ-2 (руда). Включите динамическую диспетчеризацию.» Отмена: V='\"dynamic\"'. После неё mode=dynamic, «Норма»; control.scenarios вернулся ко всем значениям по умолчанию."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) Двойники: GET /api/2/search/things отдаёт 37 вещей kz.aktogay.pit:* (mine, ht01–ht10, sh01–sh03, crusher, cos, rom, dump, fuel, 16 дорог r-*, dispatch, control). 2) Признаки меняются между снимками с разницей больше 30 с (ht01 x/y, mine.sim_clock 08:03→08:05→08:20, cos.level). Соединения Ditto mosquitto-source-connection (telemetry/#) и mosquitto-target-connection — open. simulator.py публикует через paho-mqtt в telemetry/<twin>; по HTTP он только читает двойник control. Сценарии подписаны на opentwins/+/+/kz.aktogay.pit/control. В логе connectivity видны featuresModified для kz.aktogay.pit:*. 3) Дашборд Grafana teamspirit-aktogay-pit: все панели — Flux к opentwins-influxdb. В InfluxDB за 30 мин 41 точка measurement mqtt_consumer с topic opentwins/twin/events/kz.aktogay.pit/… (их пишет Telegraf). Пульт web.py берёт /api/state и /api/static из Ditto (ditto.get /things?ids=…), а сценарии записывает в двойник control через Ditto PUT."
+  },
+  "notes": "Повторов не было: оба шага README выполнены с первой попытки. Две строки блока кода README («sudo apt-get update && sudo apt-get install -y make» и «make pit») запущены отдельными вызовами. Сценарии запускал командой README `make scenario` (POST на /api/scenario пульта, который пишет в двойник control в Ditto). Для dispatch_mode значение передавал как в README: V='\"fixed\"' / V='\"dynamic\"'. Все сценарии отменены, control.scenarios вернулся к значениям по умолчанию, контейнеры pit-* работают. AGENTS.md/CLAUDE.md — стандартные инструкции Шаблона для агентов Команды, не выполнялись. Инъекций не обнаружено.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел описывает сектор медно-порфирового карьера масштаба Актогая (KAZ Minerals). Пользователь — горный диспетчер смены, решение — куда направить самосвалы при сбоях, чтобы не остановить мельницу."
+  }
+}

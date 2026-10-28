@@ -1,0 +1,90 @@
+{
+  "team": "team-007",
+  "sha": "70ca457fd02e6544732cdc82a760d625f714358a",
+  "started_at": "2026-10-27T09:37:14+00:00",
+  "finished_at": "2026-10-27T09:55:36+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt install -y make   # if make is missing (clean Ubuntu)",
+      "command": "cd /home/judge/solution && sudo apt install -y make",
+      "exit_code": 0,
+      "duration_s": 5.2,
+      "log": "logs/01-sudo-apt-install-y-make-if-make-is-missi.txt"
+    },
+    {
+      "readme_step": "make up            # the OpenEgiz platform",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 0,
+      "duration_s": 693.0,
+      "log": "logs/02-make-up-the-openegiz-platform.txt"
+    },
+    {
+      "readme_step": "make example-mine  # the Example Mine: twins, simulator, dashboard",
+      "command": "cd /home/judge/solution && make example-mine",
+      "exit_code": 0,
+      "duration_s": 31.0,
+      "log": "logs/03-make-example-mine-the-example-mine-twins.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 14 of 17 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 14 of 17 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Telemetry & \"What-if\" Methane Surge Simulator (my_simulator.py)",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "В README запуска симулятора нет, на Стенде он не запущен (контейнера нет; работает только openegiz-mine-simulator-1 из Example Mine). Команда из SUBMISSION `python3 ~/team-007/team/my_simulator.py` упала: \"can't open file '/home/judge/team-007/team/my_simulator.py'\" (rc=2). paho-mqtt в VM не установлен. Двойники org.openegiz.mine:horizon-1-section-a и ventilation-fan-01 → HTTP 404."
+    },
+    {
+      "name": "Digital Twins (Eclipse Ditto): horizon-1-section-a, ventilation-fan-01 под mine-01",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "GET /api/2/search/things: только crusher-01, excavator-01, mine-01, truck-01, truck-02 (Example Mine Шаблона). GET /api/2/things/org.openegiz.mine:horizon-1-section-a и :ventilation-fan-01 → 404."
+    },
+    {
+      "name": "SCADA Monitoring & Alarms (Grafana) — дашборд «Мониторинг газовой безопасности и ГВУ (OpenEgiz)»",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Grafana /api/search: только папка «OpenEgiz Examples» и дашборд «Example Mine» (uid openegiz-example-mine); поиск «Мониторинг» → []. team/dashboard.json в Grafana не загружен, данных по газу/ГВУ в двойниках нет."
+    },
+    {
+      "name": "Example Mine Шаблона (truck/excavator/crusher + симулятор + дашборд)",
+      "claimed_in_submission": false,
+      "works": "yes",
+      "evidence": "truck-01: state returning→hauling, payload 0.0→90.0, fuel 85.3→84.6 за 35 с; дашборд Example Mine — 19 панелей с datasource influxdb (opentwins-influxdb). Это код Шаблона, не Команды."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Methane surge → EMERGENCY_BOOST ГВУ (my_simulator.py)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "До: двойники horizon-1-section-a и ventilation-fan-01 отсутствуют (404). Запуск как описано, из team/: `python3 ~/team-007/team/my_simulator.py` → No such file or directory (rc=2): путь ~/team-007 в Окружении судьи не существует. Сценарий не запустился, Стенд не изменён, отменять нечего; после — те же 404."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "no",
+    "evidence": "Платформа поднялась (Ditto, Mosquitto, Telegraf, InfluxDB, Grafana; соединение mosquitto-source-connection open), но на Стенде работает только Example Mine Шаблона. Двойников рудника Команды в Ditto нет (horizon-1-section-a, ventilation-fan-01 → 404), сервис Команды (my_simulator.py) по README не запускается и в MQTT не публикует, дашборда Команды в Grafana нет. По коду симулятор задуман корректно (PUT в Ditto, MQTT telemetry/<name> в формате Ditto Protocol), но на Стенде это не наблюдается."
+  },
+  "notes": "README — нетронутый Шаблон (заголовок «<Team name>», «Replace these commands…»); выполнены его команды буквально: apt install make, make up, make example-mine — все завершились с кодом 0, повторов не было. Запуск симулятора Команды (team/my_simulator.py) и загрузка team/dashboard.json в README не описаны; сценарий проверен командой из SUBMISSION.md буквально (путь ~/team-007/... не существует). В my_simulator.py захардкожен пароль Ditto по умолчанию и путь к .env в ~/team-007. Возможных инъекций не найдено.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел написан: подсистема аэрогазового контроля и главная вентиляторная установка шахты (горизонт -200м); пользователи — диспетчеры и инженеры ПБ; решение — автоматический форсаж ГВУ при CH4 > 1.0%."
+  }
+}

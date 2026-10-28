@@ -1,0 +1,86 @@
+{
+  "team": "team-089",
+  "judge": "gpt-6.1-sol",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Через API Ditto и приложение OpenEgiz проверены объекты Стенда: присутствуют только пять двойников Примера рудника. Собственные oilfield-01 и WELL-01..03 определены в JSON, но на платформе отсутствуют. Условие уровня 1 не выполнено.",
+      "references": [
+        "ditto:org.openegiz.mine:mine-01",
+        "examples/oilguard/twins.json:2",
+        "SUBMISSION.md:47",
+        "build_report:built_on_openegiz"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "В двух снимках Ditto с интервалом более минуты меняется только Пример рудника: truck-01 перешёл из hauling в returning, число рейсов выросло с 1 до 2. Живых состояний OilGuard нет. Собственный генератор создаёт независимые случайные измерения и заранее заданную аварию в локальном CSV; это не работающий на Стенде процесс команды.",
+      "references": [
+        "ditto:org.openegiz.mine:truck-01",
+        "oilguard_simulator.py:11",
+        "SUBMISSION.md:134",
+        "build_report:modules[0]"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "В браузере открылся только Example Mine с графиками и числовыми панелями Примера. Дашборда OilGuard в Grafana нет; собственная визуализация представлена локальным графиком давления, без геометрии предприятия и живого процесса.",
+      "references": [
+        "screenshot:team089-stand-example-mine.png",
+        "SUBMISSION.md:114",
+        "SUBMISSION.md:127",
+        "build_report:modules[2]"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Инцидент WELL-02 задан заранее в генераторе данных на минутах 70–90. Команда прямо указывает, что управление сценарием на Стенде не реализовано; способ запуска на Стенде отсутствует. Сценарии не запускал, Стенд не изменял.",
+      "references": [
+        "SUBMISSION.md:57",
+        "SUBMISSION.md:66",
+        "oilguard_simulator.py:20"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Работающего мониторинга или предупреждений OilGuard на Стенде не обнаружено: скважин и их статусов в Ditto нет, дашборд отсутствует. Пороговая классификация существует в локальном генераторе, но её работа поверх живых двойников не подтверждена.",
+      "references": [
+        "oilguard_simulator.py:25",
+        "SUBMISSION.md:55",
+        "SUBMISSION.md:78",
+        "build_report:modules[1]"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Названы вымышленное месторождение, пользователи и решения по безопасности трёх скважин; собственный код и CSV соответствуют этой теме. Презентация понятна и честно отделяет локальные результаты от неподтверждённой интеграции; проверены 360 записей и 21 DANGER. Однако Стенд содержит только Пример рудника и от Замысла не зависит, поэтому уровень 2 не выполнен.",
+      "references": [
+        "SUBMISSION.md:9",
+        "SUBMISSION.md:17",
+        "oilguard_data.csv:1",
+        "presentation.pdf:5",
+        "presentation.pdf:6",
+        "build_report:built_on_openegiz"
+      ]
+    }
+  ],
+  "total": 3.75
+}

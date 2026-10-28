@@ -1,0 +1,58 @@
+{
+  "team": "team-096",
+  "sha": "1ef64a51bb132843d4610a988ab8544d2557d76b",
+  "started_at": "2026-10-27T21:16:08+00:00",
+  "finished_at": "2026-10-27T21:20:38+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt install -y make   # if make is missing (clean Ubuntu)",
+      "command": "cd /home/judge/solution && sudo apt install -y make",
+      "exit_code": 0,
+      "duration_s": 5.0,
+      "log": "logs/01-sudo-apt-install-y-make-if-make-is-missi.txt"
+    },
+    {
+      "readme_step": "make up            # the OpenEgiz platform",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 0,
+      "duration_s": 72.0,
+      "log": "logs/02-make-up-the-openegiz-platform.txt"
+    },
+    {
+      "readme_step": "make example-mine  # the Example Mine: twins, simulator, dashboard",
+      "command": "cd /home/judge/solution && make example-mine",
+      "exit_code": 0,
+      "duration_s": 34.0,
+      "log": "logs/03-make-example-mine-the-example-mine-twins.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 14 of 17 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 14 of 17 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [],
+  "scenarios": [],
+  "built_on_openegiz": {
+    "verdict": "no",
+    "evidence": "The Team has built nothing of its own on the platform. Ditto (GET /api/2/search/things) holds only the 5 Template Example Mine twins (org.openegiz.mine:mine-01, crusher-01, excavator-01, truck-01, truck-02). They do update via MQTT: in two snapshots 35 s apart, excavator-01 went from state loading to idle, passes_total from 9 to 10 and face_grade from 0.677 to 0.784, and mine-01 trucks_hauling went from 1 to 2. The connection mosquitto-source-connection (mqtt-5) is open. Grafana has only the Template's 'Example Mine' dashboard. The repository has no Team code: team/ contains only README.md, and the only commits after 'Initial commit' change SUBMISSION.md. SUBMISSION.md describes no Team twins. The Template marks the Example Mine as 'not a basis for the Submission'. So the platform works, but there are no Team copper-mine twins, data flow or interface that could be counted as the Submission built on OpenEgiz."
+  },
+  "notes": "The README is the unchanged Template, including the placeholders '<Team name>' and '<where to see the mine visualization…>' and the line 'Replace these commands with the commands of your Submission'. I took the most literal reading and ran the 3 commands from it in order: sudo apt install -y make, make up, make example-mine. All finished with code 0 on the first try, so nothing was retried. What came up is the OpenEgiz platform plus the Template's Example Mine. The Team has no code of its own: team/ has only README.md, and its commits only edit SUBMISSION.md. In SUBMISSION.md only Concept and Team are filled. The 'Modules and What-if Scenarios' table has one empty row, and the Mine, 'What works and what does not', Data and Assumptions, and Mine visualization sections are empty. So modules and scenarios are empty lists, there was nothing to run or undo, and the Stand was not changed. I found no possible injections. I did not read AGENTS.md or CLAUDE.md as instructions.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Concept is written: a fictional open-pit copper mine modelled on Aktogay and Bozshakol, used to decide how to organise mining so that it does less damage to the land and the environment and to plan land reclamation."
+  }
+}

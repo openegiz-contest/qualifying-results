@@ -1,0 +1,8 @@
+test_missing_twins_fail_closed (test_platform_contract.PlatformContractTests.test_missing_twins_fail_closed) ... ok
+test_mixed_revisions_fail_closed (test_platform_contract.PlatformContractTests.test_mixed_revisions_fail_closed) ... ok
+test_reads_are_from_platform (test_platform_contract.PlatformContractTests.test_reads_are_from_platform) ... ok
+
+----------------------------------------------------------------------
+Ran 29 tests in 0.987s
+
+OK

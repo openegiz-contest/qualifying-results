@@ -1,0 +1,96 @@
+{
+  "team": "team-075",
+  "sha": "67cb8f1184220c7526b9475ae50275d41bbffdd8",
+  "started_at": "2026-10-27T20:35:36+00:00",
+  "finished_at": "2026-10-27T20:40:33+00:00",
+  "came_up": false,
+  "steps": [
+    {
+      "readme_step": "sudo apt install -y make   # if make is missing (clean Ubuntu)",
+      "command": "cd /home/judge/solution && sudo apt install -y make",
+      "exit_code": 0,
+      "duration_s": 41.7,
+      "log": "logs/01-sudo-apt-install-y-make-if-make-is-missi.txt"
+    },
+    {
+      "readme_step": "make up            # the OpenEgiz platform",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 0,
+      "duration_s": 85.0,
+      "log": "logs/02-make-up-the-openegiz-platform.txt"
+    },
+    {
+      "readme_step": "`docker compose --env-file deploy/compose/.env -f deploy/compose/docker-compose.yml -f deploy/compose/ecomine.yml up -d --build`",
+      "command": "cd /home/judge/solution && docker compose --env-file deploy/compose/.env -f deploy/compose/docker-compose.yml -f deploy/compose/ecomine.yml up -d --build",
+      "exit_code": 1,
+      "duration_s": 0,
+      "log": "logs/03-docker-compose-env-file-deploy-compose-e.txt"
+    },
+    {
+      "readme_step": "`docker compose --env-file deploy/compose/.env -f deploy/compose/docker-compose.yml -f deploy/compose/ecomine.yml up -d --build`",
+      "command": "cd /home/judge/solution && docker compose --env-file deploy/compose/.env -f deploy/compose/docker-compose.yml -f deploy/compose/ecomine.yml up -d --build",
+      "exit_code": 1,
+      "duration_s": 0,
+      "log": "logs/04-docker-compose-env-file-deploy-compose-e.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 13 of 15 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 13 of 15 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Truck Telemetry Simulation",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Контейнер ecomine-simulator не создан: compose упал с «required variable ECOMINE_INFLUX_TOKEN is missing a value» (2 попытки). mosquitto_sub -t 'ecomine/#' за 12 с не получил ни одного сообщения."
+    },
+    {
+      "name": "Environmental Monitoring",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Дашборд «EcoMine | Intelligent Green Mining Dashboard» (uid adr8nb2, 5 панелей по measurement ecomine) есть в Grafana, но в InfluxDB (bucket default) за последний час данных нет: count() по всем measurement пустой. ecomine-influx-writer не запущен."
+    },
+    {
+      "name": "Environmental Risk Analysis",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Контейнер ecomine-risk-writer не создан, у него нет логов, в InfluxDB нет данных measurement ecomine_risk. Панель Environmental Risk пустая."
+    },
+    {
+      "name": "Digital Twin Synchronization",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "GET /api/2/search/things вернул {\"items\":[]}, GET /api/2/things/ecomine:smart-mine вернул 404. ecomine-ditto-bridge не запущен. По коду он делает HTTP PUT в /features, а саму Thing нигде не создаёт."
+    },
+    {
+      "name": "Critical Risk Alert",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Правило «EcoMine | Critical Environmental Risk Alert» (uid bg1syzww5do1sb, группа ecomine-alerts) есть в Grafana provisioning API, но данных ecomine_risk, на которых оно срабатывает, нет, поэтому сработать оно не может."
+    }
+  ],
+  "scenarios": [],
+  "built_on_openegiz": {
+    "verdict": "no",
+    "evidence": "1) Двойников в Ditto нет: search/things пуст, ecomine:smart-mine — 404. 2) Через платформу данные не идут: сервисы EcoMine не поднялись (нет ECOMINE_INFLUX_TOKEN), в топике ecomine/# сообщений нет. Соединение mosquitto-source-connection в Ditto открыто, но слушает telemetry/#, а симулятор по коду публикует в ecomine/telemetry. ditto_bridge.py пишет в Ditto по HTTP PUT, а не через MQTT-соединение Ditto. 3) Grafana-дашборд adr8nb2 читает measurement ecomine и ecomine_risk. Их влили бы в InfluxDB напрямую influx_writer.py и risk_writer.py (/api/v2/write) в обход Ditto и Telegraf, данных из событий Ditto там нет."
+  },
+  "notes": "Строка README «First configure and start the OpenEgiz platform» не говорит, как именно это сделать. Я выполнил буквально команды из раздела «Original OpenEgiz Documentation» того же README: `sudo apt install -y make` и `make up`. `make example-mine` не запускал: это Пример рудника, а не Решение. `make up` прошёл успешно. Основная команда README `docker compose ... -f deploy/compose/ecomine.yml up -d --build` упала с ошибкой «required variable ECOMINE_INFLUX_TOKEN is missing a value». README требует задать эту переменную, но не говорит, откуда взять значение, а подбирать его запрещено. Повтор без изменений упал так же. Сервисы EcoMine не поднялись. Дашборд и правило алерта в Grafana есть, но без данных. Сценариев «что если» Команда в SUBMISSION.md не заявляет (прямо пишет, что их нет), поэтому scenarios пуст. Возможных инъекций не найдено: AGENTS.md и CLAUDE.md — стандартные файлы Шаблона для агентов Команды, их я не выполнял.\n\nПроверки пайплайна:\n- шаг «`docker compose --env-file deploy/compose/.env -f deploy/compose/docker-compose.yml -f deploy/compose/ecomine.yml up -d --build`»: упал и при повторе без изменений",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Раздела «Concept» нет. Первый раздел, «Project Overview», написан Командой: мониторинг выбросов на смоделированном карьере, вывоз руды четырьмя самосвалами, цель — выявлять режимы с высокими выбросами. Пользователи и решение, которое они принимают, конкретно не названы."
+  }
+}

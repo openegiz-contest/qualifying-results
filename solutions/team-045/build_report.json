@@ -1,0 +1,162 @@
+{
+  "team": "team-045",
+  "sha": "19648147d10f5b2efeb3eeb41a06b746ca04ce7d",
+  "started_at": "2026-10-27T13:03:24+00:00",
+  "finished_at": "2026-10-27T13:33:40+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt install -y make        # на чистой Ubuntu make не установлен",
+      "command": "cd /home/judge/solution && sudo apt install -y make",
+      "exit_code": 0,
+      "duration_s": 4.8,
+      "log": "logs/01-sudo-apt-install-y-make-ubuntu-make.txt"
+    },
+    {
+      "readme_step": "make mine",
+      "command": "cd /home/judge/solution && make mine",
+      "exit_code": 0,
+      "duration_s": 137.0,
+      "log": "logs/02-make-mine.txt"
+    },
+    {
+      "readme_step": "make mine-check",
+      "command": "cd /home/judge/solution && make mine-check",
+      "exit_code": 0,
+      "duration_s": 13.0,
+      "log": "logs/03-make-mine-check.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 15 of 18 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 15 of 18 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`make smoke` exit 2: FAIL  twin org.openegiz.mine:mine-01 exists; FAIL  twin org.openegiz.mine:excavator-01 exists; FAIL  twin org.openegiz.mine:truck-01 exists; FAIL  twin org.openegiz.mine:truck-02 exists; FAIL  twin org.openegiz.mine:crusher-01 exists (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "04 Вентиляция и безопасность: вентиляционная сеть",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Сеть считается и отвечает на изменения: fan-main q=242.8 м³/с при 100 %, 121.4 при 50 %, 0 при остановке; panel-1/2/3 q_in 94.5/39.5/108.7, при открытой двери aw-door-3 стало 94.3/27.8/71.4 (q двери 0.2→52.2). agk-p1 показывает velocity 7.87 и CO/NO2. Дашборд vzhr-air (14 панелей InfluxDB) отдаёт данные."
+    },
+    {
+      "name": "04 Аэрогазовый режим камер и наряд (вердикты)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "У каждой камеры k*-* есть verdict и reason, они меняются: исходно 15 «разрешено», 16 «ограничено» (k2-*: «воздуха 2014 м3/мин: без дизельной техники»), 23 отработаны. После взрыва в пересменку k1-23 стала ventilating, «запрещено — проветривание после взрыва: CO 0.1218 % > 0.0016 %»; agk-p1 co=0.01725. При остановке ВГП 31 камера «запрещено», звенья «выведено»."
+    },
+    {
+      "name": "Горное давление и целики",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "У 54 целиков c*-* есть sf/strength/stress/status (c1-24 sf=3.88, c1-14 1.99, минимум 1.79 у c3-22, все «устойчив»). Выемка c1-24 снижает SF соседей (c1-23 3.88→3.26), толчок — тоже (3.88→3.65). Дашборд vzhr-ground: Flux-запросы к value_sf_properties_value возвращают ряды по c1-*. Перехода целиков в «наблюдение»/«критический» за время проверки не было."
+    },
+    {
+      "name": "Сейсмичность",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "У panel-* есть seismic_class, bumps_shift, max_bump_energy, hazard. Толчок 150 кДж: panel-1 status «эвакуация», hazard «высокая», evacuated_until_h 7.1, people 15→0, 10 камер запрещено, SF целиков упал. Спонтанных толчков за ~45 мин Стенда не было."
+    },
+    {
+      "name": "Цикл камеры и выдача руды",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Стадии идут: k1-23 drilling (stage_progress 62→63) → charging → взрыв в пересменку → ventilating; k3-32 → scaling; sbu-01 rounds_total 0→1. Выпуска руды за ~45 мин Стенда (до 8.5 ч модельного времени) не наступило: pdm-01..03 «стоянка», rs-1..3 level 0, crusher/hoist «ожидание», ore_hoisted_t 0."
+    },
+    {
+      "name": "Наряд смены (решение горного мастера)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "assign crew-1→k1-11 отклонён: shift-plan.rejected «звено-1 → 1-11: — — камера отработана». assign crew-2→k1-26 при отказе ВМП отклонён: «запрещено — отказ ВМП». assign crew-4→k1-26 принят: last_change «звено-4 → камера 1-26 (разрешено)», k1-26 стала drilling. Снятие (chamber пустой) дало «звено-4: снято с наряда». Автонаряд второй смены: shift_no 2, новый plan."
+    },
+    {
+      "name": "План горизонта 2D/3D (mine-control, порт 8095)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "make mine-check: «план горизонта отдаётся на http://127.0.0.1:8095/», three.js и view3d.js отдаются, /api/state содержит 166 двойников из Ditto. Отрисовку в браузере не проверял, браузера нет."
+    },
+    {
+      "name": "Дашборды Grafana, папка ВЖР",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "/api/search показывает 5 дашбордов: vzhr-overview (16 панелей), vzhr-air (14), vzhr-ground (9), vzhr-plan (6) на источнике opentwins-influxdb, vzhr-map — iframe плана. /api/ds/query возвращает ряды, например sim_time_h east-mine 2.01→2.72, 65 точек за 15 мин."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "ВГП 50 %",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "POST /api/command {action:fan,speed_pct:50}: fan q 242.8→121.4; panel q_in 94.5/39.5/108.7→47.2/19.7/54.3; разрешено/ограничено 15/16→5/26; agk-p1 velocity 7.87→3.94. После отмены {fan,100}: всё как до запуска, active_scenarios none."
+    },
+    {
+      "name": "Остановка ВГП",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "{fan,speed_pct:0}: q=0, 31 камера «запрещено», звенья «выведено», agk-p1 alarm «нет струи». После {fan,100}: 15/16/0, звенья «в камере», alarm «норма»."
+    },
+    {
+      "name": "Открыта вентиляционная дверь в сбойке 3",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "{door,aw-door-3,on:true}: door_state «открыта», q двери 0.2→52.2; panel-2 q_in 39.5→27.8, panel-3 108.7→71.4. Повтор с on:false: «закрыта», 39.5/108.7."
+    },
+    {
+      "name": "Регулятор П-3 прикрыт на 60 %",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "{regulator,aw-p3-vent,closed_pct:60}: panel-2 q_in 39.5→64.5 (air_available 2370→3872), panel-3 108.7→74.4; k2-* из «ограничено» в «разрешено» (31 разрешено, 0 ограничено). Отмена closed_pct:0: 94.5/39.5/108.7, 15/16."
+    },
+    {
+      "name": "Обрушение в главном штреке 1–2",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "{blocked,aw-main-12,on:true}: aw-main-12 status blocked, q 148.4→0.5, струя перестроилась (panel-1 q_in 94.5→191.6, panel-2 39.5→73.5, panel-3 108.7→73.9). Заявленного «нет открытого пути к стволу → наряд запрещён, звенья выводятся» не было и через ~40 с: chambers_forbidden 0, все 31 камеры «разрешено», crew-1 в k3-32 «в камере». После отмены on:false: status open, q 148.4, 15/16/0."
+    },
+    {
+      "name": "Самосвал CAT AD45B в П-1",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "{extra_diesel,panel-1,on:true}: panel-1 diesel_kw 0→429, air_required 90→3007; agk-p1 CO 0→0.00061, NO2 0→0.000131. Потерю допуска ПДМ не увидеть: все ПДМ на стоянке, вердикты камер П-1 не изменились. Отмена on:false: diesel_kw 0, air_required 90, CO/NO2 0."
+    },
+    {
+      "name": "Сейсмический толчок 150 кДж в П-1",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "{seismic,panel-1,energy:150000}: panel-1 «эвакуация», hazard «высокая», evacuated_until_h 7.1, people 15→0; k1-23 «запрещено — панель выведена после толчка»; SF c1-23 3.88→3.65; forbidden 0→10. После «Сбросить все сценарии» {action:reset}: panel-1 «работа», hazard «низкая», SF 3.88, 15/16/0, crew-2 «в камере»."
+    },
+    {
+      "name": "Выемка целика 1-24",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "{pillar_extract,c1-24,on:true}: c1-24 «извлечён», sf 0; соседи c1-23/c1-25 3.88→3.26, c1-14 1.99→1.62. Заявленного перехода камер рядом в «наблюдение» или закрытия не было: все SF ≥1.5, k1-23..25 «разрешено». Отмена on:false: c1-24 «устойчив», SF 3.88/1.99."
+    },
+    {
+      "name": "Отказ ВМП в камере 1-26",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "{aux_fan_fail,k1-26,on:true}: k1-26 aux_fan «отказ», verdict «запрещено — отказ ВМП, камера не проветривается», air 1606→0, people 5→0, crew-4 «выведено». Наряд crew-2→k1-26 отклонён. Отмена on:false: «вкл», «разрешено», crew-4 «в камере»."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) Ditto: search/things/count по namespaces=org.openegiz.zhezkazgan дал 166 вещей (east-mine, fan-main, panel-*, k*-*, c*-*, aw-*, agk-*, crew-*, pdm-*, shift-plan…). 2) Соединения Ditto mosquitto-source-connection (telemetry/#) и mosquitto-target-connection — обе open. Признаки меняются: east-mine sim_time_h 2.28→2.64 за ~60 с, stage_progress камер растёт. mine-sim публикует modify-команды Ditto в MQTT telemetry/<twin> (team/mine/run_sim.py:100). В InfluxDB точки с topic opentwins/twin/events/..., originator nginx:ditto. Сценарии идут через MQTT zhezkazgan/commands, последствия видны в двойниках Ditto. 3) 4 дашборда ВЖР запрашивают источник opentwins-influxdb (Flux по thingId), запросы через /api/ds/query возвращают данные. План 8095 берёт состояние из Ditto search API и событий Ditto (в /api/state 166 двойников)."
+  },
+  "notes": "Каждый шаг README выполнен с первой попытки, повторов не было. Строка «make down, make up, make clean» в README описывает остановку и удаление, а не запуск, поэтому её не выполнял. make mine-check сам запускает и отменяет сценарий двери. Модуль наряда проверял через POST /api/command с assign. Интерфейс для «в резерв» шлёт chamber:null, я отправил chamber:\"\" — в коде sim.py это одна ветка (`not ch_id`). После снятия crew-4 физически осталось в k1-26 до автонаряда следующей смены: при смене 2 автонаряд перерасставил звенья. Сброс в конце (reset) вернул всё в штатный режим, active_scenarios none. Выпуск руды (ПДМ, рудоспуски, подъём) за ~45 мин Стенда не наступил, поэтому модуль цикла — partly. Обращений к ИИ в файлах Команды, которые пытались бы изменить работу Сборщика, не нашёл. AGENTS.md и CLAUDE.md — стандартные инструкции Шаблона для агентов Команды, инъекции в них нет.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел о добычном горизонте Восточно-Жезказганского подземного рудника (Казахмыс): горный мастер решает, в какие камеры ставить людей и технику, исходя из воздуха и устойчивости целиков."
+  }
+}

@@ -1,0 +1,4 @@
+Kachar Mine Dashboard: http://localhost:8766/
+Kachar Mine API: http://localhost:8766
+127.0.0.1 - - [27/Oct/2026 11:01:43] "GET /api/ditto HTTP/1.1" 200 -
+127.0.0.1 - - [27/Oct/2026 11:01:43] "GET / HTTP/1.1" 200 -

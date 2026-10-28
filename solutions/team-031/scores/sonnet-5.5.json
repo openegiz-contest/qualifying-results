@@ -1,0 +1,69 @@
+{
+  "team": "team-031",
+  "judge": "sonnet-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Решение не поднялось, двойников на Стенде нет. В коде только 4 самосвала, и определений вещей aurum31:* в репозитории нет.",
+      "references": [
+        "build_report:came_up",
+        "build_report:built_on_openegiz"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Живых данных нет. Симулятор telemetry.py упал на ModuleNotFoundError, Ditto не запущен.",
+      "references": [
+        "build_report:steps[6]"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Веб-интерфейс на :8765 не открывается, соединение отклонено. Скриншот сделать нельзя.",
+      "references": [
+        "build_report:modules[0]"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Ни один сценарий не запускался: сервер не поднялся. Сценарии есть только в тексте.",
+      "references": [
+        "build_report:scenarios"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Ни один Модуль не работает на Стенде.",
+      "references": [
+        "build_report:modules"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Замысел заполнен: вымышленный золотой карьер AURUM-31, пользователи и решение названы. Но он по сути типовой (самосвалы и дробилка), а цифры синтетические, без источников. Стенд его не подтверждает, потому что не поднялся.",
+      "references": [
+        "SUBMISSION.md:3",
+        "build_report:concept"
+      ]
+    }
+  ],
+  "total": 3.75
+}

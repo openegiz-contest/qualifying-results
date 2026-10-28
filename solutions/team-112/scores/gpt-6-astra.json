@@ -1,0 +1,80 @@
+{
+  "team": "team-112",
+  "judge": "gpt-6-astra",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Через API Ditto и приложение OpenEgiz проверены пять двойников: рудник, экскаватор, два самосвала и дробилка. Состояния и иерархия есть, но полностью относятся к Example Mine Организатора. Проверка истории кода подтвердила отсутствие изменений модели командой; собственных двойников нет.",
+      "references": [
+        "ditto:org.openegiz.mine:mine-01",
+        "examples/mine/twins.json:2",
+        "screenshot:team-112-twins.png",
+        "build_report:notes"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "За 68 секунд truck-01 перешёл из loading в hauling: загрузка 0→90 т, позиция 0→3,101 км, топливо 80,1→77,3%. Поведение живое, но обеспечено неизменённым симулятором Example Mine. Собственной реализации команды нет, поэтому пример не засчитывается.",
+      "references": [
+        "ditto:org.openegiz.mine:truck-01",
+        "examples/mine/simulator.py:101",
+        "build_report:notes"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "В браузере открыт Example Mine: показатели тоннажа и содержания, графики положения, загрузки и топлива самосвалов. Это штатный дашборд Организатора, без визуализации геометрии рудника. Собственная визуализация команды отсутствует.",
+      "references": [
+        "screenshot:team-112-example-mine.png",
+        "SUBMISSION.md:52",
+        "examples/mine/README.md:21"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Таблица сценариев пустая; способов запуска и отмены команда не описала. Проверяемых сценариев нет. Вмешательств в работу Стенда не выполнял.",
+      "references": [
+        "SUBMISSION.md:31",
+        "SUBMISSION.md:37"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Работающих собственных модулей не обнаружено: таблица заявления пустая, код команды не добавлен, на Стенде только пример и отображение его телеметрии. Графики существующих данных модулем не являются.",
+      "references": [
+        "SUBMISSION.md:35",
+        "screenshot:team-112-example-mine.png",
+        "build_report:notes"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 0,
+      "max": 15,
+      "points": 0,
+      "reasoning": "Раздел Concept остался заготовкой: предприятие, пользователь, решение и обоснование не заполнены. Стенд содержит только пример Организатора. Инструмент presentation_info подтвердил отсутствие presentation.pdf. Собственного замысла нет.",
+      "references": [
+        "SUBMISSION.md:5",
+        "SUBMISSION.md:9",
+        "SUBMISSION.md:17",
+        "README.md:14"
+      ]
+    }
+  ],
+  "total": 0
+}

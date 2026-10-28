@@ -1,0 +1,17 @@
+{"at": "2026-10-27T11:00:28.419320+00:00", "host": "update.googleapis.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T11:00:28.467629+00:00", "host": "accounts.google.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T11:00:28.474292+00:00", "host": "www.google.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T11:00:28.502645+00:00", "host": "localhost", "port": 8501, "allowed": true}
+{"at": "2026-10-27T11:00:28.525384+00:00", "host": "localhost", "port": 8501, "allowed": true}
+{"at": "2026-10-27T11:00:28.525939+00:00", "host": "localhost", "port": 8501, "allowed": true}
+{"at": "2026-10-27T11:00:28.526462+00:00", "host": "localhost", "port": 8501, "allowed": true}
+{"at": "2026-10-27T11:00:28.526990+00:00", "host": "localhost", "port": 8501, "allowed": true}
+{"at": "2026-10-27T11:00:28.527546+00:00", "host": "localhost", "port": 8501, "allowed": true}
+{"at": "2026-10-27T11:00:28.877025+00:00", "host": "localhost", "port": 8501, "allowed": true}
+{"at": "2026-10-27T11:00:28.897514+00:00", "host": "data.streamlit.io", "port": 443, "allowed": true}
+{"at": "2026-10-27T11:00:29.263112+00:00", "host": "content-autofill.googleapis.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T11:00:29.318510+00:00", "host": "webhooks.fivetran.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T11:00:29.418521+00:00", "host": "webhooks.fivetran.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T11:00:29.796650+00:00", "host": "webhooks.fivetran.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T11:00:32.860253+00:00", "host": "android.clients.google.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T11:00:33.354345+00:00", "host": "mtalk.google.com", "port": 5228, "allowed": true}

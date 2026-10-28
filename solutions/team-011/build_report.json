@@ -1,0 +1,161 @@
+{
+  "team": "team-011",
+  "sha": "240ac22152457250b3584e011486025f67423142",
+  "started_at": "2026-10-27T10:21:42+00:00",
+  "finished_at": "2026-10-27T10:40:17+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt install -y make",
+      "command": "cd /home/judge/solution && sudo apt install -y make",
+      "exit_code": 0,
+      "duration_s": 3.6,
+      "log": "logs/01-sudo-apt-install-y-make.txt"
+    },
+    {
+      "readme_step": "make pit",
+      "command": "cd /home/judge/solution && make pit",
+      "exit_code": 0,
+      "duration_s": 104.0,
+      "log": "logs/02-make-pit.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 18 of 21 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 18 of 21 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`make smoke` exit 2: FAIL  value 807 did not reach InfluxDB within 60 s (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "М1. Диспетчеризация (dispatch_mode)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "PUT control-01/dispatch_mode через прокси UI (тот же запрос, что делает app.js putValue). В режиме Б dispatcher-01.decisions рос (9→10, потом 10→15 с целями target_lower_tph=1298.1, target_upper_tph=4948.4). В режиме А за 50 с значение осталось 10. pit-01.dispatch_mode следовал за переключением. Числовой эффект +3 % (по 30 сменам) не проверялся, make pit-experiment не запускался."
+    },
+    {
+      "name": "М2. Контроль негабарита (oversize_mode)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "При oversize_mode=B и сценарии poor_blast (crusher-01.x50_m 0.222→0.3) в логе pit-safety: 'block 1.35 m from truck-03 -> rockbreak'. crusher-guard-01 decisions/rockbreaks 0→2, last_size_m=1.27, threshold 1.22; crusher-01: boulders 3, jams 0, rockbreaks 2. В InfluxDB есть ряд rockbreaks для crusher-guard-01, максимум 3. Эффект «простой 23→1 мин» по сменам не проверялся."
+    },
+    {
+      "name": "М3. Допуск после взрыва (blast_mode)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "blast_mode=B, затем blast_now=1. В pit-01 blast_phase шла planned→evacuation→gas→clear; zones closed, evacuated=3, shovel-02 в состоянии evacuated. drone-01 перешёл в flying, sweeps 0→5, CO на нижнем горизонте падал 72.4→16.6. blast-control-01: decisions 0→10, permits 0→2; верхняя зона открыта на 53-й минуте при CO 10.2, нижняя — на 77-й минуте при CO 6.5 (лог pit-safety). ore_face_shut_min=92.5."
+    },
+    {
+      "name": "Б · все модули",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Все три режима одновременно в Б (control-01 B/B/B, pit-01 отражает), сервисы всех трёх модулей принимали решения. Заявленные сводные цифры (+12,1 % тоннажа, Cu +12,5 т) на Стенде не проверены: нужен пакетный прогон на 30 смен, а он не запускался."
+    },
+    {
+      "name": "Советник смены advisor-01",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "advisor-01.count=2, items с рекомендациями (например, shovel-01-down: «перевести на другой забой», action dispatch_mode=B; ремонт самосвалов)."
+    },
+    {
+      "name": "Grafana-дашборд «Карьер NETA — модули 1–3»",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "uid neta-pit, 14 панелей на источнике opentwins-influxdb (Flux, thingId neta.pit:*). В InfluxDB есть точки от Telegraf из opentwins/twin/events/neta.pit/* (pit-01 total_t, crusher-guard-01 rockbreaks=3)."
+    },
+    {
+      "name": "UI-карта на :8095 (SSE из Ditto)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "http://127.0.0.1:8095/ отвечает. Запрос /ditto/api/2/things?namespaces=neta.pit через nginx-прокси к Ditto отдаёт поток SSE с изменениями двойников (dispatcher-01 decisions и др.). Визуальную часть без браузера не проверял."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Остановить shovel-01 / shovel-02",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "PUT whatif-01/shovel_01_down=true: shovel-01 state loading→stopped, queue 1. После false снова loading. shovel_02_down=true: shovel-02 idle→stopped. После false (и перезапуска смены из-за pit_stage) в состоянии handover/рабочий цикл."
+    },
+    {
+      "name": "Плановая остановка дробилки",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "crusher_stop=true: crusher-01 crushing→stopped, pocket_t 258, queue 2, down_min 25. После false: idle/crushing, queue 0, tonnes растут (5918→7767)."
+    },
+    {
+      "name": "Закрыть дорогу на отвал",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "road_dump_closed=true: road-dump open→closed, dump-01.in_use true→false, dump-02.in_use false→true, tonnes 0→676, на road-dump-2 4 самосвала. После false road-dump open, dump-01.in_use=true."
+    },
+    {
+      "name": "Дождь",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "rain=true: road-ramp.rolling_resistance 0.02→0.038, grader-01 parked→grading. После false: 0.02, grader parked."
+    },
+    {
+      "name": "Плохо взорванный блок",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "poor_blast=true: crusher-01.x50_m 0.222→0.3, появились глыбы (boulders 0→3), в режиме Б разбиты гидромолотом (rockbreaks 2). После false x50_m=0.191."
+    },
+    {
+      "name": "Безветрие при взрыве",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "calm_wind=true + blast_now=2: pit-01.wind_ms=1.0 (при прошлом взрыве 4.8), CO на нижнем горизонте 279 мг/м³ против 72 при прошлом взрыве, зоны закрыты, blast-control 'keep closed'. После false (вместе с pit_stage=0, который перезапускает смену) whatif-01.calm_wind=false, wind_ms 0, blast_phase planned."
+    },
+    {
+      "name": "Остановка фабрики",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "plant_stop=true: plant-01 running→stopped, stopped_min 23, stockpile-01.level_t 7074→8923. После false plant-01 running, rate 1983 т/ч."
+    },
+    {
+      "name": "Бульдозер на отвале встал",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "dozer_down=true: dozer-01 working→down. После false: working, down_min 28."
+    },
+    {
+      "name": "Этап карьера",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "pit_stage=1: смена перезапущена, pit-01.pit_depth_m 165→195, shovel-02.z −165→−195. После pit_stage=0: pit_depth_m 165, shovel-02.z −165."
+    },
+    {
+      "name": "Самосвалов в ремонте",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "trucks_in_repair=2: workshop-01.trucks_in_repair 2→3, три самосвала в состоянии repair. До сценария в мастерской уже было 2 машины из-за случайных поломок, поэтому эффект однозначно не отделить. После 0 whatif-01.trucks_in_repair=0, смена перезапущена pit_stage, все самосвалы pre_start."
+    },
+    {
+      "name": "Взрыв сейчас",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "blast_now 0→1: blast_phase planned→evacuation→gas→clear, зоны closed→open, evacuated=3, облёт drone-01, blast-control permits 2. Отмена по описанию — дождаться открытия зон: обе зоны снова open, blast_phase=clear. Второй взрыв (blast_now=2) снят перезапуском смены через pit_stage=0, blast_phase=planned, drone docked."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) В Ditto 37 вещей neta.pit:* (truck-01…10, shovel-01/02, crusher-01, plant-01, drone-01 и др.). 2) Соединения Ditto mosquitto-source-connection (telemetry/#) и mosquitto-target-connection открыты. Сервисы pit-live/safety/dispatcher публикуют Ditto-протокол в MQTT telemetry/<thing> (видно через mosquitto_sub; bus.py использует paho). HTTP к Ditto используется только для создания двойников и чтения режимов. Признаки меняются между снимками ≥30 с: pit-01.sim_time_s 390→1530, total_t 0→466.9→2319, truck-01 parking→to_face. 3) Дашборд Grafana neta-pit читает InfluxDB платформы (thingId neta.pit:*, данные Telegraf из opentwins/twin/events). UI :8095 читает Ditto по SSE через nginx-прокси и пишет управление PUT в Ditto."
+  },
+  "notes": "Оба шага README выполнились с первого раза, повторов не было. Сценарии и режимы А/Б в README и SUBMISSION запускаются только из UI. Нашёл в mine/ui/app.js запрос, который отправляет UI: putValue/putWhatif — PUT /ditto/api/2/things/neta.pit:{control-01|whatif-01}/features/<f>/properties/value. Выполнял его curl через прокси http://127.0.0.1:8095. Для экономии времени сценарии проверялись группами по 3–4 одновременно, затем отменялись. Изменение pit_stage перезапускает смену, поэтому накопленные показатели обнулились. make pit-experiment (пакетный замер на 30 смен) не запускал: это необязательный шаг, а не часть запуска; числовые эффекты модулей из SUBMISSION не проверены. В конце Стенд возвращён в исходное состояние: control-01 dispatch B / oversize A / blast A (как после запуска), все сценарии whatif-01 выключены, pit_stage 0; blast_now — счётчик, его значение 2. Файлы CLAUDE.md/AGENTS.md Команды не читал и не выполнял. Явных инъекций не обнаружено.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел заполнен: вымышленный открытый медный карьер NETA (забои, транспорт, дробилка, фабрика, взрывы); пользователи — диспетчер, мастер дробилки, ВГСЧ, мехслужба, начальник смены; решение — включать ли три модуля и как реагировать на сбои."
+  }
+}

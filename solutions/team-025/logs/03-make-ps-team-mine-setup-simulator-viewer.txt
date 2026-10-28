@@ -1,0 +1,19 @@
+NAME                             IMAGE                                         COMMAND                   SERVICE               CREATED              STATUS                        PORTS
+openegiz-connectivity-1          docker.io/eclipse/ditto-connectivity:3.3.7    "/usr/bin/tini -- sh…"    connectivity          About a minute ago   Up 56 seconds (healthy)       8080/tcp
+openegiz-ditto-nginx-1           docker.io/library/nginx:1.25-alpine           "/docker-entrypoint.…"    ditto-nginx           About a minute ago   Up 56 seconds (healthy)       127.0.0.1:8080->80/tcp
+openegiz-extended-api-1          openegiz/ditto-extended-api:local-b49663d     "docker-entrypoint.s…"    extended-api          23 seconds ago       Up 21 seconds                 127.0.0.1:8085->8080/tcp
+openegiz-gateway-1               docker.io/eclipse/ditto-gateway:3.3.7         "/usr/bin/tini -- sh…"    gateway               About a minute ago   Up 56 seconds (healthy)       8080/tcp
+openegiz-grafana-1               docker.io/grafana/grafana:12.3.0              "/run.sh"                 grafana               23 seconds ago       Up 21 seconds (healthy)       127.0.0.1:3000->3000/tcp
+openegiz-grafana-plugins-1       docker.io/library/busybox:1.36                "/bin/sh -c 'set -e\n…"   grafana-plugins       About a minute ago   Exited (0) 22 seconds ago     
+openegiz-influxdb-1              docker.io/library/influxdb:2.7.4-alpine       "/entrypoint.sh infl…"    influxdb              About a minute ago   Up About a minute (healthy)   127.0.0.1:8086->8086/tcp
+openegiz-init-1                  docker.io/curlimages/curl:8.10.1              "/bin/sh /init/setup…"    init                  About a minute ago   Exited (0) 16 seconds ago     
+openegiz-mongodb-1               docker.io/library/mongo:6.0                   "docker-entrypoint.s…"    mongodb               About a minute ago   Up About a minute (healthy)   27017/tcp
+openegiz-mosquitto-1             docker.io/library/eclipse-mosquitto:2.0.18    "/docker-entrypoint.…"    mosquitto             About a minute ago   Up About a minute (healthy)   127.0.0.1:1883->1883/tcp
+openegiz-policies-1              docker.io/eclipse/ditto-policies:3.3.7        "/usr/bin/tini -- sh…"    policies              About a minute ago   Up 56 seconds (healthy)       8080/tcp
+openegiz-team-mine-setup-1       openegiz/team-mine:local                      "python setup_twins.…"    team-mine-setup       23 seconds ago       Exited (0) 14 seconds ago     
+openegiz-team-mine-simulator-1   openegiz/team-mine:local                      "python simulator.py"     team-mine-simulator   23 seconds ago       Up 14 seconds                 
+openegiz-team-mine-viewer-1      openegiz/team-mine-viewer:local               "/entrypoint.sh"          team-mine-viewer      23 seconds ago       Up 14 seconds                 127.0.0.1:8091->80/tcp
+openegiz-telegraf-1              docker.io/library/telegraf:1.37-alpine        "/entrypoint.sh tele…"    telegraf              About a minute ago   Up 51 seconds                 8092/udp, 8125/udp, 8094/tcp
+openegiz-things-1                docker.io/eclipse/ditto-things:3.3.7          "/usr/bin/tini -- sh…"    things                About a minute ago   Up 56 seconds (healthy)       8080/tcp
+openegiz-things-search-1         docker.io/eclipse/ditto-things-search:3.3.7   "/usr/bin/tini -- sh…"    things-search         About a minute ago   Up 56 seconds (healthy)       8080/tcp
+openegiz-unity-1                 docker.io/library/nginx:1.25-alpine           "/docker-entrypoint.…"    unity                 About a minute ago   Up About a minute             127.0.0.1:8090->80/tcp

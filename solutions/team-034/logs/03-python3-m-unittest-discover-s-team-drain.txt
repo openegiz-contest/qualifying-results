@@ -1,0 +1,20 @@
+--- stderr ---
+test_bad_controls_are_ignored (test_drainage.DrainageTests.test_bad_controls_are_ignored) ... ok
+test_breakthrough_needs_both_pumps (test_drainage.DrainageTests.test_breakthrough_needs_both_pumps) ... ok
+test_energy_counts_only_running_time (test_drainage.DrainageTests.test_energy_counts_only_running_time) ... ok
+test_failed_pump_is_replaced (test_drainage.DrainageTests.test_failed_pump_is_replaced) ... ok
+test_lead_pump_alternates (test_drainage.DrainageTests.test_lead_pump_alternates) ... ok
+test_power_outage_gives_time_to_alarm (test_drainage.DrainageTests.test_power_outage_gives_time_to_alarm) ... ok
+test_project_numbers (test_drainage.DrainageTests.test_project_numbers) ... ok
+test_pumps_start_and_stop_by_level (test_drainage.DrainageTests.test_pumps_start_and_stop_by_level) ... ok
+test_second_pump_joins_at_assist_level (test_drainage.DrainageTests.test_second_pump_joins_at_assist_level) ... ok
+test_both_off (test_water_balance.WaterBalanceTests.test_both_off) ... ok
+test_both_on (test_water_balance.WaterBalanceTests.test_both_on) ... ok
+test_cannot_pump_more_than_available (test_water_balance.WaterBalanceTests.test_cannot_pump_more_than_available) ... ok
+test_one_off (test_water_balance.WaterBalanceTests.test_one_off) ... ok
+test_switch_during_run (test_water_balance.WaterBalanceTests.test_switch_during_run) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.003s
+
+OK

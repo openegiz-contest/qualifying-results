@@ -1,0 +1,76 @@
+{
+  "team": "team-075",
+  "judge": "opus-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Двойников в Ditto на Стенде нет: search/things вернул {\"items\":[]}. Сервисы EcoMine не поднялись, потому что не задана переменная ECOMINE_INFLUX_TOKEN. По коду и по самой Команде (presentation.pdf:8) модель — одна агрегированная Thing ecomine:smart-mine с последними показаниями телеметрии; иерархии, связей и разных типов объектов нет. Её создание в коде тоже не найдено: ditto_bridge.py только делает PUT в features. Даже если бы мост работал, такая модель была бы не выше уровня 0–1.",
+      "references": [
+        "build_report:modules[3]",
+        "examples/ecomine/ditto_bridge.py:1",
+        "presentation.pdf:8"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "На Стенде состояние не меняется: симулятор не запущен, в InfluxDB нет данных, в Ditto пусто. По коду: каждые 5 с у четырёх самосвалов случайно выбирается ore 50–100 т, а энергия, вода и CO2 — линейные множители от неё. Нет ни циклов, ни очередей, ни связи с процессом; это декорация.",
+      "references": [
+        "examples/ecomine/mqtt_simulator.py:36",
+        "build_report:modules[0]"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Визуализация — только Grafana-дашборд из 5 панелей-графиков (CO2, вода, энергия, руда, риск), и все они без данных. Плана рудника нет: по Рубрике только графики и дашборды — это уровень 0.",
+      "references": [
+        "screenshot:ecomine-dashboard.png",
+        "build_report:modules[1]"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Сценариев «что если» нет: в SUBMISSION.md прямо сказано, что ни один интерактивный сценарий не проверен. Сборщик тоже ничего не запускал (scenarios пуст), поэтому мне нечего было запускать и отменять.",
+      "references": [
+        "SUBMISSION.md:72",
+        "build_report:steps[2]"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Работающих Модулей на Стенде нет. Правило алерта по порогу CO2 в Grafana есть, но данных ecomine_risk нет, и сработать оно не может. Классификатор риска (risk_writer) не запущен. Телеметрия, мониторинг и синхронизация — не умные функции, и они тоже не работают.",
+      "references": [
+        "build_report:modules[4]",
+        "build_report:modules[2]"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Раздел Project Overview есть: мониторинг выбросов, воды и энергии при вывозе руды четырьмя самосвалами на вымышленном карьере, чтобы выявлять режимы с высокими выбросами. Но пользователь и решение названы общими словами, источников цифр нет, объект не обоснован. Презентация понятна и честно называет ограничения (одна Thing, синтетические данные). Однако её ключевые утверждения «Live digital twin», «Four EcoMine containers running», «dashboard auto-loaded with data», «alert observed FIRING» на Стенде не подтверждаются: сервисы не поднялись, данных нет. Поэтому уровень не выше 1.",
+      "references": [
+        "SUBMISSION.md:8",
+        "presentation.pdf:3",
+        "presentation.pdf:9",
+        "build_report:built_on_openegiz"
+      ]
+    }
+  ],
+  "total": 3.75
+}

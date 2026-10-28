@@ -1,0 +1,113 @@
+{
+  "team": "team-058",
+  "sha": "2408fc5fa212842214dce4676aee5ba5cc9bb5cf",
+  "started_at": "2026-10-27T16:42:14+00:00",
+  "finished_at": "2026-10-27T16:53:03+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "bash scripts/oreflow-start.sh",
+      "command": "cd /home/judge/solution && bash scripts/oreflow-start.sh",
+      "exit_code": 0,
+      "duration_s": 78.0,
+      "log": "logs/01-bash-scripts-oreflow-start-sh.txt"
+    },
+    {
+      "readme_step": "bash scripts/oreflow-verify-ready.sh",
+      "command": "cd /home/judge/solution && bash scripts/oreflow-verify-ready.sh",
+      "exit_code": 0,
+      "duration_s": 0,
+      "log": "logs/02-bash-scripts-oreflow-verify-ready-sh.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 12 of 15 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 12 of 15 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`bash scripts/compose-smoke.sh` exit 1: FAIL  init job exit code: not run; FAIL  policies: could not read max heap (? MiB) or container limit (? MiB); FAIL  things: could not read max heap (? MiB) or container limit (? MiB); FAIL  things-search: could not read max heap (? MiB) or container limit (? MiB); FAIL  connectivity: could not read max heap (? MiB) or container limit (? MiB) (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Haulage / dispatch",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "GET :8099/api/v22/now отдаёт 71 грузовик со статусами (queue_load/hauling/returning/to_fuel), маршрутами и топливом. Двойник org.openegiz.oreflow:t001 в Ditto за 40 с перешёл из queue_load (sim_minute 376.6) в returning (572.3), destination сменился с L2 на L4. У mine-01 delivered_t вырос с 24554 до 39783, trips — с 510 до 823. Сама карта берётся из памяти симулятора, а не из Ditto."
+    },
+    {
+      "name": "Equipment monitoring and maintenance",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В Ditto есть 20 двойников shovel-*, load-1..5, dump-1..5, fuel-l0/l3 и 55 road-*. У shovel-4-1 state=loading, sim_minute меняется (798→963). /api/v22/assets отдаёт состояния экскаваторов и заправок. /api/ditto/t001 возвращает verified=true и matches_active_run=true. В отчётах есть downtime_truck_hours и статусы shift_change."
+    },
+    {
+      "name": "Fuel/energy planning (modeled)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "У t001 fuel_l в Ditto снизился с 343.6 до 247.28 и затем до 153.91. У fuel-l3 видно pumps_busy=1, refueling_trucks=1, fuel_dispensed_l=2270. /api/fuel-events отдаёт заправки (например, T004 на L3, 521.8 л). /api/v22/reports даёт fuel_l_per_t=0.3511. Панель Grafana «MODELED fuel consumed» читает Influx."
+    },
+    {
+      "name": "Decision support / custom module",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "POST /api/v22/evaluate {kind:advice, horizon_hours:2} отработал за ~3 с и сравнил политики на одном состоянии: nearest 5741 т, balanced 8218 т, smart 8231 т, а также топливо и очереди. Рекомендована balanced, обоснование дано. Расчёт идёт в симуляторе, в Ditto ничего не пишется."
+    },
+    {
+      "name": "Reports and evidence",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "GET /api/v23/export (hourly) — 200, CSV. ?kind=trips отдаёт CSV с колонками run_id, truck_id, …, record_origin='OreFlow simulated events'. /api/v22/reports даёт почасовые tonnes, fuel и queue_min. Дашборд Grafana oreflow-northpit (5 панелей, Flux к bucket default по mine-01) возвращает данные: delivered_t=41913."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Shovel stops",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Запущено как в UI: POST /api/v22/evaluate {scenario:shovel_outage, affected:shovel-4-1, duration 100, horizon 2}. Изолированный прогноз: normal 9253 т, changed 8141 т (−1112 т). С duration 30 изменение 0. В данных двойников последствий нет и не задумано: shovel-4-1 до и после — loading, delivered_t растёт как обычно. Отмены не требуется, живой рудник не менялся."
+    },
+    {
+      "name": "Road closes",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "POST /api/v22/evaluate {scenario:road_closure, L3→D1, 100 мин}: прогноз normal 9308 т, changed 7918 т (−1390 т). Для L0→D0 на 30 мин изменение 0. Двойник road-l3-d1 до и после — state=open, closure_active не менялся. Последствия только в прогнозе, в двойниках их нет. Отмены не требуется."
+    },
+    {
+      "name": "Fuel station unavailable",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "POST /api/v22/evaluate {scenario:fuel_station_outage, L3, 100 мин}: −20 т, −7.8 л (почти без эффекта). fuel-l3 в Ditto до и после — available. В двойниках последствий нет."
+    },
+    {
+      "name": "Truck failure/reduced fleet",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "POST /api/v22/evaluate {scenario:truck_failure, affected:T001, 100 мин} дважды: вместо результата job перешёл в idle. Контейнер oreflow58-oreflow-1 перезапустился (RestartCount=2, StartedAt 16:49:59). Результат не получен. Со своим вариантом на 30 мин расчёт прошёл, изменение 0. После перезапуска Стенд работает: тот же run_id continuous-b243ca983c39, MQTT подключён, двойники обновляются."
+    },
+    {
+      "name": "Dump unavailable / road condition",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "crusher_outage D1 на 100 мин: прогноз 9342→7826 т (−1516 т). road_degradation L3→D1: +125 т. Оба только как изолированные прогнозы, в двойниках dump-*/road-* изменений нет (road-l3-d1=open, dump-1 queue_trucks без аномалий). Отмены не требуется."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "no",
+    "evidence": "Части 1–2 выполнены. (1) В Ditto 159 вещей org.openegiz.oreflow:* (mine-01, t001..t071, shovel-*, load-*, dump-*, fuel-l0/l3, 55 road-*). (2) Соединения mosquitto-source-connection и mosquitto-target-connection открыты. server.py публикует в MQTT topic telemetry/<id> через paho, в Ditto только читает (GET). Признаки меняются за 40 с: t001 queue_load→returning, fuel_l 340→247; mine-01 delivered_t 24554→39783. (3) Выполнена частично. Grafana-дашборд oreflow-northpit читает InfluxDB (opentwins-influxdb, топики opentwins/twin/events), данные есть. Но основной интерфейс OreFlow (:8099) — Operations, Recommendations, Scenarios, Reports — берёт данные из памяти симулятора: /api/v22/now, /api/v22/assets, /api/v22/reports, /api/v22/evaluate (в app.js обращения к Ditto только через /api/ditto/ в инспекторе). Команда сама пишет в README и SUBMISSION: «not every on-screen map pixel is fetched … from Ditto», «the entire live map is not driven exclusively by Ditto reads». Основное, что видит пользователь, не читается из платформы."
+  },
+  "notes": "Оба шага README выполнены с первого раза, повторов не было. Проверка oreflow-verify-ready.sh прошла все 16 пунктов (PASS).\n\nСценарии запускаются только из браузера. Я выполнил тот же запрос, что отправляет app.js: POST /api/v22/evaluate {kind:'scenario', …} и опрос /api/v22/job. Параметры взял по умолчанию из index.html (delay 0, duration 100, horizon 2), а также с duration 30. По замыслу Команды сценарии — изолированные прогнозы, на двойники Ditto они не влияют. Поэтому works=no по критерию «последствия в данных двойников», хотя у части сценариев расчёт возвращает разницу в тоннаже. Отмена описана как «закрыть результат», живой рудник не менялся.\n\ntruck_failure дважды приводил к перезапуску контейнера oreflow58-oreflow-1. После этого контейнер healthy, run_id тот же.\n\nВозможных инъекций нет: AGENTS.md и CLAUDE.md — стандартные инструкции Шаблона для агентов Команды, я их не выполнял.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел описывает откатку и погрузку карьера North Pit (виртуальный объект на конфигурации OpenMines) для диспетчеров, сменных мастеров и планировщиков; помогает решить, куда направлять самосвалы и что менять после отказа дороги или экскаватора."
+  }
+}

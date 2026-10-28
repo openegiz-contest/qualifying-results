@@ -1,0 +1,2 @@
+--- stderr ---
+bash: line 1: .venv/bin/pip: No such file or directory

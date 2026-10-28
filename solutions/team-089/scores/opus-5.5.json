@@ -1,0 +1,79 @@
+{
+  "team": "team-089",
+  "judge": "opus-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "В Ditto (search/things) я нашёл только двойников Примера рудника из Шаблона: org.openegiz.mine:crusher-01, excavator-01, mine-01, truck-01, truck-02. Заявленных двойников oilfield-01 и WELL-01..03 на Стенде нет: они описаны только в файлах oilguard_twins.json и examples/oilguard/twins.json, а README их не разворачивает. Команда сама пишет, что двойники «not yet verified on a running OpenEgiz Stand». Кроме того, это нефтяное месторождение, а не горнорудное предприятие. Своих двойников на Стенде нет, поэтому уровень 0.",
+      "references": [
+        "ditto:org.openegiz.mine:mine-01",
+        "build_report:built_on_openegiz",
+        "SUBMISSION.md:44",
+        "oilguard_twins.json:1"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Живое состояние на Стенде есть только у Примера рудника из Шаблона: route_position у truck-01 меняется, но это не работа Команды. Симулятор OilGuard не запущен и в MQTT ничего не публикует. Его результат — офлайн-CSV на 360 записей: давление, температура и вибрация трёх скважин заданы независимым шумом, а инцидент на WELL-02 жёстко вписан в минуты 70–90. Процесс не моделируется, его связи между величинами тоже: в Limitations Команда сама пишет «simulated independently».",
+      "references": [
+        "build_report:modules[0]",
+        "oilguard_simulator.py:1",
+        "SUBMISSION.md:110"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "В Grafana есть только дашборд Example Mine из Шаблона (/api/search; см. скриншот списка дашбордов). Дашборда OilGuard нет. Визуализация Команды — статичный PNG-график давления (oilguard_chart.png) в репозитории, а не на Стенде. Плана месторождения и живой визуализации нет.",
+      "references": [
+        "screenshot:team089-dashboards2.png",
+        "build_report:modules[2]",
+        "SUBMISSION.md:118"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Единственный сценарий — инцидент высокого давления на WELL-02. Он заранее зашит в офлайн-генерацию CSV, и Команда прямо пишет: «not yet controllable on the Stand». Запустить его на Стенде нельзя, двойника WELL-02 нет. Сценарий есть только в тексте, поэтому я ничего не запускал и Стенд не менял.",
+      "references": [
+        "SUBMISSION.md:71",
+        "build_report:scenarios[0]"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Заявленные модули (мониторинг скважин, пороговое детектирование NORMAL/DANGER) на Стенде не работают: сервиса oilguard в docker ps нет, двойников и дашборда тоже нет. По словам Команды, они проверены только локально, в dry-run. Работающих Модулей на Стенде нет.",
+      "references": [
+        "build_report:modules[0]",
+        "build_report:modules[1]",
+        "SUBMISSION.md:68"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Замысел заполнен: вымышленное нефтяное месторождение на западе Казахстана, пользователи — операторы и инженеры, решение — когда снизить добычу или остановить оборудование. Но это не горнорудное предприятие, цифры синтетические, источников и аналогов нет. Главное — Стенд от Замысла не зависит: на нём только Пример рудника из Шаблона. Презентация на 6 страниц честная: прямо называет непроверенным развёртывание, Grafana и сценарии. Однако по ней видно, что Замысел на Стенде не реализован, поэтому уровень не выше 1.",
+      "references": [
+        "SUBMISSION.md:8",
+        "presentation.pdf:6",
+        "build_report:concept"
+      ]
+    }
+  ],
+  "total": 3.75
+}

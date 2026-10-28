@@ -1,0 +1,74 @@
+{
+  "team": "team-018",
+  "judge": "sonnet-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Решение не поднялось: docker compose дважды упал с «services.grafana conflicts with imported resource», docker ps пуст, Ditto недоступен. Двойников на Стенде нет, модель проверить нельзя.",
+      "references": [
+        "build_report:steps[3]",
+        "build_report:healthchecks[0]"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Живых данных нет: контейнеры не запущены, поведение двойников не наблюдалось.",
+      "references": [
+        "build_report:came_up",
+        "build_report:steps[6]"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Визуализация не открывается: Grafana :3000 и Ditto :8080 не отвечают.",
+      "references": [
+        "build_report:healthchecks[0]",
+        "build_report:steps[7]"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Сценарии описаны только в тексте, запустить их на Стенде нельзя.",
+      "references": [
+        "build_report:scenarios[0]",
+        "build_report:scenarios[1]",
+        "build_report:scenarios[2]"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Ни один из заявленных Модулей не виден работающим на Стенде.",
+      "references": [
+        "build_report:modules[0]",
+        "build_report:modules[5]"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Замысел заполнен (ГОК «Ақтау-Мыс», пользователи, решения), но сверить его со Стендом нельзя: Стенд не поднялся. Поэтому уровень не выше 1.",
+      "references": [
+        "build_report:concept",
+        "build_report:came_up"
+      ]
+    }
+  ],
+  "total": 3.75
+}

@@ -1,0 +1,106 @@
+{
+  "team": "team-051",
+  "judge": "gpt-6-astra",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "Через API Ditto проверены 18 двойников, в OpenEgiz — корень и дочерние объекты. Представлены добыча, автотранспорт, фабрика, склад, ЖД, отдельные измерительные приборы и ERP. Есть осмысленные состояния, иерархия, связи feeds_to, measured_by и audit_inputs. Остановка фабрики влияет на транспорт и экскаватор. До уровня 4 не хватает одинаковой глубины звеньев: карьер представлен накопленной добычей, без блоков, запасов и содержаний массива.",
+      "references": [
+        "ditto:org.stepnoe:Stepnoe",
+        "ditto:org.stepnoe:Pit",
+        "ditto:org.stepnoe:Processing_Plant",
+        "ditto:org.stepnoe:Stockpile_01",
+        "ditto:org.stepnoe:Mass_Balance",
+        "team/model.py:245"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 3,
+      "max": 20,
+      "points": 15,
+      "reasoning": "Снимки Ditto в 02:02:37 и 02:03:38 подтверждают движение техники и рост производства: добыча 4950→5220 т, склад 5312,54→5506,44 т. При ускорении времени ×30 параметры транспорта и переработки правдоподобны. Остатки баланса массы и Fe порядка 10⁻⁹ т; учитываются буфер, грузы машин и вагонов. Проверены очереди и каскадная блокировка. Уровень 4 не подтвержден: внешний набор OpenMines в репозитории отсутствует, технологические параметры заданы допущениями.",
+      "references": [
+        "ditto:org.stepnoe:Excavator_01",
+        "ditto:org.stepnoe:Truck_01",
+        "ditto:org.stepnoe:Mass_Balance",
+        "team/model.py:203",
+        "team/model.py:245",
+        "team/model.py:292",
+        "team/service.py:328",
+        "SUBMISSION.md:254"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 2,
+      "max": 25,
+      "points": 12.5,
+      "reasoning": "Открыты пространственная сцена и логистика; проверены выбор фабрики, приближение склада, обновление тоннажа и состояний из Ditto. Диорама с карьером, дорогой, техникой, фабрикой и объемным складом выходит за типовую схему. Сценарии отражаются предупреждениями и учетным расхождением на сцене. Однако полная читаемость состояния каждого объекта, очередей и материальных потоков непосредственно на сцене не подтверждена: существенные сведения вынесены в карточки. Геометрия остается условной компоновкой.",
+      "references": [
+        "screenshot:screenshots/baseline-plant.png",
+        "screenshot:screenshots/warehouse-zoom.png",
+        "screenshot:screenshots/plant-during.png",
+        "screenshot:screenshots/logistics-final.png",
+        "team/web/layout.js:1",
+        "team/service.py:156"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 3,
+      "max": 10,
+      "points": 7.5,
+      "reasoning": "Лично запущены кнопками и отменены четыре сценария. Остановка фабрики дала 0 т/ч, буфер 360 т, очередь двух машин и interlock экскаватора; смещение весов — коэффициент 1,02 и SENSOR_MISMATCH; дождь — влажность 7% при ERP 3% и ошибку учета +224,22 т; приписка — разницу +300 т. Последствия подтверждены Ditto и интерфейсом, сняты скриншоты. После каждого сброса восстановлен BALANCE OK; все флаги выключены. Для уровня 4 не подтверждены совместный эксперимент и встроенное сравнение его результатов «до/после»; журнал отдельных событий этого полностью не заменяет.",
+      "references": [
+        "ditto:org.stepnoe:Processing_Plant",
+        "ditto:org.stepnoe:Excavator_01",
+        "ditto:org.stepnoe:Weighbridge_01",
+        "ditto:org.stepnoe:Moisture_Sensor_01",
+        "ditto:org.stepnoe:Mass_Balance",
+        "screenshot:screenshots/plant-before.png",
+        "screenshot:screenshots/plant-during.png",
+        "screenshot:screenshots/plant-after-sensor-before.png",
+        "screenshot:screenshots/sensor-during.png",
+        "screenshot:screenshots/rain-during.png",
+        "screenshot:screenshots/fraud-during.png"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 2,
+      "max": 5,
+      "points": 2.5,
+      "reasoning": "Подтвержден один содержательный модуль аудита: сопоставляет ERP и независимые измерительные каналы с учетом времени и погрешностей, различает причины расхождения и выдает соответствующие рекомендации. На Стенде проверены рекомендации для остановки, неисправности весов, влажности и приписки. Это один механизм, а не четыре модуля. Движение транспорта и отображение LiDAR сами по себе дополнительных решений не дают; работа контроля отклонения от маршрута не подтверждена.",
+      "references": [
+        "team/sensors.py:79",
+        "team/model.py:316",
+        "ditto:org.stepnoe:Mass_Balance",
+        "screenshot:screenshots/sensor-during.png",
+        "screenshot:screenshots/rain-during.png"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 2,
+      "max": 15,
+      "points": 7.5,
+      "reasoning": "Своя задача финансового контролера реализована последовательно: отдельные ERP и приборы, сравнение складского учета с измерениями, сценарии разных причин расхождения и рекомендации. Презентация читается, ее основные утверждения о каскаде и сбросе подтверждены; синтетические данные и ограничения обозначены. До уровня 3 не хватает проверяемой основы параметров объекта: OpenMines только назван как транспортный ориентир, его данные не включены; производительность, Fe, плотность и извлечение — допущения. Навигатор судьи содержит инструкции осмотра, но не требования к оценке; использован только как карта проверки.",
+      "references": [
+        "SUBMISSION.md:9",
+        "SUBMISSION.md:178",
+        "SUBMISSION.md:198",
+        "SUBMISSION.md:254",
+        "SUBMISSION.md:296",
+        "presentation.pdf:1",
+        "presentation.pdf:3",
+        "presentation.pdf:6",
+        "ditto:org.stepnoe:Mass_Balance"
+      ]
+    }
+  ],
+  "total": 63.75
+}

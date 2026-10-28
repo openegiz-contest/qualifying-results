@@ -1,0 +1,143 @@
+{
+  "team": "team-051",
+  "sha": "c86b8af457cc31b82bba504ca5a777230c99e719",
+  "started_at": "2026-10-28T01:42:29+00:00",
+  "finished_at": "2026-10-28T01:54:26+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update",
+      "command": "cd /home/judge/solution && sudo apt-get update",
+      "exit_code": 0,
+      "duration_s": 5.0,
+      "log": "logs/01-sudo-apt-get-update.txt"
+    },
+    {
+      "readme_step": "sudo apt-get install -y git make curl ca-certificates python3",
+      "command": "cd /home/judge/solution && sudo apt-get install -y git make curl ca-certificates python3",
+      "exit_code": 0,
+      "duration_s": 7.0,
+      "log": "logs/02-sudo-apt-get-install-y-git-make-curl-ca.txt"
+    },
+    {
+      "readme_step": "make --version",
+      "command": "cd /home/judge/solution && make --version",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/03-make-version.txt"
+    },
+    {
+      "readme_step": "python3 --version",
+      "command": "cd /home/judge/solution && python3 --version",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/04-python3-version.txt"
+    },
+    {
+      "readme_step": "docker version",
+      "command": "cd /home/judge/solution && docker version",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/05-docker-version.txt"
+    },
+    {
+      "readme_step": "docker compose version",
+      "command": "cd /home/judge/solution && docker compose version",
+      "exit_code": 0,
+      "duration_s": 0.3,
+      "log": "logs/06-docker-compose-version.txt"
+    },
+    {
+      "readme_step": "make up",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 0,
+      "duration_s": 88.0,
+      "log": "logs/07-make-up.txt"
+    },
+    {
+      "readme_step": "make team-smoke",
+      "command": "cd /home/judge/solution && make team-smoke",
+      "exit_code": 0,
+      "duration_s": 92.0,
+      "log": "logs/08-make-team-smoke.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 15 of 18 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 15 of 18 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Транспорт и логистика (Авто & ЖД)",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Двойники org.stepnoe:Truck_01/02, Excavator_01, Wagon_01..05 меняются в Ditto: Truck_01 lat 52.10772→52.10944, lon 63.11158→63.11417 за 35 с; Wagon_01 state loading→outbound, lat 52.12→52.2068. У техники есть признак geofence=INSIDE. Дашборд stepnoe-logistics: 3 панели timeseries на InfluxDB и iframe; по Truck_01 lat в InfluxDB 252 точки за 15 мин. Заявленную фиксацию схода с маршрута не увидеть: README сам говорит, что сценария схода нет, geofence всегда INSIDE."
+    },
+    {
+      "name": "Переработка и сквозной баланс масс (Mass Balance)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Processing_Plant: raw_inflow 658.5→828.5 т, concentrate 440.4→554.0 т за 35 с; есть feed_grade 44, recovery 83.5, tails_grade. Mass_Balance: stock_residual/physical_residual ~1e-10, status BALANCE OK, audit_reason CONSISTENT. Дашборд stepnoe-audit: 4 панели timeseries на InfluxDB (lidar_dry_stock, audit_residual, raw_inflow, feed_grade), по запросу через Grafana /api/ds/query 252 точки за 15 мин."
+    },
+    {
+      "name": "3D-склад готовой продукции (LiDAR Twin)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "У LiDAR_01 есть volume 1218.08 м3, dry_mass 3288.8 т, density_calibration 2.7, status OK. Объём Stockpile_01 обновляется. /stepnoe/index.html с сессией Grafana отдаёт 200 (без неё 401), /stepnoe/app.js и vendor/three.module.js отдают 200. /stepnoe/api/state возвращает source='Eclipse Ditto' и twins из Ditto. Рендер WebGL без браузера не проверял."
+    },
+    {
+      "name": "Журнал/API управления сценариями и обслуживанием (/stepnoe/api)",
+      "claimed_in_submission": false,
+      "works": "yes",
+      "evidence": "POST /stepnoe/api/scenarios возвращает 202 и публикует в telemetry/control/scenario/<name> (retained, видно через mosquitto_sub). Изменения подтверждаются в Ditto, см. сценарии."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Anti-Fraud Audit (приписка / сокрытие ±300 т)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск — команда README: mosquitto_pub telemetry/stockpile/inject_fraud -m 1. До: Mass_Balance book_stock=physical_stock=3321.1, status BALANCE OK. После: physical 3394.59, book 3694.59, fraud_offset 300, status 'CRITICAL ANOMALY: Mass Balance Mismatch', audit_reason ACCOUNTING_MISMATCH; ERP_Register.book_stock 3694.59. С -m -1: fraud_offset -300, book 3154.85 при physical 3454.85, тоже CRITICAL. Отмена -m 0: book=physical=3518.18, fraud_active 0, BALANCE OK; retained-топик = 0."
+    },
+    {
+      "name": "Остановка фабрики при работающем учёте (plant_erp)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "POST /stepnoe/api/scenarios {\"scenario\":\"plant_erp\",\"value\":1} → 202; этот же запрос шлёт кнопка «Запуск» (team/web/api.js setScenario). Через 30 с: Processing_Plant state maintenance, raw_inflow_rate 0, buffer 360/360 (100%), truck_queue [Truck_01, Truck_02]; Excavator_01 IDLE, interlock 1; ERP_Register status UNCONFIRMED_OUTPUT, erp_offset 96.86; Mass_Balance CRITICAL, ERP_DURING_DOWNTIME. Отмена value 0 → через 40 с: plant running, rate 600, buffer 79.6%, очередь пуста, экскаватор loading, erp_offset 0, BALANCE OK."
+    },
+    {
+      "name": "Сбой датчика — смещение калибровки (sensor_bias)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "POST /stepnoe/api/scenarios {\"scenario\":\"sensor_bias\",\"value\":1} → 202. Через 30 с: Weighbridge_01 calibration_factor 1.02, status FAULT; Mass_Balance scale_bias_pct 2.0, audit_reason SENSOR_MISMATCH, рекомендация «Проверить измерительный канал»; book=physical 3775.79 (физика не меняется). Отмена value 0 → calibration_factor 1.0, Weighbridge OK, BALANCE OK, CONSISTENT."
+    },
+    {
+      "name": "Дождь и устаревшая влажность (rain)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "POST /stepnoe/api/scenarios {\"scenario\":\"rain\",\"value\":1} → 202. Через 30 с: Moisture_Sensor_01 moisture_pct 3→7; Mass_Balance erp_moisture_pct 3, moisture_erp_offset 154.76 т (при складе ~3986 т), book 4140.45 при physical 3985.68, MOISTURE_ERP_MISMATCH, «Требуется пересчет влажности / ошибка ERP»; ERP_Register STALE_MOISTURE. Отмена value 0 → moisture 3.0, offset 0, ERP OK, BALANCE OK. Все retained-топики после проверок = 0."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) В Ditto 18 вещей org.stepnoe:* (Stepnoe, Pit, Excavator_01, Truck_01/02, Processing_Plant, Stockpile_01, Rail_Siding, Wagon_01..05, Mass_Balance, Weighbridge_01, LiDAR_01, Moisture_Sensor_01, ERP_Register). 2) Соединения mosquitto-source-connection (telemetry/+, QoS 1) и mosquitto-target-connection — liveStatus open. Сервис stepnoe публикует Ditto Protocol (things/twin/commands/modify) в telemetry/<Thing> через MQTT (видно в mosquitto_sub; team/service.py:148). Через Ditto HTTP пишет только setup_twins.py при создании. Признаки меняются за 35 с: revision 219→253, Truck_01 lat/lon, raw_inflow 658.5→828.5. 3) Все 3 дашборда Grafana (stepnoe-overview/audit/logistics) строят timeseries на datasource opentwins-influxdb по measurement mqtt_consumer (Telegraf), по 252 точки за 15 мин. Встроенный интерфейс /stepnoe/ берёт данные из /stepnoe/api/state, а тот — из bulk-GET Ditto /api/2/things (DittoReader, source='Eclipse Ditto')."
+  },
+  "notes": "Все шаги README выполнены с первой попытки, повторов не было. README сам просит поставить make через apt-get: команды install, а также make --version, python3 --version, docker version и docker compose version выполнены как шаги README. git clone и cd team-051 пропущены: README прямо разрешает это, если репозиторий уже есть у сборщика. make team-smoke прошёл, в конце все PASS. Сценарии plant_erp, sensor_bias и rain в интерфейсе запускаются кнопкой. Вместо неё я отправлял документированный HTTP-запрос POST /stepnoe/api/scenarios — тот же, что шлёт setScenario в team/web/api.js. Фрод запускал MQTT-командами из README. Все сценарии отменены, retained-топики = 0, Стенд в BALANCE OK. В SUBMISSION.md есть «Навигатор судьи» с порядком проверки — это навигация, не попытка изменить выводы. AGENTS.md и CLAUDE.md — стандартные инструкции Шаблона для агентов Команды, я их не выполнял. Инъекций не обнаружено.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел о вымышленном железорудном ГОК «Степное»: двойником пользуются финансовые контролёры, аудиторы и руководство; он сверяет физические потоки массы и остатки склада с учётом ERP, чтобы находить приписки."
+  }
+}

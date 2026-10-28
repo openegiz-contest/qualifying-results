@@ -1,0 +1,97 @@
+{
+  "team": "team-038",
+  "judge": "gpt-6.1-sol",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "Сам прочитал двойники через Ditto и открыл иерархию в OpenEgiz: представлены 15 типов, блоки с остатком запасов, техника с назначениями и грузом, дороги, склады, топливо, энергия и ТО. Связи отражают движение материала и управление оборудованием. До уровня 4 не хватает одинаковой глубины звеньев: концентратор представлен приёмником питания с постоянным извлечением.",
+      "references": [
+        "ditto:org.twinvision.copper:blocks-north",
+        "ditto:org.twinvision.copper:truck-03",
+        "ditto:org.twinvision.copper:stockpile-cos",
+        "twinvision/sim/engine.py:828"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 4,
+      "max": 20,
+      "points": 20,
+      "reasoning": "Повторные снимки за несколько минут показали движение truck-03, рост добычи и изменение запасов; балансовые остатки равны нулю. Ограничения мощности, очереди и остановки связаны с производством. Проверил файлы GeoMet: 2000 анализов, 60 испытаний измельчаемости, 53 флотационных теста; среднее извлечение 0,878868 соответствует используемому 0,879. Код непосредственно читает распределения содержания и твёрдости и использует их в блоках и переработке.",
+      "references": [
+        "ditto:org.twinvision.copper:mine",
+        "ditto:org.twinvision.copper:truck-03",
+        "twinvision/sim/blocks.py:27",
+        "twinvision/sim/blocks.py:95",
+        "twinvision/sim/params.py:71",
+        "twinvision/data/geomet/flotation.csv:2",
+        "twinvision/sim/engine.py:886"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "В браузере проверил виды Mine, Pit и Plant: уступы с отметками, дорожную сеть, блоки, движущуюся технику, состояния объектов, очереди и запасы. Последствия совместного сценария отражаются на карте и в подписи GRID CAP; выбор дробилки открыл её данные рядом с baseline. Есть приближение через отдельные виды. Уровень коммерческой готовности и плавности, необходимый для 4, не подтверждён; попадание в объект при выборе оказалось неудобным.",
+      "references": [
+        "screenshot:screenshots/normal.png",
+        "screenshot:screenshots/pit-restored.png",
+        "screenshot:screenshots/combined-wide.png",
+        "screenshot:screenshots/plant-cap-failure.png",
+        "screenshot:screenshots/inspected-restored.png"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 4,
+      "max": 10,
+      "points": 10,
+      "reasoning": "Сам совместно включил отказ дробилки, закрытие s04 и лимит 28 МВт описанными API. Дробилка стала failed, дорога closed с нулём машин, объезды выросли 2→4; COS снизился 5206,8→4758,6 т, ROM вырос 28188,5→28880,1 т. Энергомодуль ограничил питание до 1613,4 т/ч. Интерфейс показывает последствия и live/baseline с дельтами. Все три отменил DELETE: сценариев нет, дорога открыта, лимит снят, питание 2000 т/ч; дробилка вышла из failed в starved. Накопленные запасы сохранились согласно описанию.",
+      "references": [
+        "README.md:91",
+        "ditto:org.twinvision.copper:crusher-01",
+        "ditto:org.twinvision.copper:road-s04",
+        "ditto:org.twinvision.copper:power-grid",
+        "ditto:org.twinvision.copper:stockpile-cos",
+        "screenshot:screenshots/combined-wide.png",
+        "screenshot:screenshots/plant-cap-failure.png"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 3,
+      "max": 5,
+      "points": 3.75,
+      "reasoning": "Подтвердил три содержательных модуля: диспетчер меняет назначения и маршруты, журнал объясняет балансировку и смешение; планировщик ТО выдаёт план с вероятностью отказа, ожидаемой потерей и подготовкой запаса COS; энергоменеджер при моём сценарии реально ограничил фабрику до 1613,4 т/ч при 28 МВт. Четвёртого самостоятельного содержательного модуля нет.",
+      "references": [
+        "ditto:org.twinvision.copper:dispatcher",
+        "ditto:org.twinvision.copper:maintenance",
+        "ditto:org.twinvision.copper:power-grid",
+        "twinvision/sim/engine.py:1261",
+        "twinvision/sim/engine.py:1348"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 3,
+      "max": 15,
+      "points": 11.25,
+      "reasoning": "Замысел конкретен: диспетчер, планировщик ТО и энергетик сравнивают изменения цепочки карьер—питание концентратора по меди, подаче и ресурсам. Связанные запасы, энергетические ограничения, сценарии и сравнение baseline реализуют эту задачу. Презентация читается, соответствует проверенным механизмам и явно называет ограничения; данные аналогов действительно используются кодом. Уровень 4 исключён: предприятие вымышленное.",
+      "references": [
+        "SUBMISSION.md:5",
+        "SUBMISSION.md:9",
+        "SUBMISSION.md:13",
+        "presentation.pdf:4",
+        "presentation.pdf:8",
+        "presentation.pdf:11",
+        "twinvision/sim/blocks.py:27",
+        "screenshot:screenshots/plant-cap-failure.png"
+      ]
+    }
+  ],
+  "total": 82.5
+}

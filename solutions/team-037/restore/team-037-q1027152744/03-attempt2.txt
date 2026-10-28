@@ -1,0 +1,24 @@
+$ cd /home/judge/solution && make aktogay-check
+Контейнеры карьера
+  [32mok[0m    aktogay-sim работает
+  [32mok[0m    aktogay-ui работает
+Интерфейс
+  [32mok[0m    открывается http://127.0.0.1:8095
+  [32mok[0m    интерфейс читает двойники из Ditto (прокси /ditto/)
+Двойники в Ditto
+  [32mok[0m    двойник управления org.aktogay:control
+  [32mok[0m    ключевые двойники реального карьера на месте (25 проверено)
+  [32mok[0m    теневой расчёт org.aktogay.fixed:mine
+  [32mok[0m    всего двойников карьера: 158
+Смена идёт
+  [32mok[0m    время смены растёт: 102 → 172 с
+  [32mok[0m    добыто за смену: 0 т
+Поток данных
+  [32mok[0m    двойники → MQTT → Telegraf → InfluxDB: точки за последние 2 мин есть
+  [32mok[0m    дашборд Grafana «Aktogay» загружен
+
+Всё работает.
+  Интерфейс  http://127.0.0.1:8095   (казахский: http://127.0.0.1:8095/?lang=kk, английский: http://127.0.0.1:8095/?lang=en)
+  Grafana    http://127.0.0.1:3000   → Dashboards → OpenEgiz Examples → Aktogay
+
+exit code: 0

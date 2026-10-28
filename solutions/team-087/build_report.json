@@ -1,0 +1,132 @@
+{
+  "team": "team-087",
+  "sha": "83f2e276571c2f5b1ce23e351d9f6c5e559cc24d",
+  "started_at": "2026-10-27T21:03:35+00:00",
+  "finished_at": "2026-10-27T21:25:58+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt install -y make   # если make нет (чистая Ubuntu)",
+      "command": "cd /home/judge/solution && sudo apt install -y make",
+      "exit_code": 0,
+      "duration_s": 3.2,
+      "log": "logs/01-sudo-apt-install-y-make-make-ubuntu.txt"
+    },
+    {
+      "readme_step": "make mine                  # платформа OpenEgiz + шахта «Арқа-1»",
+      "command": "cd /home/judge/solution && make mine",
+      "exit_code": 0,
+      "duration_s": 96.0,
+      "log": "logs/02-make-mine-openegiz-1.txt"
+    },
+    {
+      "readme_step": "make mine-test",
+      "command": "cd /home/judge/solution && make mine-test",
+      "exit_code": 0,
+      "duration_s": 11.7,
+      "log": "logs/03-make-mine-test.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 14 of 17 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 14 of 17 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`make smoke` exit 2: FAIL  value 746 did not reach InfluxDB within 60 s (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Модуль «Вентиляционная сеть»",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В Ditto: kz.arqa:mine air_total=12144 м³/мин, fan-1 airflow=202.4 м³/с, pressure=5312 Па, w-l1-face airflow=44.91 м³/с. После fan_trip air_total упал до 408, w-l1-face до 1.22 м³/с; после пуска fan-2 снова 12144 и 44.91. В Grafana arqa-vent есть панели «Расход воздуха по выработкам» и «Вентиляторы» (InfluxDB). make mine-test: 19 тестов OK (Кирхгоф, реверс ≥60 %)."
+    },
+    {
+      "name": "Модуль «Газовая обстановка и АГЗ»",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "s-ch4-l1-face при отказе ГВУ вырос с 0.363 до 2.637 % (alarm=2), d-l1 power=0, power_reason=АГЗ, в событиях «АГЗ: Метан, лава 1-Ю … отключена». При пожаре s-co-main вырос с 0 до 105 ppm, w-main visibility упала до 7.4 м. Панели Grafana с датчиками CH₄/CO берут данные из InfluxDB, данные там есть (originator nginx:ditto)."
+    },
+    {
+      "name": "Модуль «Вывод людей»",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "После evacuate:all (результат «Выводятся 29 чел.») crew-l1 status сменился с «работают» на «выходят», location с «Лава 1-Ю» на «Конвейерный штрек лавы 1-Ю», distance_to_exit=1905 м. Признаки fed_co и self_rescuer_left есть у двойников crew-*. Эффект самоспасателей и дозы CO отдельно не проверял."
+    },
+    {
+      "name": "Модуль «Местное проветривание и дегазация»",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В норме vmp-1 airflow=9.44, w-dev layering_number=3.56, degas running=1.0, captured=18.3 м³/мин. При отказе ВМП w-dev airflow=0.72, layering_number=0.34, d-dev power=0 (останов ВМП). При отказе дегазации captured=0, а w-l1-ret ch4 вырос с 0.64 до 1.044 %."
+    },
+    {
+      "name": "Модуль «Советник диспетчера»",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Двойник kz.arqa:advisor меняется со сценарием. При отказе ГВУ: «Пустить ГВУ №2 (резервная) и вывести людей», перебрано 5 вариантов с оценками. При отказе ВМП: «Пустить ВМП №2 (резервный)». При росте метана: «Открыть регулятор: Вентиляционный штрек лавы 1-Ю». При пожаре fire-main через ~75 с: «Реверсировать ГВУ и вывести всех людей». При fire-l2-ret реверс не предложен. В Grafana есть панель «Рекомендация советника» из InfluxDB."
+    },
+    {
+      "name": "Действия диспетчера (через двойник kz.arqa:dispatch)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Записал PUT в Ditto /things/kz.arqa:dispatch/features/command/properties/value: \"power_off:d-dev\" дал d-dev power=0 (power_reason «OpenEgiz app»), \"power_on:d-dev\" вернул power=1. В журнале команд via=ditto-app. Команды пульта (/api/command) тоже проходят через Ditto: via=ditto. Пуск fan-2, vmp-2 и degas_start сработали."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Отказ главного вентилятора",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "POST /api/command {\"cmd\":\"fan_trip\"} (как кнопка пульта). До: air_total 12144, fan-1 «работает», s-ch4-l1-face 0.363, d-l1 power=1. Через ~45 с (×10): air_total 408, fan-1 «отказ», s-ch4-l1-face 2.637 (alarm 2), d-l1 и d-l2 обесточены АГЗ. Отмена «Пуск ГВУ №2» (fan_start fan-2): air_total 12144, fan-2 «работает», ch4 0.137. «Сброс в норму» (reset): scenario «норма», fan-1 работает, fan-2 стоит, питание есть, бригады «работают»."
+    },
+    {
+      "name": "Рост метана в лаве 1-Ю",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "methane_rise d-l1 factor 2. s-ch4-l1-ret вырос с 0.584 до 0.969 %, w-l1-ret ch4 с 0.626 до 1.068 %. d-l1 power=0 (АГЗ). Советник: «Открыть регулятор: Вентиляционный штрек лавы 1-Ю». После reset: scenario «норма», d-l1 power=1, s-ch4-l1-ret 0.605."
+    },
+    {
+      "name": "Рост CO (самонагревание)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "co_rise. s-co-l2-ret вырос 0 → 14.0 → 25.9 ppm (alarm 1, >17), рост продолжался. Порог 50 ppm за ~2 мин наблюдения не достигнут. Советник: «Вывести всех людей». После reset s-co-l2-ret 0.0, scenario «норма»."
+    },
+    {
+      "name": "Отказ ВМП (тупик 3-Ю)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "vmp_trip. До: vmp-1 «работает», w-dev airflow 9.44, layering 3.56, d-dev power 1. После: vmp-1 «отказ», airflow 0.72, layering 0.34, w-dev ch4 0.284 → 0.701, d-dev power 0 (останов ВМП). Советник: «Пустить ВМП №2». Отмена vmp_start vmp-2: airflow 9.44, layering 4.49, но d-dev остался обесточен до подачи питания. reset вернул всё (vmp-1 работает, d-dev power 1)."
+    },
+    {
+      "name": "Отказ дегазации",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "degas_fail. До: degas running 1.0, captured 18.3, w-l1-ret ch4 0.64, w-l2-ret 0.538. После: running 0, captured 0, w-l1-ret 1.044, w-l2-ret 0.982, d-l1 и d-l2 обесточены АГЗ. Советник: «Перезапустить дегазацию и открыть регуляторы лав». Отмена degas_start: running 1.0, s-ch4-l1-ret 1.042 → 0.556. Питание лав вернул только reset (power 1, scenario «норма»)."
+    },
+    {
+      "name": "Пожар в выработке (3 места)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "fire fire-main (входящая струя): s-co-main 0 → 105 ppm, w-main visibility 7.4 м. Советник через ~75 с: «Реверсировать ГВУ и вывести всех людей», лучший из 4 вариантов. Тушение (extinguish): через 100 с fire out=True, hrr 0, CO уходит по струе. fire fire-l2-ret (исходящая струя): w-l2-ret visibility 0.8 м, s-co-mine до 84 ppm, реверс не предложен («Вывести людей и тушить пожар»). fire-l1-conv и опрокидывание струи тепловой депрессией не проверял. Финальный reset: scenario «норма», max CO 0, видимость 99, все вентиляторы и питание в норме, 29 чел. «работают»."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) В Ditto 46 вещей kz.arqa:* (search/things/count=46). 2) Соединения mosquitto-source-connection (telemetry/#) и mosquitto-target-connection открыты. vent-twin публикует Ditto-команды modify в MQTT telemetry/<twin> (simulator.py publish_loop). Снимки с разницей 33 с: kz.arqa:mine _revision 18→29, sim_time 7.9→13.4, w-l2-ret ch4 0.62→0.678. 3) Дашборды Grafana arqa-vent и arqa-vent-charts читают InfluxDB (datasource opentwins-influxdb, measurement mqtt_consumer); в InfluxDB есть точки kz.arqa:s-ch4-l1-face с originator=nginx:ditto. Вкладка «Двойники» (/api/twins) читает Ditto search API. Команды пульта идут через двойник kz.arqa:dispatch в Ditto и событие MQTT (via=ditto). Оговорка: основной пульт и 3D (/api/state) показывают состояние прямо из памяти модели сервиса vent-twin, а не из Ditto."
+  },
+  "notes": "Все шаги README прошли с первого раза, повторов не было. Строку README «sudo apt install -y make» выполнил: README прямо этого требует, make в VM нет. make smoke и make clean из таблицы команд не запускал: это справочник, а не шаг запуска; clean удалил бы стенд. Сценарии запускал так же, как кнопки пульта: POST http://127.0.0.1:8095/api/command с JSON из атрибутов data-cmd в team/vent/ui/index.html. Скорость модели не менял, оставил ×10 по умолчанию. После каждого сценария делал отмену по таблице, в конце — «Сброс в норму» (reset): стенд в нормальном режиме. Оговорка к условию OpenEgiz: основной пульт и 3D читают /api/state из памяти симулятора, а Grafana и вкладка «Двойники» читают платформу. AGENTS.md и CLAUDE.md — стандартные инструкции Шаблона для агентов Команды. Текстов, пытающихся изменить работу Сборщика, не нашёл.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел о вентиляции и газовой безопасности подземной угольной шахты (учебный аналог шахт Карагандинского бассейна): пользуются диспетчер, инженер по вентиляции и горноспасатели, решение — как управлять вентиляторами и когда выводить людей; мотив — авария на шахте им. Костенко."
+  }
+}

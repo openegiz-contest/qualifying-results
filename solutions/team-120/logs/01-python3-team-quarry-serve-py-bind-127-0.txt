@@ -1,0 +1,24 @@
+QUARRY: http://127.0.0.1:8766/welcome.html
+127.0.0.1 - - [27/Oct/2026 23:58:37] "HEAD /welcome.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Oct/2026 23:58:37] "HEAD /dispatch-core.mjs HTTP/1.1" 200 -
+127.0.0.1 - - [27/Oct/2026 23:59:08] "GET // HTTP/1.1" 302 -
+127.0.0.1 - - [27/Oct/2026 23:59:08] "GET /career.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Oct/2026 23:59:08] "GET /dispatch.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Oct/2026 23:59:08] "GET /sarbay.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Oct/2026 23:59:08] "GET /sokolov.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Oct/2026 23:59:08] "GET /altai.html HTTP/1.1" 200 -
+127.0.0.1 - - [27/Oct/2026 23:59:08] "GET /dispatch-view.js HTTP/1.1" 200 -
+127.0.0.1 - - [27/Oct/2026 23:59:08] "GET /career-core.mjs HTTP/1.1" 200 -
+127.0.0.1 - - [27/Oct/2026 23:59:08] "GET /manual-rockfalls.mjs HTTP/1.1" 200 -
+127.0.0.1 - - [27/Oct/2026 23:59:08] "GET /mine-network.mjs HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 00:01:44] "GET /assets/quarry-v4.glb HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 00:01:44] "GET /assets/road-route.json HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 00:01:44] "GET /assets/terrain-design.json HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 00:01:44] "GET /assets/truck.glb HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 00:01:44] "GET /assets/excavator.glb HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 00:01:44] "GET /assets/road-graph.json HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 00:01:44] "GET /manual-core.mjs HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 00:01:44] "GET /manual-worksite.mjs HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 00:01:44] "GET /mine-ride.mjs HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 00:01:44] "GET /excavator-rig.mjs HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 00:01:44] "GET /vendor/three/build/three.module.js HTTP/1.1" 200 -

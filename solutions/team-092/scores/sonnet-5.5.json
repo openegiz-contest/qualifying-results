@@ -1,0 +1,75 @@
+{
+  "team": "team-092",
+  "judge": "sonnet-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 1,
+      "max": 25,
+      "points": 6.25,
+      "reasoning": "Стенд не поднялся: `make` не найден, контейнеров нет, двойников я не видел. По SUBMISSION.md и коду это один двойник smartmine.ai:copper-mine-01 с несколькими features (метан, температура, вентиляция, риск). Иерархии и связей нет, объекты одного типа. Это минимум для уровня 1.",
+      "references": [
+        "build_report:steps[0]",
+        "build_report:came_up",
+        "SUBMISSION.md",
+        "team/smartmine/twins.json"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "На Стенде живых данных нет, так как он не запустился. Есть только синтетический симулятор с порогами в коде, без калибровки по данным. Засчитать нечего.",
+      "references": [
+        "build_report:modules[3]",
+        "team/smartmine/simulator.py"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Карта на :8082 и Grafana не запустились. Увидеть визуализацию в браузере невозможно, поэтому признаки не засчитываются.",
+      "references": [
+        "build_report:came_up",
+        "build_report:steps[0]"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Сценарии METHANE_LEAK и VENTILATION_FAILURE запустить было нельзя: Стенд не поднялся. Сам я их не запускал.",
+      "references": [
+        "build_report:scenarios[0]",
+        "build_report:scenarios[1]"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Ни один заявленный Модуль на Стенде не работает. Правила риска и вентиляции есть только в коде.",
+      "references": [
+        "build_report:modules[1]",
+        "build_report:modules[2]"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Замысел заполнен: вымышленная подземная медная шахта, пользователи названы, решение про вентиляцию, остановку оборудования и тревогу. Но данные не имеют источников. Стенд не подтверждает ничего, а модель очень узкая. Презентацию не проверял.",
+      "references": [
+        "SUBMISSION.md",
+        "build_report:concept"
+      ]
+    }
+  ],
+  "total": 10
+}

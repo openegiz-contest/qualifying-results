@@ -1,0 +1,154 @@
+{
+  "team": "team-120",
+  "sha": "05c904a69c0b307c6f07911540ffa1b008d80d02",
+  "started_at": "2026-10-27T23:58:18+00:00",
+  "finished_at": "2026-10-28T00:02:20+00:00",
+  "came_up": false,
+  "steps": [
+    {
+      "readme_step": "python3 team/quarry/serve.py --bind 127.0.0.1 --port 8766",
+      "command": "cd /home/judge/solution && python3 team/quarry/serve.py --bind 127.0.0.1 --port 8766",
+      "exit_code": -1,
+      "duration_s": 214.0,
+      "log": "logs/01-python3-team-quarry-serve-py-bind-127-0.txt"
+    },
+    {
+      "readme_step": "curl -I http://127.0.0.1:8766/welcome.html",
+      "command": "cd /home/judge/solution && curl -I http://127.0.0.1:8766/welcome.html",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/02-curl-i-http-127-0-0-1-8766-welcome-html.txt"
+    },
+    {
+      "readme_step": "curl -I http://127.0.0.1:8766/dispatch-core.mjs",
+      "command": "cd /home/judge/solution && curl -I http://127.0.0.1:8766/dispatch-core.mjs",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/03-curl-i-http-127-0-0-1-8766-dispatch-core.txt"
+    },
+    {
+      "readme_step": "sudo apt-get install -y make",
+      "command": "cd /home/judge/solution && sudo apt-get install -y make",
+      "exit_code": 0,
+      "duration_s": 2.0,
+      "log": "logs/04-sudo-apt-get-install-y-make.txt"
+    },
+    {
+      "readme_step": "make up",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 0,
+      "duration_s": 80.0,
+      "log": "logs/05-make-up.txt"
+    },
+    {
+      "readme_step": "make ps",
+      "command": "cd /home/judge/solution && make ps",
+      "exit_code": 0,
+      "duration_s": 0.3,
+      "log": "logs/06-make-ps.txt"
+    },
+    {
+      "readme_step": "make smoke",
+      "command": "cd /home/judge/solution && make smoke",
+      "exit_code": 0,
+      "duration_s": 7.3,
+      "log": "logs/07-make-smoke.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 13 of 15 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 13 of 15 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Транспорт и диспетчеризация",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Веб-сервер serve.py поднялся на 127.0.0.1:8766: /dispatch.html 200, dispatch-core.mjs 200 application/javascript, dispatch-view.js 200, assets/quarry-v4.glb 200 (23,5 МБ), road-graph.json 200 (nodes/edges). Сама логика (FSM, резервирование, сигналы) исполняется только в браузере в WebGL; браузера на Стенде нет, поэтому поведение смены не наблюдалось. В Ditto двойников нет, данные не меняются."
+    },
+    {
+      "name": "Обучение и развитие парка",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "/career.html 200, career-core.mjs и career-view.js 200, truck.glb/excavator.glb 200. Экономика и покупки работают только в браузере (localStorage), через HTTP не наблюдаемы; двойников в Ditto нет."
+    },
+    {
+      "name": "Ручная работа техники",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "manual-core.mjs, manual-worksite.mjs, excavator-rig.mjs отдаются с 200; управление W/S/A/D и ковшом — только в браузере, без браузера не проверено."
+    },
+    {
+      "name": "Подземная навигация",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "mine-network.mjs, mine-ride.mjs отдаются с 200; поездка на вагонетке — клиентская WebGL-логика, через HTTP не наблюдаема."
+    },
+    {
+      "name": "Мониторинг Grafana QUARRY (metrics-core → экспортёр → Prometheus → Grafana)",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Упомянут в SUBMISSION (раздел Архитектура/Статус). Запуск по README локально не предусмотрен (только VPS-установщик install-vps.sh и Node.js, которого нет); в Grafana Стенда /api/search показывает лишь папку 'OpenEgiz Examples', дашборда quarry-control нет, Prometheus не запущен."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Сценарий: изменение лимита скорости",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Запускается только кнопками в браузерной диспетчерской; HTTP-запроса к серверу нет (состояние в JS, fetch только для ассетов в dispatch-view.js:83). Без браузера не запущен; Стенд не изменён."
+    },
+    {
+      "name": "Сценарий: конфликт встречных сигналов",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Только клиентская логика в браузере (ручной режим диспетчерской), запроса к серверу/Ditto нет; не запускался, Стенд не изменён."
+    },
+    {
+      "name": "Сценарий: загрузка/разгрузка ковша",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Только клавиши в WebGL-сцене /career.html; HTTP-запроса нет; не запускался, Стенд не изменён."
+    },
+    {
+      "name": "Сценарий: изменение груза машины",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Только кнопки «Пустой»/«С рудой» в браузере; HTTP-запроса нет; не запускался."
+    },
+    {
+      "name": "Сценарий: удар техники",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Только физика в браузере; HTTP-запроса нет; не запускался."
+    },
+    {
+      "name": "Сценарий: камнепад и завал",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Кнопка «Вызвать камнепад рядом» в браузере, логика manual-rockfalls.mjs на клиенте; HTTP-запроса нет; не запускался. Двойников в Ditto, которых он мог бы затронуть, нет."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "no",
+    "evidence": "Платформа поднята (make up, make smoke прошёл: соединения mosquitto-source/target open, MQTT→Ditto→Telegraf→InfluxDB работает на тестовом двойнике), но двойников рудника в Ditto нет: GET /api/2/search/things → {\"items\":[]}, /count → 0 (дважды с интервалом >30 с). В коде team/quarry нет обращений к MQTT/Ditto (grep по mqtt|ditto находит только текст в monitoring/dashboard.json «не MQTT/Ditto»). Интерфейс — браузерная WebGL-симуляция, читающая состояние из собственного JS; Grafana Стенда содержит лишь папку примеров, собственный дашборд команды на Prometheus. Команда сама пишет в README и SUBMISSION, что интеграции с MQTT/Ditto нет."
+  },
+  "notes": "Повторов не было, все шаги завершились успешно. Решение уже склонировано, поэтому `git clone` и `cd team-120` пропущены (README сам разрешает пропустить клонирование); команды выполнялись из /home/judge/solution. Сервер serve.py запущен в фоне и оставлен работать для Судей. Альтернативный запуск через Docker Compose не выполнялся: README даёт его «вместо Python-команды». Блок платформы (apt-get install make, make up, make ps, make smoke) выполнен, потому что он есть в README. Node-тесты (`node --test`) не запускались: Node.js в VM нет, а README не просит его ставить. Мониторинг Grafana/Prometheus рассчитан на VPS (install-vps.sh) и в локальный запуск README не входит. Браузера нет, поэтому WebGL-функции проверены только по тому, что страницы и ассеты отдаются по HTTP. Сценарии работают только на клиенте, HTTP-запросов к серверу у них нет, поэтому они не запускались. AGENTS.md/CLAUDE.md — стандартные инструкции Шаблона для агентов Команды; инъекций, обращённых к Сборщику или Судьям, не найдено.\n\nПроверки пайплайна:\n- шаг 1: задание `cd /home/judge/solution && python3 team/quarry/serve.py --bind 127.0.0.1 --port 8766` не завершилось к концу работы Сборщика\n- шаг «python3 team/quarry/serve.py --bind 127.0.0.1 --port 8766»: упал и не повторён (по правилам упавший шаг повторяется один раз без изменений), шаг не выполнен",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел заполнен: транспортная часть Сарбайского и Соколовского карьеров ССГПО (Рудный), пользователь — диспетчер, решение — когда отправить самосвал и когда занять карман разъезда на однополосном серпантине."
+  }
+}

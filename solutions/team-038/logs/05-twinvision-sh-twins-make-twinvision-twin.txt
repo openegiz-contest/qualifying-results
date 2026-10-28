@@ -1,0 +1,30 @@
+    truck-04-baseline          HaulTruck
+    truck-05-baseline          HaulTruck
+    truck-06-baseline          HaulTruck
+    truck-07-baseline          HaulTruck
+    truck-08-baseline          HaulTruck
+  plant-feed-baseline        PlantFeed
+  power-grid-baseline        PowerGrid
+  stockpile-cos-baseline     Stockpile
+  stockpile-rom-baseline     Stockpile
+  waste-dump-baseline        WasteDump
+
+Type                    live  base   SCHEMA.md
+Mine                       1     1     1   1  ok
+Pit                        1     1     1   1  ok
+BlockCluster               3     3     3   3  ok
+Excavator                  3     3     3   3  ok
+HaulTruck                  8     8     8   8  ok
+RoadSegment               12    12    12  12  ok
+Crusher                    1     1     1   1  ok
+Stockpile                  2     2     2   2  ok
+PlantFeed                  1     1     1   1  ok
+WasteDump                  1     1     1   1  ok
+DispatcherController       1     1     1   1  ok
+MaintenancePlanner         1     1     1   1  ok
+FuelBay                    1     1     1   1  ok
+PowerGrid                  1     1     1   1  ok
+ScenarioController         1     0     1   0  ok
+Total                           75        75
+
+All twins match SCHEMA.md.

@@ -1,0 +1,76 @@
+{
+  "team": "team-088",
+  "judge": "opus-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Своих двойников нет. В Ditto только 5 вещей Примера рудника из Шаблона: crusher-01, excavator-01, mine-01, truck-01, truck-02. В git-истории от Initial commit изменён только SUBMISSION.md, в team/ лежит только README.md Шаблона. Тоннелей, вентиляторов, газовых датчиков и подземных машин из Замысла в Ditto нет.",
+      "references": [
+        "ditto:org.openegiz.mine:truck-01",
+        "build_report:built_on_openegiz",
+        "SUBMISSION.md:28"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Данные на Стенде даёт только симулятор Примера рудника из Шаблона. Своего симулятора или поведения у Команды нет: кроме SUBMISSION.md, в коде ничего не изменено.",
+      "references": [
+        "build_report:modules[0]",
+        "ditto:org.openegiz.mine:mine-01"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Своей визуализации нет, в разделе Mine visualization ничего не написано. В Grafana есть только дашборд openegiz-example-mine из Шаблона. На скриншоте — экран входа в Grafana Стенда, своих видов у Команды нет.",
+      "references": [
+        "screenshot:grafana-dashboards.png",
+        "build_report:modules[0]",
+        "SUBMISSION.md:62"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Таблица Modules and What-if Scenarios пуста, сценариев нет, запускать нечего.",
+      "references": [
+        "SUBMISSION.md:46",
+        "build_report:scenarios"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Модули не заявлены, в коде и на Стенде их нет.",
+      "references": [
+        "SUBMISSION.md:46",
+        "build_report:modules[0]"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 0,
+      "max": 15,
+      "points": 0,
+      "reasoning": "Замысел — вымышленный подземный медный рудник SmartMine AI с контролем вентиляции и газа; названы пользователи и решение. Но Стенд от Замысла никак не зависит: ничего из него не реализовано, раздел Mine говорит, что определения двойников будут описаны после реализации. Источников цифр нет. presentation.pdf отсутствует (presentation_info: missing), поэтому выше уровня 1 оценка быть не может. Из-за полного отсутствия реализации ставлю 0: Замысел остался на бумаге и в скобках-заготовках Шаблона.",
+      "references": [
+        "SUBMISSION.md:7",
+        "SUBMISSION.md:40",
+        "build_report:concept"
+      ]
+    }
+  ],
+  "total": 0
+}

@@ -1,0 +1,19 @@
+team101-limit-planner-1	running	Up 27 minutes	882a9ce58cf4
+team101-limit-simulator-1	running	Up 27 minutes	882a9ce58cf4
+team101-limit-setup-1	exited	Exited (0) 27 minutes ago	882a9ce58cf4
+team101-limit-web-1	running	Up 27 minutes (healthy)	nginx:1.25-alpine
+team101-extended-api-1	running	Up 28 minutes	openegiz/ditto-extended-api:local-b49663d
+team101-init-1	exited	Exited (0) 27 minutes ago	curlimages/curl:8.10.1
+team101-ditto-nginx-1	running	Up 28 minutes (healthy)	nginx:1.25-alpine
+team101-telegraf-1	running	Up 28 minutes	telegraf:1.37-alpine
+team101-grafana-1	running	Up 28 minutes (healthy)	grafana/grafana:12.3.0
+team101-things-1	running	Up 28 minutes (healthy)	eclipse/ditto-things:3.3.7
+team101-policies-1	running	Up 28 minutes (healthy)	eclipse/ditto-policies:3.3.7
+team101-gateway-1	running	Up 28 minutes (healthy)	eclipse/ditto-gateway:3.3.7
+team101-connectivity-1	running	Up 28 minutes (healthy)	eclipse/ditto-connectivity:3.3.7
+team101-things-search-1	running	Up 28 minutes (healthy)	eclipse/ditto-things-search:3.3.7
+team101-unity-1	running	Up 28 minutes	nginx:1.25-alpine
+team101-grafana-plugins-1	exited	Exited (0) 28 minutes ago	busybox:1.36
+team101-mongodb-1	running	Up 28 minutes (healthy)	mongo:6.0
+team101-mosquitto-1	running	Up 28 minutes (healthy)	eclipse-mosquitto:2.0.18
+team101-influxdb-1	running	Up 28 minutes (healthy)	influxdb:2.7.4-alpine

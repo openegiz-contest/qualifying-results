@@ -1,0 +1,484 @@
+docker compose -f deploy/compose/docker-compose.yml up -d --build --wait --wait-timeout 900
+#1 [internal] load local bake definitions
+#1 reading from stdin 764B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 188B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-slim
+#3 DONE 1.9s
+
+#4 [1/5] FROM docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#4 resolve docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 0.0s done
+#4 DONE 0.0s
+
+#5 [2/5] WORKDIR /usr/src/app
+#5 CACHED
+
+#6 [internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#6 0.003 fatal: Not a valid object name b49663dea326854a2323423eaeab7e7f54d325a7^{commit}
+#6 458.0 From https://github.com/ertis-research/extended-api-for-eclipse-ditto
+#6 458.0  * branch            b49663dea326854a2323423eaeab7e7f54d325a7 -> FETCH_HEAD
+#6 458.0 b49663dea326854a2323423eaeab7e7f54d325a7
+#6 DONE 458.1s
+
+#7 [3/5] COPY package*.json yarn.lock ./
+#7 DONE 0.0s
+
+#8 [4/5] RUN yarn install --frozen-lockfile
+#8 0.222 yarn install v1.22.22
+#8 0.248 [1/4] Resolving packages...
+#8 0.315 [2/4] Fetching packages...
+#8 12.02 [3/4] Linking dependencies...
+#8 13.34 [4/4] Building fresh packages...
+#8 13.35 Done in 13.13s.
+#8 DONE 13.5s
+
+#9 [5/5] COPY . .
+#9 DONE 0.1s
+
+#10 exporting to image
+#10 exporting layers
+#10 exporting layers 5.6s done
+#10 exporting manifest sha256:67fbf0e3d0bd431d32374e25d0ced4f4b1360c365426f27231d3bfa4dd8e108a done
+#10 exporting config sha256:007a6d49aec9b89608eb643abf6de8c2aa408bbe2e8207d63fb48f5c0e7fd5ed done
+#10 exporting attestation manifest sha256:134c362a62d9432e249c7b7831e5fcd12d615c39fdec105ca0e07ecd74b262e7 0.0s done
+#10 exporting manifest list sha256:5db6268d9f527507563a426e76bd1e1ae035b0fcbb1af00a67d7d1d5dca47c1e done
+#10 naming to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#10 unpacking to docker.io/openegiz/ditto-extended-api:local-b49663d
+#10 unpacking to docker.io/openegiz/ditto-extended-api:local-b49663d 2.5s done
+#10 DONE 8.1s
+
+#11 resolving provenance for metadata file
+#11 DONE 0.0s
+ openegiz/ditto-extended-api:local-b49663d  Built
+ Network openegiz_default  Creating
+ Network openegiz_default  Created
+ Volume openegiz_grafana-plugins  Creating
+ Volume openegiz_grafana-plugins  Created
+ Volume openegiz_influxdb-data  Creating
+ Volume openegiz_influxdb-data  Created
+ Volume openegiz_influxdb-config  Creating
+ Volume openegiz_influxdb-config  Created
+ Volume openegiz_mosquitto-data  Creating
+ Volume openegiz_mosquitto-data  Created
+ Volume openegiz_grafana-data  Creating
+ Volume openegiz_grafana-data  Created
+ Volume openegiz_mongodb-data  Creating
+ Volume openegiz_mongodb-data  Created
+ Container openegiz-mongodb-1  Creating
+ Container openegiz-unity-1  Creating
+ Container openegiz-influxdb-1  Creating
+ Container openegiz-mosquitto-1  Creating
+ Container openegiz-grafana-plugins-1  Creating
+ Container openegiz-grafana-plugins-1  Created
+ Container openegiz-unity-1  Created
+ Container openegiz-mosquitto-1  Created
+ Container openegiz-mongodb-1  Created
+ Container openegiz-policies-1  Creating
+ Container openegiz-connectivity-1  Creating
+ Container openegiz-things-search-1  Creating
+ Container openegiz-things-1  Creating
+ Container openegiz-influxdb-1  Created
+ Container openegiz-gateway-1  Creating
+ Container openegiz-grafana-1  Creating
+ Container openegiz-telegraf-1  Creating
+ Container openegiz-things-search-1  Created
+ Container openegiz-things-1  Created
+ Container openegiz-grafana-1  Created
+ Container openegiz-telegraf-1  Created
+ Container openegiz-gateway-1  Created
+ Container openegiz-ditto-nginx-1  Creating
+ Container openegiz-connectivity-1  Created
+ Container openegiz-policies-1  Created
+ Container openegiz-ditto-nginx-1  Created
+ Container openegiz-extended-api-1  Creating
+ Container openegiz-init-1  Creating
+ Container openegiz-init-1  Created
+ Container openegiz-extended-api-1  Created
+ Container openegiz-grafana-plugins-1  Starting
+ Container openegiz-unity-1  Starting
+ Container openegiz-influxdb-1  Starting
+ Container openegiz-mongodb-1  Starting
+ Container openegiz-mosquitto-1  Starting
+ Container openegiz-mosquitto-1  Started
+ Container openegiz-mongodb-1  Started
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-unity-1  Started
+ Container openegiz-influxdb-1  Started
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-grafana-plugins-1  Started
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-policies-1  Starting
+ Container openegiz-gateway-1  Starting
+ Container openegiz-connectivity-1  Starting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-things-1  Starting
+ Container openegiz-things-search-1  Starting
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-grafana-1  Starting
+ Container openegiz-gateway-1  Started
+ Container openegiz-ditto-nginx-1  Starting
+ Container openegiz-policies-1  Started
+ Container openegiz-things-search-1  Started
+ Container openegiz-things-1  Started
+ Container openegiz-connectivity-1  Started
+ Container openegiz-grafana-1  Started
+ Container openegiz-ditto-nginx-1  Started
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-extended-api-1  Starting
+ Container openegiz-extended-api-1  Started
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-telegraf-1  Starting
+ Container openegiz-telegraf-1  Started
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-init-1  Starting
+ Container openegiz-init-1  Started
+ Container openegiz-unity-1  Waiting
+ Container openegiz-extended-api-1  Waiting
+ Container openegiz-grafana-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-init-1  Waiting
+ Container openegiz-policies-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-things-search-1  Waiting
+ Container openegiz-connectivity-1  Waiting
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-things-1  Waiting
+ Container openegiz-gateway-1  Waiting
+ Container openegiz-telegraf-1  Waiting
+ Container openegiz-unity-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-init-1  Healthy
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-things-search-1  Healthy
+ Container openegiz-connectivity-1  Healthy
+ Container openegiz-things-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-extended-api-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-gateway-1  Healthy
+ Container openegiz-telegraf-1  Healthy
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-grafana-1  Healthy
+ Container openegiz-policies-1  Healthy
+Waiting for Ditto to serve requests ..... ready
+
+OpenEgiz is up.
+
+  Grafana        http://localhost:3000        admin / vPwaO9rINm2IrjeytymHZk5J
+  Ditto API      http://localhost:8080/api/2    ditto / p3nI7pCTZUppNy2IOugau1Vx   (devops / hd1ShrMfx1Qnxdi4A1s9NjUq)
+  Extended API   http://localhost:8085
+  InfluxDB       http://localhost:8086        admin / CTLSIUkyhu7fX1CYSukpej27
+  MQTT           tcp://localhost:1883
+  Unity WebGL    http://localhost:8090/build/<file>   (files from ./build/)
+
+Credentials live in deploy/compose/.env. Check everything with: make smoke
+docker compose -f deploy/compose/docker-compose.yml -f mine/compose.yml up -d --build --wait --wait-timeout 600
+ kentash-web Pulling 
+ 39c2ddfd6010 Pulling fs layer 
+ 197eb75867ef Pulling fs layer 
+ 61ca4f733c80 Pulling fs layer 
+ 34a64644b756 Pulling fs layer 
+ f18232174bc9 Pulling fs layer 
+ 81bd8ed7ec67 Pulling fs layer 
+ b464cfdf2a63 Pulling fs layer 
+ d7e507024086 Pulling fs layer 
+ 9261b9aff737 Download complete 
+ 2a84448aca9c Download complete 
+ 81bd8ed7ec67 Download complete 
+ d7e507024086 Download complete 
+ b464cfdf2a63 Download complete 
+ 197eb75867ef Download complete 
+ 34a64644b756 Download complete 
+ f18232174bc9 Downloading [==============>                                    ]  1.049MB/3.642MB
+ f18232174bc9 Downloading [==============>                                    ]  1.049MB/3.642MB
+ 39c2ddfd6010 Downloading [===>                                               ]  1.049MB/15.52MB
+ f18232174bc9 Downloading [==============>                                    ]  1.049MB/3.642MB
+ 39c2ddfd6010 Downloading [===>                                               ]  1.049MB/15.52MB
+ f18232174bc9 Downloading [==============>                                    ]  1.049MB/3.642MB
+ 39c2ddfd6010 Downloading [===>                                               ]  1.049MB/15.52MB
+ f18232174bc9 Downloading [==============>                                    ]  1.049MB/3.642MB
+ 39c2ddfd6010 Downloading [===>                                               ]  1.049MB/15.52MB
+ f18232174bc9 Downloading [============================>                      ]  2.097MB/3.642MB
+ 61ca4f733c80 Downloading [=============================>                     ]  1.049MB/1.791MB
+ 39c2ddfd6010 Downloading [===>                                               ]  1.049MB/15.52MB
+ f18232174bc9 Downloading [============================>                      ]  2.097MB/3.642MB
+ 61ca4f733c80 Downloading [=============================>                     ]  1.049MB/1.791MB
+ f18232174bc9 Downloading [============================>                      ]  2.097MB/3.642MB
+ 61ca4f733c80 Download complete 
+ 39c2ddfd6010 Downloading [======>                                            ]  2.097MB/15.52MB
+ 39c2ddfd6010 Downloading [======>                                            ]  2.097MB/15.52MB
+ f18232174bc9 Downloading [============================>                      ]  2.097MB/3.642MB
+ 39c2ddfd6010 Downloading [======>                                            ]  2.097MB/15.52MB
+ f18232174bc9 Downloading [===========================================>       ]  3.146MB/3.642MB
+ 39c2ddfd6010 Downloading [==========>                                        ]  3.146MB/15.52MB
+ f18232174bc9 Download complete 
+ 61ca4f733c80 Extracting 1 s
+ f18232174bc9 Pull complete 
+ 39c2ddfd6010 Downloading [==========>                                        ]  3.146MB/15.52MB
+ 81bd8ed7ec67 Pull complete 
+ d7e507024086 Pull complete 
+ b464cfdf2a63 Pull complete 
+ 197eb75867ef Pull complete 
+ 34a64644b756 Pull complete 
+ 61ca4f733c80 Pull complete 
+ 39c2ddfd6010 Downloading [=============>                                     ]  4.194MB/15.52MB
+ 39c2ddfd6010 Downloading [=============>                                     ]  4.194MB/15.52MB
+ 39c2ddfd6010 Downloading [====================>                              ]  6.291MB/15.52MB
+ 39c2ddfd6010 Downloading [====================>                              ]  6.291MB/15.52MB
+ 39c2ddfd6010 Downloading [=======================>                           ]   7.34MB/15.52MB
+ 39c2ddfd6010 Downloading [===========================>                       ]  8.389MB/15.52MB
+ 39c2ddfd6010 Downloading [===========================>                       ]  8.389MB/15.52MB
+ 39c2ddfd6010 Downloading [==============================>                    ]  9.437MB/15.52MB
+ 39c2ddfd6010 Downloading [==============================>                    ]  9.437MB/15.52MB
+ 39c2ddfd6010 Downloading [==============================>                    ]  9.437MB/15.52MB
+ 39c2ddfd6010 Downloading [=====================================>             ]  11.53MB/15.52MB
+ 39c2ddfd6010 Downloading [========================================>          ]  12.58MB/15.52MB
+ 39c2ddfd6010 Downloading [========================================>          ]  12.58MB/15.52MB
+ 39c2ddfd6010 Downloading [===========================================>       ]  13.63MB/15.52MB
+ 39c2ddfd6010 Download complete 
+ 39c2ddfd6010 Extracting 1 s
+ 39c2ddfd6010 Extracting 1 s
+ 39c2ddfd6010 Pull complete 
+ kentash-web Pulled 
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.20kB done
+#1 DONE 0.0s
+
+#2 [extended-api internal] load build definition from Dockerfile
+#2 transferring dockerfile: 188B done
+#2 DONE 0.0s
+
+#3 [kentash-sim internal] load build definition from Dockerfile
+#3 transferring dockerfile: 742B done
+#3 DONE 0.0s
+
+#4 [kentash-sim internal] load metadata for docker.io/library/python:3.12-slim
+#4 ...
+
+#5 [extended-api internal] load metadata for docker.io/library/node:20-slim
+#5 DONE 0.5s
+
+#6 [extended-api internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#6 DONE 0.0s
+
+#7 [extended-api 1/5] FROM docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#7 resolve docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 0.0s done
+#7 DONE 0.0s
+
+#8 [extended-api 3/5] COPY package*.json yarn.lock ./
+#8 CACHED
+
+#9 [extended-api 4/5] RUN yarn install --frozen-lockfile
+#9 CACHED
+
+#10 [extended-api 2/5] WORKDIR /usr/src/app
+#10 CACHED
+
+#11 [extended-api 5/5] COPY . .
+#11 CACHED
+
+#4 [kentash-sim internal] load metadata for docker.io/library/python:3.12-slim
+#4 DONE 0.6s
+
+#12 [kentash-sim internal] load .dockerignore
+#12 transferring context: 2B done
+#12 DONE 0.0s
+
+#13 [extended-api] exporting to image
+#13 exporting layers done
+#13 exporting manifest sha256:67fbf0e3d0bd431d32374e25d0ced4f4b1360c365426f27231d3bfa4dd8e108a done
+#13 exporting config sha256:007a6d49aec9b89608eb643abf6de8c2aa408bbe2e8207d63fb48f5c0e7fd5ed done
+#13 exporting attestation manifest sha256:590469aa6ccc9b2c0972744029cceb75c69c97dc0dc70c59d34e7edaf0208704 0.0s done
+#13 exporting manifest list sha256:9fb4e682c140cc0b872dddeb36ba065d202988be10fa47c43f8a62298d76f414 done
+#13 naming to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#13 unpacking to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#13 DONE 0.0s
+
+#14 [kentash-sim internal] load build context
+#14 transferring context: 4.00MB 0.0s done
+#14 DONE 0.0s
+
+#15 [kentash-sim 1/7] FROM docker.io/library/python:3.12-slim@sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f
+#15 resolve docker.io/library/python:3.12-slim@sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f done
+#15 ...
+
+#16 [extended-api] resolving provenance for metadata file
+#16 DONE 0.0s
+
+#15 [kentash-sim 1/7] FROM docker.io/library/python:3.12-slim@sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f
+#15 sha256:86586d55cc56d61ea925eceb95264d80c84fae62b3f013b4022710968a0bcf73 254B / 254B done
+#15 sha256:f5b253875fcbce1c3ed3bf3431019fc52d83f106ccf45e58e083985648ad4ec7 1.55MB / 1.55MB 0.0s done
+#15 sha256:ca30a39e3f58fe12fab1873dcbc2295c56c29222f8aca17c0765e9777c59615c 12.12MB / 12.12MB 0.1s done
+#15 sha256:f2be67225471500c788ce88c597eb5ea8336e912ad1ca4815650e0281afe2034 29.84MB / 29.84MB 0.1s done
+#15 extracting sha256:f2be67225471500c788ce88c597eb5ea8336e912ad1ca4815650e0281afe2034
+#15 extracting sha256:f2be67225471500c788ce88c597eb5ea8336e912ad1ca4815650e0281afe2034 0.4s done
+#15 DONE 0.6s
+
+#15 [kentash-sim 1/7] FROM docker.io/library/python:3.12-slim@sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f
+#15 extracting sha256:f5b253875fcbce1c3ed3bf3431019fc52d83f106ccf45e58e083985648ad4ec7 0.1s done
+#15 extracting sha256:ca30a39e3f58fe12fab1873dcbc2295c56c29222f8aca17c0765e9777c59615c
+#15 extracting sha256:ca30a39e3f58fe12fab1873dcbc2295c56c29222f8aca17c0765e9777c59615c 0.2s done
+#15 extracting sha256:86586d55cc56d61ea925eceb95264d80c84fae62b3f013b4022710968a0bcf73
+#15 extracting sha256:86586d55cc56d61ea925eceb95264d80c84fae62b3f013b4022710968a0bcf73 done
+#15 DONE 0.9s
+
+#17 [kentash-sim 2/7] WORKDIR /app/sim
+#17 DONE 0.2s
+
+#18 [kentash-sim 3/7] COPY sim/requirements.txt .
+#18 DONE 0.0s
+
+#19 [kentash-sim 4/7] RUN pip install --no-cache-dir -r requirements.txt
+#19 1.299 Collecting paho-mqtt==2.1.0 (from -r requirements.txt (line 1))
+#19 1.758   Downloading paho_mqtt-2.1.0-py3-none-any.whl.metadata (23 kB)
+#19 1.909 Downloading paho_mqtt-2.1.0-py3-none-any.whl (67 kB)
+#19 2.034 Installing collected packages: paho-mqtt
+#19 2.065 Successfully installed paho-mqtt-2.1.0
+#19 2.065 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#19 4.188 
+#19 4.188 [notice] A new release of pip is available: 25.0.1 -> 26.2.2
+#19 4.188 [notice] To update, run: pip install --upgrade pip
+#19 DONE 4.2s
+
+#20 [kentash-sim 5/7] COPY sim/*.py ./
+#20 DONE 0.0s
+
+#21 [kentash-sim 6/7] COPY data /app/data
+#21 DONE 0.0s
+
+#22 [kentash-sim 7/7] RUN mkdir -p /app/state && chown nobody:nogroup /app/state
+#22 DONE 0.1s
+
+#23 [kentash-sim] exporting to image
+#23 exporting layers
+#23 exporting layers 0.3s done
+#23 exporting manifest sha256:ca1a5884e0c1e4816965ad30065b79c0e8854cbc525a2caad15c7061ab868ad3 done
+#23 exporting config sha256:eb4f4b2fd72cd6e3773826b2aca6054ddc02a22bafaebb07352c0e36940dfcea done
+#23 exporting attestation manifest sha256:7f58c653016a3a7712922ddecaebb0e71c9f4b9307011d8f5e243b9b6288cc5e 0.0s done
+#23 exporting manifest list sha256:5dfaa954074de082401ebfdd8c5b7a2d0d6a98edd213a9951b67722c6b8a0db8 done
+#23 naming to docker.io/kentash/sim:local done
+#23 unpacking to docker.io/kentash/sim:local 0.1s done
+#23 DONE 0.4s
+
+#24 [kentash-sim] resolving provenance for metadata file
+#24 DONE 0.0s
+ kentash/sim:local  Built
+ openegiz/ditto-extended-api:local-b49663d  Built
+ Volume openegiz_kentash-sim-state  Creating
+ Volume openegiz_kentash-sim-state  Created
+ Container openegiz-mosquitto-1  Running
+ Container openegiz-mongodb-1  Running
+ Container openegiz-things-search-1  Running
+ Container openegiz-connectivity-1  Running
+ Container openegiz-influxdb-1  Running
+ Container openegiz-gateway-1  Running
+ Container openegiz-unity-1  Running
+ Container openegiz-grafana-1  Recreate
+ Container openegiz-ditto-nginx-1  Running
+ Container openegiz-telegraf-1  Running
+ Container openegiz-things-1  Running
+ Container openegiz-kentash-sim-1  Creating
+ Container openegiz-kentash-web-1  Creating
+ Container openegiz-extended-api-1  Recreate
+ Container openegiz-policies-1  Running
+ Container openegiz-kentash-web-1  Created
+ Container openegiz-kentash-sim-1  Created
+ Container openegiz-extended-api-1  Recreated
+ Container openegiz-grafana-1  Recreated
+ Container openegiz-grafana-plugins-1  Starting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-grafana-plugins-1  Started
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-kentash-web-1  Starting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-grafana-1  Starting
+ Container openegiz-kentash-web-1  Started
+ Container openegiz-grafana-1  Started
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-extended-api-1  Starting
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-init-1  Starting
+ Container openegiz-extended-api-1  Started
+ Container openegiz-init-1  Started
+ Container openegiz-init-1  Waiting
+ Container openegiz-init-1  Exited
+ Container openegiz-kentash-sim-1  Starting
+ Container openegiz-kentash-sim-1  Started
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-kentash-web-1  Waiting
+ Container openegiz-unity-1  Waiting
+ Container openegiz-grafana-1  Waiting
+ Container openegiz-kentash-sim-1  Waiting
+ Container openegiz-policies-1  Waiting
+ Container openegiz-things-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-init-1  Waiting
+ Container openegiz-connectivity-1  Waiting
+ Container openegiz-extended-api-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-gateway-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-things-search-1  Waiting
+ Container openegiz-telegraf-1  Waiting
+ Container openegiz-unity-1  Healthy
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-policies-1  Healthy
+ Container openegiz-things-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-extended-api-1  Healthy
+ Container openegiz-init-1  Exited
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-telegraf-1  Healthy
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-gateway-1  Healthy
+ Container openegiz-connectivity-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-things-search-1  Healthy
+ Container openegiz-grafana-1  Healthy
+ Container openegiz-kentash-web-1  Healthy
+ Container openegiz-kentash-sim-1  Healthy
+Рудник «Кенташ» запущен: двойников в Ditto — 702.
+  Стенд (3D-рудник, ситуации, прогноз «что если», модули):  http://localhost:8200
+  Grafana (дашборд «Рудник Кенташ», двойники):      http://localhost:3000

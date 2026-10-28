@@ -1,0 +1,12 @@
+{"at": "2026-10-27T21:12:13.546560+00:00", "host": "update.googleapis.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T21:12:13.588725+00:00", "host": "accounts.google.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T21:12:13.597750+00:00", "host": "www.google.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T21:12:13.625147+00:00", "host": "localhost", "port": 3000, "allowed": true}
+{"at": "2026-10-27T21:12:13.647221+00:00", "host": "localhost", "port": 3000, "allowed": true}
+{"at": "2026-10-27T21:12:13.657020+00:00", "host": "localhost", "port": 3000, "allowed": true}
+{"at": "2026-10-27T21:12:13.657987+00:00", "host": "localhost", "port": 3000, "allowed": true}
+{"at": "2026-10-27T21:12:13.658571+00:00", "host": "localhost", "port": 3000, "allowed": true}
+{"at": "2026-10-27T21:12:13.659773+00:00", "host": "localhost", "port": 3000, "allowed": true}
+{"at": "2026-10-27T21:12:14.381927+00:00", "host": "content-autofill.googleapis.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T21:12:16.636521+00:00", "host": "android.clients.google.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T21:12:17.085224+00:00", "host": "mtalk.google.com", "port": 5228, "allowed": true}

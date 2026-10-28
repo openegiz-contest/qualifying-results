@@ -1,0 +1,9 @@
+{
+  "status": "ok",
+  "file": "presentation.pdf",
+  "pages": 5,
+  "pages_shown": 5,
+  "tool": "poppler 24.02.0",
+  "bytes": 272275,
+  "sha256": "3ed60c2eee37639079c76458a0de55157e0724bbbc216371c6222b07890e994e"
+}

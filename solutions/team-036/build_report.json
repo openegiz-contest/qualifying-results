@@ -1,0 +1,113 @@
+{
+  "team": "team-036",
+  "sha": "70292c1cea3d1d1a5b24254894303d0524590379",
+  "started_at": "2026-10-27T11:53:03+00:00",
+  "finished_at": "2026-10-27T12:08:40+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt install -y make          # если make нет",
+      "command": "cd /home/judge/solution && sudo apt install -y make",
+      "exit_code": 0,
+      "duration_s": 5.4,
+      "log": "logs/01-sudo-apt-install-y-make-make.txt"
+    },
+    {
+      "readme_step": "make digital-pit                  # платформа OpenEgiz + двойники + симулятор + 3D-стенд (первый запуск: 10-20 минут)",
+      "command": "cd /home/judge/solution && make digital-pit",
+      "exit_code": 0,
+      "duration_s": 116.0,
+      "log": "logs/02-make-digital-pit-openegiz-3d-10-20.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 15 of 18 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 15 of 18 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Диспетчер самосвалов",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "dispatcher-01 в Ditto: decisions_total=149, last_decision «09:25 Т-03 → Э-02: ожидание 2.3 мин, путь 3.8 мин (иначе Э-03: ожидание 4.8 мин)», decision_log обновляется. У самосвалов меняются shovel/destination: при shovel_down распределение по экскаваторам 4/4/3 → 6/1/4, при crusher_down 7 самосвалов получили destination=rompad-01. Журнал решений стенд читает через прокси /ditto."
+    },
+    {
+      "name": "Сравнение с базой в реальном времени (теневой мир)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В dispatcher-01 параллельные KPI меняются: idle_pct_dispatch/baseline 7.4/6.9 штатно, 8.8/15.0 при отказе Э-2; crusher_starved 6.2/21.0; idle_saved_h=1.25, ore_gain_t=713. POST /api/control {cmd:view,view:baseline} переключил pit-01.view на baseline, и двойники самосвалов показали другой мир; вернул обратно на dispatcher."
+    },
+    {
+      "name": "Показатели простоев и дашборд Grafana",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Дашборд uid openegiz-digital-pit «Цифровой карьер: диспетчеризация»: 11 панелей, источник influxdb opentwins-influxdb, Flux по thingId org.openegiz.pit:*. В InfluxDB bucket default за 15 минут есть точки: value_idle_pct_dispatch 47, value_bin_pct 47, value_queue_len 226, value_fuel 517, value_ore_gain_t 47."
+    },
+    {
+      "name": "3D-стенд (консоль pit-console)",
+      "claimed_in_submission": false,
+      "works": "yes",
+      "evidence": "http://127.0.0.1:8099/ отдаёт 200 (30 КБ). Через прокси /ditto/api/2/things/... отдаёт состояние shovel-02. index.html делает fetch к /ditto/api/2/search/things и POST /api/control. Контейнер healthy. Отдельной строкой стенд не заявлен: описан в разделе «Визуализация»."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Закрыть рампу А (ramp_a_closed)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "До: road-ua open, trucks_on=2; road-ub trucks_on=0. После POST /api/control on:true и 60 с: road-ua status=closed, trucks_on=0; road-ub trucks_on=2, самосвалы на сегментах UB/SB; sc_ramp_a_closed=1. После on:false и 45 с: road-ua open, trucks_on=4, road-ub 0, sc=0."
+    },
+    {
+      "name": "Дождь (rain)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "После on:true: pit-01.weather=rain, все road-* в статусе slow, speed_factor 0.72 у карьерных дорог и 0.85 у surf1/surf2, sc_rain=1. После on:false: weather=dry, дороги open, speed_factor 1.0, sc_rain=0."
+    },
+    {
+      "name": "Отказ экскаватора Э-2 (shovel_down)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "До: shovel-02 loading, face-f2 open, самосвалы по экскаваторам 4/4/3. После: shovel-02 down, face-f2 equipment_down, распределение 6/1/4, idle_pct dispatch/baseline 8.8/15.0, sc_shovel_down=1. После отмены: shovel-02 loading, face-f2 open, распределение 4/5/2, sc=0."
+    },
+    {
+      "name": "Остановка дробилки (crusher_down)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "До: crusher-01 crushing, rompad-01 stock_t=203, 4 самосвала едут на crusher-01. После: crusher-01 down, rompad stock_t=1229, 7 самосвалов с destination=rompad-01, sc=1. После отмены: crusher-01 crushing, 6 самосвалов едут на crusher-01, sc=0. Запас ROM (накопленный) вырос до 1682."
+    },
+    {
+      "name": "Взрыв на F1 (blast_f1)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "После on:true: face-f1 blast_closed, shovel-01 blast, ни одного самосвала на shovel-01 (7 на shovel-02, 4 на shovel-03), очереди 2/2, sc_blast_f1=1. После отмены: face-f1 open, shovel-01 loading, 5 самосвалов на shovel-01, sc=0."
+    },
+    {
+      "name": "Поломка самосвала БелАЗ-07 (truck_down)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "До: truck-07 to_shovel, 26.9 км/ч. После on:true: truck-07 state=repair, speed 0, держится 55 с, sc_truck_down=1. После on:false: truck-07 to_dump, 12.2 км/ч, на UA. Все sc_*=0, pit-01.view возвращён в dispatcher."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "(1) В Ditto 34 вещи org.openegiz.pit:* (pit-01, dispatcher-01, truck-01…11, shovel-01…03, face-f1…f3, 12 road-*, crusher-01, rompad-01, wastedump-01). (2) Ditto-соединение mosquitto-source-connection: mqtt-5, connectionStatus=open, источник telemetry/#. Симулятор публикует Ditto-protocol modify в MQTT telemetry/<name> (simulator.py). Снимки с разницей 35 с: pit-01.clock_min 194.7→206.7, ore_hauled_t 7890.8→8301.8; truck-03 сменил to_dump→to_shovel, позиция изменилась; crusher bin 169.3→81.7. Сценарии идут через MQTT control/pit. (3) Дашборд Grafana читает InfluxDB платформы (opentwins-influxdb, bucket default, поля value_*_properties_value от Telegraf), данные есть. 3D-стенд читает только через прокси консоли к API Ditto (/ditto/api/2/...)."
+  },
+  "notes": "Оба шага README выполнились с первого раза, повторов не было. Первый шаг README («sudo apt install -y make # если make нет») выполнил буквально, потому что make в VM не было. Самопроверка pit-check внутри make digital-pit прошла: «pit-check: ok», при этом она включала и отключала сценарий rain. По README сценарии включаются кнопками на стенде; в README дана curl-команда POST /api/control, тот же запрос шлёт index.html. Ею запускал и отменял (on:false — эквивалент повторного нажатия). Для проверки Модуля 2 переключил вид на baseline через {\"cmd\":\"view\"} и вернул на dispatcher. Стенд оставлен со всеми sc_*=0 и view=dispatcher. В AGENTS.md и CLAUDE.md есть инструкции для ИИ-агентов команды (про Замысел и обновления), к Сборщику они не обращены и инъекцией не являются. Возможных инъекций не обнаружено.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Раздел «Замысел» написан командой: цифровой двойник открытого карьера (самосвалы, экскаваторы, дороги, дробилка), он помогает диспетчеру распределять самосвалы по экскаваторам и маршрутам и сокращать простои; цель обоснована."
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "team": "team-032",
+  "judge": "gpt-6-astra",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 2,
+      "max": 25,
+      "points": 12.5,
+      "reasoning": "Через API Ditto и приложение OpenEgiz проверены 26 собственных объектов: шахта, пять зон, вентиляторы, датчики, работники и техника. Есть газовые показатели, состояния, _parents, connected_to и направления воздуха; выбранное звено узнаётся и выходит за типовой карьер. До подробной модели не хватает развитой вентиляционной сети с обратными ветвями и регулирующими устройствами; состояния техники и персонала минимальны.",
+      "references": [
+        "ditto:org.openegiz.safety:zone-main-drift",
+        "ditto:org.openegiz.safety:sensor-section-a",
+        "ditto:org.openegiz.safety:fan-main",
+        "ditto:org.openegiz.safety:worker-04"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Снимки Ditto в 11:22:08 и 11:23:11 UTC и последующие проверки аварий показали неизменные состояния всех 26 двойников, revision=1. При остановке вентилятора его двойник оставался running/100%, при выбросе метана датчик сохранял 0,35%, при пожаре CO главного штрека оставался 5 ppm. Локальная модель меняется, но её цикл публикует события истории в обход обновления Ditto; живое поведение двойников не подтверждено.",
+      "references": [
+        "ditto:org.openegiz.safety:fan-main",
+        "ditto:org.openegiz.safety:sensor-section-a",
+        "ditto:org.openegiz.safety:sensor-main-drift",
+        "team/mine-safety/app.py:292"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 1,
+      "max": 25,
+      "points": 6.25,
+      "reasoning": "Открыта схема пяти зон с обозначениями людей, техники, вентиляторов и воздуха. При авариях видны изменившиеся показатели, опасные зоны и маршруты. Это условная схема без подтверждённого масштаба и геометрии выработок; производственное движение и инструменты масштабирования с выбором объекта не подтверждены. Обновление идёт из локального /api/state, а не из двойников, поэтому требования уровня 2 не выполнены.",
+      "references": [
+        "screenshot:screenshots/normal.png",
+        "screenshot:screenshots/fire.png",
+        "screenshot:screenshots/blocked.png",
+        "team/mine-safety/static/app.js:462"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 1,
+      "max": 10,
+      "points": 2.5,
+      "reasoning": "Лично запущены кнопками и отменены все четыре сценария. В локальном API и интерфейсе отказ вентилятора затронул пять зон и 10 людей; метан достиг 2,8%; пожар дал CO 75/41,2 ppm в связанных зонах; перекрытие участка A оставило троих без маршрута. Однако последствия ни одного сценария не поступили в двойники Ditto: вентилятор, датчики, зоны и работники сохраняли исходные состояния. Поэтому сквозная работа сценариев подтверждена лишь частично, уровня 2 нет. После каждого сброса локальная модель возвращалась в норму; в конце scenario=none, risk=normal, маршруты очищены.",
+      "references": [
+        "screenshot:screenshots/fan-failure.png",
+        "screenshot:screenshots/methane.png",
+        "screenshot:screenshots/fire.png",
+        "screenshot:screenshots/blocked.png",
+        "screenshot:screenshots/final-reset.png",
+        "ditto:org.openegiz.safety:mine-01",
+        "ditto:org.openegiz.safety:worker-04",
+        "team/mine-safety/app.py:298"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 3,
+      "max": 5,
+      "points": 3.75,
+      "reasoning": "На стенде проверены три содержательные функции локальной модели: советник с двумя прогнозными траекториями и целевыми скоростями вентиляторов, расчёт энергии рекомендуемого режима и поиск эвакуационных путей с учётом опасности и перекрытий. Например, при отказе советник предложил 100/90/90%, энергетика рассчитала 245,61 кВт, при перекрытии маршрутизатор сообщил о троих без выхода. Пороговая оценка риска — дополнительная простая функция. Четырёх содержательных модулей разных направлений нет; карта и передача телеметрии отдельно не засчитаны.",
+      "references": [
+        "screenshot:screenshots/fan-failure.png",
+        "screenshot:screenshots/methane.png",
+        "screenshot:screenshots/blocked.png",
+        "team/mine-safety/model.py:272",
+        "team/mine-safety/model.py:377",
+        "team/mine-safety/model.py:493"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Есть самостоятельная задача диспетчера вымышленной шахты: оценка газовой опасности, вентиляции и эвакуации; модель, интерфейс и сценарии ей соответствуют. Однако ключевое утверждение презентации о едином сквозном потоке через Ditto противоречит проверке: двойники статичны, история публикуется в обход них. Это ограничивает критерий уровнем 1. Числа синтетические, перенесённых данных реального аналога или калибровки не найдено.",
+      "references": [
+        "SUBMISSION.md:5",
+        "SUBMISSION.md:63",
+        "presentation.pdf:5",
+        "presentation.pdf:9",
+        "team/mine-safety/app.py:186",
+        "team/mine-safety/app.py:292",
+        "ditto:org.openegiz.safety:sensor-section-a"
+      ]
+    }
+  ],
+  "total": 28.75
+}

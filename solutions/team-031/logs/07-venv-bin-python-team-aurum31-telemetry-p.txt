@@ -1,0 +1,5 @@
+--- stderr ---
+Traceback (most recent call last):
+  File "/home/judge/solution/team/aurum31/telemetry.py", line 7, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'

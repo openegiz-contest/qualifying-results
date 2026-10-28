@@ -1,0 +1,119 @@
+{
+  "team": "team-035",
+  "sha": "13a07683081970000ee436e7356e918a61dd4146",
+  "started_at": "2026-10-27T15:16:29+00:00",
+  "finished_at": "2026-10-27T15:49:33+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update",
+      "command": "cd /home/judge/solution && sudo apt-get update",
+      "exit_code": 0,
+      "duration_s": 8.9,
+      "log": "logs/01-sudo-apt-get-update.txt"
+    },
+    {
+      "readme_step": "sudo apt-get install -y make",
+      "command": "cd /home/judge/solution && sudo apt-get install -y make",
+      "exit_code": 0,
+      "duration_s": 5.0,
+      "log": "logs/02-sudo-apt-get-install-y-make.txt"
+    },
+    {
+      "readme_step": "bash mine-mirage/start-judge.sh",
+      "command": "cd /home/judge/solution && bash mine-mirage/start-judge.sh",
+      "exit_code": 2,
+      "duration_s": 510.0,
+      "log": "logs/03-bash-mine-mirage-start-judge-sh.txt"
+    },
+    {
+      "readme_step": "bash mine-mirage/start-judge.sh",
+      "command": "cd /home/judge/solution && bash mine-mirage/start-judge.sh",
+      "exit_code": 0,
+      "duration_s": 494.0,
+      "log": "logs/04-bash-mine-mirage-start-judge-sh.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 14 of 17 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 14 of 17 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Транспорт / диспетчеризация",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Двойник org.mine.mirage:ht-01 в Ditto меняется. 15:37:19: state=dumping, payload=90, position x=64.5. 15:37:55: state=returning, speed=39.2, payload=0, target=face-north. В mine-01 за то же время mined_tonnes вырос с 672 до 762, moving_trucks с 10 до 12. Но интерфейс (GET /api/twin читает mine-01) застывает примерно через 5 мин симуляции: Ditto отклоняет обновления mine-01 с ThingTooLargeException (113,6 кБ > 100 кБ, лог openegiz-connectivity-1), _revision застыл на 217, updated_at на 15:39:50 до сброса ↺. Двойники ht-13 и ht-14 на карте «Сарыарка» не обновляются (_revision 1, state parked): в симуляции 12 самосвалов."
+    },
+    {
+      "name": "Бурение / MWD / БВР",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "POST /api/command {action:blast} (так шлёт кнопка bvrStart в assets/app.js). drill-01 в Ditto: до — phase=idle, drilled=0, mwd_hardness=0. Через 20 с — drilling, drilled=6, mwd=47. Через 40 с — 13. Через 60 с — charging, drilled=20/20. Влияние на фрагментацию, погрузку и дробилку не наблюдалось: fragmentation осталась 0.48, цикл отменён до взрыва. Снимок mine-01 в UI застыл на drilled=6 из-за ThingTooLarge."
+    },
+    {
+      "name": "Переработка",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "cr-01 и cr-02 обновляются в Ditto: у cr-01 handled_tonnes 374.7 → 473.6 за 36 с. После crusherFault cr-01 перешёл в state=offline, handled_tonnes застыл на 50.7, crusher-b из starved стал running, queued выросло с 2 до 3, moving упало с 10 до 6. После repair cr-01 снова принимает руду: state=starved, handled_tonnes=55."
+    },
+    {
+      "name": "ТО и надёжность",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "POST /api/command {action:preventive} вернул applied:true. Затем самосвал HT-04 ушёл в мастерскую: двойник ht-04 в Ditto state=to_workshop, target=workshop, health=91.4. В метриках inWorkshop=1, availabilityPct=91.7. Поля health, maintenanceDue, components есть у всех самосвалов в снимке."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Бурение → БВР",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "Запуск: POST /api/command {action:blast} (кнопка bvrStart). drill-01: idle/drilled 0 → drilling 6 → 13 → charging 20/20, mwd_hardness=47. Влияние на погрузку и дробилку не увидено. Отмена: {action:cancelBlast} (кнопка bvrCancel) вернула drill-01 в idle, drilled=0, mwd=0. Но mine-01 к этому времени уже не обновлялся (ThingTooLarge), его вернул только второй документированный способ отмены ↺ (/api/control reset): _revision 217 → 225, simulation_time 10.5."
+    },
+    {
+      "name": "Ливень",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск: POST /api/command {action:rain}. До: rain=false, visibility=97.7, transportPct=100, avgSpeed=21.3, water=0.10, fs=1.439. Через 60 с: rain=true, visibility=78.8, transportPct=86, avgSpeed=7.6, moving 10 → 5, queued 2 → 3, water=0.84, fs=0.996. Отмена ↺ (POST /api/control {operation:reset}): rain=false, visibility=97.7, transportPct=100, moving=10."
+    },
+    {
+      "name": "Отказ дробилки A",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск: POST /api/command {action:crusherFault}. До: cr-01 state=running, crusher-b starved, moving=10, queued=2. Через 40 с: cr-01 в Ditto state=offline, handled_tonnes застыл на 50.7, crusher-b running, moving=6, queued=3. Отмена: {action:repair} создал job repair. Примерно через 80 с crusherFault=false, cr-01 state=starved, handled_tonnes=55 (снова растёт)."
+    },
+    {
+      "name": "Переключение карьерной карты",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "POST /api/control {operation:map, map:altai} (так шлёт mapSelect в app.js). mine-01/features/map в Ditto: saryarka → altai, mapName «АЛТАЙ · глубокий карьер», в снимке 14 самосвалов вместо 12. Отмена: {operation:map, map:saryarka} вернула map=saryarka и 12 самосвалов."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) GET /api/2/search/things: 20 двойников org.mine.mirage: mine-01, ht-01..14, ex-01/02, cr-01/02, drill-01, policy default:basic_policy, родитель mine-01. 2) Соединения Ditto mosquitto-source-connection (telemetry/#) и mosquitto-target-connection — open. mirage-app публикует Ditto Protocol modify в MQTT telemetry/<id> (platform/server.mjs), в Ditto не пишет напрямую. Признаки ht-01, cr-01, mine-01 менялись между снимками 15:37:19 и 15:37:55. Telegraf пишет события в InfluxDB (measurement mqtt_consumer, thingId=org.mine.mirage:ht-01, topic opentwins/twin/events/...). 3) Интерфейс (assets/app.js, telemetry.html) получает данные только через GET /api/twin — серверный прокси к Ditto REST /api/2/things/org.mine.mirage:mine-01; локального движка в браузере нет. Grafana-дашборда Решения нет: в /api/search только папка OpenEgiz Examples, overlay mine-mirage/grafana/compose.yml не подключается в start-judge.sh. Оговорка: через ~5 мин симуляции Ditto отклоняет обновления mine-01 (ThingTooLarge, 113.6 кБ > 100 кБ), и интерфейс показывает застывшие данные из Ditto."
+  },
+  "notes": "Первый запуск «bash mine-mirage/start-judge.sh» упал внутри make up при git fetch репозитория ertis-research/extended-api-for-eclipse-ditto (fatal: early EOF — сбой сети). Повтор той же строкой без изменений прошёл успешно. Сценарии запускаются только из браузера, поэтому я выполнял через curl те же запросы, что шлёт assets/app.js: POST /api/command {action} и POST /api/control {operation}. Отклонение: перед «Ливнем» я сделал лишний сброс ↺ (/api/control reset), чтобы снимок mine-01 не упёрся в лимит размера Ditto. Системный дефект: history в снимке растёт (до 720 записей, около 6 кБ / 25 с), и примерно через 300 с симуляции Ditto отклоняет обновления mine-01 (ThingTooLargeException), поэтому 3D-UI и KPI застывают до сброса ↺. Стенд оставлен на карте «Сарыарка», без активных сценариев, после сброса около 15:48 UTC; через ~5 мин mine-01 снова перестанет обновляться. Grafana-дашборд Решения не провиженится. В AGENTS.md и CLAUDE.md — стандартные инструкции Шаблона для агентов Команды; я их не выполнял, инъекций, обращённых к Сборщику, не найдено.\n\nСтенд повторно деградировал после восстановлений (2): платформа OpenEgiz на Стенде переставала работать (after judge gpt-6-astra: перезапуски после базовой точки: openegiz-telegraf-1: RestartCount 0 → 14 | after judge gpt-6-astra: перезапуски после базовой точки: openegiz-telegraf-1: RestartCount 0 → 17 | after judge gpt-6-astra: platform_restarts: перезапуски после базовой точки: openegiz-telegraf-1: RestartCount 0 → 12). Решение оценено на Стенде как есть; вся история проверок — stand-health.jsonl. Команда может оспорить это Апелляцией.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел описывает диспетчерский двойник вымышленных открытых карьеров «Сарыарка» и «Алтай» (цепочка бурение/MWD → фрагментация → погрузка → самосвалы → дробилки) для диспетчера, инженера БВР, механика и технолога; он помогает решать, нужна ли корректировка при ухудшении фрагментации, отказах и погоде."
+  },
+  "stand_degraded": {
+    "restores": 2,
+    "evidence": "after judge gpt-6-astra: перезапуски после базовой точки: openegiz-telegraf-1: RestartCount 0 → 14 | after judge gpt-6-astra: перезапуски после базовой точки: openegiz-telegraf-1: RestartCount 0 → 17 | after judge gpt-6-astra: platform_restarts: перезапуски после базовой точки: openegiz-telegraf-1: RestartCount 0 → 12"
+  }
+}

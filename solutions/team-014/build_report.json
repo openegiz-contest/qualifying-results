@@ -1,0 +1,132 @@
+{
+  "team": "team-014",
+  "sha": "e5152b2774ff687fa27fd70b3a8b94498fd295c4",
+  "started_at": "2026-10-27T09:37:13+00:00",
+  "finished_at": "2026-10-27T10:01:47+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "command -v make >/dev/null || sudo apt-get install -y make",
+      "command": "cd /home/judge/solution && command -v make >/dev/null || sudo apt-get install -y make",
+      "exit_code": 0,
+      "duration_s": 5.7,
+      "log": "logs/01-command-v-make-dev-null-sudo-apt-get-ins.txt"
+    },
+    {
+      "readme_step": "make up",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 0,
+      "duration_s": 720.0,
+      "log": "logs/02-make-up.txt"
+    },
+    {
+      "readme_step": "make mine-check",
+      "command": "cd /home/judge/solution && make mine-check",
+      "exit_code": 0,
+      "duration_s": 23.0,
+      "log": "logs/03-make-mine-check.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 17 of 20 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 17 of 20 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "ПАЗ (противоаварийная защита по позициям ПЛА)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Контейнер openegiz-bolashak-paz-1 запущен. depot_blind: журнал bolashak:paz «Обнаружено: gs-vs. Вводится Поз. 0» → «Позиция уточнена автоматически: Поз. 0 → Поз. 1», команды выполнены: fd-640-depot closed=100, dv-640-depot open, depot-640 fuel_line=isolated, «Позиция ПЛА отработана за 40 с». fan_trip: fan-1 tripped → Поз. 7, fan-2 starting→running 100%, отработано за 70 с. paz_mode off → paz.state=disabled, auto → standby."
+    },
+    {
+      "name": "Советчик диспетчера (прогноз 4 вариантов, рекомендация, предложение позиции)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "bev_lhd_blind: bolashak:advisor state=forecast, fire_location=d560_j_p, fire_hrr 8→16 МВт (факт control.hrr 16.0), best_option=normal; в журнале ПАЗ «Советчик предлагает Поз. 4». make mine-check: четыре варианта с рядами (без ПАЗ 6/29 FED 0.608, без новых действий 29/29), сброс советчика после «нормы» (state=normal, best_option=none, fire_hrr=0)."
+    },
+    {
+      "name": "Стенд сравнения режимов защиты",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Запрос из SUBMISSION (study, conveyor + door_stuck:fd-640-conv, valve_stuck:dv-640-conv) → advisor.study value=done за 1.7 с: auto 29/29, 13 чел.·мин, 7.0 МВт; manual 24/29, 87 чел.·мин; off 3/29, 113 чел.·мин, 14 МВт — совпадает с таблицей SUBMISSION. mine-check: bev_lhd_blind 3 прогона, FED 0.523."
+    },
+    {
+      "name": "Позиционирование и эвакуация",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "bolashak:mine в bev_lhd_blind: people_safe 0→3→14, evacuating 26→15, people_at_risk=6, max_fed 0→0.53; lhd-01.location меняется (s 0.436→1.0, trips 16→17) за 35 с."
+    },
+    {
+      "name": "Вентиляционный и газовый контроль, дашборд Grafana",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "mine.airflow 349.2 м³/с, alarms 0→2→3 при пожаре (gs-560-r, gs-480-r, gs-vs). Дашборд bolashak-mine, 20 панелей, все с источником opentwins-influxdb (Flux по thingId bolashak:*); запрос через /api/ds/query вернул 100 точек fan-1 за 10 мин с topic opentwins/twin/events/bolashak/fan-1."
+    },
+    {
+      "name": "Пульт диспетчера (bolashak-viz, :8095)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "http://127.0.0.1:8095 отдаёт HTML, прокси /api/2/things/bolashak:control → 200 (Ditto); PUT desiredProperties через этот прокси запускал сценарии (204). Браузерный UI визуально не проверялся."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Пожар ПДМ при отказе бортовой системы и датчика участка (bev_lhd_blind)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "PUT как пульт (Panels.tsx:658) через :8095 control/scenario/desiredProperties {value:bev_lhd_blind}. До: emergency normal, at_risk 0, max_fed 0. Через ~95 с: emergency evacuation, people_at_risk 6, max_fed 0.53, paz P4 (уточнено из Поз. 0 советчиком), control.hrr 16.0. «Сброс в норму» (value normal): emergency normal, at_risk 0, paz standby, advisor normal."
+    },
+    {
+      "name": "Пожар склада ГСМ при отказе датчика склада (depot_blind)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "После запуска: обнаружение gs-vs, «Советчик предлагает Поз. 1», «Поз. 0 → Поз. 1» автоматически, fd-640-depot closed, dv-640-depot open (пена), depot-640 fuel_line isolated, hrr 1.77 МВт. После сброса: fd open, dv closed, depot-640 state normal/fuel_line open, paz standby."
+    },
+    {
+      "name": "Пожар ПДМ на очистном участке −560 (bev_lhd)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Прогнан make mine-check: ПАЗ Поз. 4 completed за 20 с, советчик 4 варианта, режим evacuation; затем «шахта возвращена в штатный режим», советчик сброшен."
+    },
+    {
+      "name": "Аварийная остановка ГВУ (fan_trip)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "fan-1 running→tripped speed 0; ПАЗ Поз. 7, fan-2 standby→starting 83%→running 100% (60 с). Падения mine.airflow в снимках не поймал (349.2 до и после). Сброс: fan-1 running, fan-2 standby, paz standby."
+    },
+    {
+      "name": "ПАЗ выведена из работы (paz_mode off)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "PUT control/paz_mode/desiredProperties {value:off} → paz.state disabled, mode off; {value:auto} → state standby, mode auto. Аварию в режиме off не прогонял."
+    },
+    {
+      "name": "Стенд сравнения режимов защиты",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запрос study по команде SUBMISSION, результат в advisor.study (done, 3 прогона); живая шахта не изменилась (mine.emergency normal)."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) Ditto: 100 вещей bolashak:* (search count=100), иерархия _parents. 2) Между снимками с интервалом 35 с bolashak:lhd-01 изменился (location.s 0.436→1.0, battery 56.6→55.8, trips 16→17); соединения mosquitto-source-connection (telemetry/#) и mosquitto-target-connection (opentwins/...) в статусе open, метрика inbound ~1315 сообщ./мин без ошибок; сим, ПАЗ и советчик публикуют в MQTT topic telemetry/<name> (team/minecore/ditto.py:118), команды — desiredProperties через Ditto. 3) Все 20 панелей дашборда bolashak-mine читают InfluxDB opentwins-influxdb, данные — mqtt_consumer из topic opentwins/twin/events/bolashak/*; пульт :8095 читает Ditto через nginx-прокси на ditto-nginx."
+  },
+  "notes": "Повторов шагов не было; все три команды README завершились успешно (make поставлен первой строкой README, так как его не было). make up шёл ~17 мин из-за медленной загрузки образов. Сценарии, запускаемые только с пульта, запускал тем же PUT desiredProperties, который шлёт интерфейс (team/viz/src/components/Panels.tsx:658, сброс — :661), через прокси 127.0.0.1:8095. Из-за лимита времени не прогонял отдельно сценарии bev_truck, charger, conveyor, depot, substation, комбинации отказов, ручной режим ПАЗ, ручное управление и скорость модели (conveyor с отказами проверен только на стенде сравнения). Стенд оставлен в норме: scenario normal, paz_mode auto, speed 10. Возможных инъекций не найдено (AGENTS.md/CLAUDE.md — стандартные инструкции Шаблона для агентов Команды).",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел про подземную хромовую шахту «Болашақ» Донского ГОКа (Казхром); пользователи — горный диспетчер и инженер по промбезопасности; решение — режим проветривания и действия ПЛА при пожаре."
+  }
+}

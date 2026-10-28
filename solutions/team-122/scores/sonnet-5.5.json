@@ -1,0 +1,72 @@
+{
+  "team": "team-122",
+  "judge": "sonnet-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Решение не поднялось. Init завершился с exit 1, Ditto отвечает 403, двойников на Стенде нет. Причина в копии платформы openegiz/ в репозитории Команды: скрипт 40-htpasswd.sh закоммичен без бита исполнения. Модель проверить нельзя, поэтому засчитать нечего.",
+      "references": [
+        "build_report:steps[2]",
+        "build_report:steps[3]",
+        "build_report:built_on_openegiz"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Живых данных нет: сервис ventobserve в состоянии Created, двойники не созданы. Поведение не наблюдалось.",
+      "references": [
+        "build_report:modules[0]",
+        "build_report:came_up"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Интерфейс не открывается: http://127.0.0.1:8765/api/state не отвечает (код 000). Скриншотов нет, потому что показывать нечего.",
+      "references": [
+        "build_report:modules[0]",
+        "build_report:healthchecks"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Ни один из пяти сценариев не запускался и не мог запуститься: Решение не поднялось. Сценарии описаны только в тексте.",
+      "references": [
+        "build_report:scenarios"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Ни один из трёх заявленных Модулей на Стенде не работает: ventobserve не запущен, Ditto отвечает 403. Я сам их тоже не наблюдал.",
+      "references": [
+        "build_report:modules"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Раздел «Замысел» заполнен: эквивалентная вентиляционная сеть шахты Gucheng, инженер вентиляции как пользователь и выбор измерения для восстановления. Но Стенд не поднялся, и я не смог сверить Замысел с моделью, визуализацией и сценариями. Это ограничивает оценку уровнем 1. Презентацию подробно не сверял.",
+      "references": [
+        "build_report:concept",
+        "build_report:came_up"
+      ]
+    }
+  ],
+  "total": 3.75
+}

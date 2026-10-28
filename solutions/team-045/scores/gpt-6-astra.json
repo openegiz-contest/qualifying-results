@@ -1,0 +1,102 @@
+{
+  "team": "team-045",
+  "judge": "gpt-6-astra",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "Через Ditto прочитаны 166 двойников 16 видов; в OpenEgiz просмотрены корень и дочерние объекты. Есть камеры с запасами и содержанием Cu, целики, вентиляционная сеть, датчики, персонал, техника и наряд. Иерархия и связи содержательны, изменения вентиляции и устойчивости влияют на камеры и людей. До уровня 4 не хватает одинаковой глубины звеньев: транспорт, дробилка и подъём представлены существенно проще систем безопасности.",
+      "references": [
+        "ditto:org.openegiz.zhezkazgan:k1-23",
+        "ditto:org.openegiz.zhezkazgan:panel-1",
+        "ditto:org.openegiz.zhezkazgan:aw-main-12",
+        "team/mine/sim.py:813",
+        "screenshot:screenshots/openegiz-twins.png"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 3,
+      "max": 20,
+      "points": 15,
+      "reasoning": "Повторные чтения за несколько минут подтвердили ход времени и переход камер от заряжания к ожиданию взрыва. Расходы, допуски и положение звеньев связаны; перенос массы в коде последовательный, производительности правдоподобны. Проверенная статистика датасета воспроизводит частоты 0,732/1,096 толчка за смену, но полной калибровки поведения нет: распределение энергий задано отдельно, заявленные вероятности опасных смен не используются. Выдачу руды на Стенде не наблюдал; ограничения упрощены, превышение скорости воздуха не вызывает тревогу.",
+      "references": [
+        "ditto:org.openegiz.zhezkazgan:east-mine",
+        "ditto:org.openegiz.zhezkazgan:k1-31",
+        "ditto:org.openegiz.zhezkazgan:agk-p1",
+        "team/mine/sim.py:397",
+        "team/mine/sim.py:671",
+        "team/mine/sim.py:813",
+        "team/data/seismic-bumps/seismic-bumps.arff:1"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 2,
+      "max": 25,
+      "points": 12.5,
+      "reasoning": "В браузере открыт специализированный план камерно-столбового горизонта: стволы, выработки, камеры, целики и рудоспуски. Живые подписи показывают стадии работ, расходы и допуски; проверены увеличение панели и подсказка камеры с данными. Последствия остановки ВГП и сейсмики отражаются на плане. До уровня 3 не подтверждена полноценная визуальная картина производства: движения работающей техники, очередей и потока руды не наблюдал, тоннаж оставался нулевым.",
+      "references": [
+        "screenshot:screenshots/baseline-2d.png",
+        "screenshot:screenshots/panel1-detail.png",
+        "screenshot:screenshots/chamber-tooltip.png",
+        "screenshot:screenshots/fan-stopped.png",
+        "screenshot:screenshots/seismic-2d.png",
+        "screenshot:screenshots/baseline-3d.png"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 3,
+      "max": 10,
+      "points": 7.5,
+      "reasoning": "Сам запустил и отменил остановку ВГП, толчок, выемку целика, отказ ВМП и завал штрека. Остановка дала расход 0 и 31 запрещённую камеру; толчок — эвакуацию П-1, 10 запретов и SF 3,88→3,65; отказ ВМП вывел звено и заблокировал наряд. Изменения видны в Ditto и на плане. Выемка и завал изменяют расчёты, но обещанного закрытия камер не дали. Отмена проверена: расходы и SF восстановлены, active_scenarios=none. Для уровня 4 отсутствует встроенное сравнение «до/после».",
+      "references": [
+        "ditto:org.openegiz.zhezkazgan:east-mine",
+        "ditto:org.openegiz.zhezkazgan:c1-24",
+        "ditto:org.openegiz.zhezkazgan:k1-26",
+        "screenshot:screenshots/fan-stopped.png",
+        "screenshot:screenshots/seismic-2d.png",
+        "screenshot:screenshots/pillar-extracted.png",
+        "screenshot:screenshots/aux-failure-rejected-plan.png",
+        "screenshot:screenshots/blocked-main.png"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 3,
+      "max": 5,
+      "points": 3.75,
+      "reasoning": "Подтверждены содержательные расчёты вентиляционной сети и устойчивости целиков: воздействия пересчитывают связанные объекты, расходы, напряжения и SF. Работает проверка наряда: назначение в камеру с отказавшим ВМП отклонено с причиной; допуски автоматически выводят людей. Сейсмический порог эвакуации отдельно содержательным модулем не считаю. Четыре самостоятельных содержательных модуля разных направлений не подтверждены.",
+      "references": [
+        "team/mine/sim.py:140",
+        "team/mine/sim.py:368",
+        "team/mine/sim.py:517",
+        "team/mine/sim.py:592",
+        "ditto:org.openegiz.zhezkazgan:shift-plan",
+        "ditto:org.openegiz.zhezkazgan:c1-14",
+        "screenshot:screenshots/aux-failure-rejected-plan.png"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 2,
+      "max": 15,
+      "points": 7.5,
+      "reasoning": "Конкретный и обоснованный замысел: горный мастер ВЖР выбирает безопасные камеры по воздуху и устойчивости. Модель, план и сценарии действительно построены под эту задачу; презентация читается, условность геометрии и ограничения названы. Однако её страница 9 обещает закрытие П-2/П-3 при завале и камер при выемке целика 1-24: лично проверенные сценарии этого не дали. Поэтому полное соответствие презентации Стенду для уровня 3 не выполнено.",
+      "references": [
+        "SUBMISSION.md:5",
+        "SUBMISSION.md:19",
+        "presentation.pdf:2",
+        "presentation.pdf:9",
+        "presentation.pdf:11",
+        "ditto:org.openegiz.zhezkazgan:aw-main-12",
+        "ditto:org.openegiz.zhezkazgan:c1-14",
+        "screenshot:screenshots/blocked-main.png"
+      ]
+    }
+  ],
+  "total": 65
+}

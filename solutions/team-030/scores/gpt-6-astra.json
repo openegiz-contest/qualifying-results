@@ -1,0 +1,89 @@
+{
+  "team": "team-030",
+  "judge": "gpt-6-astra",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 1,
+      "max": 25,
+      "points": 6.25,
+      "reasoning": "Через API найден один собственный двойник рудника с показателями production=800, scenario_production=1080 и improvement=35. Это минимальная агрегатная модель: отдельных двойников техники, производственных звеньев, связей и иерархии нет. Приложение OpenEgiz показывает «No twins found». Для уровня 2 нужна цепочка объектов выбранного предприятия с осмысленными состояниями.",
+      "references": [
+        "ditto:org.openegiz.kachar:mine-01",
+        "team/kachar-mine/twins.json:2",
+        "screenshot:screenshots/kachar-openegiz-twins.png"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Снимки API в 11:05:36 и 11:06:41 UTC, с интервалом 65 секунд, содержат одинаковые показатели 800, 1080 и 35. Последний снимок имеет revision=2 и modified=11:01:35. Код MQTT однократно отправляет расчёт из констант и завершает работу. Рост тоннажа и движение машин в браузере не обновляют двойник.",
+      "references": [
+        "ditto:org.openegiz.kachar:mine-01",
+        "team/kachar-mine/mqtt_simulator.py:5",
+        "team/kachar-mine/mqtt_simulator.py:33",
+        "team/kachar-mine/web/index.html:212"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 1,
+      "max": 25,
+      "points": 6.25,
+      "reasoning": "Веб-интерфейс открывается: показаны условный карьер, дорога, значки техники, анимация и счётчик тоннажа. Это схема уровня Типового Решения: геометрия и масштаб Качарского карьера не представлены, движение задано браузерной анимацией. Данные Ditto отображаются отдельными числами и не управляют техникой. Признаки 1–3, необходимые для уровня 2, совместно не выполнены.",
+      "references": [
+        "screenshot:screenshots/kachar-web-baseline.png",
+        "team/kachar-mine/web/index.html:18",
+        "team/kachar-mine/web/index.html:124",
+        "team/kachar-mine/web/index.html:457"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Сам переключил число экскаваторов в Grafana с 2 на 3: число панели изменилось с 800 на 1080. Однако двойник сохранил все показатели и revision=2: запрос вычисляет min(n×400,1080) без чтения состояний объектов. Последствий в двойниках нет, поэтому сценарий рудника не засчитан. Начальное значение меню было 1; перед проверкой установил предусмотренную командой базу 2. После проверки отменил сценарий выбором 2 и подтвердил возврат панели к 800.",
+      "references": [
+        "SUBMISSION.md:44",
+        "deploy/compose/grafana/dashboards/kachar-dashboard-ready.json:139",
+        "ditto:org.openegiz.kachar:mine-01",
+        "screenshot:screenshots/kachar-grafana-before.png",
+        "screenshot:screenshots/kachar-grafana-scenario3.png",
+        "screenshot:screenshots/kachar-grafana-restored.png"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "На стенде подтверждены отображение сохранённых показателей и калькулятор производительности. Мониторинг только показывает существующие данные; расчёт использует фиксированные параметры, а браузерное предупреждение об ограничивающей технике — локальные значения ползунков. Работающей функции поверх состояний двойников, выдающей самостоятельный план, прогноз или управляющее решение, не обнаружено.",
+      "references": [
+        "screenshot:screenshots/kachar-web-baseline.png",
+        "screenshot:screenshots/kachar-grafana-scenario3.png",
+        "team/kachar-mine/simulator.py:4",
+        "team/kachar-mine/web/index.html:140",
+        "team/kachar-mine/web/server.py:34"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Названы реальный Качарский карьер, диспетчер и задача оценки третьего экскаватора. Но реализация остаётся универсальным расчётом пропускной способности: модель и схема не зависят от особенностей выбранного предприятия. Параметры демонстрационные, опубликованные данные объекта не перенесены. Презентация читается, понятно объясняет формулу и честно признаёт отсутствие изменения Ditto сценарием; для уровня 2 не хватает реализации собственного замысла в модели предприятия.",
+      "references": [
+        "SUBMISSION.md:5",
+        "SUBMISSION.md:13",
+        "SUBMISSION.md:81",
+        "presentation.pdf:4",
+        "presentation.pdf:6",
+        "team/kachar-mine/twins.json:2"
+      ]
+    }
+  ],
+  "total": 16.25
+}

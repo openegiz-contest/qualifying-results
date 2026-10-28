@@ -1,0 +1,7 @@
+{"status":"ok","scenario":"baseline","dispatch":"fixed","sim_time_s":2100.0,"simulation_speed_multiplier":20.0,"simulation_mode":"openegiz_live"}
+--- stderr ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   145  100   145    0     0  65433      0 --:--:-- --:--:-- --:--:-- 72500

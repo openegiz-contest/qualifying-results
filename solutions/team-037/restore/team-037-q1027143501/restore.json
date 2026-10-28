@@ -1,0 +1,22 @@
+{
+  "replayed": 4,
+  "failed_steps": [
+    "make aktogay               # платформа OpenEgiz + двойники карьера + симулятор +",
+    "**Проверить, что всё работает:** `make aktogay-check` — только читает стенд и пр",
+    "**Проверить, что всё работает:** `make aktogay-check` — только читает стенд и пр"
+  ],
+  "build_came_up": true,
+  "stack_up": false,
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": false,
+      "evidence": "docker ps -a: 0 of 0 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": false,
+      "evidence": "docker ps -a: nothing running (0 of 0 containers running)"
+    }
+  ]
+}

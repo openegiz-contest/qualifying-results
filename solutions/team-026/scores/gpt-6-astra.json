@@ -1,0 +1,97 @@
+{
+  "team": "team-026",
+  "judge": "gpt-6-astra",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 2,
+      "max": 25,
+      "points": 12.5,
+      "reasoning": "Через Ditto проверены девять собственных двойников: транспортная цепочка, заправка и два монитора. Помимо типовых объектов реализованы состояния безопасности, запрошенная и допустимая загрузка, задержки, ремонт и результаты смены. Сценарии изменяют связанные объекты. До уровня 3 не хватает подробности и иерархии: connected_to — декларативные ссылки, _parents отсутствует, состояния ряда объектов сведены к итогам расчёта.",
+      "references": [
+        "ditto:org.mineguard.team026:truck-01",
+        "ditto:org.mineguard.team026:fuel-bay-01",
+        "mineguard/ditto_bridge.py:68",
+        "mineguard/ditto_bridge.py:134",
+        "screenshot:screenshots/openegiz.png"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 2,
+      "max": 20,
+      "points": 10,
+      "reasoning": "Повторные чтения в 10:50:33 и 10:51:41 показали смену hauling→loading у live-truck-01; движение поступает из Примера, собственная добавка — оценка риска. Своя операционная модель учитывает очереди, ремонт, заправку и завершённые разгрузки: 56×70=3920 т, 61×90=5490 т. Однако семь сценарных двойников хранят статические сводки, не согласованную динамику: при замедлении эффективная скорость дороги 13,8 км/ч, у машин остаётся 25; машина maintenance также сохраняет 25 км/ч. Полностью согласованное поведение уровня 3 не подтверждено.",
+      "references": [
+        "ditto:org.mineguard.team026:live-truck-01",
+        "ditto:org.mineguard.team026:haul-road-01",
+        "ditto:org.mineguard.team026:truck-01",
+        "mineguard/operations_sim.py:75",
+        "mineguard/ditto_bridge.py:150"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 1,
+      "max": 25,
+      "points": 6.25,
+      "reasoning": "В браузере открылись WHAT-IF, LIVE и схема цикла. Видны данные Ditto, состояния машин, тоннаж и последствия сценариев. Но это типовая SVG-схема: прямоугольники объектов и значки самосвалов вдоль прямой дороги. Геометрии конкретного участка в масштабе, выбора объекта и приближения нет; сценарные позиции фиксированы. Уровень 2 не выполнен.",
+      "references": [
+        "screenshot:screenshots/baseline.png",
+        "screenshot:screenshots/live.png",
+        "screenshot:screenshots/slippery.png",
+        "screenshot:screenshots/repair.png",
+        "screenshot:screenshots/cycle.png",
+        "mineguard/mine_map.py:23"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 4,
+      "max": 10,
+      "points": 10,
+      "reasoning": "Сам запустил и отменил пять пресетов: перегрузка дала 5490 т и риск 80; скользкая дорога — 2380 т; задержка дробилки — 3150 т; ремонт — 3430 т; низкое топливо — 3780 т и 40 мин заправки вместо 20. Проверены связанные двойники и изменения карты. Сочетание замедления 45% и задержки разгрузки 270 с дало 2030 т, 29 рейсов и 253,8 т/ч; интерфейс показывает BEFORE/AFTER. После каждого опыта Reset проверен через API; окончательно восстановлены 3920 т, открытая дорога, нулевая задержка и hauling обеих машин.",
+      "references": [
+        "ditto:org.mineguard.team026:pit-01",
+        "ditto:org.mineguard.team026:crusher-01",
+        "ditto:org.mineguard.team026:fuel-bay-01",
+        "screenshot:screenshots/overload.png",
+        "screenshot:screenshots/crusher.png",
+        "screenshot:screenshots/repair.png",
+        "screenshot:screenshots/combined-final.png",
+        "screenshot:screenshots/comparison-final.png",
+        "mineguard/what_if_app.py:130"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 3,
+      "max": 5,
+      "points": 3.75,
+      "reasoning": "Подтверждены два содержательных механизма: IsolationForest выявляет нетипичный рейс, добавляет 35 к риску и выдаёт рекомендацию проверки; Монте-Карло рассчитывает распределение сменного тоннажа — увидел P10/P50/P90 4860/5220/5499 т и выполнение плана. Пороговые рекомендации по перегрузке и топливу также работают. LIVE и Safety не считаю разными ML-модулями, карту и экспорт — самостоятельными интеллектуальными функциями. Четырёх содержательных модулей нет.",
+      "references": [
+        "screenshot:screenshots/ml.png",
+        "screenshot:screenshots/monte-carlo.png",
+        "ditto:org.mineguard.team026:live-truck-01",
+        "mineguard/what_if_app.py:219",
+        "mineguard/monte_carlo.py:32"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 2,
+      "max": 15,
+      "points": 7.5,
+      "reasoning": "Есть конкретная учебная задача диспетчера и инженера безопасности: сопоставить производительность транспортного участка с предупреждениями. Она реализована сравнением сценариев, ограничением фактической загрузки и рекомендациями. Презентация читается; проверенные числа 3920→5490 т, риск 0→80 и квантили совпадают со стендом, ограничения раскрыты. Однако объект вымышленный, основа типовая, параметры преимущественно взяты из Примера или заданы допущениями; паспортные данные аналогов не перенесены в данные модели. Обоснования параметров и глубины реализации для уровня 3 недостаточно.",
+      "references": [
+        "SUBMISSION.md:3",
+        "mineguard/operations_sim.py:11",
+        "presentation.pdf:7",
+        "presentation.pdf:9",
+        "screenshot:screenshots/overload.png",
+        "screenshot:screenshots/monte-carlo.png"
+      ]
+    }
+  ],
+  "total": 50
+}

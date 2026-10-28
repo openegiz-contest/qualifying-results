@@ -1,0 +1,88 @@
+{
+  "team": "team-120",
+  "judge": "gpt-6-astra",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "API Ditto дважды, в 00:11:05 и 00:12:23 UTC, ответил HTTP 200 с items: []; приложение OpenEgiz показывает «No twins found». Собственных двойников, features и связей нет. Дорожный граф и машины существуют только в браузерной модели.",
+      "references": [
+        "screenshot:screenshots/openegiz-empty.png",
+        "team/quarry/dist/dispatch-view.js:85",
+        "SUBMISSION.md:50"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Обновляемых состояний двойников нет: запросы Ditto с интервалом 78 секунд остались пустыми. Браузерная симуляция действительно меняет состояния машин, топливо и ожидание, но эти изменения не поступают в платформу. Её игровые параметры также не подтверждают производственную достоверность: движение ускорено ×8, погрузка 100 т занимает 7 секунд.",
+      "references": [
+        "screenshot:screenshots/openegiz-empty.png",
+        "screenshot:screenshots/dispatch-speed24.png",
+        "team/quarry/dist/dispatch-core.mjs:3",
+        "team/quarry/dist/dispatch-view.js:77"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 1,
+      "max": 25,
+      "points": 6.25,
+      "reasoning": "Диспетчерская открывается; доступны карта, выбор машин, состояния, ожидание и прогноз встречи. После запуска смены интерфейс обновляется. Однако обязательный для уровня 2 признак данных из двойников отсутствует: визуализация получает состояние непосредственно из локального DispatchSimulation. Геометрия заявлена синтетической, соответствие реальным карьерам не подтверждено.",
+      "references": [
+        "screenshot:screenshots/dispatch-before.png",
+        "screenshot:screenshots/dispatch-running.png",
+        "screenshot:screenshots/dispatch-speed24.png",
+        "team/quarry/dist/dispatch-view.js:85",
+        "SUBMISSION.md:13"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Сам изменил лимит с 36 до 24 км/ч: настройка появилась в журнале, наблюдал ожидание T1 с причиной «Приоритет груза: T4». Но последствия существуют только в браузерной игре; затронутых и связанных двойников в Ditto нет, поэтому сценарий по определению рубрики не засчитан. Отмена проверена: вернул 36 км/ч и сбросил смену; восстановились готовность, 05:00, 260 л и 0 т. Другие сценарии не засчитываю, поскольку не запускал.",
+      "references": [
+        "SUBMISSION.md:65",
+        "screenshot:screenshots/dispatch-speed24.png",
+        "screenshot:screenshots/dispatch-restored.png",
+        "screenshot:screenshots/openegiz-empty.png"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Наблюдал работающий игровой автодиспетчер: T1 ожидает гружёный T4, интерфейс рассчитывает встречу; код реализует резервирование и приоритет. Однако это алгоритм внутри автономной игры, а не функция поверх двойников, которых на Стенде нет. Собственный мониторинг также не развёрнут на Стенде. Работающий Модуль в смысле рубрики не подтверждён.",
+      "references": [
+        "screenshot:screenshots/dispatch-speed24.png",
+        "team/quarry/dist/dispatch-core.mjs:84",
+        "SUBMISSION.md:58",
+        "build_report:modules[4]"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 2,
+      "max": 15,
+      "points": 7.5,
+      "reasoning": "Есть конкретная задача диспетчера: встречное движение на однополосном серпантине и использование карманов разъезда. Она узнаётся в графе, резервировании и интерфейсе, поэтому замысел выходит за общее описание типового карьера. Презентация читается и честно отделяет синтетическую игру от производственной модели и интеграции OpenEgiz. До уровня 3 не хватает соответствующей предприятию модели и обоснованных производственных параметров: источники названы, но геометрия, времена и расход заданы для игры.",
+      "references": [
+        "SUBMISSION.md:5",
+        "SUBMISSION.md:9",
+        "team/quarry/dist/dispatch-core.mjs:84",
+        "screenshot:screenshots/dispatch-speed24.png",
+        "presentation.pdf:2",
+        "presentation.pdf:10",
+        "presentation.pdf:11"
+      ]
+    }
+  ],
+  "total": 13.75
+}

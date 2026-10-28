@@ -1,0 +1,8 @@
+test_exactly_one_input_changes_in_each_case (test_sensitivity.SensitivityEvidenceTests.test_exactly_one_input_changes_in_each_case) ... ok
+test_fixture_regenerates_byte_for_byte (test_sensitivity.SensitivityEvidenceTests.test_fixture_regenerates_byte_for_byte) ... ok
+test_generator_restores_live_engine_constants (test_sensitivity.SensitivityEvidenceTests.test_generator_restores_live_engine_constants) ... ok
+
+----------------------------------------------------------------------
+Ran 98 tests in 2.712s
+
+OK

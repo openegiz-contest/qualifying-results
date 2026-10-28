@@ -1,0 +1,147 @@
+29.1.3
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.14kB done
+#1 DONE 0.0s
+
+#2 [extended-api internal] load build definition from Dockerfile
+#2 transferring dockerfile: 188B done
+#2 DONE 0.0s
+
+#3 [ventobserve internal] load build definition from Dockerfile
+#3 transferring dockerfile: 301B done
+#3 DONE 0.0s
+
+#4 [ventobserve internal] load metadata for docker.io/library/python:3.11-slim
+#4 DONE 1.0s
+
+#5 [extended-api internal] load metadata for docker.io/library/node:20-slim
+#5 DONE 1.0s
+
+#6 [ventobserve internal] load .dockerignore
+#6 transferring context: 137B done
+#6 DONE 0.0s
+
+#7 [extended-api internal] load .dockerignore
+#7 transferring context: 114B done
+#7 DONE 0.0s
+
+#8 [extended-api internal] load build context
+#8 transferring context: 2.04kB done
+#8 DONE 0.0s
+
+#9 [ventobserve internal] load build context
+#9 transferring context: 3.43kB done
+#9 DONE 0.0s
+
+#10 [ventobserve 1/6] FROM docker.io/library/python:3.11-slim@sha256:ae952e0a57138a4317b9b61caaa19a8217c2f356803f8d7e63aad08769950937
+#10 resolve docker.io/library/python:3.11-slim@sha256:ae952e0a57138a4317b9b61caaa19a8217c2f356803f8d7e63aad08769950937 0.0s done
+#10 DONE 0.0s
+
+#11 [extended-api 1/5] FROM docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#11 resolve docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 0.0s done
+#11 DONE 0.0s
+
+#12 [ventobserve 2/6] WORKDIR /opt/ventobserve
+#12 CACHED
+
+#13 [ventobserve 3/6] COPY requirements-platform.txt .
+#13 CACHED
+
+#14 [ventobserve 4/6] RUN pip install --no-cache-dir -r requirements-platform.txt
+#14 CACHED
+
+#15 [ventobserve 5/6] COPY app ./app
+#15 CACHED
+
+#16 [ventobserve 6/6] COPY docs ./docs
+#16 CACHED
+
+#17 [extended-api 2/5] WORKDIR /usr/src/app
+#17 CACHED
+
+#18 [extended-api 4/5] RUN yarn install --frozen-lockfile
+#18 CACHED
+
+#19 [extended-api 3/5] COPY package*.json yarn.lock ./
+#19 CACHED
+
+#20 [extended-api 5/5] COPY . .
+#20 CACHED
+
+#21 [ventobserve] exporting to image
+#21 exporting layers done
+#21 exporting manifest sha256:7b0a949e195b61d74d8b7df03847f10c22e1c391c737749faea3325ce99150c6 done
+#21 exporting config sha256:6900b0337d3cb39579dc9577c16f356c932a090ab5edc3decd2ddd1720d9096f done
+#21 exporting attestation manifest sha256:4b732d5c130aa1b198a8afa6cd06f73b72e5027d53547027868790403d73ad46 0.0s done
+#21 exporting manifest list sha256:57efb6727de2850f4080c8680d4f1abb5aeae237906afe34349c8c2c3d7942bc done
+#21 naming to docker.io/library/openegiz-ventobserve:latest done
+#21 unpacking to docker.io/library/openegiz-ventobserve:latest done
+#21 DONE 0.1s
+
+#22 [extended-api] exporting to image
+#22 exporting layers done
+#22 exporting manifest sha256:ae176bb2296b75bdf6ace16f89e67888cb07cb6aced37fa02bd7cbefbcde067a done
+#22 exporting config sha256:8b8ab486ddb8e89a2dcbf1d43309b82bb6b7789af08304d916d293634b94e390 done
+#22 exporting attestation manifest sha256:a090d3504158b2ee0b7fa2307b7d98f0f8dbac5b5dffd4c083962c4aad80c5a6 0.0s done
+#22 exporting manifest list sha256:f7869641bb48a243ad0f24612915dc6cbe055ee014aced182fbd7a6b898dc0f7 done
+#22 naming to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#22 unpacking to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#22 DONE 0.1s
+
+#23 [ventobserve] resolving provenance for metadata file
+#23 DONE 0.0s
+
+#24 [extended-api] resolving provenance for metadata file
+#24 DONE 0.0s
+ openegiz-ventobserve  Built
+ openegiz/ditto-extended-api:local-b49663d  Built
+ Container openegiz-unity-1  Running
+ Container openegiz-influxdb-1  Running
+ Container openegiz-mongodb-1  Running
+ Container openegiz-mosquitto-1  Running
+ Container openegiz-grafana-1  Running
+ Container openegiz-things-search-1  Running
+ Container openegiz-telegraf-1  Running
+ Container openegiz-gateway-1  Running
+ Container openegiz-things-1  Running
+ Container openegiz-connectivity-1  Running
+ Container openegiz-ditto-nginx-1  Running
+ Container openegiz-policies-1  Running
+ Container openegiz-extended-api-1  Recreate
+ Container openegiz-ventobserve-1  Recreate
+ Container openegiz-ventobserve-1  Recreated
+ Container openegiz-extended-api-1  Recreated
+ Container openegiz-grafana-plugins-1  Starting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-grafana-plugins-1  Started
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-init-1  Starting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-extended-api-1  Starting
+ Container openegiz-init-1  Started
+ Container openegiz-init-1  Waiting
+ Container openegiz-extended-api-1  Started
+ Container openegiz-init-1  service "init" didn't complete successfully: exit 1
+service "init" didn't complete successfully: exit 1
+START FAILED: Command '['docker', 'compose', '--env-file', '/home/judge/solution/openegiz/deploy/compose/.env', '-f', '/home/judge/solution/openegiz/deploy/compose/docker-compose.yml', '-f', '/home/judge/solution/integration/compose.yml', 'up', '-d', '--build', '--wait', '--wait-timeout', '900']' returned non-zero exit status 1.

@@ -1,0 +1,7 @@
+{"at": "2026-10-27T20:40:21.389993+00:00", "host": "update.googleapis.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T20:40:21.430720+00:00", "host": "accounts.google.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T20:40:21.444239+00:00", "host": "www.google.com", "port": 443, "allowed": true}
+{"at": "2026-10-27T20:40:21.470573+00:00", "host": "localhost", "port": 5000, "allowed": true}
+{"at": "2026-10-27T20:40:21.487558+00:00", "host": "localhost", "port": 5000, "allowed": true}
+{"at": "2026-10-27T20:40:21.488370+00:00", "host": "localhost", "port": 5000, "allowed": true}
+{"at": "2026-10-27T20:40:25.251245+00:00", "host": "localhost", "port": 5000, "allowed": true}

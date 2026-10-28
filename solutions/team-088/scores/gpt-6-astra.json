@@ -1,0 +1,84 @@
+{
+  "team": "team-088",
+  "judge": "gpt-6-astra",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Через API Ditto и приложение OpenEgiz проверены пять объектов: рудник, экскаватор, два самосвала и дробилка. Это неизменённый Example Mine с состояниями и родительскими связями. Собственных двойников тоннелей, вентиляции и датчиков SmartMine AI нет.",
+      "references": [
+        "ditto:org.openegiz.mine:mine-01",
+        "examples/mine/twins.json:2",
+        "screenshot:team-088-openegiz.png",
+        "SUBMISSION.md:42"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Сняты состояния в 20:58:02 и 20:59:16 UTC: truck-01 перешёл из returning в hauling, загрузка выросла с 0 до 90 т; число проходов экскаватора — с 49 до 59. Поведение живое, но полностью обеспечивается неизменённым симулятором Примера. Собственной модели поведения Команды нет.",
+      "references": [
+        "ditto:org.openegiz.mine:truck-01",
+        "ditto:org.openegiz.mine:excavator-01",
+        "examples/mine/simulator.py:94",
+        "build_report:modules[0]"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "В браузере открыт Example Mine: показатели и графики тоннажа, содержания, положения, загрузки и топлива. Геометрии рудника и собственной визуализации SmartMine AI нет; раздел визуализации в заявке не заполнен.",
+      "references": [
+        "screenshot:team-088-example-dashboard.png",
+        "SUBMISSION.md:65",
+        "README.md:32"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Таблица сценариев пуста, способов запуска и отмены нет. Проверяемых сценариев Команды не обнаружено. Ничего не запускал и состояние Стенда не менял.",
+      "references": [
+        "SUBMISSION.md:44",
+        "SUBMISSION.md:50",
+        "build_report:scenarios"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Работающих Модулей Команды не обнаружено: таблица пуста, на Стенде только телеметрия Примера. Задуманные предупреждения и управление вентиляцией не реализованы; графики существующих данных Модулями не являются.",
+      "references": [
+        "SUBMISSION.md:13",
+        "SUBMISSION.md:48",
+        "examples/mine/README.md:55",
+        "screenshot:team-088-example-dashboard.png"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Названы вымышленный подземный медный рудник, пользователи и конкретные решения по вентиляции и безопасности; выбор объяснён. Однако Стенд от Замысла не зависит: работает только карьерный Пример, реализация собственных двойников отложена в тексте. Источники параметров не представлены. presentation_info подтвердил отсутствие presentation.pdf. Для уровня 2 нужна реализация Замысла на Стенде.",
+      "references": [
+        "SUBMISSION.md:9",
+        "SUBMISSION.md:15",
+        "SUBMISSION.md:17",
+        "SUBMISSION.md:42",
+        "ditto:org.openegiz.mine:mine-01"
+      ]
+    }
+  ],
+  "total": 3.75
+}

@@ -1,0 +1,70 @@
+{
+  "team": "team-088",
+  "judge": "sonnet-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "У Команды нет своих двойников. На Стенде только Example Mine из Шаблона: 5 вещей org.openegiz.mine:*. Тоннелей, вентиляторов и газовых датчиков из Замысла в Ditto нет.",
+      "references": [
+        "build_report:built_on_openegiz",
+        "build_report:modules[0]"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Живое поведение есть только у Примера рудника из Шаблона. Своей симуляции Команда не сделала.",
+      "references": [
+        "build_report:modules[0]"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Своей визуализации нет. Есть только стандартный дашборд Grafana из Примера рудника.",
+      "references": [
+        "screenshot:grafana.png",
+        "build_report:modules[0]"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Таблица сценариев в SUBMISSION.md пуста. Сборщик сценариев не нашёл.",
+      "references": [
+        "build_report:scenarios"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Заявленных и работающих Модулей нет.",
+      "references": [
+        "build_report:modules"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Замысел о вымышленном подземном медном руднике SmartMine AI написан, с пользователями и решениями. Но Стенд от него не зависит: из Шаблона изменён только SUBMISSION.md. Модели, визуализации и сценариев под Замысел нет. Презентацию не открывал.",
+      "references": [
+        "build_report:concept",
+        "build_report:built_on_openegiz"
+      ]
+    }
+  ],
+  "total": 3.75
+}

@@ -1,0 +1,115 @@
+{
+  "team": "team-122",
+  "sha": "5b83d9eafe21b24caa5d3c37144f4b9a4be96bee",
+  "started_at": "2026-10-27T23:15:07+00:00",
+  "finished_at": "2026-10-27T23:19:02+00:00",
+  "came_up": false,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update",
+      "command": "cd /home/judge/solution && sudo apt-get update",
+      "exit_code": 0,
+      "duration_s": 6.0,
+      "log": "logs/01-sudo-apt-get-update.txt"
+    },
+    {
+      "readme_step": "sudo apt-get install -y python3",
+      "command": "cd /home/judge/solution && sudo apt-get install -y python3",
+      "exit_code": 0,
+      "duration_s": 0.4,
+      "log": "logs/02-sudo-apt-get-install-y-python3.txt"
+    },
+    {
+      "readme_step": "python3 integration/start-platform.py",
+      "command": "cd /home/judge/solution && python3 integration/start-platform.py",
+      "exit_code": 1,
+      "duration_s": 59.0,
+      "log": "logs/03-python3-integration-start-platform-py.txt"
+    },
+    {
+      "readme_step": "python3 integration/start-platform.py",
+      "command": "cd /home/judge/solution && python3 integration/start-platform.py",
+      "exit_code": 1,
+      "duration_s": 3.0,
+      "log": "logs/04-python3-integration-start-platform-py.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 13 of 16 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": false,
+      "evidence": "not healthy: openegiz-init-1: Exited (1) About a minute ago"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`bash scripts/compose-smoke.sh` exit 1: scripts/compose-smoke.sh: line 14: /home/judge/solution/deploy/compose/.env: No such file or directory (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Вентиляция (9 ветвей, 10 узлов, 2 вентилятора, закрываемая связь e5)",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Решение не поднялось: контейнер openegiz-init-1 завершился с exit 1 (FAIL 403 PUT /api/2/policies/default:basic_policy), openegiz-ventobserve-1 остался в состоянии Created, http://127.0.0.1:8765/api/state не отвечает (код 000), а Ditto на любой запрос отвечает 403. Двойников и интерфейса нет."
+    },
+    {
+      "name": "Метан и наблюдение (перенос, 8 измерений, ошибки датчиков, отбор траекторий)",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Решение не поднялось: сервис ventobserve не запущен (Created), Ditto отвечает 403, данных двойников нет."
+    },
+    {
+      "name": "Выбор восстановления (прогноз на 60/120/300/600 с, стоимость и задержка ремонта)",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Решение не поднялось: сервис ventobserve не запущен, через платформу проверить нечего. Офлайн-команду python -m app.network_evaluation на Стенде не запускал: это проверка модели, а не модуль поднятого Решения."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Вентилятор A 80%",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Решение не поднялось (init exit 1, ventobserve в состоянии Created, Ditto отвечает 403), поэтому сценарий не запускался и Стенд не менялся."
+    },
+    {
+      "name": "Сопротивление e6 ×2",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Решение не поднялось, поэтому сценарий не запускался и Стенд не менялся."
+    },
+    {
+      "name": "Закрытие e5",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Решение не поднялось, поэтому сценарий не запускался и Стенд не менялся."
+    },
+    {
+      "name": "Газовыделение ×2",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Решение не поднялось, поэтому сценарий не запускался и Стенд не менялся."
+    },
+    {
+      "name": "Потеря группы датчиков",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Решение не поднялось, поэтому сценарий не запускался и Стенд не менялся."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "no",
+    "evidence": "На Стенде условие подтвердить не удалось. В копии платформы openegiz/ файл openegiz/deploy/compose/ditto/40-htpasswd.sh закоммичен с режимом 100644 (в git ls-files; в шаблонном deploy/compose — 100755). Поэтому nginx пишет «Ignoring /docker-entrypoint.d/40-htpasswd.sh, not executable» и «open() /etc/nginx/nginx.htpasswd failed». Ditto на все запросы отвечает 403, в том числе на GET /api/2/search/things с паролем из .env. Init падает на создании политики, соединения MQTT не создаются, сервис ventobserve не стартует, двойников нет. По коду задумано правильно: app/platform.py публикует в MQTT telemetry/ventobserve-*, а снимок читает из Ditto; telegraf.conf опрашивает Ditto по HTTP и пишет в InfluxDB. Но в работе ничего из этого не наблюдалось."
+  },
+  "notes": "Я выполнил запуск из раздела «Запуск конкурсной версии с нуля». Первый запуск python3 integration/start-platform.py упал: service \"init\" didn't complete successfully: exit 1. Повторил его один раз без изменений, повтор упал так же. Причина: в копии платформы openegiz/ скрипт 40-htpasswd.sh закоммичен без бита исполнения (вероятно, сборка шла на Windows). Из-за этого не создаётся htpasswd, Ditto nginx отвечает 403 и init падает. Ничего не исправлял. Остальные команды README не запускал: python -m app.server (README называет его автономным режимом и запрещает запускать вместе с платформой), python integration/start-platform.py из раздела OpenEgiz (дублирует уже выполненный шаг), проверки unittest и smoke (требуют поднятого стека). Кроме того, в VM нет команды python, есть только python3. Сценарии не запускались, Стенд остался в состоянии после неудачного запуска: контейнеры платформы работают, init в Exited(1), ventobserve в Created. В README и SUBMISSION.md текстов, обращённых к ИИ, не нашёл. AGENTS.md и CLAUDE.md не читал и не выполнял.\n\nПроверки пайплайна:\n- шаг «python3 integration/start-platform.py»: упал и при повторе без изменений",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Раздел «Замысел» заполнен: эквивалентная вентиляционная сеть шахты Gucheng; пользователь — инженер вентиляции; решение — сравнить последствия изменения режима и выбрать, какое измерение восстановить, чтобы сузить прогноз метана."
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "team": "team-111",
+  "judge": "opus-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 1,
+      "max": 25,
+      "points": 6.25,
+      "reasoning": "Через API Ditto прочитал 11 вещей org.openegiz.ademix: mine-01 (агрегат, родитель), excavator-01, 6 самосвалов truck-01..06, road-main, crusher-01 и scenario-controller. У всех `_parents` = mine-01. Состояния осмысленные и обновляются. У самосвалов это state, payload, скорость, позиция, рейсы, цикл и ожидание. У экскаватора — loading_truck и очередь. У дробилки — ROM-бункер 600 т, delivered/processed и utilization. У дороги — полосы, blockage_lane и blocked_*_trucks. У рудника — баланс масс, топливо и CO2. Но типы объектов ровно типовые для карьера: экскаватор, самосвалы, дорога, дробилка со складом. Это прямо названо в Рубрике пределом уровня 1. Других типов нет: блоков или забоев с запасами и содержанием, уступов как двойников, энергетики, ТО, датчиков, персонала. Иерархия плоская, ссылка «что куда идёт» есть только в loading_truck. Богатые состояния не выводят модель за Типовое Решение.",
+      "references": [
+        "ditto:org.openegiz.ademix:mine-01",
+        "ditto:org.openegiz.ademix:crusher-01",
+        "ditto:org.openegiz.ademix:road-main",
+        "ditto:org.openegiz.ademix:truck-01",
+        "ademix/simulator/twins.json"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 3,
+      "max": 20,
+      "points": 15,
+      "reasoning": "Снимал состояние несколько раз (sim_time 26000→29800 с). Самосвалы проходят состояния hauling → queued → loading → returning, ROM-бункер наполняется и расходуется, счётчики растут. Величины правдоподобны: 77 т, 25 км/ч, 3,2 км, погрузка 4 ковшами по 20,32 т за 6 мин, разгрузка 1 мин, свободный цикл ~22 мин, фактический ~36 мин с ожиданием у экскаватора ~13 мин. Эти параметры есть в репозитории в data/openmines/north_pit_mine.json (OpenMines, 77 т / 25 км/ч / 20,32 т / 1,5 мин) и перенесены в engine.py:28-46. Баланс масс считается: mass_balance_error_t = 0, учтён opening stock. Процессы связаны: при поломке HT-01 на полосе к дробилке встали truck-03 и truck-06 (blocked), дробилка ушла в starved, ROM упал до 0. При замедлении дробилки ROM рос до 333–401 т. Есть FIFO-очереди и узкие места. Ограничения упрощены: модель детерминирована, у всех самосвалов одинаковый цикл 36,0 мин, нет изменчивости; расход 49,6 л/ч на 77-тонник занижен. Источник OpenMines — конфиг симулятора, а не данные реального рудника, поэтому до уровня 4 не хватает.",
+      "references": [
+        "ademix/simulator/engine.py:28",
+        "ademix/data/openmines/north_pit_mine.json",
+        "ditto:org.openegiz.ademix:mine-01",
+        "ditto:org.openegiz.ademix:road-main"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "В браузере на :4173 открылся 3D-командный центр на Three.js. Рудник показан как карьер с уступами и спиральным съездом, у дробилки есть площадка и бункер. Видны модели самосвалов и экскаватора, плашка LIVE · Eclipse Ditto, KPI сверху (выработка, ограничитель, рейсы, ожидание). Самосвалы двигаются, очередь у забоя видна. Последствия сценариев видны на самой сцене. Дорога при ограничении подсвечивается жёлтым с подписью «10.72 km/h». При поломке есть красный маркер HT-01 BREAKDOWN, подсвечена заблокированная полоса и встали самосвалы за ним. При замедлении дробилки видна метка «ROM bin 401/600 t». Smart dispatch паркует самосвалы в standby bay. Есть камеры Overview/Loading face/Crusher, граф Mine model с живыми состояниями узлов, панели Effect и Decision. Минусы: графика в режиме Light низкополигональная, а при переключении сценариев UI несколько секунд показывал противоречивое состояние (Restricted road и Smart dispatch off при уже включённой поломке со smart). Двойной клик по технике я сам не проверял. Поэтому визуализацию нельзя показывать рядом с коммерческими системами как есть, это уровень 3.",
+      "references": [
+        "screenshot:t111-baseline.png",
+        "screenshot:t111-road-effect.jpeg",
+        "screenshot:t111-breakdown-smart.jpeg",
+        "screenshot:t111-crusher.jpeg",
+        "screenshot:t111-minemodel.jpeg"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 3,
+      "max": 10,
+      "points": 7.5,
+      "reasoning": "Сам запускал кнопками UI. (1) Main road restriction: road-main open/25 → restricted/10.72, движущиеся самосвалы шли 10.72 км/ч, projected 770→647 т/ч, bottleneck сменился на haul-road travel, trucks_required 8. (2) Truck HT-01 breakdown вместе со Smart dispatch (C): HT-01 встал на 2,51 км в полосе к дробилке, truck-03 и truck-06 в состоянии blocked, crusher-01 starved, ROM 0, выработка упала до 548 т/ч. (3) Crusher −45 %: crusher-01 constrained/495, ROM рос до 333–401 т, при smart dispatch 3 самосвала ушли в standby. Последствия видны в данных и на 3D-сцене. Отменил кнопкой A: baseline/fixed, дорога open/25, дробилка 900, standby 0, trucks_in_cycle 6. Нарушения не сочетаются между собой (одно условие за раз), сочетается только Smart dispatch с условием. Сравнение «до/после» в интерфейсе — это ожидаемая выработка против нормы 770 (−16 %, −36 %) и сохранённые evidence-таблицы, полноценного живого сравнения нет. Кратковременно UI показывал устаревшее состояние. До уровня 4 не хватает возможности сочетать нарушения.",
+      "references": [
+        "screenshot:t111-road-effect.jpeg",
+        "screenshot:t111-breakdown-smart.jpeg",
+        "screenshot:t111-crusher.jpeg",
+        "ditto:org.openegiz.ademix:scenario-controller",
+        "ditto:org.openegiz.ademix:crusher-01",
+        "build_report:scenarios[0]"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 2,
+      "max": 5,
+      "points": 2.5,
+      "reasoning": "Smart Dispatch — содержательный Модуль. Он сам считает потребный парк по узкому месту (trucks_required 4/8/3) и паркует лишних. Я видел это: при замедлении дробилки truck-01, 03 и 04 перешли в standby, trucks_in_cycle стал 3. Аналитический прогноз выработки и узкого места (projected_throughput_tph, bottleneck_reason) пересчитывается при каждом условии. Но это простая формула min(парк, погрузка, дробилка) на тех же данных. Рекомендация в панели Decision взята из сохранённой evidence, а не считается живьём. Оценка топлива и CO2 — простой расчёт. Fleet supervision и Production monitor — отображение данных, а не Модули. В итоге один содержательный Модуль и простые дополнения. В сомнении между 2 и 3 ставлю нижний.",
+      "references": [
+        "screenshot:t111-decision.jpeg",
+        "screenshot:t111-crusher.jpeg",
+        "ditto:org.openegiz.ademix:scenario-controller",
+        "ademix/simulator/fleet_sizing.py",
+        "build_report:modules[2]"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 2,
+      "max": 15,
+      "points": 7.5,
+      "reasoning": "Замысел назван. Звено — погрузка, откатка и первичная дробилка. Пользователи — диспетчер и сменный мастер. Решение — как реагировать на поломку самосвала, ограничение дороги или падение мощности дробилки и сколько самосвалов держать в цикле. Объект честно назван вымышленным, параметры взяты из OpenMines north_pit_mine.json, файл лежит в репозитории. На Стенде Замысел узнаётся: сценарии и Smart Dispatch отвечают на вопрос диспетчера, панель Decision даёт рекомендацию. Но предмет — типовой карьер с самосвалами и диспетчеризацией, близкий к Типовому Решению, а реального предприятия нет. Презентация понятна и в основном совпадает со Стендом: 11 двойников, 770/647/495 т/ч, 6→4 самосвала, ограничения названы. Утверждения об эффектах — модельные, они так и помечены. Утверждение о «двух полосах» подтвердилось. Для уровня 3 нужна более собственная задача, выходящая за типовую диспетчеризацию.",
+      "references": [
+        "SUBMISSION.md",
+        "presentation.pdf:2",
+        "presentation.pdf:10",
+        "presentation.pdf:13",
+        "ademix/data/openmines/north_pit_mine.json"
+      ]
+    }
+  ],
+  "total": 57.5
+}

@@ -1,0 +1,74 @@
+{
+  "team": "team-112",
+  "judge": "opus-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "В Ditto только 5 двойников Примера рудника Организатора (crusher-01, excavator-01, mine-01, truck-01, truck-02). Коммиты Команды затрагивают только LICENSES/ и REUSE.toml, своих двойников и кода нет.",
+      "references": [
+        "ditto:org.openegiz.mine:truck-01",
+        "build_report:notes",
+        "build_report:built_on_openegiz"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Состояние меняет только симулятор Примера рудника из Шаблона. Своего поведения Команда не сделала, поэтому по Рубрике это уровень 0.",
+      "references": [
+        "build_report:modules[0]",
+        "ditto:org.openegiz.mine:mine-01"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "На Стенде открывается только дашборд Grafana «Example Mine» Организатора. Своей визуализации у Команды нет, раздел Mine visualization в SUBMISSION.md пуст.",
+      "references": [
+        "screenshot:team112-example-mine.png",
+        "SUBMISSION.md:52"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "В таблице Modules and What-if Scenarios только пустая строка. Сценариев нет, поэтому запускать было нечего.",
+      "references": [
+        "SUBMISSION.md:34",
+        "build_report:scenarios"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Модули не заявлены и не реализованы, работает только Пример рудника из Шаблона.",
+      "references": [
+        "SUBMISSION.md:34",
+        "build_report:modules[0]"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 0,
+      "max": 15,
+      "points": 0,
+      "reasoning": "Раздел Concept остался заготовкой Шаблона: заполнены только метки и комментарии-подсказки. presentation.pdf в Решении нет, presentation_info возвращает статус missing.",
+      "references": [
+        "SUBMISSION.md:5",
+        "build_report:concept"
+      ]
+    }
+  ],
+  "total": 0
+}

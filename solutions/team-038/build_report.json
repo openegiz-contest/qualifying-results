@@ -1,0 +1,159 @@
+{
+  "team": "team-038",
+  "sha": "19c03068897fb6b6bb0708cfec86458f9a107d8b",
+  "started_at": "2026-10-27T11:56:34+00:00",
+  "finished_at": "2026-10-27T12:22:32+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "./twinvision.sh up",
+      "command": "cd /home/judge/solution && ./twinvision.sh up",
+      "exit_code": 0,
+      "duration_s": 144.0,
+      "log": "logs/01-twinvision-sh-up.txt"
+    },
+    {
+      "readme_step": "./twinvision.sh smoke            # make twinvision-smoke: twins vs SCHEMA.md, live + baseline telemetry in InfluxDB,",
+      "command": "cd /home/judge/solution && ./twinvision.sh smoke",
+      "exit_code": 0,
+      "duration_s": 77.0,
+      "log": "logs/02-twinvision-sh-smoke-make-twinvision-smok.txt"
+    },
+    {
+      "readme_step": "./twinvision.sh platform-smoke   # make smoke: the platform's own end-to-end check",
+      "command": "cd /home/judge/solution && ./twinvision.sh platform-smoke",
+      "exit_code": 0,
+      "duration_s": 11.0,
+      "log": "logs/03-twinvision-sh-platform-smoke-make-smoke.txt"
+    },
+    {
+      "readme_step": "./twinvision.sh test             # make twinvision-test: unit tests in the image (balances, determinism,",
+      "command": "cd /home/judge/solution && ./twinvision.sh test",
+      "exit_code": 0,
+      "duration_s": 41.0,
+      "log": "logs/04-twinvision-sh-test-make-twinvision-test.txt"
+    },
+    {
+      "readme_step": "./twinvision.sh twins            # make twinvision-twins: print the twin hierarchy from Ditto, check it against SCHEMA.md",
+      "command": "cd /home/judge/solution && ./twinvision.sh twins 2>&1 | tail -30",
+      "exit_code": 0,
+      "duration_s": 1.2,
+      "log": "logs/05-twinvision-sh-twins-make-twinvision-twin.txt"
+    },
+    {
+      "readme_step": "./twinvision.sh compare --hours 24   # headless: live vs baseline totals for every scenario and module switch",
+      "command": "cd /home/judge/solution && ./twinvision.sh compare --hours 24",
+      "exit_code": 0,
+      "duration_s": 52.0,
+      "log": "logs/06-twinvision-sh-compare-hours-24-headless.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 15 of 18 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 15 of 18 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`bash scripts/compose-smoke.sh` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Haulage and dispatch (module)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "The dispatcher twin has a decision_log with reasons, e.g. 'truck-04 -> ex-03, not ex-02 (+0.3 min wait): rate balance…' and 'truck-08 ore to ROM (blend: … out of band)'; decisions_total grows (459→481). During road closure reroutes_total went 1→2. During fuel shortage fuel_rationed_trucks=5 ('park 5 trucks, waste stripping suspended'). POST /api/modules/dispatcher {enabled:false}: in live, module_enabled=false and the allocation changed to 2/2/4. mine.modules_off=dispatcher. After 60 s the live queue was 1.16 min vs 0.93 baseline and the feed grade 0.673 vs 0.688. The baseline stayed on. Undo through /api/scenarios/undo brought module_enabled=true back."
+    },
+    {
+      "name": "Maintenance planner (module)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "The maintenance twin has a decision_log with numbers ('CRUSHER-01 PM scheduled: health 65%, P(fail in 8 h) 9%, expected loss 1,316 t; building COS…'). In baseline, crusher-01-baseline went into maintenance ('PM released: COS 5,700 t'). POST /api/modules/maintenance {enabled:false} gave module_enabled=false in live only; undo turned it back on. The smoke test (section 'Decision module switch') also passed."
+    },
+    {
+      "name": "Energy manager (module)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "With energy_cap 28000 kW, power-grid had site_power_kw=28000, plant_throttled=true and the decision 'Concentrator throttled to 1,501 t/h…'. plant-feed feed_tph was 1509 vs 2000 baseline. With the module off (POST /api/modules/energy) the log shows 'Concentrator throttle released (energy module off)', then 'Grid cap exceeded: 15-min demand 34,144 kW > cap 28,000 kW; utility sheds the concentrator for 15 min', and cap_violations_total=1. Undo brought module_enabled=true back."
+    },
+    {
+      "name": "Live mine map and control API (port 8095)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "twinvision-web is healthy. /api/state returns the live and baseline state of the twins (the code reads the Ditto API). /api/trend reads InfluxDB (web/app.py:433). /api/scenarios shows the 7 scenarios and the undo stack. Visual rendering in a browser was not checked (there is no browser)."
+    },
+    {
+      "name": "Grafana dashboard TwinVision Copper Pit - live vs baseline",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "GET /api/dashboards/uid/twinvision-overview returns 44 panels; all queries are Flux against datasource uid opentwins-influxdb, measurement mqtt_consumer. InfluxDB has 194134 mqtt_consumer points in the last 5 minutes. The smoke test confirmed live/baseline points for mine, truck-03 and crusher-01."
+    },
+    {
+      "name": "Live vs baseline copy (75 twins)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "search/things/count with filter org.twinvision.copper:* = 75. './twinvision.sh twins': all types match SCHEMA.md (38 live + 37 baseline). Mass, fuel and energy balances are 0.0 on both copies (smoke test)."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Crusher failure",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "POST /api/scenarios/crusher_failure. Before: crusher-01 crushing, COS 3500.7 t in both copies. After 75 s: crusher-01=failed, baseline crushing; COS 2656 t vs 3756 t baseline; ROM 26429 vs 25305 t. DELETE /api/scenarios/crusher_failure: after 30 s crusher-01=crushing, tph_crushed (30-min avg) recovering (1440 vs 2426 baseline). The smoke test round trip also passed."
+    },
+    {
+      "name": "Road closure",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "POST road_closure {segments:[s04]}. road-s04 status=closed (baseline open), trucks_on 0, pit.roads_closed 0→1, dispatcher reroutes_total 1→2, tph_mined 7301 vs 7684 baseline. DELETE: road-s04 status=open, trucks_on=3, roads_closed=0."
+    },
+    {
+      "name": "Excavator breakdown",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "POST excavator_breakdown {excavators:[ex-01]}. ex-01 went waiting_for_truck→failed, and the dispatcher reassigned trucks from 2/3/3 to 0/3/5. availability_pct 95.37 vs 100 baseline. DELETE: ex-01=loading, allocation 3/1/4."
+    },
+    {
+      "name": "Hardness spike",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "POST hardness_spike {factor:1.6, clusters:[blocks-north]}. blocks-north face_bwi 19.82→31.71 (baseline 19.82). crusher-01 capacity_tph 2515→1705 (baseline 2524). crusher_kwh_t 0.331 vs 0.298. tph_crushed 2195 vs 2512. DELETE: face_bwi=19.82; crusher capacity 1601 right after undo (hard ore still in the system), 2520 a few minutes later."
+    },
+    {
+      "name": "Low-grade zone",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "POST low_grade_zone {factor:0.5, clusters:[blocks-north]}. blocks-north face_grade 0.746→0.373. dispatcher blend_diversions_total 15→19 and ore_to_rom 21→25. plant_feed_grade 0.6818 vs 0.6911 and copper_tph 11.98 vs 12.15. DELETE: face_grade=0.746."
+    },
+    {
+      "name": "Fuel shortage",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "POST fuel_shortage {resupply_lph:0, bay_stock_l:8000}. fuel-bay stock_l 60478→5645, resupply 0, status supply_cut, cover 4.1 h. dispatcher fuel_rationed_trucks=5 ('Fuel rationing: park 5 trucks, waste stripping suspended'). tph_mined 5141 vs 7426, plant feed 1999 in both (protected). DELETE: resupply_lph=2200, status=normal, rationed=0. The fuel stock stays low (accumulated state, recovering: 3854→5717 L)."
+    },
+    {
+      "name": "Energy cap",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "POST energy_cap {cap_kw:28000}. power-grid cap_active=true, site_power_kw 36314→28000, plant_throttled=true; plant-feed feed_tph 1509 vs 2000. With the energy module also off the plant was shed ('utility sheds the concentrator'). Undo of the module (POST /api/scenarios/undo), then DELETE /api/scenarios/energy_cap: cap_kw=0, cap_active=false, module_enabled=true, feed_tph=2000."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) Ditto has 75 things org.twinvision.copper:* (search/things/count=75). 2) The connections mosquitto-source-connection and mosquitto-target-connection are open. The simulator publishes Ditto protocol to MQTT telemetry/<twin>: mosquitto_sub showed telemetry/mine with 'org.twinvision.copper/mine/things/twin/commands/modify', and sim/service.py:139 client.publish. The web service writes to Ditto over HTTP only for the scenario-controller twin. The twins change between snapshots 35 s apart: truck-03 x -1255.5→-1673.5, mine mined_total_t 10755.8→12198.4, COS stock 3286.9→3388.6. 3) All 44 panels of the Grafana dashboard twinvision-overview query InfluxDB (opentwins-influxdb, mqtt_consumer, 194k points in 5 min). The map UI reads state from the Ditto API and trends from InfluxDB. The platform smoke test (MQTT→Ditto→Telegraf→InfluxDB) passed."
+  },
+  "notes": "I skipped the README steps 'git clone …' and 'cd team-038': the Solution was already cloned at the given commit in /home/judge/solution, and all commands ran from its root. Every README command completed on the first try, with no retries. './twinvision.sh up' took about 4 minutes. smoke, platform-smoke, test (46 passed), twins and compare all finished with code 0. For the twins step I added '2>&1 | tail -30' to the command only to shorten the output. The compare table matches the one in SUBMISSION.md. I ran the scenarios with the README curl commands and the default parameters from those commands, and undid each one with DELETE /api/scenarios/<name>. I also checked the module switches (dispatcher, maintenance, energy) and undid them with /api/scenarios/undo. Final state: all scenarios off, all modules on. The smoke test made a resync before my checks (live = baseline). The live copy keeps its history: the fuel bay stock in live is lower than in baseline after the fuel shortage. AGENTS.md and CLAUDE.md are the contest Template's standard instructions for the Team's agents; I did not act on them and found no injections. I could not check the map's visual rendering because there is no browser; I checked it only through the HTTP API.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "The Concept describes the pit-to-concentrator chain of a fictional open-pit copper mine (shovels, 227 t trucks, crusher, stockpiles, concentrator feed, fuel and power); users are the dispatcher, the maintenance planner and the energy engineer; the decision is whether to accept an operating change, judged by live vs baseline."
+  }
+}

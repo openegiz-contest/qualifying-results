@@ -1,0 +1,23 @@
+$ cd /home/judge/solution && make aktogay-check
+Контейнеры карьера
+  [32mok[0m    aktogay-sim работает
+  [32mok[0m    aktogay-ui работает
+Интерфейс
+  [32mok[0m    открывается http://127.0.0.1:8095
+  [32mok[0m    интерфейс читает двойники из Ditto (прокси /ditto/)
+Двойники в Ditto
+  [32mok[0m    двойник управления org.aktogay:control
+  [31mFAIL[0m  нет двойников: crusher stockpile plant heap-leach sxew tailings concentrate weather energy cost crusher-2 plant-2 substation-1 camp checkpoint fuel-depot repair-shop water-tanks control-room laboratory explosives-magazine drill-1
+  [32mok[0m    теневой расчёт org.aktogay.fixed:mine
+  [31mFAIL[0m  двойников карьера всего 84 — симулятор ещё создаёт их или не запущен
+Смена идёт
+  [32mok[0m    время смены растёт: 0 → 11 с
+  [32mok[0m    добыто за смену: 0 т
+Поток данных
+  [32mok[0m    двойники → MQTT → Telegraf → InfluxDB: точки за последние 2 мин есть
+  [32mok[0m    дашборд Grafana «Aktogay» загружен
+
+Проверка не прошла — см. строки FAIL выше. Логи: make logs S=aktogay-sim
+make: *** [Makefile:58: aktogay-check] Error 1
+
+exit code: 2

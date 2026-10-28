@@ -1,0 +1,84 @@
+{
+  "team": "team-075",
+  "judge": "gpt-6.1-sol",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "API Ditto отвечает 200, но список двойников пуст; ecomine:smart-mine возвращает 404. В приложении OpenEgiz также показано No twins found. В коде мост обновляет features одной общей Thing, а отдельных объектов рудника и связей нет.",
+      "references": [
+        "ditto:ecomine:smart-mine",
+        "screenshot:openegiz-no-twins.png",
+        "examples/ecomine/ditto_bridge.py:25"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Проверки в 20:40:49 и 20:42:00 UTC дали одинаковый результат: двойников нет, наблюдать изменение состояний невозможно. Сервисы EcoMine отсутствуют. Код генерирует случайный тоннаж и производные показатели по фиксированным коэффициентам каждые пять секунд, без рейсов и связанных производственных процессов.",
+      "references": [
+        "ditto:ecomine:smart-mine",
+        "examples/ecomine/mqtt_simulator.py:33",
+        "build_report:modules[0]"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Открыл заявленный дашборд EcoMine и выбрал последний час: все пять панелей показывают No data. Представлены только панели мониторинга; геометрии рудника, техники и отображения производственного процесса нет.",
+      "references": [
+        "screenshot:ecomine-dashboard.png",
+        "SUBMISSION.md:104"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Команда прямо указывает, что интерактивные сценарии не реализованы. Описанных способов изменения производственных условий с наблюдением последствий и отменой нет. Сценарии не запускал, состояние Стенда не менял.",
+      "references": [
+        "SUBMISSION.md:71",
+        "SUBMISSION.md:128",
+        "build_report:scenarios"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Работающих функций на Стенде не обнаружил: панели пусты, сервисы анализа не запущены. Правило критического риска существует, но Grafana показывает отсутствие данных; предупреждения о производственном риске не наблюдал. Пороговый анализ в коде без работающей демонстрации не засчитывается.",
+      "references": [
+        "screenshot:ecomine-alerts.png",
+        "screenshot:ecomine-dashboard.png",
+        "examples/ecomine/risk_writer.py:12",
+        "build_report:modules[2]"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Есть собственная тема экологического мониторинга перевозки руды четырьмя самосвалами, но конкретный пользователь и принимаемое решение не определены; предприятие и источники параметров не названы. Презентация понятна и признаёт синтетические данные и ограниченность модели. Однако заявленные живой двойник, поток телеметрии и работающий алерт на Стенде не подтверждаются; реализация замысла не достигает уровня 2.",
+      "references": [
+        "SUBMISSION.md:7",
+        "SUBMISSION.md:88",
+        "presentation.pdf:3",
+        "presentation.pdf:8",
+        "presentation.pdf:9",
+        "presentation.pdf:11",
+        "screenshot:ecomine-dashboard.png",
+        "ditto:ecomine:smart-mine"
+      ]
+    }
+  ],
+  "total": 3.75
+}

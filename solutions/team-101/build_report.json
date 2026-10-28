@@ -1,0 +1,127 @@
+{
+  "team": "team-101",
+  "sha": "a47495b33700346ff24928a6d9b8c3f3b5cebd13",
+  "started_at": "2026-10-27T23:06:51+00:00",
+  "finished_at": "2026-10-27T23:36:34+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update && sudo apt-get install -y make   # на чистой Ubuntu 24.04 make нет; если уже есть — команда ничего не меняет",
+      "command": "cd /home/judge/solution && sudo apt-get update && sudo apt-get install -y make   # на чистой Ubuntu 24.04 make нет; если уже есть — команда ничего не меняет",
+      "exit_code": 0,
+      "duration_s": 7.0,
+      "log": "logs/01-sudo-apt-get-update-sudo-apt-get-install.txt"
+    },
+    {
+      "readme_step": "make up",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 0,
+      "duration_s": 79.0,
+      "log": "logs/02-make-up.txt"
+    },
+    {
+      "readme_step": "make smoke",
+      "command": "cd /home/judge/solution && make smoke",
+      "exit_code": 0,
+      "duration_s": 10.0,
+      "log": "logs/03-make-smoke.txt"
+    },
+    {
+      "readme_step": "make evaluate",
+      "command": "cd /home/judge/solution && make evaluate",
+      "exit_code": 0,
+      "duration_s": 6.4,
+      "log": "logs/04-make-evaluate.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 16 of 19 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 16 of 19 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Модуль «Оптимизатор суточного плана» (limit-planner)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Контейнер team101-limit-planner-1 запущен, в логе «solved in 17–19 ms: 239.5 t Cu/day». Двойник kz.limit:planner: status=optimal, план на 24 ч (schedule), уставки по забоям и узкие места, обновляются через MQTT. complex.plan_applied=true. Модуль меняет работу рудника: при grid_peak план снизил питание до 2549 т/ч на 18–21 ч, в 18:46 mill-1/mill-2 feed стали 1275 т/ч, нагрузка 57,04 МВт при лимите 58, shed_today=0. При hard_ore питание из face-3 снизилось с 934,6 до 601,0 т/ч. При dry_year включилось сгущение (plan_thick 0→1849)."
+    },
+    {
+      "name": "Модуль «Цена ограничения»",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В kz.limit:planner есть copper_plan_day=239.47, copper_baseline_day=236.24, copper_reference_day=239.47, gain=3.23, limits_cost и теневые цены value_power_mw / value_water_100m3h / value_mill_100tph=5.246. При grid_peak value_power_mw стал 0.454, bottleneck — «мощность подстанции (18:00–22:00)». В Grafana есть панель «Суточный план: медь за 24 ч» с запросом к InfluxDB по kz.limit:planner."
+    },
+    {
+      "name": "Режим «Каждый отдел сам»",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Через PUT '\"departments\"' на control/mode: complex.mode=departments, plan_applied=false, питание мельниц 1558→1585 т/ч, руда 3115→3170 т/ч, медь 10.18→10.01 т/ч, в events «Режим: каждый отдел по своему плану». Без других ограничений отключений САОН и блокировок нет, это совпадает с make evaluate (241 против 244 т). Отмена через '\"optimizer\"' вернула mode=optimizer, питание 1558 т/ч, медь 10.24 т/ч."
+    },
+    {
+      "name": "3D-вид комплекса (limit-web, :8100)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "http://127.0.0.1:8100/ отвечает 200. Прокси nginx /api/2/things?ids=kz.limit:… отдаёт двойники из Ditto. В app.js есть fetch к /api/2/things и PUT в control. Визуально не проверял: браузера нет."
+    },
+    {
+      "name": "Дашборд Grafana «Рудник под лимитом» и Unity 3D",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "/api/search: uid rudnik-pod-limitom и rudnik-unity. Все stat/timeseries-панели и панель ertis-unity-panel берут данные из datasource opentwins-influxdb запросами Flux по thingId kz.limit:*. В InfluxDB за 10 мин сотни точек по каждому из 22 двойников (например, substation 1111)."
+    },
+    {
+      "name": "Двойники и типы в OpenEgiz (Twins/Types)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В Ditto 23 двойника kz.limit:* и 18 типов kz.limit.type:*. У двойников есть атрибуты type, image, _parents. make smoke: «type kz.limit.type:mill holds the grinding lines» ok. Интерфейс приложения в браузере не смотрел."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Маловодный год (dry_year)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "До (20:24): water-intake.limit=1750, flow=1605, thickener.mode=normal, underflow_solids=55, planner.plan_thick=0. После PUT true (21:08): limit=1225, flow=1225, dry_year=true, thickener.mode=high-density, solids 59.2, high_density_feed=1849, bottleneck «лимит водозабора», руда 3115 т/ч сохранилась, уровень резервуара 70%. После PUT false: limit=1750, flow=1605, thickener normal/55, plan_thick=0."
+    },
+    {
+      "name": "Вечерний пик энергосистемы (grid_peak)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Включён в 03:34 модельного времени, план сразу пересчитан: power_limit 58 на 18–21 ч, ore 2549 т/ч в эти часы, склад копится. В 17:48: limit=78, load 68.39, feed 1558/1558. В 18:46: substation.limit=58, peak_restriction=true, load=57.04, mill feed 1275/1275, медь 8.3 т/ч, shed_today=0. После PUT false (19:26): limit=78, peak_restriction=false, load 68.39, feed 1558/1558, медь 10.16 т/ч."
+    },
+    {
+      "name": "Мельница №2 на ремонте (mill2_repair)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "До: mill-2.state=running, feed 1558, руда 3115 т/ч, медь 10.14 т/ч, план 244.9 т, склад 55.4%. После PUT true: mill-2.state=repair, feed 0, руда 1558 т/ч, медь 5.08 т/ч, план 118.9–122.5 т, склад 57.9→59.0%. После PUT false: mill-2 running, feed 1558, руда 3115 т/ч, медь 10.2 т/ч."
+    },
+    {
+      "name": "Твёрдая руда в забое №3 (hard_ore)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "До: face-3.bond_wi=15.5, grind_energy=16.42, mill specific_energy=14.12, питание из face-3 934.6 т/ч, план 236.4 т. После PUT true: bond_wi=19.5, grind_energy=20.66, mill specific_energy 14.64, mill-1 feed 1502, медь 9.39 т/ч, питание по плану face-3 601.0 т/ч (face-1 1442, face-2 961), план 221.8 т. После PUT false: Wi 15.5, 16.42, 14.12, feed 1558, питание face-3 934.6 т/ч."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) В Ditto 23 двойника kz.limit:* и 18 типов kz.limit.type:*. 2) Признаки меняются: stockpile.total 31116→31422, sim_clock 18:52→19:30 за 40 с. make smoke: соединения mosquitto-source/target open, проверка «MQTT -> Ditto updated the twin» прошла. Симулятор и планировщик публикуют Ditto protocol modify в MQTT telemetry/<twin> (platform_io.publish_features, paho-mqtt). Ditto напрямую по REST пишет только setup_twins.py при создании. 3) Записи в InfluxDB имеют topic opentwins/twin/events/kz.limit/… и originator nginx:ditto, их пишет Telegraf из событий Ditto. Все панели Grafana (оба дашборда) запрашивают opentwins-influxdb. 3D-вид читает Ditto через nginx-прокси /api/2/things."
+  },
+  "notes": "Все шаги README прошли с первого раза, повторов не было. Первым шагом выполнил установку make командой из README (README сам её даёт). Команды make down/clean/unity-off/unity-build не запускал: README описывает их как остановку и обслуживание, а не как шаги запуска. OPENEGIZ.ru.md README даёт как справку о платформе, а не как инструкцию установки, поэтому из него ничего не выполнял. Сценарии запускал командами curl из README через прокси :8100 (тот же PUT, что отправляет кнопка из app.js); отменял через false и '\"optimizer\"'. Для grid_peak ждал наступления 18:00 модельного времени (~15 мин). После проверки все сценарии выключены, mode=optimizer. AGENTS.md и CLAUDE.md — стандартные инструкции Шаблона для агентов Команды, инъекций не найдено. 3D-интерфейс и приложение OpenEgiz визуально не проверял: браузера нет.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел заполнен: вымышленный медно-порфировый ГОК полного цикла; пользователь — начальник производственно-диспетчерского отдела; решение — как перестроить суточный план при урезании воды или электроэнергии, ремонте мельницы и твёрдой руде."
+  }
+}

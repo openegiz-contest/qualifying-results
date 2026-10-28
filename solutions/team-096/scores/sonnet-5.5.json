@@ -1,0 +1,70 @@
+{
+  "team": "team-096",
+  "judge": "sonnet-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "В Ditto только 5 двойников Примера рудника из Шаблона. Своих двойников у Команды нет: в team/ лежит один README.md, а разделы Mine и Modules в SUBMISSION.md пусты.",
+      "references": [
+        "build_report:built_on_openegiz",
+        "build_report:notes"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Меняются только данные Примера рудника, то есть работа Шаблона. Своей симуляции или данных у Команды нет.",
+      "references": [
+        "build_report:built_on_openegiz"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Своей визуализации нет. В Grafana есть только дашборд Example Mine из Шаблона, раздел Mine visualization в SUBMISSION.md пуст. Я открыл Grafana (страница входа), но своей визуализации Команды там не нашёл.",
+      "references": [
+        "screenshot:grafana.png",
+        "build_report:notes"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Сценариев нет: список scenarios в Отчёте сборки пуст, а строка таблицы в SUBMISSION.md пустая.",
+      "references": [
+        "build_report:scenarios"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Работающих Модулей нет: список modules в Отчёте сборки пуст.",
+      "references": [
+        "build_report:modules"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Замысел написан: вымышленный карьер по мотивам Актогая и Бозшокола, цель — меньше вреда земле и рекультивация. Но на Стенде от него ничего не сделано, а остальные разделы SUBMISSION.md пусты. README остался шаблонным.",
+      "references": [
+        "build_report:concept",
+        "build_report:notes"
+      ]
+    }
+  ],
+  "total": 3.75
+}

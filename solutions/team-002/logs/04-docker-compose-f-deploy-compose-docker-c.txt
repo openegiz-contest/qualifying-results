@@ -1,0 +1,268 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.22kB done
+#1 DONE 0.0s
+
+#2 [extended-api internal] load build definition from Dockerfile
+#2 transferring dockerfile: 188B done
+#2 DONE 0.0s
+
+#3 [qazmine-setup internal] load build definition from Dockerfile
+#3 transferring dockerfile: 317B done
+#3 DONE 0.0s
+
+#4 [qazmine-setup internal] load metadata for docker.io/library/python:3.12-slim
+#4 ...
+
+#5 [extended-api internal] load metadata for docker.io/library/node:20-slim
+#5 DONE 1.2s
+
+#6 [extended-api internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#6 DONE 0.0s
+
+#4 [qazmine-setup internal] load metadata for docker.io/library/python:3.12-slim
+#4 DONE 1.2s
+
+#7 [extended-api 1/5] FROM docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#7 resolve docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 0.0s done
+#7 DONE 0.0s
+
+#8 [extended-api 2/5] WORKDIR /usr/src/app
+#8 CACHED
+
+#9 [extended-api 3/5] COPY package*.json yarn.lock ./
+#9 CACHED
+
+#10 [extended-api 4/5] RUN yarn install --frozen-lockfile
+#10 CACHED
+
+#11 [extended-api 5/5] COPY . .
+#11 CACHED
+
+#12 [qazmine-setup internal] load .dockerignore
+#12 transferring context: 2B done
+#12 DONE 0.0s
+
+#13 [qazmine-setup internal] load build context
+#13 transferring context: 42.83kB done
+#13 DONE 0.0s
+
+#14 [qazmine-setup 1/6] FROM docker.io/library/python:3.12-slim@sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f
+#14 resolve docker.io/library/python:3.12-slim@sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f 0.0s done
+#14 DONE 0.1s
+
+#15 [extended-api] exporting to image
+#15 exporting layers done
+#15 exporting manifest sha256:1fd713dfdc43fbd7ae5804dbf52aa0d8939d8a436e53384d2cc14d0951fbea06 done
+#15 exporting config sha256:8091c559e9d03e70ae3ab8d7be294b8cf1be1e6cbf88c982f414e5240992554f done
+#15 exporting attestation manifest sha256:5f4d91db11a4b1479816d4b6e4500882f4082bb58d36d80b4d9a7cf0f6a40333 0.0s done
+#15 exporting manifest list sha256:d7b5c4ad819d62f83894dbddfe195bae637304c0123e373751526b25f1f2071a done
+#15 naming to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#15 unpacking to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#15 DONE 0.1s
+
+#16 [extended-api] resolving provenance for metadata file
+#16 DONE 0.0s
+
+#14 [qazmine-setup 1/6] FROM docker.io/library/python:3.12-slim@sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f
+#14 sha256:86586d55cc56d61ea925eceb95264d80c84fae62b3f013b4022710968a0bcf73 254B / 254B 0.0s done
+#14 sha256:f5b253875fcbce1c3ed3bf3431019fc52d83f106ccf45e58e083985648ad4ec7 1.55MB / 1.55MB 0.0s done
+#14 sha256:ca30a39e3f58fe12fab1873dcbc2295c56c29222f8aca17c0765e9777c59615c 12.12MB / 12.12MB 0.1s done
+#14 sha256:f2be67225471500c788ce88c597eb5ea8336e912ad1ca4815650e0281afe2034 29.84MB / 29.84MB 0.2s done
+#14 extracting sha256:f2be67225471500c788ce88c597eb5ea8336e912ad1ca4815650e0281afe2034
+#14 extracting sha256:f2be67225471500c788ce88c597eb5ea8336e912ad1ca4815650e0281afe2034 0.4s done
+#14 DONE 0.7s
+
+#14 [qazmine-setup 1/6] FROM docker.io/library/python:3.12-slim@sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f
+#14 extracting sha256:f5b253875fcbce1c3ed3bf3431019fc52d83f106ccf45e58e083985648ad4ec7 0.1s done
+#14 extracting sha256:ca30a39e3f58fe12fab1873dcbc2295c56c29222f8aca17c0765e9777c59615c
+#14 extracting sha256:ca30a39e3f58fe12fab1873dcbc2295c56c29222f8aca17c0765e9777c59615c 0.2s done
+#14 DONE 1.0s
+
+#14 [qazmine-setup 1/6] FROM docker.io/library/python:3.12-slim@sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f
+#14 extracting sha256:86586d55cc56d61ea925eceb95264d80c84fae62b3f013b4022710968a0bcf73 0.0s done
+#14 DONE 1.1s
+
+#17 [qazmine-setup 2/6] WORKDIR /app
+#17 DONE 0.2s
+
+#18 [qazmine-setup 3/6] COPY requirements.txt .
+#18 DONE 0.0s
+
+#19 [qazmine-setup 4/6] RUN pip install --no-cache-dir -r requirements.txt
+#19 1.518 Collecting fastapi==0.115.12 (from -r requirements.txt (line 1))
+#19 2.113   Downloading fastapi-0.115.12-py3-none-any.whl.metadata (27 kB)
+#19 2.303 Collecting uvicorn==0.34.2 (from -r requirements.txt (line 2))
+#19 2.418   Downloading uvicorn-0.34.2-py3-none-any.whl.metadata (6.5 kB)
+#19 2.567 Collecting requests==2.32.3 (from -r requirements.txt (line 3))
+#19 2.679   Downloading requests-2.32.3-py3-none-any.whl.metadata (4.6 kB)
+#19 2.856 Collecting paho-mqtt==2.1.0 (from -r requirements.txt (line 4))
+#19 2.971   Downloading paho_mqtt-2.1.0-py3-none-any.whl.metadata (23 kB)
+#19 3.155 Collecting starlette<0.47.0,>=0.40.0 (from fastapi==0.115.12->-r requirements.txt (line 1))
+#19 3.275   Downloading starlette-0.46.2-py3-none-any.whl.metadata (6.2 kB)
+#19 3.644 Collecting pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4 (from fastapi==0.115.12->-r requirements.txt (line 1))
+#19 3.762   Downloading pydantic-2.14.1-py3-none-any.whl.metadata (133 kB)
+#19 4.108 Collecting typing-extensions>=4.8.0 (from fastapi==0.115.12->-r requirements.txt (line 1))
+#19 4.231   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#19 4.370 Collecting click>=7.0 (from uvicorn==0.34.2->-r requirements.txt (line 2))
+#19 4.492   Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+#19 4.638 Collecting h11>=0.8 (from uvicorn==0.34.2->-r requirements.txt (line 2))
+#19 4.753   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#19 4.979 Collecting charset-normalizer<4,>=2 (from requests==2.32.3->-r requirements.txt (line 3))
+#19 5.092   Downloading charset_normalizer-3.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (46 kB)
+#19 5.250 Collecting idna<4,>=2.5 (from requests==2.32.3->-r requirements.txt (line 3))
+#19 5.366   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+#19 5.519 Collecting urllib3<3,>=1.21.1 (from requests==2.32.3->-r requirements.txt (line 3))
+#19 5.623   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+#19 5.772 Collecting certifi>=2017.4.17 (from requests==2.32.3->-r requirements.txt (line 3))
+#19 5.883   Downloading certifi-2026.10.23-py3-none-any.whl.metadata (2.5 kB)
+#19 6.028 Collecting annotated-types>=0.6.0 (from pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4->fastapi==0.115.12->-r requirements.txt (line 1))
+#19 6.137   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+#19 6.917 Collecting pydantic-core==2.50.1 (from pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4->fastapi==0.115.12->-r requirements.txt (line 1))
+#19 7.031   Downloading pydantic_core-2.50.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.5 kB)
+#19 7.175 Collecting typing-inspection>=0.4.4 (from pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4->fastapi==0.115.12->-r requirements.txt (line 1))
+#19 7.296   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+#19 7.449 Collecting anyio<5,>=3.6.2 (from starlette<0.47.0,>=0.40.0->fastapi==0.115.12->-r requirements.txt (line 1))
+#19 7.566   Downloading anyio-4.15.1-py3-none-any.whl.metadata (4.7 kB)
+#19 7.715 Downloading fastapi-0.115.12-py3-none-any.whl (95 kB)
+#19 7.866 Downloading uvicorn-0.34.2-py3-none-any.whl (62 kB)
+#19 8.017 Downloading requests-2.32.3-py3-none-any.whl (64 kB)
+#19 8.168 Downloading paho_mqtt-2.1.0-py3-none-any.whl (67 kB)
+#19 8.372 Downloading certifi-2026.10.23-py3-none-any.whl (135 kB)
+#19 8.515 Downloading charset_normalizer-3.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (257 kB)
+#19 8.744 Downloading click-8.5.0-py3-none-any.whl (125 kB)
+#19 8.907 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#19 9.034 Downloading idna-3.20-py3-none-any.whl (69 kB)
+#19 9.173 Downloading pydantic-2.14.1-py3-none-any.whl (488 kB)
+#19 9.474 Downloading pydantic_core-2.50.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.2 MB)
+#19 10.26    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 2.9 MB/s eta 0:00:00
+#19 10.37 Downloading starlette-0.46.2-py3-none-any.whl (72 kB)
+#19 10.53 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#19 10.66 Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+#19 10.80 Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+#19 10.91 Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
+#19 11.06 Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+#19 11.12 Installing collected packages: urllib3, typing-extensions, paho-mqtt, idna, h11, click, charset-normalizer, certifi, annotated-types, uvicorn, typing-inspection, requests, pydantic-core, anyio, starlette, pydantic, fastapi
+#19 11.84 Successfully installed annotated-types-0.8.0 anyio-4.15.1 certifi-2026.10.23 charset-normalizer-3.5.2 click-8.5.0 fastapi-0.115.12 h11-0.16.0 idna-3.20 paho-mqtt-2.1.0 pydantic-2.14.1 pydantic-core-2.50.1 requests-2.32.3 starlette-0.46.2 typing-extensions-4.16.0 typing-inspection-0.4.4 urllib3-2.8.0 uvicorn-0.34.2
+#19 11.84 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#19 13.36 
+#19 13.36 [notice] A new release of pip is available: 25.0.1 -> 26.2.2
+#19 13.36 [notice] To update, run: pip install --upgrade pip
+#19 DONE 13.5s
+
+#20 [qazmine-setup 5/6] COPY model.py setup_twins.py server.py ./
+#20 DONE 0.1s
+
+#21 [qazmine-setup 6/6] COPY web ./web
+#21 DONE 0.0s
+
+#22 [qazmine-setup] exporting to image
+#22 exporting layers
+#22 exporting layers 1.0s done
+#22 exporting manifest sha256:946a66118d72c274927f1bb3a3d03d787f2cdabba801d37eff30f6ae930e3036 done
+#22 exporting config sha256:9b3fba5a3989cdb424e81193c2f461bacfc86972d3ad231af86fb6f8dc809067 0.0s done
+#22 exporting attestation manifest sha256:2eacc4b026e3b62267f2decef1116aa32a92e88f958ef551819f5b0fab22ec64 0.0s done
+#22 exporting manifest list sha256:6726d44bed73a7aa55723e18f370c96adb1f4de41c3c646fa29b78b837b83df8 done
+#22 naming to docker.io/openegiz/qazmine-flow:local done
+#22 unpacking to docker.io/openegiz/qazmine-flow:local
+#22 unpacking to docker.io/openegiz/qazmine-flow:local 0.6s done
+#22 DONE 1.7s
+
+#23 [qazmine-setup] resolving provenance for metadata file
+#23 DONE 0.0s
+ openegiz/qazmine-flow:local  Built
+ openegiz/ditto-extended-api:local-b49663d  Built
+ Container openegiz-mosquitto-1  Running
+ Container openegiz-influxdb-1  Running
+ Container openegiz-unity-1  Running
+ Container openegiz-mongodb-1  Running
+ Container openegiz-telegraf-1  Running
+ Container openegiz-grafana-1  Recreate
+ Container openegiz-gateway-1  Running
+ Container openegiz-things-1  Running
+ Container openegiz-ditto-nginx-1  Running
+ Container openegiz-things-search-1  Running
+ Container openegiz-qazmine-setup-1  Creating
+ Container openegiz-connectivity-1  Running
+ Container openegiz-extended-api-1  Recreate
+ Container openegiz-policies-1  Running
+ Container openegiz-qazmine-setup-1  Created
+ Container openegiz-qazmine-app-1  Creating
+ Container openegiz-qazmine-app-1  Created
+ Container openegiz-extended-api-1  Recreated
+ Container openegiz-grafana-1  Recreated
+ Container openegiz-grafana-plugins-1  Starting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-grafana-plugins-1  Started
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-grafana-1  Starting
+ Container openegiz-grafana-1  Started
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-extended-api-1  Starting
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-init-1  Starting
+ Container openegiz-init-1  Started
+ Container openegiz-init-1  Waiting
+ Container openegiz-extended-api-1  Started
+ Container openegiz-init-1  Exited
+ Container openegiz-qazmine-setup-1  Starting
+ Container openegiz-qazmine-setup-1  Started
+ Container openegiz-qazmine-setup-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-qazmine-setup-1  Exited
+ Container openegiz-qazmine-app-1  Starting
+ Container openegiz-qazmine-app-1  Started
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-extended-api-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-policies-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-gateway-1  Waiting
+ Container openegiz-qazmine-setup-1  Waiting
+ Container openegiz-init-1  Waiting
+ Container openegiz-things-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-qazmine-app-1  Waiting
+ Container openegiz-connectivity-1  Waiting
+ Container openegiz-unity-1  Waiting
+ Container openegiz-telegraf-1  Waiting
+ Container openegiz-grafana-1  Waiting
+ Container openegiz-things-search-1  Waiting
+ Container openegiz-telegraf-1  Healthy
+ Container openegiz-init-1  Exited
+ Container openegiz-things-search-1  Healthy
+ Container openegiz-policies-1  Healthy
+ Container openegiz-extended-api-1  Healthy
+ Container openegiz-grafana-1  Healthy
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-things-1  Healthy
+ Container openegiz-qazmine-setup-1  Exited
+ Container openegiz-connectivity-1  Healthy
+ Container openegiz-unity-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-gateway-1  Healthy
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-qazmine-app-1  Healthy

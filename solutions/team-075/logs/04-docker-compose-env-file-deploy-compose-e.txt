@@ -1,0 +1,1 @@
+error while interpolating services.ecomine-influx-writer.environment.INFLUXDB_TOKEN: required variable ECOMINE_INFLUX_TOKEN is missing a value: Set ECOMINE_INFLUX_TOKEN

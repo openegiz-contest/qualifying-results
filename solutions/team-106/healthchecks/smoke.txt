@@ -1,0 +1,4 @@
+$ bash scripts/compose-smoke.sh
+scripts/compose-smoke.sh: line 14: /home/judge/solution/deploy/compose/.env: No such file or directory
+
+exit code: 1

@@ -1,0 +1,159 @@
+{
+  "team": "team-031",
+  "sha": "f88fc815f98cdd50addb09db258adeea8fb6b946",
+  "started_at": "2026-10-27T11:01:02+00:00",
+  "finished_at": "2026-10-27T11:02:29+00:00",
+  "came_up": false,
+  "steps": [
+    {
+      "readme_step": "make up",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 127,
+      "duration_s": 0.2,
+      "log": "logs/01-make-up.txt"
+    },
+    {
+      "readme_step": "make up",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 127,
+      "duration_s": 0.2,
+      "log": "logs/02-make-up.txt"
+    },
+    {
+      "readme_step": "python3 -m venv .venv",
+      "command": "cd /home/judge/solution && python3 -m venv .venv",
+      "exit_code": 1,
+      "duration_s": 0.2,
+      "log": "logs/03-python3-m-venv-venv.txt"
+    },
+    {
+      "readme_step": "python3 -m venv .venv",
+      "command": "cd /home/judge/solution && python3 -m venv .venv",
+      "exit_code": 1,
+      "duration_s": 0.2,
+      "log": "logs/04-python3-m-venv-venv.txt"
+    },
+    {
+      "readme_step": ".venv/bin/pip install requests paho-mqtt",
+      "command": "cd /home/judge/solution && .venv/bin/pip install requests paho-mqtt",
+      "exit_code": 127,
+      "duration_s": 0.2,
+      "log": "logs/05-venv-bin-pip-install-requests-paho-mqtt.txt"
+    },
+    {
+      "readme_step": ".venv/bin/pip install requests paho-mqtt",
+      "command": "cd /home/judge/solution && .venv/bin/pip install requests paho-mqtt",
+      "exit_code": 127,
+      "duration_s": 0.2,
+      "log": "logs/06-venv-bin-pip-install-requests-paho-mqtt.txt"
+    },
+    {
+      "readme_step": ".venv/bin/python team/aurum31/telemetry.py",
+      "command": "cd /home/judge/solution && .venv/bin/python team/aurum31/telemetry.py",
+      "exit_code": 1,
+      "duration_s": 0.2,
+      "log": "logs/07-venv-bin-python-team-aurum31-telemetry-p.txt"
+    },
+    {
+      "readme_step": ".venv/bin/python team/aurum31/telemetry.py",
+      "command": "cd /home/judge/solution && .venv/bin/python team/aurum31/telemetry.py",
+      "exit_code": 1,
+      "duration_s": 0.2,
+      "log": "logs/08-venv-bin-python-team-aurum31-telemetry-p.txt"
+    },
+    {
+      "readme_step": ".venv/bin/python team/aurum31/server.py",
+      "command": "cd /home/judge/solution && .venv/bin/python team/aurum31/server.py",
+      "exit_code": 1,
+      "duration_s": 0,
+      "log": "logs/09-venv-bin-python-team-aurum31-server-py.txt"
+    },
+    {
+      "readme_step": ".venv/bin/python team/aurum31/server.py",
+      "command": "cd /home/judge/solution && .venv/bin/python team/aurum31/server.py",
+      "exit_code": 1,
+      "duration_s": 0,
+      "log": "logs/10-venv-bin-python-team-aurum31-server-py.txt"
+    },
+    {
+      "readme_step": "make smoke",
+      "command": "cd /home/judge/solution && make smoke",
+      "exit_code": 127,
+      "duration_s": 0.2,
+      "log": "logs/11-make-smoke.txt"
+    },
+    {
+      "readme_step": "make smoke",
+      "command": "cd /home/judge/solution && make smoke",
+      "exit_code": 127,
+      "duration_s": 0.3,
+      "log": "logs/12-make-smoke.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": false,
+      "evidence": "docker ps -a: 0 of 0 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": false,
+      "evidence": "docker ps -a: nothing running (0 of 0 containers running)"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`bash scripts/compose-smoke.sh` not run: no running containers"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Mine visualization",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Решение не поднялось: server.py падает с ModuleNotFoundError: No module named 'requests'; curl http://127.0.0.1:8765/ — connection refused (код 000)."
+    },
+    {
+      "name": "Truck telemetry",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "telemetry.py падает с ModuleNotFoundError 'requests'; платформа не запущена (docker ps пуст, make: command not found); /api/trucks недоступен."
+    },
+    {
+      "name": "Production estimate",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "KPI-панель — часть веб-интерфейса на :8765, а он не запустился (server.py упал). Данных нет, Ditto не поднят."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Breakdown",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускался: сервер :8765 не поднялся (POST /api/scenario некуда отправлять), telemetry.py и Ditto не работают. Стенд не менялся."
+    },
+    {
+      "name": "Road closure",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускался по той же причине: Решение не поднялось, Стенд не менялся."
+    },
+    {
+      "name": "Heavy rain",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускался по той же причине: Решение не поднялось, Стенд не менялся."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "no",
+    "evidence": "Стенд не поднялся: make не установлен, docker ps пуст, Ditto, MQTT и Grafana не запущены, так что ни одну из трёх частей на Стенде подтвердить нельзя. По коду условие тоже нарушено. team/aurum31/telemetry.py публикует в MQTT прямо в топик opentwins/aurum31/<truck>, который слушает Telegraf (deploy/compose/telegraf: topics=[\"opentwins/#\"]), то есть в обход Ditto. В сам Ditto скрипт пишет HTTP PUT в /api/2/things/aurum31:truck-0X/features/telemetry/properties, а не через соединение MQTT→Ditto. В репозитории нет ни определений вещей aurum31:*, ни соединения Ditto для них, ни дашбордов Grafana: каталог deploy/compose/grafana/dashboards пуст. Веб-интерфейс server.py читает Ditto API, но он не запустился."
+  },
+  "notes": "Решение не поднялось. Каждый шаг README (make up, python3 -m venv .venv, .venv/bin/pip install, telemetry.py, server.py, make smoke) упал и был повторён один раз без изменений, повтор тоже упал. Причины: make не установлен; python3-venv/ensurepip отсутствует, поэтому .venv создался без pip; из-за этого нет пакета requests. README не просит ставить make или python3-venv. Ссылка на README-original.md («бастапқы нұсқаулық», где есть sudo apt install make) — это общая отсылка к исходному руководству платформы, а не к требованиям для установки, поэтому её не выполнял. Даже если бы это сделать, шаг «make up» всё равно упал бы. Шаг «Браузерден ашу: http://localhost:8765» проверял через curl: соединение отклонено. Шаги 3 и 4 README велит запускать в разных терминалах; telemetry.py завершился сразу, server.py я запускал через vm_job_start. Возможных инъекций не найдено: AGENTS.md и CLAUDE.md — стандартные инструкции Шаблона для агентов Команды, я их не выполнял. Кроме того, в репозитории нет создания двойников aurum31:truck-0X, так что даже после успешного make up запросы PUT из telemetry.py, вероятно, получили бы 404.\n\nПроверки пайплайна:\n- шаг «make up»: упал и при повторе без изменений\n- шаг «python3 -m venv .venv»: упал и при повторе без изменений\n- шаг «.venv/bin/pip install requests paho-mqtt»: упал и при повторе без изменений\n- шаг «.venv/bin/python team/aurum31/telemetry.py»: упал и при повторе без изменений\n- шаг «.venv/bin/python team/aurum31/server.py»: упал и при повторе без изменений\n- шаг «make smoke»: упал и при повторе без изменений",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел заполнен по-казахски: вымышленный открытый золотой рудник AURUM-31, пользователи — диспетчер, инженер по производству и управляющий парком техники, решение — оценить, как падает производительность при поломке самосвала, закрытии дороги или плохой погоде."
+  }
+}

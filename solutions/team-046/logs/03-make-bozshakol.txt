@@ -1,0 +1,530 @@
+docker compose -f deploy/compose/docker-compose.yml up -d --build --wait --wait-timeout 900
+#1 [internal] load local bake definitions
+#1 reading from stdin 764B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 188B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-slim
+#3 DONE 1.4s
+
+#4 [internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#4 DONE 0.0s
+
+#5 [1/5] FROM docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#5 resolve docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 0.0s done
+#5 DONE 0.0s
+
+#6 [2/5] WORKDIR /usr/src/app
+#6 CACHED
+
+#7 [3/5] COPY package*.json yarn.lock ./
+#7 CACHED
+
+#8 [4/5] RUN yarn install --frozen-lockfile
+#8 CACHED
+
+#9 [5/5] COPY . .
+#9 CACHED
+
+#10 exporting to image
+#10 exporting layers done
+#10 exporting manifest sha256:ea8bbf88d25d2bf8a1d09c1f9e3f7494307ed181477ed76c50b1829606232e12 done
+#10 exporting config sha256:6681120d19dab8f0e612843f1e97394d34d1bdda20e4eb582626d43d4916c442 done
+#10 exporting attestation manifest sha256:3c6a968263f5c54b241ce9c5cf4b71ee3facb9c66a0e6adc6745cc7ccf07cead 0.0s done
+#10 exporting manifest list sha256:056bd72b0a40d4da63f811f084b91d9b625fee424887ee91da7cf9eb6a0969a1 done
+#10 naming to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#10 unpacking to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#10 DONE 0.0s
+
+#11 resolving provenance for metadata file
+#11 DONE 0.0s
+ openegiz/ditto-extended-api:local-b49663d  Built
+ Network openegiz_default  Creating
+ Network openegiz_default  Created
+ Volume openegiz_mosquitto-data  Creating
+ Volume openegiz_mosquitto-data  Created
+ Volume openegiz_grafana-data  Creating
+ Volume openegiz_grafana-data  Created
+ Volume openegiz_grafana-plugins  Creating
+ Volume openegiz_grafana-plugins  Created
+ Volume openegiz_mongodb-data  Creating
+ Volume openegiz_mongodb-data  Created
+ Volume openegiz_influxdb-data  Creating
+ Volume openegiz_influxdb-data  Created
+ Volume openegiz_influxdb-config  Creating
+ Volume openegiz_influxdb-config  Created
+ Container openegiz-mosquitto-1  Creating
+ Container openegiz-grafana-plugins-1  Creating
+ Container openegiz-mongodb-1  Creating
+ Container openegiz-influxdb-1  Creating
+ Container openegiz-unity-1  Creating
+ Container openegiz-influxdb-1  Created
+ Container openegiz-mosquitto-1  Created
+ Container openegiz-telegraf-1  Creating
+ Container openegiz-grafana-plugins-1  Created
+ Container openegiz-mongodb-1  Created
+ Container openegiz-grafana-1  Creating
+ Container openegiz-things-1  Creating
+ Container openegiz-connectivity-1  Creating
+ Container openegiz-policies-1  Creating
+ Container openegiz-gateway-1  Creating
+ Container openegiz-things-search-1  Creating
+ Container openegiz-unity-1  Created
+ Container openegiz-things-1  Created
+ Container openegiz-telegraf-1  Created
+ Container openegiz-policies-1  Created
+ Container openegiz-connectivity-1  Created
+ Container openegiz-things-search-1  Created
+ Container openegiz-gateway-1  Created
+ Container openegiz-ditto-nginx-1  Creating
+ Container openegiz-grafana-1  Created
+ Container openegiz-ditto-nginx-1  Created
+ Container openegiz-extended-api-1  Creating
+ Container openegiz-init-1  Creating
+ Container openegiz-init-1  Created
+ Container openegiz-extended-api-1  Created
+ Container openegiz-mosquitto-1  Starting
+ Container openegiz-influxdb-1  Starting
+ Container openegiz-unity-1  Starting
+ Container openegiz-mongodb-1  Starting
+ Container openegiz-grafana-plugins-1  Starting
+ Container openegiz-unity-1  Started
+ Container openegiz-mosquitto-1  Started
+ Container openegiz-influxdb-1  Started
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-mongodb-1  Started
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-grafana-plugins-1  Started
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-gateway-1  Starting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-things-1  Starting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-connectivity-1  Starting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-things-search-1  Starting
+ Container openegiz-policies-1  Starting
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-grafana-1  Starting
+ Container openegiz-things-1  Started
+ Container openegiz-gateway-1  Started
+ Container openegiz-ditto-nginx-1  Starting
+ Container openegiz-connectivity-1  Started
+ Container openegiz-policies-1  Started
+ Container openegiz-grafana-1  Started
+ Container openegiz-things-search-1  Started
+ Container openegiz-ditto-nginx-1  Started
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-extended-api-1  Starting
+ Container openegiz-extended-api-1  Started
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-telegraf-1  Starting
+ Container openegiz-telegraf-1  Started
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-init-1  Starting
+ Container openegiz-init-1  Started
+ Container openegiz-extended-api-1  Waiting
+ Container openegiz-things-1  Waiting
+ Container openegiz-policies-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-unity-1  Waiting
+ Container openegiz-init-1  Waiting
+ Container openegiz-telegraf-1  Waiting
+ Container openegiz-things-search-1  Waiting
+ Container openegiz-connectivity-1  Waiting
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-gateway-1  Waiting
+ Container openegiz-grafana-1  Waiting
+ Container openegiz-unity-1  Healthy
+ Container openegiz-extended-api-1  Healthy
+ Container openegiz-telegraf-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-connectivity-1  Healthy
+ Container openegiz-things-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-things-search-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-init-1  Healthy
+ Container openegiz-grafana-1  Healthy
+ Container openegiz-policies-1  Healthy
+ Container openegiz-gateway-1  Healthy
+ Container openegiz-ditto-nginx-1  Healthy
+Waiting for Ditto to serve requests ..... ready
+
+OpenEgiz is up.
+
+  Grafana        http://localhost:3000        admin / mr4FS5MfnoUKIf0LXL4dMFEd
+  Ditto API      http://localhost:8080/api/2    ditto / Dj2ATK5iSliG2sIMLtjhhxWl   (devops / V5BkCGdmhUIRfkRK0yfIDHiV)
+  Extended API   http://localhost:8085
+  InfluxDB       http://localhost:8086        admin / WERSn5hGuaJB3QbCaaKheoBZ
+  MQTT           tcp://localhost:1883
+  Unity WebGL    http://localhost:8090/build/<file>   (files from ./build/)
+
+Credentials live in deploy/compose/.env. Check everything with: make smoke
+docker compose -f deploy/compose/docker-compose.yml -f bozshakol/compose.yml up -d --build --wait --wait-timeout 600
+#1 [internal] load local bake definitions
+#1 reading from stdin 2.62kB done
+#1 DONE 0.0s
+
+#2 [bz-setup internal] load build definition from Dockerfile
+#2 transferring dockerfile: 324B done
+#2 DONE 0.0s
+
+#3 [bz-haulage internal] load build definition from Dockerfile
+#3 transferring dockerfile: 431B done
+#3 DONE 0.0s
+
+#4 [extended-api internal] load build definition from Dockerfile
+#4 transferring dockerfile: 188B done
+#4 DONE 0.0s
+
+#5 [bz-geology internal] load build definition from Dockerfile
+#5 transferring dockerfile: 544B done
+#5 DONE 0.0s
+
+#6 [bz-processing internal] load build definition from Dockerfile
+#6 transferring dockerfile: 496B done
+#6 DONE 0.0s
+
+#7 [bz-processing internal] load metadata for docker.io/library/python:3.12-slim
+#7 DONE 0.5s
+
+#8 [bz-processing internal] load .dockerignore
+#8 transferring context: 2B done
+#8 DONE 0.0s
+
+#9 [extended-api internal] load metadata for docker.io/library/node:20-slim
+#9 DONE 0.5s
+
+#10 [extended-api internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#10 DONE 0.0s
+
+#11 [bz-geology internal] load build context
+#11 transferring context: 526B done
+#11 DONE 0.0s
+
+#12 [bz-setup internal] load build context
+#12 transferring context: 73.63kB done
+#12 DONE 0.0s
+
+#13 [bz-haulage internal] load build context
+#13 transferring context: 335B done
+#13 DONE 0.0s
+
+#14 [bz-processing internal] load build context
+#14 transferring context: 76.80kB done
+#14 DONE 0.0s
+
+#15 [bz-processing 1/6] FROM docker.io/library/python:3.12-slim@sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f
+#15 resolve docker.io/library/python:3.12-slim@sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f 0.0s done
+#15 DONE 0.0s
+
+#16 [extended-api 1/5] FROM docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#16 resolve docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 0.0s done
+#16 DONE 0.0s
+
+#17 [bz-processing 3/7] COPY modules/processing/requirements.txt .
+#17 CACHED
+
+#18 [bz-processing 5/7] COPY core/bzlib ./bzlib
+#18 CACHED
+
+#19 [bz-processing 4/7] RUN pip install --no-cache-dir -r requirements.txt
+#19 CACHED
+
+#20 [bz-processing 6/7] COPY core/geometry.json ./geometry.json
+#20 CACHED
+
+#21 [bz-setup 5/6] COPY core/bzlib ./bzlib
+#21 CACHED
+
+#22 [bz-setup 3/6] COPY core/requirements.txt .
+#22 CACHED
+
+#23 [bz-setup 4/6] RUN pip install --no-cache-dir -r requirements.txt
+#23 CACHED
+
+#24 [bz-processing 7/7] COPY modules/processing/main.py modules/processing/energy.py modules/processing/twins.json ./
+#24 CACHED
+
+#25 [bz-setup 6/6] COPY core/setup.py core/main.py core/advisor.py core/advisor_rules.py core/reality.py core/geometry.json ./
+#25 CACHED
+
+#26 [bz-haulage 6/7] COPY core/geometry.json ./geometry.json
+#26 CACHED
+
+#27 [bz-haulage 5/7] COPY core/bzlib ./bzlib
+#27 CACHED
+
+#28 [bz-haulage 3/7] COPY modules/haulage/requirements.txt .
+#28 CACHED
+
+#29 [bz-haulage 4/7] RUN pip install --no-cache-dir -r requirements.txt
+#29 CACHED
+
+#30 [bz-haulage 7/7] COPY modules/haulage/main.py ./
+#30 CACHED
+
+#31 [bz-geology 3/7] COPY modules/geology/requirements.txt .
+#31 CACHED
+
+#32 [bz-geology 5/7] COPY core/bzlib ./bzlib
+#32 CACHED
+
+#33 [bz-geology 6/7] COPY core/geometry.json ./geometry.json
+#33 CACHED
+
+#34 [bz-haulage 2/6] WORKDIR /app
+#34 CACHED
+
+#35 [bz-geology 4/7] RUN pip install --no-cache-dir -r requirements.txt
+#35 CACHED
+
+#36 [extended-api 4/5] RUN yarn install --frozen-lockfile
+#36 CACHED
+
+#37 [extended-api 2/5] WORKDIR /usr/src/app
+#37 CACHED
+
+#38 [extended-api 3/5] COPY package*.json yarn.lock ./
+#38 CACHED
+
+#39 [extended-api 5/5] COPY . .
+#39 CACHED
+
+#40 [bz-geology 7/7] COPY modules/geology/main.py modules/geology/blockmodel.py modules/geology/blasting.py modules/geology/drilling.py modules/geology/twins.json ./
+#40 CACHED
+
+#41 [bz-processing] exporting to image
+#41 exporting layers done
+#41 exporting manifest sha256:b19284270d9bddf4e0eef9e8e578dfbe044050bb75515eb81220f02b0c6c1577 done
+#41 exporting config sha256:6db9ef11b72da564bd93b3843a0457771f84e3341b50fa8f0de9d7c1022ac47f done
+#41 exporting attestation manifest sha256:c77fa91b7e1e447325d20d03687e49f36f6c1c354e421ebbef4e532de43c3eb8 0.0s done
+#41 exporting manifest list sha256:d20e32d22e23590d38e85f44dfe0e7abb40e7e2bf6e59dc656eb13925e482296
+#41 exporting manifest list sha256:d20e32d22e23590d38e85f44dfe0e7abb40e7e2bf6e59dc656eb13925e482296 0.0s done
+#41 naming to docker.io/bozshakol/processing:local done
+#41 unpacking to docker.io/bozshakol/processing:local done
+#41 DONE 0.1s
+
+#42 [bz-setup] exporting to image
+#42 exporting layers done
+#42 exporting manifest sha256:fbb0c0603197a9082328afcf403c2966478042660453302e522b9dde62ef6a71 done
+#42 exporting config sha256:40e8c804644d8e23834ee3f19ef992341718f59dad005377ebcfb438f7c47e33 done
+#42 exporting attestation manifest sha256:4333b1e36093ec5596983577f8f785df1e72db3434ef16f316e5f93768ec2e46 0.0s done
+#42 exporting manifest list sha256:ecd9e549b32dffb7d8b8085010526b1a41d07869f8278ab641fbb4c86adda50b 0.0s done
+#42 naming to docker.io/bozshakol/core:local done
+#42 unpacking to docker.io/bozshakol/core:local done
+#42 DONE 0.1s
+
+#43 [bz-haulage] exporting to image
+#43 exporting layers done
+#43 exporting manifest sha256:f87b3272c9ef885984090eb497b95506aad5baa272e136c1cc86bcfb4bfa83c7 done
+#43 exporting config sha256:e920c32c65b45ade0b01226457af45b246d6bef9a42dc96a958c27a7ccce8c99 done
+#43 exporting attestation manifest sha256:4880978d7aa8617e5da1cd18f19834998599164f8aaa3eee413f7758ed768c74 0.0s done
+#43 exporting manifest list sha256:f4da62821e6a323135cf0d555be4b66d5f3ada0f7e465dad9f83523c62e0a5cd 0.0s done
+#43 naming to docker.io/bozshakol/haulage:local done
+#43 unpacking to docker.io/bozshakol/haulage:local done
+#43 DONE 0.1s
+
+#44 [bz-geology] exporting to image
+#44 exporting layers done
+#44 exporting manifest sha256:2bba90e86e6dcc938bc5f597c3c28417dafb3a33674990e440955334d974d443 done
+#44 exporting config sha256:a32448c8b77c3e1a16c7065e7cba1fa203db587b1499fdd6638feca228cfa83e done
+#44 exporting attestation manifest sha256:8fc319ed65c82550534ba3aee0cad0f70ba97d8ec190e1197e7d985888b66f37 0.0s done
+#44 exporting manifest list sha256:f7c07d2536631b4ab98e897e22ab2645459f0c5246aad56c635e8c1026675d72 0.0s done
+#44 naming to docker.io/bozshakol/geology:local done
+#44 unpacking to docker.io/bozshakol/geology:local done
+#44 DONE 0.1s
+
+#45 [extended-api] exporting to image
+#45 exporting layers done
+#45 exporting manifest sha256:ea8bbf88d25d2bf8a1d09c1f9e3f7494307ed181477ed76c50b1829606232e12 done
+#45 exporting config sha256:6681120d19dab8f0e612843f1e97394d34d1bdda20e4eb582626d43d4916c442 0.0s done
+#45 exporting attestation manifest sha256:019f32aead90c0a05ca2122d0f0cf74010c90d92e12bf5c556b563fdda6d59ae 0.1s done
+#45 exporting manifest list sha256:4edad62062fa2afe5d54be08545de44450cd57d093757f623818fca41c9619b4 0.0s done
+#45 naming to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#45 unpacking to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#45 DONE 0.1s
+
+#46 [bz-setup] resolving provenance for metadata file
+#46 DONE 0.1s
+
+#47 [extended-api] resolving provenance for metadata file
+#47 DONE 0.1s
+
+#48 [bz-haulage] resolving provenance for metadata file
+#48 DONE 0.0s
+
+#49 [bz-geology] resolving provenance for metadata file
+#49 DONE 0.1s
+
+#50 [bz-processing] resolving provenance for metadata file
+#50 DONE 0.0s
+ bozshakol/core:local  Built
+ bozshakol/haulage:local  Built
+ bozshakol/geology:local  Built
+ bozshakol/processing:local  Built
+ openegiz/ditto-extended-api:local-b49663d  Built
+ Container openegiz-mongodb-1  Running
+ Container openegiz-unity-1  Running
+ Container openegiz-influxdb-1  Running
+ Container openegiz-things-search-1  Running
+ Container openegiz-gateway-1  Running
+ Container openegiz-things-1  Running
+ Container openegiz-mosquitto-1  Running
+ Container openegiz-telegraf-1  Running
+ Container openegiz-ditto-nginx-1  Running
+ Container openegiz-connectivity-1  Running
+ Container openegiz-grafana-1  Recreate
+ Container openegiz-extended-api-1  Recreate
+ Container openegiz-policies-1  Running
+ Container openegiz-bz-web-1  Creating
+ Container openegiz-bz-setup-1  Creating
+ Container openegiz-bz-setup-1  Created
+ Container openegiz-bz-advisor-1  Creating
+ Container openegiz-bz-processing-1  Creating
+ Container openegiz-bz-geology-1  Creating
+ Container openegiz-bz-haulage-1  Creating
+ Container openegiz-bz-core-1  Creating
+ Container openegiz-bz-web-1  Created
+ Container openegiz-bz-core-1  Created
+ Container openegiz-bz-processing-1  Created
+ Container openegiz-bz-advisor-1  Created
+ Container openegiz-bz-geology-1  Created
+ Container openegiz-bz-haulage-1  Created
+ Container openegiz-extended-api-1  Recreated
+ Container openegiz-grafana-1  Recreated
+ Container openegiz-grafana-plugins-1  Starting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-grafana-plugins-1  Started
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-grafana-1  Starting
+ Container openegiz-grafana-1  Started
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-extended-api-1  Starting
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-bz-web-1  Starting
+ Container openegiz-init-1  Starting
+ Container openegiz-init-1  Started
+ Container openegiz-init-1  Waiting
+ Container openegiz-bz-web-1  Started
+ Container openegiz-extended-api-1  Started
+ Container openegiz-init-1  Exited
+ Container openegiz-bz-setup-1  Starting
+ Container openegiz-bz-setup-1  Started
+ Container openegiz-bz-setup-1  Waiting
+ Container openegiz-bz-setup-1  Waiting
+ Container openegiz-bz-setup-1  Waiting
+ Container openegiz-bz-setup-1  Waiting
+ Container openegiz-bz-setup-1  Waiting
+ Container openegiz-bz-setup-1  Exited
+ Container openegiz-bz-core-1  Starting
+ Container openegiz-bz-setup-1  Exited
+ Container openegiz-bz-advisor-1  Starting
+ Container openegiz-bz-setup-1  Exited
+ Container openegiz-bz-processing-1  Starting
+ Container openegiz-bz-setup-1  Exited
+ Container openegiz-bz-geology-1  Starting
+ Container openegiz-bz-setup-1  Exited
+ Container openegiz-bz-haulage-1  Starting
+ Container openegiz-bz-processing-1  Started
+ Container openegiz-bz-core-1  Started
+ Container openegiz-bz-haulage-1  Started
+ Container openegiz-bz-geology-1  Started
+ Container openegiz-bz-advisor-1  Started
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-bz-setup-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-init-1  Waiting
+ Container openegiz-extended-api-1  Waiting
+ Container openegiz-unity-1  Waiting
+ Container openegiz-bz-core-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-bz-web-1  Waiting
+ Container openegiz-grafana-1  Waiting
+ Container openegiz-things-search-1  Waiting
+ Container openegiz-bz-haulage-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-gateway-1  Waiting
+ Container openegiz-things-1  Waiting
+ Container openegiz-bz-processing-1  Waiting
+ Container openegiz-connectivity-1  Waiting
+ Container openegiz-bz-advisor-1  Waiting
+ Container openegiz-bz-geology-1  Waiting
+ Container openegiz-telegraf-1  Waiting
+ Container openegiz-policies-1  Waiting
+ Container openegiz-telegraf-1  Healthy
+ Container openegiz-policies-1  Healthy
+ Container openegiz-bz-advisor-1  Healthy
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-things-search-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-bz-geology-1  Healthy
+ Container openegiz-extended-api-1  Healthy
+ Container openegiz-bz-haulage-1  Healthy
+ Container openegiz-connectivity-1  Healthy
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-grafana-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-unity-1  Healthy
+ Container openegiz-bz-web-1  Healthy
+ Container openegiz-bz-core-1  Healthy
+ Container openegiz-bz-processing-1  Healthy
+ Container openegiz-init-1  Exited
+ Container openegiz-bz-setup-1  Exited
+ Container openegiz-things-1  Healthy
+ Container openegiz-gateway-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+
+Рудник Бозшаколь запущен.
+
+  3D-сцена            http://localhost:8095
+  Grafana             http://localhost:3000   (admin / пароль GRAFANA_ADMIN_PASSWORD из deploy/compose/.env)
+                      Dashboards -> Бозшаколь; приложение OpenEgiz -> Twins — иерархия kz.bozshakol
+  Ditto API           http://localhost:8080/api/2/search/things?namespaces=kz.bozshakol
+
+Проверка стенда: make bozshakol-check. Логи: make bozshakol-logs S=bz-haulage

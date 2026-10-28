@@ -1,0 +1,4 @@
+PASS API health is ok
+PASS source is eclipse-ditto
+PASS all 11 required twins exist
+PASS all 143 required fields and units are valid

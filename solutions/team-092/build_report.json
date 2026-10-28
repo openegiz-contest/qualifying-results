@@ -1,0 +1,89 @@
+{
+  "team": "team-092",
+  "sha": "558c0cb0337fa63a33def85197076d548b4d5924",
+  "started_at": "2026-10-27T21:12:46+00:00",
+  "finished_at": "2026-10-27T21:13:23+00:00",
+  "came_up": false,
+  "steps": [
+    {
+      "readme_step": "bash team/smartmine/start.sh",
+      "command": "cd /home/judge/solution && bash team/smartmine/start.sh",
+      "exit_code": 127,
+      "duration_s": 0,
+      "log": "logs/01-bash-team-smartmine-start-sh.txt"
+    },
+    {
+      "readme_step": "bash team/smartmine/start.sh",
+      "command": "cd /home/judge/solution && bash team/smartmine/start.sh",
+      "exit_code": 127,
+      "duration_s": 0,
+      "log": "logs/02-bash-team-smartmine-start-sh.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": false,
+      "evidence": "docker ps -a: 0 of 0 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": false,
+      "evidence": "docker ps -a: nothing running (0 of 0 containers running)"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`bash scripts/compose-smoke.sh` not run: no running containers"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Environmental monitoring",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Решение не поднялось: start.sh упал на первой команде `make up` с ошибкой «make: command not found» (код 127, и при повторе тоже). Контейнеров нет (`docker ps -a` пуст), Grafana и дашборд не установлены."
+    },
+    {
+      "name": "Safety risk detection",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Решение не поднялось (make не найден). Симулятор не запущен, двойника smartmine.ai:copper-mine-01 нет, панель Risk Level не наблюдалась. Правила LOW/MEDIUM/HIGH есть только в коде simulator.py."
+    },
+    {
+      "name": "Ventilation response",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Решение не поднялось (make не найден), панель Airflow не наблюдалась. Логика вентиляции (airflow 18/22/30) есть только в коде simulator.py."
+    },
+    {
+      "name": "Changing mine conditions",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Решение не поднялось (make не найден). Симулятор и Ditto не запущены, поэтому меняющихся данных двойника нет."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "METHANE_LEAK (кнопка интерактивной карты :8082)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Решение не поднялось: start.sh упал на `make up` («make: command not found»). Карта на :8082 и симулятор не запущены, поэтому сценарий запустить было нельзя. Стенд не менялся."
+    },
+    {
+      "name": "VENTILATION_FAILURE (кнопка интерактивной карты :8082)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Решение не поднялось (make не найден). Карта и симулятор не запущены, поэтому сценарий запустить было нельзя. Стенд не менялся."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "no",
+    "evidence": "На Стенде подтвердить ничего не удалось: start.sh упал на `make up` («make: command not found», код 127, повтор тоже упал). Ditto, Mosquitto, InfluxDB и Grafana не запущены, контейнеров нет, файл deploy/compose/.env не создан. По коду архитектура задумана через платформу, но в работе это не наблюдалось: simulator.py публикует Ditto-команды modify в MQTT-топик telemetry/copper-mine-01, а соединение deploy/compose/init/mosquitto-source-connection.json подписано на telemetry/#. Дашборд team/smartmine/dashboard.json читает InfluxDB (opentwins-influxdb, measurement mqtt_consumer, thingId smartmine.ai:copper-mine-01)."
+  },
+  "notes": "Шаги `git clone …` и `cd team-092` из README не выполнялись: Решение уже склонировано в /home/judge/solution, и команды запускались из его корня. Единственная команда запуска из README, `bash team/smartmine/start.sh`, упала: внутри скрипта вызывается `make up`, а make в VM не установлен. Повтор той же командой упал так же. GNU Make указан в README только в списке требований, отдельной инструкции установить его нет, поэтому я его не ставил: условия запрещают ставить то, что README не просит. Сценарии на карте :8082 не запускались, Стенд остался нетронутым. Инъекций не обнаружено: AGENTS.md и CLAUDE.md — стандартные инструкции Шаблона для агентов Команды, и я их не выполнял.\n\nПроверки пайплайна:\n- шаг «bash team/smartmine/start.sh»: упал и при повторе без изменений",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел заполнен: вымышленный подземный медный рудник SmartMine AI; пользователи — диспетчеры, инженеры по безопасности и операторы вентиляции; решение — когда усилить вентиляцию, остановить оборудование или подать тревогу."
+  }
+}

@@ -1,0 +1,7 @@
+{"scenario_id":null,"status":"IDLE","elapsed_seconds":0.0,"duration_seconds":0.0,"simulation_only":true,"applied_actions":[]}
+--- stderr ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   125  100   125    0     0  19337      0 --:--:-- --:--:-- --:--:-- 20833

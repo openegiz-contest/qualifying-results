@@ -1,0 +1,80 @@
+{
+  "team": "team-018",
+  "judge": "opus-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 1,
+      "max": 25,
+      "points": 6.25,
+      "reasoning": "Стенд не поднялся по вине самой Команды. Корневой compose.yml подключает deploy/compose/docker-compose.yml и team/compose.yml, а team/compose.yml заново объявляет сервис grafana. Из-за этого compose дважды упал с ошибкой «services.grafana conflicts with imported resource». docker ps -a пуст, Ditto :8080 не отвечает, так что в платформе нет ни одного двойника. Это не сбой Организатора: платформа даже не запускалась из-за конфигурации Команды. В коде (team/twins.json) задумана богатая модель: 24 двойника примерно 14 типов (mine-01, уступы north/south с содержанием Cu, 2 экскаватора, 8 БелАЗов, троллейная линия, подстанция с BESS, ККД и резервная дробилка, конвейер, склад, мельница SAG, насосная, радар бортов, буровой станок, поливомоечная машина). Есть иерархия _parents, состояния осмысленные. Будь двойники в Ditto, это был бы уровень 2–3. Но модель не наблюдается в OpenEgiz, и проверить нельзя ни состояния, ни связи, ни историю. Поэтому ставлю 1: модель есть только в коде, не в платформе.",
+      "references": [
+        "build_report:steps[3]",
+        "build_report:healthchecks[0]",
+        "team-018-main/team/compose.yml:46",
+        "team-018-main/team/twins.json:1"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Живых данных нет: контейнеров нет, Ditto и InfluxDB не запущены. Поэтому снять состояние дважды и увидеть изменения невозможно. В team/simulator.py:485-585 есть пошаговая модель: тяговый баланс самосвалов, очереди у экскаваторов, водоотлив, дробилка, связка влажности дороги с торможением, троллейная сеть с BESS. Но величины не проверены на работе, а «reference_traces» генерируются скриптом generate_reference_traces.py и не являются реальным датасетом. По Рубрике поведение оценивается по живому состоянию двойников; оно не меняется, потому что двойников нет. Уровень 0.",
+      "references": [
+        "build_report:came_up",
+        "team-018-main/team/simulator.py:485",
+        "team-018-main/team/data/generate_reference_traces.py"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "Заявленная 3D WebGL-кабина на :5173 не открывается (net::ERR_EMPTY_RESPONSE, снят скриншот страницы ошибки). Grafana :3000 тоже недоступна (curl 000). Ни одного признака визуализации в браузере увидеть нельзя.",
+      "references": [
+        "screenshot:team018-5173-down.png",
+        "build_report:healthchecks[1]"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Три сценария (trolley-fault, crusher-fault, water-influx через scripts/trigger_scenario.sh) описаны только в тексте и коде. Без Ditto и симулятора запустить их и увидеть последствия нельзя. Сам я их не запускал, поэтому они не засчитываются. На Стенде ничего не менялось, отменять нечего.",
+      "references": [
+        "build_report:scenarios[0]",
+        "build_report:scenarios[1]",
+        "build_report:scenarios[2]"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Семь заявленных Модулей (TrolleyEnergyManager, GradeBlendingController, TkphThermalProtector и др.) лежат в team/modules. Ни один не работает на Стенде: контейнеров нет, а Grafana-панели и двойники недоступны. Работающих Модулей не видел.",
+      "references": [
+        "build_report:modules[0]",
+        "build_report:modules[1]",
+        "team-018-main/team/modules/grade_blending_controller.py"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Замысел конкретный: вымышленный ГОК «Ақтау-Мыс» на 12 млн т/год по образцу Актогая, Васильковского и Aitik. Названы четыре пользователя (диспетчер, энергетик, технолог, геотехник) и их решения: шихтовка 0,85% Cu, троллейвозная откатка, защита шин, эвакуация при FoS<1.15. Сам по себе это был бы уровень 2. Но ключевые утверждения презентации противоречат Стенду. На слайде 10 стоят отметки «docker compose up -d --build — Pass», «24 Twins Registered — Pass», «30-Panel Grafana Dashboard — Pass» и «100% PASS RATE GUARANTEE», на слайде 9 — «Triple-interface… running concurrently on the Stand». На деле compose падает, контейнеров нет, интерфейсы не открываются. Из Замысла на Стенде не подтверждено ничего, а противоречащие Стенду утверждения ограничивают критерий уровнем 1.",
+      "references": [
+        "team-018-main/SUBMISSION.md:11",
+        "presentation.pdf:10",
+        "presentation.pdf:9",
+        "build_report:steps[3]"
+      ]
+    }
+  ],
+  "total": 10
+}

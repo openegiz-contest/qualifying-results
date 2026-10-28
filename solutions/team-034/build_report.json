@@ -1,0 +1,120 @@
+{
+  "team": "team-034",
+  "sha": "fdfbc9c2093272b6d56eeb847fd83cb816df175a",
+  "started_at": "2026-10-27T11:27:04+00:00",
+  "finished_at": "2026-10-27T11:40:56+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update && sudo apt-get install -y make",
+      "command": "cd /home/judge/solution && sudo apt-get update && sudo apt-get install -y make",
+      "exit_code": 0,
+      "duration_s": 10.0,
+      "log": "logs/01-sudo-apt-get-update-sudo-apt-get-install.txt"
+    },
+    {
+      "readme_step": "make drainage",
+      "command": "cd /home/judge/solution && make drainage",
+      "exit_code": 0,
+      "duration_s": 101.0,
+      "log": "logs/02-make-drainage.txt"
+    },
+    {
+      "readme_step": "python3 -m unittest discover -s team/drainage/tests -v",
+      "command": "cd /home/judge/solution && python3 -m unittest discover -s team/drainage/tests -v",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/03-python3-m-unittest-discover-s-team-drain.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 14 of 17 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 14 of 17 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Модуль: водный баланс водосборника",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Двойник org.kvgorki:sump-01 обновляется каждые ~2 с: volume 178.6→206.6→213.6 м³ при притоке 70 и откачке 0 (11:30:20–11:30:50); при работе насоса 300 м³/ч объём падает 213.6→156.9→80.3. В Grafana (kvgorki-drainage) график «Объём воды» берёт value_volume_properties_value из InfluxDB, запрос через /api/ds/query вернул точки 190.3, 192.6, 194.9 с topic opentwins/twin/events/org.kvgorki/sump-01."
+    },
+    {
+      "name": "Модуль: автоматика насосов по уровню",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "pump-01 включился на fill ~49–50 % (running, 300 м³/ч), остановился на 18.6 % (standby); в следующем цикле включился pump-02 (у него меньше наработка: hours 0→0.13, у pump-01 0.6), так что ведущий насос чередуется. При притоке 324 оба насоса running на ~56 % (outflow 600). При отказе pump-01 откачку взял pump-02."
+    },
+    {
+      "name": "Модуль: контроль нормы ПБ",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "У sump-01 required_capacity 84 при притоке 70, 180 при 150, 388.8 при 324; rules_ok=true при available 600 и false, когда available 300 при притоке 324 или 0 при обесточивании."
+    },
+    {
+      "name": "Модуль: прогноз до аварийного уровня",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "time_to_alarm у sump-01 равен -1 («откачка обеспечена») в норме; 4.19 ч при притоке 324 и одном насосе; при обесточивании 2.95→2.65→2.32 ч по мере роста уровня."
+    },
+    {
+      "name": "Модуль: энергетика насосов",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "У работающего насоса power 596.4 кВт, energy растёт только во время работы (pump-01: 0→159→357.8 кВт·ч, потом стоит на месте в standby). Панель «Мощность насосов» читает InfluxDB по pump-01/pump-02."
+    },
+    {
+      "name": "Схема водоотлива и управление (панель Grafana team034-drainage-panel)",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Дашборд kvgorki-drainage есть в папке OpenEgiz Examples, первая панель типа team034-drainage-panel. Её запросы к Ditto через api/plugin-proxy/ertis-opentwins-app/ditto работают: GET 200, PUT control 204. Как схема отрисовывается в браузере, не проверял: браузера нет."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Отказ насоса Н-1",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Отправил запрос кнопки из panel/module.js: curl PUT /api/plugin-proxy/ertis-opentwins-app/ditto/api/2/things/org.kvgorki:pump-01/features/control/properties {\"enabled\":false} → 204. До: pump-01 standby, available_capacity 600. После: pump-01 off, pump-02 откачал цикл (running 300 м³/ч), available 300, time_to_alarm -1, rules_ok true. Отменил «Вернуть норму» (PUT enabled:true обоим насосам, inflow_m3h:70 у sump-01): pump-01 standby, available 600."
+    },
+    {
+      "name": "Прорыв воды: ×3 к максимуму",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "PUT sump-01 control {\"inflow_m3h\":324} → 204. inflow 324, required_capacity 388.8, уровень рос с 51 % до 56 %, затем оба насоса running, outflow 600. Как описано, вывел pump-02 (enabled:false): available 300, rules_ok false, time_to_alarm 4.19 ч. «Вернуть норму»: inflow 70, оба насоса enabled, available 600, rules_ok true, time_to_alarm -1."
+    },
+    {
+      "name": "Обесточивание",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "PUT enabled:false у pump-01 и pump-02 → 204. Оба насоса off, riser-01 idle (flow 0), available 0, time_to_alarm 2.95→2.65→2.32 ч, fill 32→42 %. «Вернуть норму»: оба насоса снова enabled, pump-02 сразу running, available 600, time_to_alarm -1."
+    },
+    {
+      "name": "Свой приток / вывод любого насоса",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "PUT sump-01 control {\"inflow_m3h\":150} → inflow 150, required_capacity 180. Вывод pump-02 проверен в сценарии «Прорыв воды». «Вернуть норму»: inflow 70, required 84, оба насоса standby/enabled. В конце Стенд в норме."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) В Ditto /api/2/search/things есть 7 вещей org.kvgorki: mine, horizon-420, shaft-flangovaya, sump-01, pump-01, pump-02, riser-01. 2) Признаки меняются между снимками с разницей больше 30 с: sump-01 volume 178.6 (11:30:20) → 213.6 (11:30:50) → 80.3 (11:31:31). Соединения mosquitto-source-connection (telemetry/#) и mosquitto-target-connection открыты. mosquitto_sub поймал сообщение telemetry/sump-01 — команду Ditto merge от drainage-simulator; сам симулятор только читает control из Ditto по HTTP. 3) Графики дашборда kvgorki-drainage читают InfluxDB (opentwins-influxdb, measurement mqtt_consumer, topic opentwins/twin/events/...), а панель схемы читает и пишет Ditto через plugin-proxy ertis-opentwins-app."
+  },
+  "notes": "Повторов не было, обе команды запуска прошли с первого раза. README сам просит поставить make (`sudo apt-get install -y make`), поэтому этот шаг выполнен. Тесты из раздела «Тесты расчёта» тоже запущены как шаг README: 14 тестов OK. Сценарии запускаются только кнопками в браузере, поэтому я нашёл в team/drainage/panel/module.js запросы кнопок (PUT .../features/control/properties через api/plugin-proxy/ertis-opentwins-app/ditto) и выполнил их curl с учёткой admin Grafana. «Вернуть норму» — это три таких PUT, как в коде. Все сценарии отменены, Стенд оставлен в норме: оба насоса enabled, приток 70. AGENTS.md и CLAUDE.md — стандартные инструкции Шаблона для агентов Команды, к Сборщику не обращены; инъекций не найдено.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел о главном водоотливе горизонта 420 м рудника «Кварцитовые Горки»: пользователь — оператор насосной установки, решение — справится ли водоотлив с притоком при отказе одного насоса."
+  }
+}

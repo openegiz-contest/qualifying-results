@@ -1,0 +1,102 @@
+{
+  "team": "team-077",
+  "sha": "a3147c12c017f5a156448840fba0324fb19ddde2",
+  "started_at": "2026-10-27T20:17:33+00:00",
+  "finished_at": "2026-10-27T20:27:04+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt update && sudo apt install -y make curl",
+      "command": "cd /home/judge/solution && sudo apt update && sudo apt install -y make curl",
+      "exit_code": 0,
+      "duration_s": 13.0,
+      "log": "logs/01-sudo-apt-update-sudo-apt-install-y-make.txt"
+    },
+    {
+      "readme_step": "make up",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 0,
+      "duration_s": 86.0,
+      "log": "logs/02-make-up.txt"
+    },
+    {
+      "readme_step": "make aktogay-start",
+      "command": "cd /home/judge/solution && make aktogay-start",
+      "exit_code": 0,
+      "duration_s": 35.0,
+      "log": "logs/03-make-aktogay-start.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 14 of 17 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 14 of 17 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Модуль 1: Динамическая диспетчеризация (Dispatch)",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Контейнер openegiz-aktogay-simulator-1 работает, 5 двойников truck-01..05 меняют state/route_position/route_progress_pct в Ditto (truck-01 route_position 1.09→1.79 км за 35 с), у экскаваторов есть queue_length. Перенаправление при аварии EX-01 видно (truck-02 current_segment=diverted_to_ex2). Но в штатном режиме за ~28 мин симуляции все рудные рейсы ушли на EX-02: у excavator-01 tonnes_loaded=0, passes_total=0, потому что feed_grade держится на 0.52 > цели 0.48. Панели «Fleet Cycles & Queues» в дашборде openegiz-aktogay-mine нет: там 8 панелей (Cu, добыча, производительность, дизель, скорости, радар, расход топлива)."
+    },
+    {
+      "name": "Модуль 2: Управление качеством и шихтовка (Blending)",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "crusher-01.feed_grade в Ditto меняется (0.48→0.40→0.52). Панель «Динамика содержания Cu на дробилке» читает value_feed_grade_properties_value из InfluxDB, за 10 мин набралось 73 точки. Но 25 мин симуляции подряд feed_grade стоял на 0.52, на верхней границе 0.48±0.04, и балансировка смесью двух забоев не наблюдалась: EX-01 не загружал ни разу."
+    },
+    {
+      "name": "Модуль 3: Энергоэффективность и топливо (Energy & Fuel)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "truck-*.fuel_rate зависит от режима: 175 л/ч на подъёме с грузом, 20 при погрузке. fuel_level снижается (truck-01: 91.7→91.4 %), у mine-01 растут fuel_consumed_total (43.8→297.9 л) и energy_intensity (0.33 л/т). Панели «Расход топлива по машинам» и «Расход дизеля парка» читают InfluxDB, за 10 мин 438 точек fuel_rate. Удельный расход считается в л/т, а не в л/т·км, как заявлено."
+    },
+    {
+      "name": "3D-сцена Three.js (http://localhost:5000)",
+      "claimed_in_submission": false,
+      "works": "yes",
+      "evidence": "GET / отдаёт HTML «Aktogay Open-Pit Copper Mine — 3D…», GET /api/state отдаёт JSON состояния. Данные сцена берёт из памяти симулятора (/api/state, team/web/app.js:1082), а не из Ditto или InfluxDB."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Сценарий 1: Авария экскаватора богатой руды EX-01",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "POST /api/whatif/ex1-fail → active=true. Через 60 с excavator-01.state: idle→breakdown, truck-02.current_segment: ramp_down→diverted_to_ex2, excavator-02: loading, queue_length=1. Заявленный забор руды со склада не наблюдался: stockpile-01 остался 45200 т / 0.51. После POST /api/whatif/reset: excavator-01.state=idle, у /api/state все флаги whatif=false."
+    },
+    {
+      "name": "Сценарий 2: Оползневое перекрытие рампы +240м",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "POST /api/whatif/road-block. slope-radar-01: status normal→alert_collapse, road_status open→closed_collapse, displacement 0.2→14.8 мм/сут. truck-01/03/05: current_segment→detour_bypass, длина маршрута truck-01 выросла примерно с 4.2 до 5.6 км (1.74 км = 31.1 %). После POST /api/whatif/reset: normal/open/0.2, сегменты ramp_down/ramp_main, длина маршрута снова около 4.2 км (2.8 км = 66.6 %)."
+    },
+    {
+      "name": "Сценарий 3: Резкое разубоживание в забое EX-02",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "POST /api/whatif/dilution: excavator-02.face_grade 0.412→0.22. Заявленной компенсации не видно: за 90 с excavator-01 так и остался с tonnes_loaded=0 (рейсы к EX-01 не выросли), crusher-01.feed_grade неизменно 0.52. После POST /api/whatif/reset: face_grade EX-02 = 0.409, флаг dilution=false."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) В Ditto 13 вещей org.openegiz.aktogay:* (mine-01, excavator-01..03, truck-01..05, crusher-01, waste-dump-01, stockpile-01, slope-radar-01). 2) Соединения mosquitto-source-connection и mosquitto-target-connection в статусе open. Симулятор публикует Ditto-команды modify в MQTT telemetry/<name> (team/simulator.py), признаки меняются между снимками с разницей 35 с (truck-01 route_position 1.09→1.79, mine-01 tonnes_mined 0→227). 3) Все 8 панелей дашборда «Цифровой рудник «Актогай» (Team AURA)» (uid openegiz-aktogay-mine) используют datasource opentwins-influxdb, запросы через Grafana вернули данные (feed_grade 73 точки, speed 365). Оговорка: 3D-сцена на :5000 читает состояние из памяти симулятора (/api/state), а не из Ditto или InfluxDB."
+  },
+  "notes": "Все три шага README выполнились с первой попытки, повторов не было. Шаг 1 README («sudo apt update && sudo apt install -y make curl») выполнен, потому что README его прямо требует. Сценарии запускались через REST API из SUBMISSION (POST /api/whatif/...) и отменялись через POST /api/whatif/reset. После проверок все флаги whatif=false, симулятор работает. Кнопки 3D HUD вызывают те же эндпоинты (team/web/app.js:1283, 1320). AGENTS.md и CLAUDE.md — стандартные инструкции Шаблона для агентов Команды; к Сборщику и Судьям они не обращаются, инъекций не найдено.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел о реальном медном карьере «Актогай» (KAZ Minerals): двойником пользуются диспетчер ГТК и начальник смены фабрики, решение — диспетчеризация самосвалов и шихтовка руды на 0.48% Cu."
+  }
+}

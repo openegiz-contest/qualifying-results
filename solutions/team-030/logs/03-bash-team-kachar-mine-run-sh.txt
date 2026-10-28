@@ -1,0 +1,16 @@
+1. Python ортасын дайындау...
+Collecting paho-mqtt<3.0,>=2.0 (from -r team/kachar-mine/requirements.txt (line 1))
+  Downloading paho_mqtt-2.1.0-py3-none-any.whl.metadata (23 kB)
+Downloading paho_mqtt-2.1.0-py3-none-any.whl (67 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 67.2/67.2 kB 490.2 kB/s eta 0:00:00
+Installing collected packages: paho-mqtt
+Successfully installed paho-mqtt-2.1.0
+2. Қашар карьерінің Digital Twin моделін жасау...
+created  org.openegiz.kachar:mine-01
+1 twins ready in http://localhost:8080
+3. MQTT арқылы мәлімет жіберу...
+Қашар карьерінің мәліметтері MQTT арқылы жіберілді!
+Қазіргі өнімділік: 800 т/сағ
+3 экскаватор сценарийі: 1080.0 т/сағ
+Өсім: 35.0%
+Қашар карьерінің моделі іске қосылды!

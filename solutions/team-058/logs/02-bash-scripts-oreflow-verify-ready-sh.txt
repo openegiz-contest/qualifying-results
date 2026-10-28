@@ -1,0 +1,20 @@
+{
+  "oreflow_http": true,
+  "mqtt_connected": true,
+  "ditto_readback": true,
+  "ditto_same_active_run": true,
+  "fleet_71": true,
+  "active_fleet_consistent": true,
+  "continuous_mine": true,
+  "clock_advances_without_end": true,
+  "modeled_fuel_fields": true,
+  "ditto_fuel_readback": true,
+  "fuel_station_ditto_twin": true,
+  "road_ditto_twin": true,
+  "extended_equipment_coverage": true,
+  "fuel_events_endpoint": true,
+  "grafana_http": true,
+  "influx_twin_data": true
+}
+PASS: actual end-to-end HTTP, MQTT, Ditto readback and Influx evidence observed
+OreFlow verified on the actual Docker stack.

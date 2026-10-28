@@ -1,0 +1,91 @@
+{
+  "team": "team-030",
+  "sha": "d4430ec5d9652c1f0180e05fe9958165ad01bf7c",
+  "started_at": "2026-10-27T10:58:57+00:00",
+  "finished_at": "2026-10-27T11:03:38+00:00",
+  "came_up": false,
+  "steps": [
+    {
+      "readme_step": "Docker Desktop, Docker Compose, Make, Python 3 және python3-venv қажет.",
+      "command": "cd /home/judge/solution && sudo apt-get update -qq && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq make python3-venv",
+      "exit_code": 0,
+      "duration_s": 11.0,
+      "log": "logs/01-docker-desktop-docker-compose-make-pytho.txt"
+    },
+    {
+      "readme_step": "make up",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 0,
+      "duration_s": 81.0,
+      "log": "logs/02-make-up.txt"
+    },
+    {
+      "readme_step": "bash team/kachar-mine/run.sh",
+      "command": "cd /home/judge/solution && bash team/kachar-mine/run.sh",
+      "exit_code": 0,
+      "duration_s": 3.4,
+      "log": "logs/03-bash-team-kachar-mine-run-sh.txt"
+    },
+    {
+      "readme_step": "bash team/kachar-mine/web/start.sh",
+      "command": "cd /home/judge/solution && bash team/kachar-mine/web/start.sh",
+      "exit_code": -1,
+      "duration_s": 115.0,
+      "log": "logs/04-bash-team-kachar-mine-web-start-sh.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 13 of 15 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 13 of 15 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Production calculation",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "run.sh посчитал значения один раз (вывод: 800 т/ч, 3 экскаватора — 1080 т/ч, +35%) и записал их в двойник org.openegiz.kachar:mine-01 (production=800, scenario_production=1080.0, improvement=35.0). Это константы из кода (4×90×3 против 2×400), а не расчёт по меняющимся данным двойников. Отдельных двойников экскаваторов и самосвалов нет. В Grafana дашборд «Kachar Mine Digital Twin» (uid ad9gwdl) показывает эти значения из InfluxDB."
+    },
+    {
+      "name": "Production monitoring",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "mqtt_simulator.py публикует в telemetry/mine-01 одно сообщение и завершается. Ditto его принял: _revision 2, scenario_production 1080 → 1080.0. Telegraf записал в InfluxDB (bucket default, measurement mqtt_consumer, thingId org.openegiz.kachar:mine-01) две точки в 11:01:35. Панели Grafana читают их через /api/ds/query. Непрерывного мониторинга нет: снимки двойника в 11:02:11 и 11:02:51 одинаковые (_revision 2, _modified 11:01:35), процесса-публикатора нет, на telemetry/# за 15 с не пришло ни одного сообщения."
+    },
+    {
+      "name": "Интерактивный веб-дашборд (README, порт 8766)",
+      "claimed_in_submission": false,
+      "works": "partly",
+      "evidence": "Сервер server.py запущен через start.sh. GET http://127.0.0.1:8766/ отвечает 200. GET /api/ditto возвращает {\"connected\": true, \"source\": \"Eclipse Ditto\", \"production\": 800, \"scenario\": 1080.0, \"improvement\": 35.0} — это чтение двойника из API Ditto. Анимация и элементы управления what-if, по словам самого README, симулируются в браузере и Ditto не трогают. Модуль есть в README, но не в таблице SUBMISSION."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Interactive excavator What-if (2 vs 3 экскаватора, 800 vs 1080 т/ч)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Запускается из браузера: в Grafana выбирается значение переменной excavators (custom 1,2,3,4). Я выполнил запрос панели «What-if: таңдалған экскаватор саны» через Grafana /api/ds/query, подставив значения переменной: 1 → 400, 2 → 800, 3 → 1080, 4 → 1080. Этот запрос — Flux array.from, т.е. min(n×400, 1080) считается в самом запросе и не читает ни данные двойников, ни InfluxDB. Двойник org.openegiz.kachar:mine-01 не изменился (_revision 2, production 800), что Команда и сама признаёт в SUBMISSION. Последствий в данных двойников нет. Отмена — выбрать 2 (→ 800). Стенд сценарий не меняет, так что состояние осталось исходным."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "no",
+    "evidence": "1) В Ditto один двойник рудника — org.openegiz.kachar:mine-01 (признаки production, scenario_production, improvement). Отдельных двойников объектов рудника нет. 2) Соединения mosquitto-source-connection и mosquitto-target-connection открыты (connectionStatus open). Одно MQTT-сообщение из run.sh действительно прошло MQTT → Ditto (_revision 2) → Telegraf → InfluxDB. Но данные не идут потоком: в снимках с разницей 40 с (11:02:11 и 11:02:51) признаки и _revision одинаковые, публикующего сервиса нет, это разовая отправка констант. Требование «признаки меняются между снимками ≥30 с» не выполнено. 3) Две панели Grafana читают InfluxDB платформы (thingId org.openegiz.kachar:mine-01), веб-дашборд читает API Ditto. Панель what-if считает результат из переменной Grafana, без данных платформы."
+  },
+  "notes": "make в VM не установлен, python3-venv тоже. README прямо называет их требованиями («Docker Desktop, Docker Compose, Make, Python 3 және python3-venv қажет»), поэтому я поставил их через apt и только после этого выполнил команды README. Повторов не понадобилось: make up, run.sh и web/start.sh завершились успешно (start.sh — сервер на переднем плане, я запустил его фоновой задачей, он продолжает работать на 127.0.0.1:8766). В README не закрыт блок кода после start.sh; команду я взял буквально — «bash team/kachar-mine/web/start.sh». Возможных инъекций не нашёл: AGENTS.md и CLAUDE.md — стандартные инструкции Шаблона для агентов Команды.\n\nПроверки пайплайна:\n- шаг 4: задание `cd /home/judge/solution && bash team/kachar-mine/web/start.sh` не завершилось к концу работы Сборщика\n- шаг «bash team/kachar-mine/web/start.sh»: упал и не повторён (по правилам упавший шаг повторяется один раз без изменений), шаг не выполнен",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел заполнен: карьер Качар (железная руда, Костанайская область); пользователи — диспетчеры, инженеры и начальники смен; решение — найти ограничивающий фактор и оценить эффект от третьего экскаватора; цифры указаны как демонстрационные."
+  }
+}

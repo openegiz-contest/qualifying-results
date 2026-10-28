@@ -1,0 +1,8 @@
+1. Service: {'status': 'ok', 'mqtt_connected': True, 'data_source': 'Eclipse Ditto'}
+2. Read 14 twins from Ditto
+3. MQTT->Ditto time advanced: 3.667 => 4.0
+4. Closing road via command API
+5. Ditto confirms road CLOSED
+6. Ditto confirms road OPEN
+7. Deterministic benchmark: {'basic': {'tonnes': 1600.0, 'grade': 0.45, 'grade_error': 0.33, 'avg_wait_minutes': 15.4}, 'adaptive': {'tonnes': 1520.0, 'grade': 0.792, 'grade_error': 0.012, 'avg_wait_minutes': 16.4}}
+INTEGRATION PASS

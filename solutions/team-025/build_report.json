@@ -1,0 +1,134 @@
+{
+  "team": "team-025",
+  "sha": "1da99599d28fe34f79b5fcbbca29503d9201aa0c",
+  "started_at": "2026-10-27T11:09:35+00:00",
+  "finished_at": "2026-10-27T11:26:27+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt install -y make   # если make нет (чистый Ubuntu)",
+      "command": "cd /home/judge/solution && sudo apt install -y make",
+      "exit_code": 0,
+      "duration_s": 5.4,
+      "log": "logs/01-sudo-apt-install-y-make-make-ubuntu.txt"
+    },
+    {
+      "readme_step": "make team-mine              # платформа OpenEgiz + наш участок карьера: двойники, симулятор, 3D-сцена",
+      "command": "cd /home/judge/solution && make team-mine",
+      "exit_code": 0,
+      "duration_s": 93.0,
+      "log": "logs/02-make-team-mine-openegiz-3d.txt"
+    },
+    {
+      "readme_step": "make ps                           # все сервисы, включая team-mine-setup/-simulator/-viewer, должны быть Up/Exited(0)",
+      "command": "cd /home/judge/solution && make ps",
+      "exit_code": 0,
+      "duration_s": 0.3,
+      "log": "logs/03-make-ps-team-mine-setup-simulator-viewer.txt"
+    },
+    {
+      "readme_step": "make tail S=team-mine-setup       # должно быть \"29 twins ready\"",
+      "command": "cd /home/judge/solution && make tail S=team-mine-setup",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/04-make-tail-s-team-mine-setup-29-twins-rea.txt"
+    },
+    {
+      "readme_step": "make tail S=team-mine-simulator   # раз в ~30с строка \"sim NNN min | crusher ...\"",
+      "command": "cd /home/judge/solution && make tail S=team-mine-simulator",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "logs/05-make-tail-s-team-mine-simulator-30-sim-n.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 15 of 18 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 15 of 18 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`make smoke` exit 2: FAIL  value 825 did not reach InfluxDB within 60 s (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Модуль: диспетчеризация",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Отправил запрос выпадающего списка из app.js (writeAttribute): PUT http://127.0.0.1:8091/ditto/api/2/things/org.openegiz.pit:truck-04/attributes/assigned_excavator \"excavator-01\" → 204; через 15 с features.assigned_excavator у truck-04 = excavator-01 (было excavator-02). Вернул \"excavator-02\" → через 10 с feature = excavator-02, состояние loading. (Первый PUT truck-03→excavator-02 ничего не изменил: он и так был на excavator-02.)"
+    },
+    {
+      "name": "Модуль: контроль качества руды",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Входные данные есть в Ditto и меняются: shift-01.grade_actual (0.509), plan_grade_min=0.38, feed_grade у crusher-01. Сама панель с рекомендацией считается в браузере (app.js) и рисуется только там; браузера нет, поэтому вывод панели не проверен."
+    },
+    {
+      "name": "Модуль: автодиспетчер (оптимизатор распределения парка)",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Вьюер на :8091 отдаёт app.js (200, 159947 байт) с логикой оптимизатора; нужные данные (trips_total, параметры дорог и экскаваторов в attributes) есть в двойниках и обновляются. Расчёт идёт только на стороне клиента, в Ditto ничего не пишется (так и заявлено), а без браузера строки «Сейчас/Оптимум» не проверить."
+    },
+    {
+      "name": "Модуль: надёжность и ремонт техники",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Ремзона подтверждена: при forced_down excavator-01 repair-01 перешла idle→busy, units_in_repair 0→1; при выводе truck-05/06 units_in_repair=2; после отмены 0/idle. Самопроизвольные отказы по MTBF и восстановление по MTTR за время проверки не наблюдались (по словам Команды, они редкие)."
+    },
+    {
+      "name": "3D-вьюер с чтением из Ditto (REST+SSE через прокси)",
+      "claimed_in_submission": false,
+      "works": "yes",
+      "evidence": "GET :8091/ → 200; /ditto/api/2/things?ids=… возвращает двойники; SSE на /ditto/api/2/things?ids=org.openegiz.pit:crusher-01 отдаёт живые события (throughput_tph 610.7, state crushing). Отрисовку WebGL без браузера не проверить."
+    },
+    {
+      "name": "Дашборд Grafana «Участок медного карьера (team-025)»",
+      "claimed_in_submission": false,
+      "works": "yes",
+      "evidence": "Grafana /api/search: uid team025-pit, папка «Участок карьера», 13 панелей; запросы Flux к datasource opentwins-influxdb по thingId org.openegiz.pit:*. В InfluxDB (bucket default) есть свежие точки, например value_grade_actual_properties_value=0.509 для shift-01 и value_hopper_t_properties_value=242.5 для crusher-01."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Сценарий: отказ экскаватора",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запрос кнопки (applyScenario → PUT :8091/ditto/.../excavator-01/attributes/forced_down true) → 204. До: excavator-01 loading, repair-01 idle/0. Через 45 с: excavator-01 state=down, repair-01 busy, units_in_repair=1; через 85 с truck-01 в waiting_excavator_down. Отмена PUT false: через 30 с excavator-01 idle, truck-01/02 hauling, repair-01 idle/0."
+    },
+    {
+      "name": "Сценарий: закрытие дороги",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "До: рудные самосвалы ехали по road-main-a (trucks_on_road A=1..3, B=0). PUT road-main-a/attributes/closed true → feature state=closed; в течение ~12 с самосвалы перешли на road-main-b (A=0, B=1..3, current_road=road-main-b), road-main-a больше не использовалась ~80 с. Отмена closed=false: state=open, самосвалы снова на road-main-a (A=3, B=0)."
+    },
+    {
+      "name": "Сценарий: остановка дробилки",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "До: crusher-01 crushing, 2850 т/ч, stockpile 1150 т, shift-01.tonnes_actual 2992.5, belt 220.8 т. После PUT forced_down true: state=down; tonnes_actual встал на 3040; конвейер разгрузился (belt 61.7→0) и перешёл в stopped; склад рос 1150→1730→2310 т. Отмена forced_down=false: crushing, конвейер running, tonnes_actual рос 3182.5→3610, склад убывал 2230→2070."
+    },
+    {
+      "name": "Сценарий: нехватка самосвалов",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "PUT forced_down true для truck-05 и truck-06. Через 100 с: section-01.trucks_active 6→4, оба самосвала в state=down, repair-01.units_in_repair=2 (до этого самосвалы дорабатывали рейс). Отмена false: через 20 с trucks_active=6, самосвалы в hauling/loading, units_in_repair=0."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) Ditto /api/2/search/things: 29 вещей в org.openegiz.pit (section, shift, benches, faces, excavators, trucks 01-06, roads, junction, stockpile, crusher, conveyor, dump, fuel, repair). 2) Соединения Ditto mosquitto-source-connection (telemetry/#) и mosquitto-target-connection открыты. Симулятор (paho-mqtt) публикует в mqtt://mosquitto:1883 топик telemetry/<thing>. Признаки меняются между снимками в 11:11:51 и 11:12:31 (truck-01 hauling→dumping, shift time_remaining 715.7→709.0), позже crusher throughput 0→2850 т/ч. В Ditto симулятор пишет только через MQTT, а по REST лишь читает attributes с командами. 3) Дашборд Grafana team025-pit читает InfluxDB (opentwins-influxdb, поля value_*_properties_value от Telegraf), данные в InfluxDB свежие. 3D-вьюер читает Ditto REST/SSE через nginx-прокси /ditto/ → ditto-nginx."
+  },
+  "notes": "Все шаги README прошли с первого раза, повторов не было. README сам просит поставить make (sudo apt install -y make), эту команду я выполнил. make tail печатает последние 100 строк и завершается. Сразу после старта симулятора в логе была только строка «publishing to mqtt://mosquitto:1883 every 2.0s at 10x speed»; строку «sim NNN min» я не ждал, данные проверил по Ditto. Кнопки сценариев и выпадающий список диспетчеризации работают только в браузере, поэтому я выполнил их HTTP-запросы из app.js (writeAttribute: PUT /ditto/api/2/things/<id>/attributes/<attr> через прокси вьюера на :8091). Панели контроля качества и автодиспетчера считаются на клиенте: без браузера их вывод не проверить, отсюда «partly». Сценарий закрытия дороги проверял только на road-main-a. После проверки Стенд вернул в исходное состояние: все forced_down=false, closed=false, назначения самосвалов как при старте (01,02→excavator-01; 03,04→excavator-02; 05,06→excavator-03). Возможных инъекций не нашёл: упоминания Сборщика в team/mine/README.md и design-twins.md описательные, ничего от меня не требуют.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Concept заполнен: участок вымышленного медного карьера по образцу Актогая (забои, экскаваторы, самосвалы, дороги, дробилка); пользователи — сменный горный диспетчер и начальник смены; решение — как перераспределить технику при отказах, чтобы выполнить план подачи руды."
+  }
+}

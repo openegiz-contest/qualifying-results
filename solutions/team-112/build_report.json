@@ -1,0 +1,65 @@
+{
+  "team": "team-112",
+  "sha": "b16c867146602459c01d8dac8f5e858c295e664f",
+  "started_at": "2026-10-27T22:56:45+00:00",
+  "finished_at": "2026-10-27T23:01:53+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt install -y make   # if make is missing (clean Ubuntu)",
+      "command": "cd /home/judge/solution && sudo apt install -y make",
+      "exit_code": 0,
+      "duration_s": 6.0,
+      "log": "logs/01-sudo-apt-install-y-make-if-make-is-missi.txt"
+    },
+    {
+      "readme_step": "make up            # the OpenEgiz platform",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 0,
+      "duration_s": 83.0,
+      "log": "logs/02-make-up-the-openegiz-platform.txt"
+    },
+    {
+      "readme_step": "make example-mine  # the Example Mine: twins, simulator, dashboard",
+      "command": "cd /home/judge/solution && make example-mine",
+      "exit_code": 0,
+      "duration_s": 35.0,
+      "log": "logs/03-make-example-mine-the-example-mine-twins.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 14 of 17 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 14 of 17 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Example Mine (пример Организатора из Шаблона, Командой не заявлен)",
+      "claimed_in_submission": false,
+      "works": "yes",
+      "evidence": "После `make example-mine` контейнер openegiz-mine-simulator-1 в состоянии healthy, в логе есть строка «publishing to mqtt://mosquitto:1883». Ditto отдаёт 5 вещей org.openegiz.mine:* (crusher-01, excavator-01, mine-01, truck-01, truck-02). Двойник truck-01 за 40 с перешёл из hauling (route_position 1.215, fuel 88.1) в dumping (route_position 3.2, fuel 86.2). Дашборд Grafana «Example Mine» (uid openegiz-example-mine) запрашивает InfluxDB opentwins-influxdb. Это код examples/mine из Шаблона, Команда его не создавала."
+    }
+  ],
+  "scenarios": [],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "На поднятом Стенде все три части выполнены, но только для Example Mine Организатора; своего кода у Команды нет. (1) GET /api/2/search/things возвращает 5 двойников org.openegiz.mine:* (crusher-01, excavator-01, mine-01, truck-01, truck-02). (2) Признаки меняются через 40 с: truck-01 перешёл из hauling в dumping, route_position 1.215→3.2, fuel 88.1→86.2; у mine-01 trucks_hauling 2→1. Соединения mosquitto-source-connection (telemetry/#) и mosquitto-target-connection открыты (connectionStatus и liveStatus open). Симулятор публикует в mqtt://mosquitto:1883. (3) Источник данных Grafana — InfluxDB opentwins-influxdb, панели дашборда Example Mine используют Flux-запросы from(bucket:\"default\"). В InfluxDB есть измерение mqtt_consumer с topic opentwins/twin/events/org.openegiz.mine/... — это события Ditto, которые туда пишет Telegraf. Всё это — немодифицированные make up и make example-mine из Шаблона."
+  },
+  "notes": "Решение — это неизменённый Шаблон конкурса. Коммиты Команды (Zhandos7777) только добавляют и удаляют файлы в LICENSES/ и REUSE.toml. README.md, SUBMISSION.md и team/ остались как в Шаблоне. В README заголовок «<Team name>» и указание «Replace these commands with the commands of your Submission», но сами команды заданы буквально, поэтому я выполнил их как есть. Все три шага завершились с кодом 0, повторять ничего не пришлось. В таблице «Modules and What-if Scenarios» одна пустая строка, поэтому заявленных Модулей и Сценариев нет и шаг 4 не выполнялся. Подняты только платформа и Example Mine Организатора, Командой ничего не создано. Вердикт «построено на OpenEgiz» = yes, потому что на Стенде буквально наблюдаются все три части, но относятся они к примеру Организатора, а не к работе Команды; Судьям стоит это учесть. AGENTS.md и CLAUDE.md из Шаблона обращены к агентам Команды, я их не выполнял; признаков инъекции нет.",
+  "concept": {
+    "filled": "no",
+    "evidence": "В разделе Concept файла SUBMISSION.md остались только метки Enterprise/Users/<user>/Why/Real or fictional и подсказки Шаблона в комментариях <!-- -->: ни объекта, ни пользователей, ни решения Команда не указала."
+  }
+}

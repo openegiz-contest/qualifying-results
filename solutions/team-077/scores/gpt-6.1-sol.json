@@ -1,0 +1,98 @@
+{
+  "team": "team-077",
+  "judge": "gpt-6.1-sol",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 2,
+      "max": 25,
+      "points": 12.5,
+      "reasoning": "Через API Ditto и приложение OpenEgiz проверил 13 двойников: экскаваторы, самосвалы, дробилка, склад, отвал, радар и предприятие. Содержание руды в забоях и кузовах, топливо и устойчивость борта связывают модель с задачей замысла. До уровня 3 не хватает структуры: иерархия плоская, дороги и забои не самостоятельные двойники, назначения самосвалов остаются внутри симулятора.",
+      "references": [
+        "ditto:org.openegiz.aktogay:mine-01",
+        "ditto:org.openegiz.aktogay:truck-01",
+        "ditto:org.openegiz.aktogay:slope-radar-01",
+        "team/simulator.py:82"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 1,
+      "max": 20,
+      "points": 5,
+      "reasoning": "Повторные чтения подтвердили движение, загрузки, разгрузки и расход топлива: truck-01 прошёл от 2,70 км до разгрузки и возврата, топливо снизилось с 89,3 до 88,6%. Однако баланс массы нарушен: три прохода по 80 т начисляют экскаватору 240 т, а самосвал получает только 227 т. Бункер постоянно заполнен на 45%, переработка не ограничивает разгрузку. Поэтому согласованность, необходимая для следующего уровня, не выполнена.",
+      "references": [
+        "ditto:org.openegiz.aktogay:truck-01",
+        "ditto:org.openegiz.aktogay:excavator-02",
+        "ditto:org.openegiz.aktogay:crusher-01",
+        "team/simulator.py:336",
+        "team/simulator.py:375"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 2,
+      "max": 25,
+      "points": 12.5,
+      "reasoning": "Открыл обе сцены, проверил выбор самосвала и сценарии. Классическая сцена показывает карьер с уступами, дорогами и движущейся техникой, получает актуальное состояние того же симулятора, который обновляет Ditto. Основная сцена визуально подробнее, но её телеметрия рассчитывается отдельно в браузере: 0,480% Cu вместо прочитанных в Ditto 0,485%. Полная согласованность состояний, очередей и потоков для уровня 3 не подтверждена.",
+      "references": [
+        "screenshot:normal.png",
+        "screenshot:classic-normal.png",
+        "screenshot:classic-selected-truck.png",
+        "screenshot:classic-road-block.png",
+        "team/web/app.js:1082",
+        "src/AktogayTwinStudio.tsx:5701",
+        "src/utils/mineSimulation.ts:76"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 2,
+      "max": 10,
+      "points": 5,
+      "reasoning": "Сам запустил все три сценария кнопками классической сцены и каждый отменил. Оползень распространился на связанные объекты: радар normal→alert_collapse, дорога open→closed_collapse, самосвалы получили detour_bypass и маршрут около 5,6 вместо 4,2 км. Авария дала breakdown EX-01, разубоживание — 0,22% Cu у EX-02. Подключение склада и компенсацию качества не подтвердил. После сброса все флаги false, радар normal/open, EX-01 idle, содержание EX-02 вернулось примерно к 0,40%. Несколько полноценных цепочек последствий для уровня 3 не подтверждены.",
+      "references": [
+        "SUBMISSION.md:47",
+        "ditto:org.openegiz.aktogay:slope-radar-01",
+        "ditto:org.openegiz.aktogay:truck-01",
+        "ditto:org.openegiz.aktogay:excavator-01",
+        "ditto:org.openegiz.aktogay:excavator-02",
+        "screenshot:classic-road-block.png",
+        "screenshot:classic-ex1-fail.png",
+        "screenshot:classic-dilution.png"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 1,
+      "max": 5,
+      "points": 1.25,
+      "reasoning": "Подтвердил простую диспетчеризацию: правило по содержанию на дробилке и очередям выбирает экскаватор; при содержании выше цели EX-02 загружал машины, EX-01 оставался без загрузок. Шихтовка использует тот же механизм и отдельно не засчитана. Расход топлива и удельный показатель меняются, но это расчёт телеметрии без отдельной рекомендации или управляющего решения. Содержательный оптимизатор не подтверждён.",
+      "references": [
+        "team/simulator.py:252",
+        "team/simulator.py:273",
+        "ditto:org.openegiz.aktogay:excavator-01",
+        "ditto:org.openegiz.aktogay:excavator-02",
+        "team/simulator.py:419"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 1,
+      "max": 15,
+      "points": 3.75,
+      "reasoning": "Замысел конкретный: Актогай, диспетчер ГТК и начальник смены, управление качеством питания. Презентация читается, но её ключевые утверждения противоречат проверке: основная 3D-сцена не получает телеметрию платформы, склад не подключался, удержание качества и компенсация разубоживания не подтверждены. Заявленные тяговые расчёты заменены постоянными скоростями и расходами. Это ограничивает уровень единицей независимо от конкретности задачи. Самооценку 100/100 на последнем слайде не учитывал.",
+      "references": [
+        "SUBMISSION.md:5",
+        "presentation.pdf:3",
+        "presentation.pdf:4",
+        "presentation.pdf:8",
+        "presentation.pdf:10",
+        "src/utils/mineSimulation.ts:76",
+        "team/simulator.py:60",
+        "ditto:org.openegiz.aktogay:stockpile-01"
+      ]
+    }
+  ],
+  "total": 40
+}

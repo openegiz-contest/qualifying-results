@@ -1,0 +1,12 @@
+--- stderr ---
+test_benchmark_reproducible (test_model.TestModel.test_benchmark_reproducible) ... ok
+test_conservation (test_model.TestModel.test_conservation) ... ok
+test_grade_mass_weighting (test_model.TestModel.test_grade_mass_weighting) ... ok
+test_reroute (test_model.TestModel.test_reroute) ... ok
+test_scenarios_reversible (test_model.TestModel.test_scenarios_reversible) ... ok
+test_twin_ids_distinct (test_model.TestModel.test_twin_ids_distinct) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.011s
+
+OK

@@ -1,0 +1,50 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 552B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 305B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12-slim
+#3 DONE 1.2s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 78B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 2.19kB done
+#5 DONE 0.0s
+
+#6 [1/5] FROM docker.io/library/python:3.12-slim@sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f
+#6 resolve docker.io/library/python:3.12-slim@sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f 0.0s done
+#6 DONE 0.0s
+
+#7 [4/5] RUN pip install --no-cache-dir -r /app/requirements.txt
+#7 CACHED
+
+#8 [2/5] WORKDIR /app
+#8 CACHED
+
+#9 [3/5] COPY requirements.txt /app/requirements.txt
+#9 CACHED
+
+#10 [5/5] COPY . /app/twinvision
+#10 CACHED
+
+#11 exporting to image
+#11 exporting layers done
+#11 exporting manifest sha256:407891d4a52afacab6fc166e42f968001def7de254e1c68703257427af8ac5b2 done
+#11 exporting config sha256:a9f1a81c3cdbb80ac7192ef1499c4c4e6498f0b95dcc6e448d04cd1c12adb24f done
+#11 exporting attestation manifest sha256:283182ba61dd59e4e7c163e02ff200d568c8357fcbc7283578e77934174edd85 0.0s done
+#11 exporting manifest list sha256:e745a536ffc5ba4e30d3ca0f618cbdc4d69bdd961d1ffb5191fc21074463a625 done
+#11 naming to docker.io/twinvision/app:local done
+#11 unpacking to docker.io/twinvision/app:local done
+#11 DONE 0.1s
+
+#12 resolving provenance for metadata file
+#12 DONE 0.0s
+ twinvision/app:local  Built
+..............................................                           [100%]
+46 passed in 38.85s

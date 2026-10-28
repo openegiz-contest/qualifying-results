@@ -1,0 +1,77 @@
+{
+  "team": "team-051",
+  "judge": "sonnet-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 2,
+      "max": 25,
+      "points": 12.5,
+      "reasoning": "Стенд поднялся (в Отчёте сборки он значится упавшим). В Ditto 18 двойников org.stepnoe: Excavator, 2 самосвала, 5 вагонов, Processing_Plant, Stockpile, Rail_Siding, LiDAR, Weighbridge, датчик влажности, ERP_Register, Mass_Balance. У них осмысленные состояния: буфер, очередь, содержание Fe, извлечение, остаток склада, невязки. Это звенья добыча → фабрика → склад → ЖД со своими типами объектов (ERP, LiDAR, весы). Нет массива из блоков или забоев, нет энергоснабжения и персонала, связей и иерархии мало.",
+      "references": [
+        "ditto:org.stepnoe:Processing_Plant",
+        "ditto:org.stepnoe:Mass_Balance",
+        "ditto:org.stepnoe:Stockpile_01",
+        "SUBMISSION.md"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 3,
+      "max": 20,
+      "points": 15,
+      "reasoning": "Я запустил plant_erp. Фабрика перешла из running в maintenance, буфер дошёл до 100%, очередь самосвалов выросла с 1 до 2, экскаватор перешёл из loading в IDLE, статус аудита стал CRITICAL ANOMALY. Процессы связаны, ограничения есть (ёмкость буфера, очередь), массы учитываются. Калибровку по OpenMines и другие источники в данных репозитория я не проверял, поэтому уровня 4 нет.",
+      "references": [
+        "ditto:org.stepnoe:Processing_Plant",
+        "ditto:org.stepnoe:Excavator_01",
+        "ditto:org.stepnoe:Mass_Balance"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 2,
+      "max": 25,
+      "points": 12.5,
+      "reasoning": "Есть Three.js-диорама в Grafana (team/web/scene.js) и дашборды. Я открыл дашборд overview и сохранил скриншот, но содержимое диорамы не разглядывал. Живые данные и движение техники по коду заявлены, масштаб, выбор объектов и отображение сценария на самой сцене я не проверял. Уровень 3 не подтверждён.",
+      "references": [
+        "screenshot:overview.png",
+        "team/web/scene.js"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 2,
+      "max": 10,
+      "points": 5,
+      "reasoning": "Заявлены сценарии plant_erp, sensor_bias, rain и fraud. Я запустил plant_erp через /stepnoe/api/scenarios. Последствия прошли по цепочке: фабрика → буфер → очередь → экскаватор → аудит. Отмена value=0 вернула фабрику в running. Остальные сценарии я не запускал. Сравнения «до/после» в интерфейсе нет, видимость сценария на визуализации я не проверял.",
+      "references": [
+        "ditto:org.stepnoe:Processing_Plant",
+        "ditto:org.stepnoe:Mass_Balance",
+        "team/service.py:296"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 2,
+      "max": 5,
+      "points": 2.5,
+      "reasoning": "Работает один содержательный Модуль: аудит баланса масс. Он сопоставляет данные весов, LiDAR и ERP, учитывает погрешность и влажность, выдаёт причину аномалии и рекомендацию (поля audit_reason, recommendation, anomaly в Mass_Balance). Статус менялся с BALANCE OK на CRITICAL ANOMALY при сценарии. Остальные заявленные «модули» — симуляция транспорта и склада, а не отдельные функции.",
+      "references": [
+        "ditto:org.stepnoe:Mass_Balance",
+        "SUBMISSION.md"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 2,
+      "max": 15,
+      "points": 7.5,
+      "reasoning": "Замысел конкретный: вымышленный ГОК «Степное», пользователи — финансовые контролёры и аудиторы, решение — подтверждены ли учётные остатки ERP физическими измерениями. Модель, сценарии и дашборды вытекают из Замысла. Цифры — допущения команды, источник транспорта — OpenMines, который я в данных не сверял. Объект вымышленный, поэтому уровня 3 нет. Презентацию я не читал.",
+      "references": [
+        "SUBMISSION.md",
+        "team/generate_presentation.py:172"
+      ]
+    }
+  ],
+  "total": 55
+}

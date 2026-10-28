@@ -1,0 +1,75 @@
+{
+  "team": "team-096",
+  "judge": "opus-5.5",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "В Ditto (search/things) только 5 двойников Примера рудника из Шаблона: org.openegiz.mine:mine-01, crusher-01, excavator-01, truck-01, truck-02. Своих двойников у Команды нет. В team/ лежит только README.md, а коммиты после Initial commit меняют только SUBMISSION.md. Раздел Mine пуст. Модели медного карьера из Замысла нет.",
+      "references": [
+        "ditto:org.openegiz.mine:excavator-01",
+        "build_report:built_on_openegiz",
+        "SUBMISSION.md:30"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 0,
+      "max": 20,
+      "points": 0,
+      "reasoning": "Обновляется только симулятор Примера рудника из Шаблона: по Отчёту сборки состояние excavator-01 и mine-01 меняется, но это не работа Команды. Своей симуляции или данных в репозитории нет, на Стенде только Пример рудника.",
+      "references": [
+        "build_report:built_on_openegiz",
+        "ditto:org.openegiz.mine:mine-01"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 0,
+      "max": 25,
+      "points": 0,
+      "reasoning": "В Grafana есть только папка OpenEgiz Examples с дашбордом Example Mine из Шаблона. Своей визуализации Команды нет, раздел Mine visualization в SUBMISSION.md пуст, README остался заготовкой Шаблона.",
+      "references": [
+        "screenshot:team096-dashboards.png",
+        "SUBMISSION.md:50"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "В таблице Modules and What-if Scenarios одна пустая строка. Сценариев нет, запускать нечего, Стенд я не менял.",
+      "references": [
+        "SUBMISSION.md:38",
+        "build_report:scenarios"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 0,
+      "max": 5,
+      "points": 0,
+      "reasoning": "Модулей нет ни в SUBMISSION.md, ни в коде, ни на Стенде (в Отчёте сборки modules: []).",
+      "references": [
+        "build_report:modules",
+        "SUBMISSION.md:38"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 0,
+      "max": 15,
+      "points": 0,
+      "reasoning": "Замысел написан: вымышленный медный карьер по образцу Актогая и Бозшаколя, задача — снизить вред земле и окружающей среде и спланировать рекультивацию. Но пользователь назван общими словами («все заинтересованные»), а источники цифр только обещаны («будут использоваться»), в данные они не перенесены. Главное: из Замысла на Стенде не сделано ничего — нет ни модели, ни визуализации, ни сценариев, Стенд от Замысла не зависит. presentation.pdf в Решении отсутствует (presentation_info: missing), поэтому потолок — уровень 1. Раз из Замысла ничего не реализовано, ставлю 0.",
+      "references": [
+        "SUBMISSION.md:5",
+        "build_report:concept",
+        "presentation.pdf:0"
+      ]
+    }
+  ],
+  "total": 0
+}
