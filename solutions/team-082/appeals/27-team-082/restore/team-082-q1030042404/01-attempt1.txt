@@ -1,0 +1,95 @@
+$ cd /home/judge/solution && sudo apt-get update && sudo apt-get install -y make
+Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease
+Get:2 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Get:3 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+Get:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+Get:5 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1408 kB]
+Get:6 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1146 kB]
+Get:7 http://archive.ubuntu.com/ubuntu noble-updates/main Translation-en [311 kB]
+Get:8 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [181 kB]
+Get:9 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1708 kB]
+Get:10 http://archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [343 kB]
+Get:11 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [388 kB]
+Get:12 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1813 kB]
+Get:13 http://archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [412 kB]
+Get:14 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [50.7 kB]
+Get:15 http://archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [14.3 kB]
+Get:16 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]
+Get:17 http://archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [5744 B]
+Get:18 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [12.6 kB]
+Get:19 http://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [748 B]
+Get:20 http://security.ubuntu.com/ubuntu noble-security/main Translation-en [231 kB]
+Get:21 http://security.ubuntu.com/ubuntu noble-security/main amd64 Components [46.4 kB]
+Get:22 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1223 kB]
+Get:23 http://security.ubuntu.com/ubuntu noble-security/universe Translation-en [246 kB]
+Get:24 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Components [76.2 kB]
+Get:25 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1713 kB]
+Get:26 http://security.ubuntu.com/ubuntu noble-security/restricted Translation-en [392 kB]
+Get:27 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [45.4 kB]
+Get:28 http://security.ubuntu.com/ubuntu noble-security/multiverse Translation-en [12.1 kB]
+Fetched 12.2 MB in 5s (2367 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Suggested packages:
+  make-doc
+The following NEW packages will be installed:
+  make
+0 upgraded, 1 newly installed, 0 to remove and 74 not upgraded.
+Need to get 180 kB of archives.
+After this operation, 414 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu noble/main amd64 make amd64 4.3-4.1build2 [180 kB]
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
+Fetched 180 kB in 1s (128 kB/s)
+Selecting previously unselected package make.
+(Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 75438 files and directories currently installed.)
+Preparing to unpack .../make_4.3-4.1build2_amd64.deb ...
+Unpacking make (4.3-4.1build2) ...
+Setting up make (4.3-4.1build2) ...
+Processing triggers for man-db (2.12.0-4build2) ...
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+
+exit code: 0

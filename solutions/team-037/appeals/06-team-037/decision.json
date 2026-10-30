@@ -1,0 +1,52 @@
+{
+  "appeal": "06-team-037",
+  "team": "team-037",
+  "document": "build_report",
+  "claim": "/scenarios/8/works",
+  "original": "no",
+  "status": "upheld",
+  "reasoning": "В исходном отчёте эти сценарии вообще не запускались. Нулевые supply_cut, tyre_cut и closed_left — это обычное состояние до запуска, а не наблюдаемый отказ. В свежем отчёте Решение не поднялось (came_up=false) из-за сетевого сбоя при git-клоне. Но к моменту проверки Стенд на этой VM работал на коммите 76f36ae: контейнеры запущены, в Ditto 158 двойников.\n\nЯ сам запустил сценарии документированным PUT в org.aktogay:control/features/command (способ описан в SUBMISSION.md:153-156): fuel_shortage, no_tyres и kpp_closed, у каждого dur 120. Все три запроса вернули 204. В status появились last_scenario «КПП закрыт на 120 мин» и active_scenarios ['Перебои с топливом', 'Нет шин на складе РМЦ', 'КПП закрыт'].\n\nПоследствия видны в обоих вариантах (smart и fixed):\n- fuel-depot: supply_cut=6746 с, state=low;\n- repair-shop: tyre_cut=6776 с;\n- checkpoint: closed_left=6806 с, state=closed.\n\nЗатем я отменил сценарии командами fuel_restore, tyres_restore и kpp_open. После этого active_scenarios=[], supply_cut, tyre_cut и closed_left равны 0, checkpoint вернулся в state=auto. fuel-depot остался в state=low, вероятно из-за запаса, израсходованного за время перебоя.\n\nИтог: сценарии запускаются, дают последствия и отменяются, утверждение works=\"no\" неверно. Довод Команды о противоречии с /modules/20 сам по себе ничего не доказывал, вывод основан на моей перепроверке. Инъекций в Апелляции и выводе команд не заметил.",
+  "references": [
+    "original:/scenarios/8",
+    "fresh:/came_up",
+    "vm:curl -X PUT .../org.aktogay:control/features/command/properties {fuel_shortage|no_tyres|kpp_closed, dur 120} -> 204; status.active_scenarios=['Перебои с топливом','Нет шин на складе РМЦ','КПП закрыт']",
+    "vm:curl .../org.aktogay.{smart,fixed}:fuel-depot/features/supply_cut -> 6746; repair-shop tyre_cut 6776; checkpoint closed_left 6806 state closed",
+    "vm:PUT fuel_restore/tyres_restore/kpp_open -> active_scenarios=[], supply_cut/tyre_cut/closed_left 0, checkpoint state auto",
+    "team/aktogay/app/src/platform/scenarios.ts:72",
+    "SUBMISSION.md:153"
+  ],
+  "submitted_at": "2026-10-28T11:45:20+00:00",
+  "decided_at": "2026-10-29T20:33:01+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 11,
+    "score": 73.33,
+    "mean_total": 73.33,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 68.75,
+      "gpt-6-astra": 68.75,
+      "opus-5.5": 82.5
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "corrected": "yes",
+  "after": {
+    "rank": 11,
+    "score": 73.33,
+    "mean_total": 73.33,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 68.75,
+      "gpt-6-astra": 68.75,
+      "opus-5.5": 82.5
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  }
+}

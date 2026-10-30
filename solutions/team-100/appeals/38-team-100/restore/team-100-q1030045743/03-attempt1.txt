@@ -1,0 +1,53 @@
+$ cd /home/judge/solution && make akt-check
+Containers
+  [32mok[0m    akt-models: running healthy
+  [32mok[0m    akt-sim: running
+  [32mok[0m    akt-modules: running healthy
+  [32mok[0m    akt-web: running healthy
+  [32mok[0m    akt-setup finished: things: 141 of 141 present (created 141, existing 0, updated 0, failed 0); models ok; 14.8 s
+Ditto: things of kz.aktogay
+  [32mok[0m    things: 153 (design: 141 permanent + batches + issues)
+        per type: analyzer=2 ball=4 baseline=1 batch=12 catstore=1 cleaner=2 conc-stock=1 control=1 conveyor=2 crew=4 crusher=2 cyclones=2 dozer=7 drill=6 ew=1 exc=5 face=5 filter=2 fleet=1 flot=2 flowmeter=2 journal=1 leach=1 line=2 mod-losses=1 mod-ore=1 mod-priority=1 oxfeed=1 pebble=2 person=13 phmeter=2 piezometer=3 pit=1 plspond=1 power=1 road=3 rougher=2 sag=2 site=1 stockpile=2 sx=1 sxew=1 thick=2 truck=37 validation-calib=1 validation-setup=1 validation-sim=1 water=1 weigher=2 
+  [32mok[0m    policy kz.aktogay:policy exists
+        validation-setup.tm_fetch_ok = 1.0
+  [32mok[0m    Thing Models served at http://127.0.0.1:8092/tm/
+Stand alive (site thing)
+  [32mok[0m    site.state WARMUP (a run is warming up 06:00 -> 08:00), run s42-free-0001-30045936
+  [32mok[0m    site.degraded 0 (no barrier timeout in this run)
+InfluxDB: points younger than 60 s
+  [32mok[0m    154 things with points younger than 60 s, 243 points in all
+        analyzer-1=1 analyzer-2=1 ball-1a=1 ball-1b=1 ball-2a=1 ball-2b=1 baseline=1 batch-0001=1 
+        batch-0002=1 batch-0003=1 batch-0004=1 batch-0005=1 batch-0006=1 batch-0007=1 batch-0008=1 
+        batch-0009=1 batch-0010=1 batch-0011=1 batch-0012=1 catstore-1=2 cleaner-1=1 cleaner-2=1 
+        conc-stock=2 control=1 conveyor-1=1 conveyor-2=1 crew-cpd=2 crew-kip=2 crew-mill=2 crew-water=2 
+        crusher-1=1 crusher-2=1 cyclones-1=1 cyclones-2=1 dozer-01=1 dozer-21=1 dozer-22=1 dozer-23=1 
+        dozer-41=1 dozer-42=1 dozer-43=1 drill-01=2 drill-02=2 drill-03=1 drill-04=1 drill-12=1 
+        drill-31=1 ew-1=2 exc-1=1 exc-2=1 exc-3=1 exc-4=2 exc-5=2 face-1=2 face-2=2 face-3=2 face-4=2 
+        face-5=2 filter-1=1 filter-2=2 fleet=1 flot-1=1 flot-2=1 flowmeter-1=1 flowmeter-2=1 journal=1 
+        leach-1=2 line-1=1 line-2=1 mod-losses=7 mod-ore=3 mod-priority=2 oxfeed-1=2 pebble-1=1 
+        pebble-2=1 person-crusher-mech=2 person-dispatcher=2 person-geologist=2 person-grind-op=2 
+        person-kip=2 person-metallurgist=2 person-mill-mech=2 person-mine-head=2 person-pit-mech=2 
+        person-power=2 person-road=2 person-shift-head=2 person-water=2 ph-1=1 ph-2=1 piezo-1=1 
+        piezo-2=1 piezo-3=1 pit=1 pls-1=2 power=2 ramp-1=2 ramp-2=2 road-dump=2 rougher-1=1 rougher-2=1 
+        sag-1=1 sag-2=1 site=2 stockpile-1=1 stockpile-2=1 sx-1=2 sxew-1=2 thick-1=1 thick-2=2 
+        tm-probe=1 truck-01=2 truck-02=2 truck-03=2 truck-04=2 truck-05=2 truck-06=2 truck-07=2 
+        truck-08=2 truck-09=2 truck-10=2 truck-11=2 truck-12=2 truck-13=2 truck-14=2 truck-15=2 
+        truck-16=2 truck-17=2 truck-18=2 truck-19=2 truck-20=2 truck-21=2 truck-22=2 truck-23=2 
+        truck-24=2 truck-25=2 truck-26=2 truck-27=2 truck-28=2 truck-29=2 truck-30=2 truck-31=2 
+        truck-32=2 truck-33=2 truck-34=2 truck-35=2 truck-36=2 truck-37=2 validation-calib=2 
+        validation-setup=1 validation-sim=1 water=2 weigher-1=1 weigher-2=1 
+Web interface
+  [32mok[0m    http://127.0.0.1:8000/healthz answers
+  [32mok[0m    http://127.0.0.1:8000/api/state ok: 153 things (Ditto through the interface)
+  [32mok[0m    http://127.0.0.1:8000/?view=plan serves the page
+Modules (mod-* things, written by akt-modules only)
+  [32mok[0m    mod-losses: processed_sim_time 380.0 (run of the site), top_text = Потерь сверх шума не найдено (все узлы в пределах 2σ)
+  [32mok[0m    mod-ore: processed_sim_time 375.0 (run of the site), fc_text = Прогноз на 12 ч [оценка на модели]: 7 706 т/ч в первый час, минимум 7 283
+  [31mFAIL[0m  mod-priority: no queue_text / processed_sim_time
+        issue-* things: 0 (queue of the priority module)
+Calibration (validation-calib, written by the one-shot akt-calib)
+  [32mok[0m    validation-calib RUNNING: akt-calib is computing (about 2 min after start)
+
+akt-check: some lines FAILED (see above).
+
+exit code: 0

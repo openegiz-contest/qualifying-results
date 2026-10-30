@@ -1,0 +1,72 @@
+{
+  "appeal": "01-team-084",
+  "team": "team-084",
+  "document": "build_report",
+  "claim": "/scenarios/3/works",
+  "original": "partly",
+  "status": "upheld",
+  "reasoning": "Проверил на VM свежего прогона. Коммит c409df59 совпадает с коммитом Заморозки. Код подтверждает слова Команды. В live.py:53–55 событие hard_ore с часа начала задаёт базу доли твёрдой руды 0.8, а в конце возвращает базовую 0.5. В sim.py:63–67 к базе добавляются синусоида ±0.15 с периодом 5 суток (params.py:84–86) и шум σ=0.05. Поэтому одно часовое значение 0.62 не противоречит заявленному «около 80 % на 72 ч», это колебание вокруг базы 0.8. Команду Команды выполнил в контейнере openegiz-tynys-futures-1 (на хосте нет numpy), ничего не меняя. Средняя доля за 72 ч при 40 разных часах старта: 0.799, разброс средних 0.721–0.882. Без сценария среднее 0.503. Свежий прогон Сборщика тоже признал сценарий рабочим: hard_frac 0.36 → 0.70, GM-016 (BWi 26.05), отмена работает, works=yes. Вторая часть заявления, выбор самого твёрдого места GeoMet, подтверждена в обоих отчётах. Исходная оценка «partly» опиралась на одно часовое значение за 3 модельных часа, а не на долю за весь сценарий. Обращений к ИИ или Судьям в материалах не нашёл.",
+  "references": [
+    "original:/scenarios/3",
+    "fresh:/scenarios/3",
+    "team/tynys/tynys/live.py:53",
+    "team/tynys/tynys/sim.py:66",
+    "team/tynys/tynys/params.py:84",
+    "SUBMISSION.md:73",
+    "SUBMISSION.md:190",
+    "vm:docker exec -w /app openegiz-tynys-futures-1 python3 -c '<среднее hard_frac за 72 ч при 40 часах старта hard_ore>' → 0.799 0.721 0.882; без сценария 0.503",
+    "appeal:evidence[4]",
+    "appeal:evidence[5]"
+  ],
+  "submitted_at": "2026-10-28T07:50:48+00:00",
+  "decided_at": "2026-10-29T14:05:49+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 8,
+    "score": 77.5,
+    "mean_total": 77.5,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 73.75,
+      "gpt-6-astra": 75,
+      "opus-5.5": 83.75
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "corrected": "yes",
+  "after": {
+    "rank": 8,
+    "score": 80,
+    "mean_total": 80,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 81.25,
+      "gpt-6-astra": 75,
+      "opus-5.5": 83.75
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "rescoring": {
+    "gpt-6.1-sol": {
+      "before": 73.75,
+      "rescored": 81.25,
+      "final": 81.25
+    },
+    "gpt-6-astra": {
+      "before": 75,
+      "rescored": 75,
+      "final": 75
+    },
+    "opus-5.5": {
+      "before": 83.75,
+      "rescored": 83.75,
+      "final": 83.75
+    }
+  }
+}

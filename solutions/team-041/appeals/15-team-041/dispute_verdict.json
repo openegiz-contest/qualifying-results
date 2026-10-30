@@ -1,0 +1,12 @@
+{
+  "verdict": "upheld",
+  "reasoning": "В исходном прогоне сообщение activate до mine-sim не дошло: HTTP 202 был, но в логе симулятора записи нет, а в журнале соединения Ditto есть отбрасывания из-за backpressure. То есть Сценарий этой попыткой вообще не проверялся. Свежий прогон на том же коммите получил для scenario-sag-reline works=yes: сценарий стал active, phase=planned, у mill-sag reline_state=planned (26.10 20:00 → 29.10 20:00), после cancel всё вернулось. Я сам проверил лог симулятора на этом Стенде, и это подтвердилось: в 20:51:34 есть «live message activate -> scenario-sag-reline {'params': {'cause': 'full', 'start': 'next-shift'}}», в 21:02:18 — cancel. Итак, «no» в исходном отчёте вызвано случайной потерей доставки в Ditto (свежий отчёт описывает такие потери и для других сценариев), а не отказом Сценария. Оговорка: свежий прогон проверил только фазу плана, сама остановка мельницы не наступила. Логи с машины Команды (evidence[3], [5]) я фактами не считал. Другие замечания я не исправляю: в свежем прогоне crusher-stop и heavy-rain не запустились по той же причине, что и здесь. Инструкций, обращённых к Судье, в Апелляции нет.",
+  "references": [
+    "fresh:/scenarios/7",
+    "original:/scenarios/7/evidence",
+    "vm:docker logs openegiz-mine-sim-1 2>&1 | grep -n \"scenario-sag-reline\"",
+    "fresh:/built_on_openegiz/evidence",
+    "appeal:evidence[1]"
+  ],
+  "corrected": "yes"
+}

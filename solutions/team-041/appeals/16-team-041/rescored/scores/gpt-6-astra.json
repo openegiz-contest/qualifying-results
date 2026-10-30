@@ -1,0 +1,101 @@
+{
+  "team": "team-041",
+  "judge": "gpt-6-astra",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 4,
+      "max": 25,
+      "points": 25,
+      "reasoning": "Самостоятельно прочитал 195 двойников 32 типов и открыл иерархию в OpenEgiz. Представлены массив с запасами, содержанием и глинистостью, добыча, транспорт, две цепочки переработки, ТО и энергоснабжение. Связи действуют: изменение блока меняет назначение руды, остановка дробилки — запасы связанных складов. История предприятия читается из InfluxDB.",
+      "references": [
+        "ditto:kz.bozshakol:block-25",
+        "ditto:kz.bozshakol:desliming",
+        "ditto:kz.bozshakol:substation",
+        "ditto:kz.bozshakol:workshop",
+        "mine/sim/plant.py:35",
+        "SUBMISSION.md:84"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 4,
+      "max": 20,
+      "points": 20,
+      "reasoning": "Снимки с интервалом более минуты показали переход truck-05 от перевозки 131,1 т к заправке и уменьшение запасов блока. Материал переносится с сохранением массы и меди; потоки флотации согласованы с питанием. Перенесённые в params.yaml данные KAZ Minerals и паспортов используются моделью: на Стенде ОФ-1 — 3557 т/ч, ОФ-2 — 755 т/ч, извлечение предприятия 78,2 % против опубликованных 78,1 %. Ограничения складов, очереди, ремонты и влияние глины реализованы; эмпирические коэффициенты явно отделены от исходных данных.",
+      "references": [
+        "ditto:kz.bozshakol:truck-05",
+        "ditto:kz.bozshakol:mine",
+        "ditto:kz.bozshakol:flotation",
+        "mine/model/params.yaml:248",
+        "mine/model/params.yaml:492",
+        "mine/model/params.yaml:542",
+        "mine/common/process.py:10",
+        "mine/sim/plant.py:51"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 2,
+      "max": 25,
+      "points": 12.5,
+      "reasoning": "Открыты 3D, план, реалистичный стиль, разрез и карточка блока с отметкой 140 м, состоянием и историей. Представление выходит за типовую схему: карьер с уступами и две фабрики связаны с живыми данными. Масштаб и выбор объекта работают. Однако читаемость очередей, потоков материала и последствий непосредственно на сцене в объёме требований уровня 3 не подтверждена; одних карточек сценариев для этого недостаточно.",
+      "references": [
+        "screenshot:screenshots/normal-3d.png",
+        "screenshot:screenshots/road-active-plan.png",
+        "screenshot:screenshots/clay-selected-active.png",
+        "screenshot:screenshots/realistic-overview.png",
+        "screenshot:screenshots/cutaway.png"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 2,
+      "max": 10,
+      "points": 5,
+      "reasoning": "Лично запустил и отменил закрытие дороги и остановку дробилки: подтверждены объезд самосвала, обнуление дробления, рост рудного склада и расход склада питания мельницы. Глинистый забой изменил block-25 с 3,4 до 32 % и вызвал перенаправление на ОФ-2, но отмена не сработала: повторные нажатия штатной кнопки получали HTTP 202, а спустя более четырёх минут сценарий оставался active. На последней проверке он оставлен включённым, блок содержит 32 % глины; дорога и дробилка как сценарии inactive. Восстанавливать состояние обходным способом не стал. Требование отменяемости уровня 3 не выполнено.",
+      "references": [
+        "ditto:kz.bozshakol:scenario-road-closure",
+        "ditto:kz.bozshakol:truck-01",
+        "ditto:kz.bozshakol:crusher",
+        "ditto:kz.bozshakol:stockpile",
+        "ditto:kz.bozshakol:scenario-clay-face",
+        "ditto:kz.bozshakol:block-25",
+        "screenshot:screenshots/cleanup-final.png"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 4,
+      "max": 5,
+      "points": 5,
+      "reasoning": "Подтверждены четыре содержательных направления управления: диспетчер назначает маршруты, качество руды меняет назначения блоков и шихту, управление фабрикой рассчитывает и передаёт уставку, ТО отправило truck-29 в обслуживание по развивающемуся дефекту. Дополнительно советник запустил расчёт вариантов ремонта: forecast-3 выдал для второй бригады +31,4 т меди и +182,4 млн тенге за 12 часов. Это результаты алгоритмов поверх двойников, а не отображение исходных показателей.",
+      "references": [
+        "ditto:kz.bozshakol:module-dispatch",
+        "ditto:kz.bozshakol:module-grade",
+        "ditto:kz.bozshakol:module-plant",
+        "ditto:kz.bozshakol:truck-29",
+        "ditto:kz.bozshakol:forecast-3",
+        "mine/modules/dispatch/core.py:40",
+        "mine/modules/plant/core.py:91"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 2,
+      "max": 15,
+      "points": 7.5,
+      "reasoning": "Конкретный замысел реального Бозшаколя реализован: начальнику смены предлагаются решения по глинистой руде и ремонтной бригаде; обе фабрики, данные и сценарии соответствуют этой задаче. Презентация читается, источники перенесены в параметры, ограничения названы. Однако утверждение презентации о возвращении к обычной работе кнопкой отмены не подтвердилось для глинистого забоя. Поэтому полное совпадение утверждений со Стендом, необходимое для уровня 3, не установлено.",
+      "references": [
+        "SUBMISSION.md:3",
+        "mine/model/params.yaml:542",
+        "presentation.pdf:2",
+        "presentation.pdf:9",
+        "presentation.pdf:15",
+        "ditto:kz.bozshakol:forecast-3",
+        "ditto:kz.bozshakol:scenario-clay-face"
+      ]
+    }
+  ],
+  "total": 75
+}

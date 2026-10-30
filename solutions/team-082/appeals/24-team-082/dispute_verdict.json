@@ -1,0 +1,14 @@
+{
+  "verdict": "upheld",
+  "reasoning": "В исходном отчёте значение «no» не было результатом проверки: в evidence сказано, что сценарий не запускали из-за лимита времени. В свежем прогоне сценарий запущен: haulage.speed_limit сменился с 50 на 30, прогноз показал Cu −1,0 %, после reset значение вернулось к 50 (там оценка «partly», потому что прогноз появился с задержкой).\n\nЯ проверил сам на работающем стенде. До запуска: control.speed_limit_kmh=50, haulage.speed_limit=50, preset baseline. Запустил `make scenario P=speed_limit` и через 45 с увидел:\n- control.speed_limit_kmh=30;\n- haulage.speed_limit=30;\n- whatif.scenario «speed_limit: speed_limit_kmh=30»;\n- прогноз пересчитан: delta_cu_t −1,0 %, delta_ore_t −1,6 %, delta_waste_t −1,3 %, delta_moved_t −1,5 %, delta_margin −0,8 %.\n\nПосле `make scenario-reset` haulage.speed_limit снова 50, стенд вернулся в baseline.\n\nСценарий работает: модель приняла ограничение, а прогноз пересчитался и дал ожидаемые отрицательные изменения. Скорость каждого самосвала ht-* отдельно я не проверял. Цифра Команды «delta_waste_t около −0,7 %» не совпала с моей (−1,3 %), но знак тот же, и на вывод это не влияет.\n\nЗначение «no» неверно, правильное — «yes». Обращений к ИИ в материалах Апелляции нет.",
+  "references": [
+    "original:/scenarios/7",
+    "fresh:/scenarios/4",
+    "vm:make scenario P=speed_limit; curl -s -u ditto:$P localhost:8080/api/2/things/kz.bozshakol:whatif/features",
+    "vm:curl -s -u ditto:$P localhost:8080/api/2/things/kz.bozshakol:haulage/features",
+    "bozshakol/ui/presets.json:40",
+    "appeal:evidence[0]",
+    "appeal:evidence[3]"
+  ],
+  "corrected": "yes"
+}

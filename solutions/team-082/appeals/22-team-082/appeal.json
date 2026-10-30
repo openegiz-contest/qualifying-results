@@ -1,0 +1,39 @@
+{
+  "id": "22-team-082",
+  "source": "22-team-082.yaml",
+  "accepted": true,
+  "team": "team-082",
+  "document": "build_report",
+  "claim": "/scenarios/1/works",
+  "original": "partly",
+  "statement": "Точное утверждение в отчёте, которое неверно:\n\"works\": \"partly\" — «через 75 с: ... уровень всё ещё green (жёлтый/красный и запрет работ за время проверки не наступили)»\n\nЧто верно на самом деле:\nСценарий работает полностью: поровое давление в борту растёт со временем. При скорости модели ×10 по умолчанию радар sr-01 переходит в amber примерно через 12 мин реального времени (около 2 ч модели), в red — примерно через 45 мин (около 7,5 ч модели); на красном уровне экскаваторы под бортом (SH-01, LD-01) переходят в slope_hold — запрет работ. 75 с — это около 12 мин модели, меньше времени развития процесса.",
+  "evidence": [
+    {
+      "kind": "command",
+      "content": "make scenario P=heavy_rain"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:sr-01/features/worst_level\nчерез ~12 мин ожидается «amber», через ~45 мин — «red»; затем:"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:sh-01/features/state\nожидается «slope_hold»"
+    },
+    {
+      "kind": "log",
+      "content": "прогон модели из замороженного коммита (seed 42, после 1 ч работы): amber на 118-й минуте модели (w2_velocity 5.02), red на 447-й минуте (w2_velocity 15.25), sh-01 и ld-01 — slope_hold"
+    },
+    {
+      "kind": "file",
+      "content": "bozshakol/sim/model.py:752\nпороги: amber при скорости смещения больше 5, red больше 15"
+    },
+    {
+      "kind": "file",
+      "content": "bozshakol/sim/model.py:1039\nпереход экскаватора в slope_hold на красном уровне"
+    }
+  ],
+  "submitted_at": "2026-10-29T17:09:10+00:00",
+  "code": "",
+  "explanation": ""
+}

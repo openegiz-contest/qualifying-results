@@ -1,0 +1,342 @@
+{
+  "team": "team-037",
+  "sha": "76f36ae330944ef2281286c8a11e837a226badbd",
+  "started_at": "2026-10-29T18:54:08+00:00",
+  "finished_at": "2026-10-29T19:34:13+00:00",
+  "came_up": false,
+  "steps": [
+    {
+      "readme_step": "sudo apt install -y make   # если make нет (чистая Ubuntu)",
+      "command": "cd /home/judge/solution && sudo apt install -y make   # если make нет (чистая Ubuntu)",
+      "exit_code": 0,
+      "duration_s": 8.0,
+      "log": "logs/01-sudo-apt-install-y-make-make-ubuntu.txt"
+    },
+    {
+      "readme_step": "make aktogay               # платформа OpenEgiz + двойники карьера + симулятор + 3D-интерфейс + дашборд",
+      "command": "cd /home/judge/solution && make aktogay",
+      "exit_code": 2,
+      "duration_s": 610.0,
+      "log": "logs/02-make-aktogay-openegiz-3d.txt"
+    },
+    {
+      "readme_step": "make aktogay               # платформа OpenEgiz + двойники карьера + симулятор + 3D-интерфейс + дашборд",
+      "command": "cd /home/judge/solution && make aktogay",
+      "exit_code": 2,
+      "duration_s": 1425.0,
+      "log": "logs/03-make-aktogay-openegiz-3d.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": false,
+      "evidence": "docker ps -a: 0 of 0 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": false,
+      "evidence": "docker ps -a: nothing running (0 of 0 containers running)"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`make smoke` not run: no running containers"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Модуль: умная диспетчеризация",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Решение не поднялось: make aktogay дважды упал на шаге make up (сборка extended-api из GitHub: 'fatal: early EOF … invalid index-pack output', Makefile:21). Контейнеров нет (docker ps -a пуст), проверить нечего."
+    },
+    {
+      "name": "Модуль: прогноз отказов (предиктивная диагностика)",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся (make aktogay упал дважды), двойников и данных нет."
+    },
+    {
+      "name": "Модуль: качество руды (шихтовка)",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся, двойников нет."
+    },
+    {
+      "name": "Модуль: плановые взрывы",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся, двойника blasting нет."
+    },
+    {
+      "name": "Модуль: стоянка и движение",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся, двойника garage нет."
+    },
+    {
+      "name": "Модуль: внутренние двойники зданий (мнемосхемы)",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся, интерфейс на 8095 не запущен."
+    },
+    {
+      "name": "Модуль: буровзрывная подготовка",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся, двойников drill-1/2 нет."
+    },
+    {
+      "name": "Модуль: профиль машиниста бурового станка",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: агрегаты внутри зданий",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: контроль усталости водителя и CAS",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: профиль водителя",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: геология и рудный контроль",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: карта ГОК",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся, интерфейс не запущен."
+    },
+    {
+      "name": "Модуль: смена — диспетчер и терминал водителя",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: хронология и цепочки последствий",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: склад дроблёной руды",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: отвалы вскрыши",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: склад концентрата и ж/д отгрузка",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: кучное выщелачивание и SX-EW",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: вторая цепочка комбината, подстанции и ЛЭП",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: сценарии снабжения",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся, двойника org.aktogay:control нет."
+    },
+    {
+      "name": "Модуль: сценарии на технологических системах",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: себестоимость тонны меди",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: день и ночь",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Проверка стенда и видео-демо",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся, make aktogay-check не имеет смысла без стенда (не запускался)."
+    },
+    {
+      "name": "Модуль: прогноз до конца смены",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: сводка смены",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Выгрузка результата сценария",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Экскурсия для показа",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся, интерфейс не запущен."
+    },
+    {
+      "name": "Интерфейс на трёх языках: русский, казахский, английский",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся, интерфейс на 8095 не запущен."
+    },
+    {
+      "name": "Модуль: резервуары воды, АБК с диспетчерской, лаборатория, склад ВМ",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: склад ГСМ и ремонтно-механический цех",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: КПП и автовесы, дороги по карте",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: вахтовый посёлок",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: энергия по участкам",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: живая погода (по желанию)",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: погода и сезон",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: хвостохранилище и водный баланс",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: история по снимкам",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся."
+    },
+    {
+      "name": "Модуль: KPI и экономический эффект",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся, Grafana и интерфейс не запущены."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Сценарий: поломка экскаватора (breakdown)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускался: Решение не поднялось (make aktogay упал дважды), Ditto и двойника org.aktogay:control нет; Стенд не изменён."
+    },
+    {
+      "name": "Сценарий: перекрытие съезда (close_road)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускался: Решение не поднялось; Стенд не изменён."
+    },
+    {
+      "name": "Сценарий: внеплановый взрыв (blast)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускался: Решение не поднялось; Стенд не изменён."
+    },
+    {
+      "name": "Сценарий: изменение парка техники (reset, fleet)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускался: Решение не поднялось; Стенд не изменён."
+    },
+    {
+      "name": "Сценарий: новая смена (reset, seed)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускался: Решение не поднялось; Стенд не изменён."
+    },
+    {
+      "name": "Сценарий: скорость модельного времени (speed)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускался: Решение не поднялось; Стенд не изменён."
+    },
+    {
+      "name": "Сценарий: поломка бурового станка (drill_down)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускался: Решение не поднялось; Стенд не изменён."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "no",
+    "evidence": "На Стенде подтвердить нельзя: make aktogay дважды упал на make up при сборке образа extended-api из GitHub (git fetch: 'early EOF', 'invalid index-pack output'), ни одного контейнера не запущено, Ditto/MQTT/Grafana недоступны. По коду намерение соответствует условию: team/aktogay/app/service/main.ts публикует состояние в MQTT telemetry/<thing> (client.publish) и получает команды через opentwins/twin/events/org.aktogay/control, двойники создаёт через PUT /api/2/things; UI ходит в Ditto через прокси /ditto/ (src/platform/bridge.ts: search/things, SSE); дашборд aktogay-digital-mine — 73 панели с datasource opentwins-influxdb. Но на Стенде это не наблюдалось."
+  },
+  "notes": "Make поставлен командой из README (sudo apt install -y make); строку передал целиком, вместе с комментарием из README. Первый запуск make aktogay упал примерно через 20 минут: обрыв сети при git-клоне https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663d (сервис extended-api платформы в deploy/compose/docker-compose.yml), «fatal: early EOF … invalid index-pack output», make: Error 1 на Makefile:21 (up). Повтор той же командой без изменений упал так же (fetch-pack: unexpected disconnect). Больше не повторял. Шаги восстановления из раздела «Если что-то сломалось» не запускал: они относятся к перезапуску уже поднятой платформы, а первый из них — тот же make aktogay. Поэтому Модули, Сценарии и условие «построено на OpenEgiz» на Стенде не проверены. Сценарии не запускались, Стенд пуст. Возможных инъекций не нашёл. AGENTS.md и CLAUDE.md в репозитории нет.\n\nПроверки пайплайна:\n- шаг «make aktogay               # платформа OpenEgiz + двойники карьера + симулятор + 3D-интерфейс + дашборд»: упал и при повторе без изменений",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Первый раздел SUBMISSION.md «Рудник» заполнен: двойник открытого медного карьера Актогай с переработкой, для диспетчера (умная диспетчеризация рейсов) и руководства (теневой расчёт и эффект в ₸)."
+  }
+}

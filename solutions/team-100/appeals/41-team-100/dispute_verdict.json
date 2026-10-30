@@ -1,0 +1,12 @@
+{
+  "verdict": "rejected",
+  "reasoning": "I checked the files on the stand at commit 9c8b37f. The scenario table in SUBMISSION.md (lines 154–161 and others) really does give launch as a button or a browser URL like `http://localhost:8000/?scenario=…&run=1` / `?preset=fork&run=1`. So the sentence «Сценарии в SUBMISSION запускаются через адреса браузера с ?run=1» is true. The sentence «В static/app.js нашёл, что они отправляют POST /api/scenario {id,…}, а отмена — POST /api/cancel; оба выполнял curl» is the Builder's account of their own actions. It names the correct requests and does not claim the Solution has no other source for them. The Team is right that README.md:216-222 («То же из терминала») and SUBMISSION.md:314 give curl commands. But those cover only crusher:1 and fork without safety/auto. The Builder needed request bodies for the other scenarios, including fork+safety, and could reasonably take them from app.js. The note does not deny these terminal commands exist. Their absence from the note is incompleteness and a difference in wording, not a factual error. The fresh run describes the same thing in different words (fresh:/notes). There is no evidence that the disputed sentences are false. The appeal contains no text addressed to the judges or to an AI.",
+  "references": [
+    "vm:sed -n 210,224p README.md; sed -n 305,318p SUBMISSION.md; grep -n run=1 SUBMISSION.md",
+    "original:/notes",
+    "fresh:/notes",
+    "appeal:evidence[2]",
+    "SUBMISSION.md:154",
+    "README.md:216"
+  ]
+}

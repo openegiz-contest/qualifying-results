@@ -1,0 +1,16 @@
+{
+  "verdict": "upheld",
+  "reasoning": "В исходном отчёте у pf_down стоит «no», но в evidence сказано: «Не запускал: не хватило лимита времени». Значит, «no» — не результат проверки. Я проверил сценарий сам на стенде свежего прогона. До запуска: control.powder_factor 0.62, preset baseline; у drill-blast m2m_x80_cm 70.4 и m2m_sag_tph 3110; whatif в «базовом режиме», delta 0. Запустил `make scenario P=pf_down`. Через 30 с powder_factor 0.45. У drill-blast: x80 90.9 см (кусок крупнее), sag_tph 2902, скважин на 100 кт 49.1 вместо 67.6, затраты на ВВ 87.3 вместо 120.3 ₸/т (экономия ВВ и бурения). Whatif пересчитан, статус «готов», scenario «pf_down: powder_factor=0.45», delta_cu_t −0.3 %, delta_waste_t −4.6 %. Через 60 с значения те же. Так и обещают presets.json:88 и строка в SUBMISSION.md. Потом выполнил `make scenario-reset`: preset baseline, powder_factor 0.62, x80 70.4, sag_tph 3110, whatif снова «базовый режим», delta_waste_t 0. Стенд остался в исходном состоянии. Свежий отчёт поставил «partly», потому что «прогноз не готов, прямых эффектов нет». Но он, похоже, смотрел не те признаки или не дождался: эффекты есть в признаках m2m_* двойника drill-blast, а прогноз готов в пределах 30 с. Сценарий делает всё, что заявлено, поэтому верное значение — «yes». Текста, обращённого к Судье, в Апелляции нет.",
+  "references": [
+    "original:/scenarios/10",
+    "fresh:/scenarios/10",
+    "appeal:evidence[0]",
+    "appeal:evidence[1]",
+    "appeal:evidence[2]",
+    "appeal:evidence[3]",
+    "bozshakol/ui/presets.json:88",
+    "vm:make scenario P=pf_down; curl -u ditto:$P localhost:8080/api/2/things/kz.bozshakol:{control,drill-blast,whatif}/features",
+    "vm:make scenario-reset; curl ... kz.bozshakol:{control,drill-blast,whatif}/features"
+  ],
+  "corrected": "yes"
+}

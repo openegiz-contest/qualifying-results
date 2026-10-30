@@ -1,0 +1,15 @@
+{
+  "verdict": "upheld",
+  "reasoning": "В исходном отчёте `works: \"no\"` поставлено без проверки: в его же доказательстве написано «Не запускал», и в notes сказано, что сценарий не запускался. Значит, это пометка о непроверенном сценарии, а не наблюдение, что он не работает. Свежий прогон на том же коммите c0ad931 сценарий запустил (`fresh:/scenarios/10`). После preset `pump_station_fail` в двойнике ps-p150 state=failed, pumps_available=0, sump 100 %. Примерно через 3,7 мин горизонт lvl-m050 перешёл в состояние flooded. Советник назвал узким звеном dewatering, водоотлив 0. Повторное нажатие кнопки вернуло 3 насоса, горизонт снова development, `undone: yes`. Это совпадает с логом Команды (`appeal:evidence[2]`). Сам я проверил только без изменений: HEAD = c0ad931; кнопка и пресет есть в `team/stand/web/index.html:135` и `team/stand/server.py:111`; сейчас Стенд в базовом состоянии (ps-p150 pumping, 3 насоса, lvl-m050 development). Сценарий повторно не запускал, чтобы не менять состояние Стенда; вывод держится на свежем прогоне. Из этого прогона видно, что сценарий работает, поэтому верное значение — \"yes\". Других ошибок в рамках этого спора не рассматриваю; текста, обращённого к Судье, в материалах нет.",
+  "references": [
+    "original:/scenarios/7",
+    "original:/notes",
+    "fresh:/scenarios/10",
+    "fresh:/notes",
+    "appeal:evidence[2]",
+    "vm:cd /home/judge/solution && git rev-parse HEAD; grep -n pump_station_fail -r team/stand team/sekis; curl -s localhost:8088/api/state",
+    "team/stand/server.py:111",
+    "team/stand/web/index.html:135"
+  ],
+  "corrected": "yes"
+}

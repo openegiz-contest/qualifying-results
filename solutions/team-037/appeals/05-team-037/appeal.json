@@ -1,0 +1,39 @@
+{
+  "id": "05-team-037",
+  "source": "05-team-037.yaml",
+  "accepted": true,
+  "team": "team-037",
+  "document": "build_report",
+  "claim": "/modules/35/works",
+  "original": "no",
+  "statement": "Точное утверждение в отчёте, которое неверно (цитата):\n\"name\": \"Живая погода (по желанию)\", \"works\": \"no\", \"evidence\": \"По умолчанию выключена (weather.source=normals). Запуск с AKTOGAY_LIVE_WEATHER=1 не проверял: это другой режим запуска, не шаг README по умолчанию.\"\n\nЧто верно на самом деле:\nМодуль работает и запускается документированным способом. Доказательство в Отчёте прямо говорит, что Модуль не проверяли. Модуль заявлен как необязательный режим, включаемый одной переменной окружения, и этот способ запуска описан в README замороженного Репозитория.",
+  "evidence": [
+    {
+      "kind": "file",
+      "content": "Доказательства (коммит 76f36ae):\nREADME.md:65 — таблица переменных окружения: AKTOGAY_LIVE_WEATHER — 1 — работать по фактической погоде в точке карьера (Open-Meteo, нужен интернет); 0 — климатические нормы; по умолчанию 0."
+    },
+    {
+      "kind": "file",
+      "content": "team/aktogay/compose.yml:26 — SIM_LIVE_WEATHER: ${AKTOGAY_LIVE_WEATHER:-0}, переменная проброшена в сервис двойника."
+    },
+    {
+      "kind": "file",
+      "content": "team/aktogay/app/service/main.ts:33 — const LIVE_WEATHER = env('SIM_LIVE_WEATHER', '0') === '1';, использование — строка 282."
+    },
+    {
+      "kind": "file",
+      "content": "team/aktogay/app/src/sim/liveWeather.ts — приём наблюдения Open-Meteo, перевод кода WMO в состояние неба модели."
+    },
+    {
+      "kind": "file",
+      "content": "team/aktogay/app/src/sim/__tests__/liveWeather.test.ts — 6 тестов: разбор ответа сервиса, приоритет Сценария погоды, неизменность остальных случайных событий смены."
+    },
+    {
+      "kind": "command",
+      "content": "Команда запуска: AKTOGAY_LIVE_WEATHER=1 make aktogay; после запуска у погоды в интерфейсе появляется метка «ФАКТ», в двойнике погоды — признаки source=station и observed_at (SUBMISSION.md:207)."
+    }
+  ],
+  "submitted_at": "2026-10-28T11:44:57+00:00",
+  "code": "",
+  "explanation": ""
+}

@@ -1,0 +1,47 @@
+{
+  "id": "35-team-100",
+  "source": "35-team-100.yaml",
+  "accepted": true,
+  "team": "team-100",
+  "document": "build_report",
+  "claim": "/scenarios/7/works",
+  "original": "partly",
+  "statement": "The exact statement in the report that is wrong / Точное утверждение в отчёте, которое неверно\n/scenarios/7/works = \"partly\" (элемент /scenarios/7, \"name\": \"Беда безопасности «Пьезометр дамбы» (safety=1)\").\n/scenarios/7/evidence целиком: \"Запускал вместе с fork (safety=1, site.scenario = fork+safety). В прогоне s42-scen-0008 создана вещь issue-2 kind=dam_alarm. К моему снимку в 10:05 она уже была RESOLVED, piezo-1..3 alarm 0, ~116 кПа при уставке 150. Что она стояла первой в очереди, сам не видел. После POST /api/cancel scenario пуст, бед нет.\"\n\nWhat is actually true / Что верно на самом деле\nВерное значение /scenarios/7/works — \"yes\": оба последствия, заявленные в SUBMISSION.md:161, видны в данных двойников — около 08:10 модели (≈1–2 мин после запуска при ×60) у piezo-1 и piezo-2 kpa выше sp_kpa 150 и alarm = 1, water.state = ALARM, и появляется беда issue-N kind=dam_alarm, safety_class S0, ответственный «Технолог хвостов и оборотной воды» (вещь issue-2 kind=dam_alarm Сборщик видел сам). К его снимку 10:05 беда была уже закрыта, потому что при auto=1 модуль в такте её появления сам вызвал технолога, а симулятор снимает тревогу после его прибытия и проверки дамбы — это штатная работа сценария, а не отсутствие последствий.",
+  "evidence": [
+    {
+      "kind": "command",
+      "content": "B=http://127.0.0.1:8000\ncurl -s -X POST $B/api/scenario -H 'Content-Type: application/json' -d '{\"id\":\"fork\",\"preset\":\"fork\",\"kip\":1,\"auto\":1,\"safety\":1,\"seed\":42,\"speed\":60}'; echo\nfor i in $(seq 1 50); do sleep 4; curl -s $B/api/state | python3 -c '\nimport sys,json\nT={x[\"thingId\"].split(\":\",1)[1]:x for x in json.load(sys.stdin)[\"things\"]}\nv=lambda n,k:((T.get(n) or {}).get(\"features\",{}).get(k) or {}).get(\"properties\",{}).get(\"value\")\nrun=v(\"site\",\"idSimulationRun\"); t=v(\"site\",\"sim_time\") or 0\np=\" \".join(\"%s=%s/%s\" % (n,v(n,\"kpa\") if v(n,\"kpa\") is None else round(v(n,\"kpa\")),v(n,\"alarm\")) for n in (\"piezo-1\",\"piezo-2\",\"piezo-3\"))\niss=[(v(n,\"kind\"),v(n,\"safety_class\"),v(n,\"status\"),v(n,\"rank\"),v(n,\"responsible\")) for n in T if n.startswith(\"issue-\") and v(n,\"kind\")==\"dam_alarm\" and v(n,\"idSimulationRun\")==run]\nprint(run, \"%02d:%02d\" % (int(t//60)%24, int(t%60)), \"water=%s\" % v(\"water\",\"state\"), p, iss, flush=True)'; done\n\nЭто тело запроса Сборщика из /scenarios/6/evidence (плюс seed и speed). Что выводит: строку каждые 4 с, всего ≈3,5 мин. С ≈08:10 модели (≈1–2 мин после POST, прогрев fork ≈1 мин) — «water=ALARM piezo-1=151…154/1.0 piezo-2=153…158/1.0 piezo-3=…/0.0 [('dam_alarm', 'S0', 'OPEN' или 'CALLED', 1.0, 'Технолог хвостов и оборотной воды')]»; со следующего такта rank 99.0 (вызвана); после прибытия технолога — RESOLVED и давление ниже 150. Команда только запускает документированный сценарий и читает двойники."
+    },
+    {
+      "kind": "command",
+      "content": "То же с auto=0 (SUBMISSION.md:497): тело {\"id\":\"fork\",\"preset\":\"fork\",\"kip\":1,\"auto\":0,\"safety\":1,\"seed\":42,\"speed\":60} и тот же цикл. Что выводит: с ≈08:10, пока технолога не позовут (весь цикл) — water=ALARM, piezo-1 и piezo-2 alarm 1.0, [('dam_alarm', 'S0', 'OPEN', 1.0, 'Технолог хвостов и оборотной воды')]. Отмена: curl -s -X POST http://127.0.0.1:8000/api/cancel (README.md:221)."
+    },
+    {
+      "kind": "log",
+      "content": "Официальный стенд Отборочного этапа, тот же коммит 9c8b37f: скриншот Судьи gpt-6-astra solutions/team-100/screenshots/gpt-6-astra/fork-safety-queue.png в qualifying-results — сценарий «Две беды сразу + safety», в очереди № 1 «Дамба хвостохранилища: давление воды выше нормы», «Опасно для людей — первым, в деньгах не считаем», звать технолога хвостового хозяйства, «позвали 08:10, ждём к 08:50»."
+    },
+    {
+      "kind": "log",
+      "content": "original:/scenarios/7/evidence — вещь issue-2 kind=dam_alarm создана в прогоне s42-scen-0008; первый и единственный снимок Сборщика — в 10:05 модели, когда тревога уже была снята после вызова технолога."
+    },
+    {
+      "kind": "log",
+      "content": "Подсказка, не факт (стенд Команды): 29.10.2026, стенд из чистого клона 9c8b37f, тот же POST (fork, auto=1, safety=1, seed 42). Через 69 с после запроса, 08:20 модели, прогон s42-scen-0007-29181209: issue-2, kind dam_alarm, S0, rank 1.0, «Хвосты и вода: пьезометр дамбы выше уставки: П-1 153 кПа, П-2 158 кПа · класс S0 — впереди всего, в деньгах не считается», звать «Технолог хвостов и оборотной воды»."
+    },
+    {
+      "kind": "file",
+      "content": "SUBMISSION.md:161 — заявка: через 10 мин модели показание пьезометра дамбы выше уставки, беда S0 для технолога хвостов, добавляется к любому сценарию; README.md:200 — то же для &safety=1."
+    },
+    {
+      "kind": "file",
+      "content": "aktogay/sim/events.py:333-334 и aktogay/sim/params.py:1151 — событие safety в t0 + 10 мин; aktogay/sim/plant.py:808-809 и :1746-1751 — давление = уставка + 5 кПа (± шум), water.state = ALARM; aktogay/sim/sensors.py:801-803 — alarm = 1 при kpa ≥ sp_kpa."
+    },
+    {
+      "kind": "file",
+      "content": "aktogay/modules/priority.py:488-493 — беда dam_alarm с классом S0 при тревоге пьезометра; priority.py:89 — звать технолога хвостов; priority.py:1225 — «класс S0 — впереди всего»; priority.py:1354-1356 — автовызов при auto=1; aktogay/sim/plant.py:598-606 и :958-960 — тревога снимается после прибытия технолога и проверки."
+    }
+  ],
+  "submitted_at": "2026-10-29T20:15:35+00:00",
+  "code": "",
+  "explanation": ""
+}

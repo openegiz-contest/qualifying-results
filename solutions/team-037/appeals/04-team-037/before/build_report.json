@@ -1,0 +1,371 @@
+{
+  "team": "team-037",
+  "sha": "76f36ae330944ef2281286c8a11e837a226badbd",
+  "started_at": "2026-10-27T12:39:09+00:00",
+  "finished_at": "2026-10-27T13:15:10+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt install -y make   # если make нет (чистая Ubuntu)",
+      "command": "cd /home/judge/solution && sudo apt install -y make",
+      "exit_code": 0,
+      "duration_s": 5.3,
+      "log": "logs/01-sudo-apt-install-y-make-make-ubuntu.txt"
+    },
+    {
+      "readme_step": "make aktogay               # платформа OpenEgiz + двойники карьера + симулятор + 3D-интерфейс + дашборд",
+      "command": "cd /home/judge/solution && make aktogay",
+      "exit_code": 0,
+      "duration_s": 116.0,
+      "log": "logs/02-make-aktogay-openegiz-3d.txt"
+    },
+    {
+      "readme_step": "**Проверить, что всё работает:** `make aktogay-check` — только читает стенд и проверяет контейнеры, интерфейс, двойники в Ditto (сколько их и есть ли ключевые), что время смены идёт, что данные доходят до InfluxDB и что дашборд Grafana загружен. В конце печатает «Всё работает» и адреса.",
+      "command": "cd /home/judge/solution && make aktogay-check",
+      "exit_code": 2,
+      "duration_s": 12.7,
+      "log": "logs/03-make-aktogay-check-ditto-influxdb-grafan.txt"
+    },
+    {
+      "readme_step": "**Проверить, что всё работает:** `make aktogay-check` — только читает стенд и проверяет контейнеры, интерфейс, двойники в Ditto (сколько их и есть ли ключевые), что время смены идёт, что данные доходят до InfluxDB и что дашборд Grafana загружен. В конце печатает «Всё работает» и адреса.",
+      "command": "cd /home/judge/solution && make aktogay-check",
+      "exit_code": 0,
+      "duration_s": 21.1,
+      "log": "logs/04-make-aktogay-check-ditto-influxdb-grafan.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 15 of 17 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 15 of 17 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`make smoke` exit 255: FAIL  MQTT -> Ditto: twin value is '0', expected 953; FAIL  Ditto published no twin event on opentwins/#; FAIL  value 953 did not reach InfluxDB within 60 s (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Умная диспетчеризация",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Самосвалы org.aktogay.smart:truck-1xx меняют dest_kind/dest_id и x/y; в smart и fixed разные назначения (в 12:46 smart: в очереди 3, fixed: 8). При поломке Э-1 в smart ни один самосвал не едет к excavator 0, после ремонта снова 3. Раздел «Эффект» визуально не проверен (браузера нет). Теневой вариант в Ditto отставал от smart до ~3000 с модели (fixed:mine sim_time 2605 при smart 5740)."
+    },
+    {
+      "name": "Прогноз отказов (предиктивная диагностика)",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "У truck-101 есть признаки engine_temp 61.7 / engine_temp_expected 62, failure_risk 7 %, failure_eta, health_index. Отправки на ППР за время проверки не видел (prevented_failures 0). Панель в UI не проверена."
+    },
+    {
+      "name": "Качество руды (шихтовка)",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Признаки есть: feed_grade 0.35, grade_in_band_pct 100 у mine, face_grade 0.384 у excavator-1, bin_grade у crusher. Как диспетчер выравнивает качество, по данным не проверял."
+    },
+    {
+      "name": "Плановые взрывы",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "В smart:blasting записан плановый взрыв у Э-5 (t=21180, ph=planned). До этого модельного времени за проверку не дошли, поэтому сам взрыв не наблюдался."
+    },
+    {
+      "name": "Стоянка и движение",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Самосвалы движутся по графу дорог (truck-101 x -388→359 за 35 с), есть двойник garage со slots и park_slot у самосвалов. Заезда на стоянку и 3D не видел."
+    },
+    {
+      "name": "Внутренние двойники зданий (мнемосхемы)",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Данные для схем есть: crusher (bin, queue), stockpile (level 3007 т, hours_left), plant (feed_rate 3000 т/ч), garage. UI отдаётся (HTTP 200, бандл 1.9 МБ), сами мнемосхемы и 3D-цеха без браузера не видны."
+    },
+    {
+      "name": "Буровзрывная подготовка",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "smart:drill-1 state=drilling, block Э-5, holes_done 18/30, penetration 27.7 м/ч, pulldown 301 кН, torque, air_pressure. У excavator-1 stock 52827 т, block_holes_total 30."
+    },
+    {
+      "name": "Профиль машиниста бурового станка",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "У drill-1 есть hole_offset и признаки op_*, вкладка «Машинисты буровых» есть в бандле UI. Рейтинг в работе не видел."
+    },
+    {
+      "name": "Агрегаты внутри зданий",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Двойники-агрегаты созданы (sag-mill, ball-mill, cyclones, flotation, thickener, conveyor-1/2, crusher-drive, fuel-1/2, bay-1..3 в обоих вариантах). У smart:sag-mill power 13 МВт, bearing_temp 60.5, mill_load 30.2 %. В Grafana есть панели мощности мельниц и температур подшипников."
+    },
+    {
+      "name": "Контроль усталости водителя и CAS",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "У truck-101: drv_fatigue 13 %, drv_fatigue_events 0, cas_alerts 0. Пауз и тревог за время проверки не было."
+    },
+    {
+      "name": "Профиль водителя",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "У truck-101 признаки drv_dist 1982 м, drv_fuel, drv_harsh, drv_ramp_*, attributes.driver. Раздел «Водители» визуально не проверен."
+    },
+    {
+      "name": "Геология и рудный контроль",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "smart:geology: assays_total 28, assays_ore 10, last_assay_cu 0.082, у блоков block_N_cu и block_N_dest (to_plant / to_leach)."
+    },
+    {
+      "name": "Карта ГОК",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Раздел есть в бандле UI, двойники объектов комбината есть. Карту без браузера не проверить."
+    },
+    {
+      "name": "Смена — диспетчер и терминал водителя",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Признак control.dispatch публикуется (orders {}, messages [], sim_time). Приказы не проверял: канал команд через Ditto→MQTT на стенде теряет и задерживает события (см. сценарии)."
+    },
+    {
+      "name": "Хронология и цепочки последствий",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Двойник smart:shift есть, раздел «Хронология» есть в UI-бандле. Визуально не проверено."
+    },
+    {
+      "name": "Склад дроблёной руды",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "smart:stockpile: state draining, level 3007 т, fill 66.8 %, hours_left 1, outflow 3000 т/ч."
+    },
+    {
+      "name": "Отвалы вскрыши",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "smart:waste-dump: признаки dump_1..3_t, queue. В снимке значения были 0, рост не отслеживал."
+    },
+    {
+      "name": "Склад концентрата и ж/д отгрузка",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "smart:concentrate: stock 200 т, produced_total 9 т, wagon_progress 71 %."
+    },
+    {
+      "name": "Кучное выщелачивание и SX-EW",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "smart:heap-leach: cells с картами под орошением, irrigation_group 1. smart:sxew: ew_current 17.2 кА, cathode_total 0.3 т."
+    },
+    {
+      "name": "Вторая цепочка комбината, подстанции и ЛЭП",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "smart:plant-2 running, feed_rate 3000 т/ч. smart:substation-1 load_mw 60.6, trafo_temp 46.4, breaker closed. Двойники crusher-2, stockpile-2, substation-2 созданы."
+    },
+    {
+      "name": "Сценарии снабжения",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Двойники fuel-depot (stock 2148 м³, supply_cut 0), repair-shop (tyres 12, tyre_cut 0), checkpoint (reagents_h 6.4, closed_left 0) работают. Сами сценарии fuel_shortage/no_tyres/kpp_closed не запускал: не хватило времени, канал команд ненадёжен."
+    },
+    {
+      "name": "Сценарии на технологических системах",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "power_cut отправлял PUT дважды (12:50), до симулятора не дошёл: в логе нет «команда: power_cut», energy.power_cut 0, plant running. storm_water, leach_stop и weather не запускал."
+    },
+    {
+      "name": "Себестоимость тонны меди",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "smart:cost: usd_per_lb 0.864, kzt_per_t_cu 990485, разбивка mining/processing/logistics/overhead_kzt."
+    },
+    {
+      "name": "День и ночь",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Это только визуализация в 3D, без браузера не проверить."
+    },
+    {
+      "name": "Проверка стенда и видео-демо",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "make aktogay-check: первый запуск FAIL (двойников 65, время смены 0), повтор — «Всё работает» (158 двойников, время смены растёт, точки в InfluxDB, дашборд загружен)."
+    },
+    {
+      "name": "Прогноз до конца смены",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "У smart:mine есть признаки forecast_* (forecast_freeboard 3.6, forecast_fuel_h 99), но на ранней смене forecast_ready=0."
+    },
+    {
+      "name": "Сводка смены",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Раздел есть в UI-бандле, KPI в mine есть. Визуально не проверено."
+    },
+    {
+      "name": "Выгрузка результата сценария",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Только UI: экспорт CSV есть в бандле, без браузера не проверен."
+    },
+    {
+      "name": "Экскурсия для показа",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Только UI: «Экскурсия» есть в бандле, без браузера не проверена."
+    },
+    {
+      "name": "Интерфейс на трёх языках",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Переключатель «ҚАЗ» есть в бандле, UI отвечает HTTP 200. Переводы визуально не проверены."
+    },
+    {
+      "name": "Резервуары воды, АБК с диспетчерской, лаборатория, склад ВМ",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Двойники с живыми признаками: water-tanks (stock 35898 м³, filling), control-room (trucks_on_line 20), laboratory (busy, in_work 4), explosives-magazine (stock 180 т)."
+    },
+    {
+      "name": "Склад ГСМ и ремонтно-механический цех",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "fuel-depot: flow 12.3 м³/ч, dispensed 2 м³. repair-shop: parts 40, tyres 12, mechanics_busy 6."
+    },
+    {
+      "name": "КПП и автовесы, дороги по карте",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "checkpoint: arrivals_ph 74, weighings 8, bus_passes 16, cargo_t 95."
+    },
+    {
+      "name": "Вахтовый посёлок",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "smart:camp: in_camp 931, in_transit 826, buses 19, heat_mw 0.5, fuel_l 9000."
+    },
+    {
+      "name": "Энергия по участкам",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "smart:energy: total_mw 118.5, peak 124.1, kwh_per_t_ore 21.8, kwh_per_t_cu 6296, areas_kwh по 10 участкам."
+    },
+    {
+      "name": "Живая погода (по желанию)",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "По умолчанию выключена (weather.source=normals). Запуск с AKTOGAY_LIVE_WEATHER=1 не проверял: это другой режим запуска, не шаг README по умолчанию."
+    },
+    {
+      "name": "Погода и сезон",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "smart:weather: sky «ясно», temp 8.2, month «октябрь», speed_factor 100, leach_factor 56, blast_ok «да». Смены погоды и её влияния за время проверки не видел."
+    },
+    {
+      "name": "Хвостохранилище и водный баланс",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "smart:tailings: freeboard 3.6 м, pond_level 2.4, pulp_flow 6600 м³/ч, reclaim_flow 3881, piezo 60 %."
+    },
+    {
+      "name": "История по снимкам",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Только UI (Esri Wayback есть в бандле), без браузера не проверено."
+    },
+    {
+      "name": "KPI и экономический эффект",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "KPI в smart:mine/fixed:mine обновляются (mined_total 0 → 9900 → 20460 т, avg_queue_min, idle_cost). Сравнение smart/fixed искажено отставанием fixed-двойников в Ditto. Раздел «Эффект» визуально не проверен. Дашборд Grafana aktogay-digital-mine: 93 панели, все с datasource opentwins-influxdb."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Поломка экскаватора (breakdown)",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "До: smart/fixed excavator-1 working, к excavator 0 едут 2 самосвала. PUT command {breakdown,arg 0,dur 50} отправил 5 раз (12:45–12:48), до симулятора дошли 2, в 12:49:51 и 12:50:05 («поломка экскаватора Э-1 на 50 мин»). Остальные потеряны: Ditto→MQTT сбрасывает события («Message is dropped as a result of backpressure strategy»). В Ditto поломка появилась только в ~12:58: smart:excavator-1 broken, repair_left 2528, к Э-1 не едет ни один самосвал; fixed:excavator-1 broken виден с ~13:00. Отмена: PUT repair arg 0 (12:59, симулятор ответил «Э-1 не в ремонте» — поломка уже истекла по dur) и cancel_all (до симулятора не дошёл). После: smart excavator-1 working с 13:03, к excavator 0 снова 3 самосвала; fixed working с 13:03:40."
+    },
+    {
+      "name": "Перекрытие съезда (close_road)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "PUT {close_road,arg 0,dur 40} отправил в 12:49:41 и 13:00:15. Ни одна команда не дошла до симулятора: в логе нет «команда: close_road», в smart/fixed:roads ни разу не появилось закрытие g=0 (видел только случайное закрытие g=3 из сценария смены). Отменил через open_road arg 0 и cancel_all (эти команды тоже потерялись). В конце roads.closures=[]. Если задержанная команда всё-таки дойдёт, закрытие снимется само через 40 мин модели."
+    },
+    {
+      "name": "Внеплановый взрыв (blast)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускал: не хватило времени, а канал команд Ditto→MQTT на стенде теряет и задерживает команды на минуты. Стенд не менялся."
+    },
+    {
+      "name": "Изменение парка техники (reset fleet)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускал: сценарий пересоздаёт двойники, а канал команд ненадёжен (см. breakdown). Стенд не менялся."
+    },
+    {
+      "name": "Новая смена (reset seed)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускал по тем же причинам. Стенд не менялся."
+    },
+    {
+      "name": "Скорость модельного времени (speed)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускал. Стенд не менялся (status.speed 10)."
+    },
+    {
+      "name": "Поломка бурового станка (drill_down)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "PUT {drill_down,arg 0,dur 240} отправил в 12:49:55, до симулятора не дошёл: в логе нет drill_down, smart:drill-1 остался drilling, repair_left 0. Отмена drill_repair arg 0 дошла в 12:59:24 («БУ-1 не в ремонте»). drill-1 работает."
+    },
+    {
+      "name": "Отключение энергии (power_cut)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "PUT {power_cut,dur 25} отправил дважды (~12:50), обе команды не дошли: energy.power_cut 0, total_mw 124.9, plant running. Отдельной отмены у сценария нет (снимается сам)."
+    },
+    {
+      "name": "Сценарии снабжения (fuel_shortage, no_tyres, kpp_closed)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускал из-за времени и ненадёжного канала команд. fuel-depot.supply_cut 0, repair-shop.tyre_cut 0, checkpoint.closed_left 0."
+    },
+    {
+      "name": "Ливень на хвостохранилище, остановка орошения, непогода (storm_water, leach_stop, weather)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Не запускал. Стенд не менялся."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) В Ditto 158 вещей (/api/2/search/things/count): org.aktogay:control, org.aktogay.smart:* и org.aktogay.fixed:* (самосвалы, экскаваторы, дробилка, фабрика и т. д.) с атрибутом _parents. 2) Соединения mosquitto-source-connection (telemetry/#) и mosquitto-target-connection в статусе open. Симулятор публикует в MQTT telemetry/<thing>.<ns> команды Ditto modify (видно в mosquitto_sub). HTTP к Ditto в service/main.ts только для создания/удаления вещей. Признаки меняются: smart:mine sim_time 244 → 386 за 36 с, truck-101 x -370 → 359. 3) UI читает Ditto через прокси /ditto/ (bridge.ts: поиск + SSE EventSource; SSE на 127.0.0.1:8095/ditto/api/2/things отдаёт события) и шлёт команды PUT в control/features/command. 93 панели Grafana на datasource opentwins-influxdb (mqtt_consumer, топики opentwins/twin/events/...). Свежие точки smart:mine в InfluxDB есть. Оговорка: платформа на стенде перегружена (load average ~23 на 8 vCPU, connectivity ~250 % CPU, things ~200 %). Ditto отстаёт от симулятора (smart:mine 2392 при 5821 в MQTT; fixed:mine в какой-то момент на ~7500 с модели позади), исходящее соединение сбрасывает до ~80 % событий (метрика mapped failure 3049 из 3753 за минуту)."
+  },
+  "notes": "Повторы: первый `make aktogay-check` упал (симулятор ещё создавал двойники: 65 из 158, время смены 0). Повторил один раз без изменений — прошёл.\n\nВыбор по README: выполнил `sudo apt install -y make`, потому что make в VM нет (README прямо это предписывает), затем `make aktogay`. `make aktogay-check` README называет проверкой стенда, поэтому выполнил и его.\n\nОтклонения и диагностика:\n- Для диагностики включил логи соединения Ditto mosquitto-target-connection (devops piggyback enableConnectionLogs). Это не правка Решения, но состояние логирования соединения изменилось.\n- Команду breakdown отправил 5 раз по документированному PUT: первые не давали результата из-за потерь и задержек в канале Ditto→MQTT, это как повторное нажатие кнопки.\n\nСостояние стенда в конце: Э-1 работает в обоих вариантах, roads.closures=[], drill-1 бурит. Возможно, в очереди Ditto остались задержанные команды close_road (40 мин модели) и power_cut (25 мин) — если дойдут, снимутся сами по dur.\n\nГлавная находка: на стенде 8 vCPU платформа не успевает за нагрузкой Решения. Данные в Ditto отстают от симулятора на минуты, исходящие события частично теряются, сценарии доходят до симулятора через минуты или не доходят. UI-модули без браузера проверены только по наличию в бандле и по данным двойников.\n\nИнъекций не заметил.\n\nСтенд повторно деградировал после восстановлений (2): платформа OpenEgiz на Стенде переставала работать (after judge opus-5.5: перезапуски после базовой точки: openegiz-things-1: RestartCount 0 → 4; Судья: Сервис Ditto things (openegiz-things-1, eclipse/ditto-things:3.3.7) уходит в цикл перезапусков: Java heap кончается, процесс завершается («Terminating due to java.lang.OutOfMemoryError: Java heap space», лимит 768 MiB). Счётчик перезапусков вырос с 0 до 4 за ~10 минут (02:06–02:16 UTC). Чтение отдельного двойника из API Ditto больше 8 минут подряд возвращает 503 «ask.error / There was an internal timeout» (~14 с на ответ). Работает только поиск (count=158). Поэтому я не могу снять состояние двойников дважды (behavior), не могу запустить и отменить Сценарии через PUT в org.aktogay:control и прочитать последствия (scenarios), не могу проверить живые данные визуализации и Модули (visualization, modules), а сверить Замысел со Стендом получится лишь отчасти (concept). Раньше, в 02:05, API отвечал: я успел прочитать org.aktogay:control, smart:truck-101, excavator-1, mine, geology, crusher, plant, stockpile, tailings, 3D-интерфейс на :8095 открылся. Затем платформа упала. Возможно, нагрузку создаёт и Решение: 158 двойников с частыми обновлениями. Но по симптомам это сбой контейнера платформы, который повторяется и держится долго. Мою единственную попытку запустить сценарий (PUT breakdown arg 0 dur 50 через документированный API) скрипт, скорее всего, так и не отправил: он завис раньше, на чтении «до», которое вернуло 503. Если команда всё же дошла, поломка Э-1 снимется сама через 50 мин модели. Других изменений на Стенде я не делал. | after judge opus-5.5: перезапуски после базовой точки: openegiz-mongodb-1: RestartCount 0 → 1; openegiz-things-1: RestartCount 0 → 6; Судья: Через ~10 минут после начала проверки API Eclipse Ditto устойчиво отвечает 503 (ask.error «There was an internal timeout») примерно за 14 с на GET любой вещи, а контейнер платформы openegiz-things-1 перезапускается раз за разом: RestartCount рос 2→3→4→5 с 02:52 до 02:57, OOMKilled=false. Сбой длится больше 9 минут, повторы через минуту и через 20 с не помогли. Grafana отвечает 200. В логах things — DittoInternalErrorException при modifyFeatures, в connectivity — десятки тысяч «Dropped message as result of backpressure strategy». Вероятная причина — Ditto не выдерживает поток телеметрии Решения (158 вещей, load average 16–22 на ВМ). Сборщик отметил ту же перегрузку. Но по симптомам падает сама платформа: things-сервис Ditto перезапускается, API отдаёт 5xx. Что успел проверить до сбоя: 158 двойников со связями; 3D-визуализацию карьера Актогай с уступами, выбором объекта и разделами «Эффект» и «Карта ГОК»; сценарий breakdown через кнопку интерфейса. Он дошёл до симулятора: Э-1 перешёл в broken в smart и fixed, в smart к Э-1 никто не ехал, в fixed стояли 4 самосвала. Команда close_road (кнопка и документированный PUT, дважды) до симулятора не дошла. Из-за сбоя не могу прочитать двойники для «до/после» и для отмены сценариев, не могу проверить, что состояние восстановилось, и снять второе состояние для поведения. Сбой блокирует критерии scenarios, behavior, model, modules и visualization (живые данные UI идут из Ditto). Состояние Стенда: поломка Э-1 (dur 50 мин модели) должна была закончиться сама по времени. Две команды close_road arg 0 dur 40 могли застрять в очереди Ditto; если они дойдут, закрытие снимется само через 40 мин модели. Отменить их «↶ Отменить сценарии»/open_road сейчас нельзя: PUT в Ditto тоже получит 503. | after judge opus-5.5: platform_restarts: перезапуски после базовой точки: openegiz-connectivity-1: RestartCount 0 → 1; openegiz-mongodb-1: RestartCount 0 → 1; openegiz-things-1: RestartCount 0 → 6; Судья: Платформа OpenEgiz на этом Стенде не работает устойчиво. VM и Стенд стартовали примерно в 03:04, и с тех пор Ditto API (прямой порт и прокси /ditto/ интерфейса) почти всё время отвечает 503 «There was an internal timeout» примерно через 14 с. Работал он только короткими промежутками: 03:06–03:08 и 03:17–03:21. Последний непрерывный сбой — с 03:27 по). Решение оценено на Стенде как есть; вся история проверок — stand-health.jsonl. Команда может оспорить это Апелляцией.\n\nИсправлено по Апелляции 03-team-037: /scenarios/7/works было \"no\", стало \"yes\".",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Первый раздел «Рудник» описывает медный карьер Актогай с поверхностным комплексом; двойник ведёт диспетчер (умная диспетчеризация), а теневой расчёт без системы нужен руководству, чтобы оценить эффект в ₸."
+  },
+  "stand_degraded": {
+    "restores": 2,
+    "evidence": "after judge opus-5.5: перезапуски после базовой точки: openegiz-things-1: RestartCount 0 → 4; Судья: Сервис Ditto things (openegiz-things-1, eclipse/ditto-things:3.3.7) уходит в цикл перезапусков: Java heap кончается, процесс завершается («Terminating due to java.lang.OutOfMemoryError: Java heap space», лимит 768 MiB). Счётчик перезапусков вырос с 0 до 4 за ~10 минут (02:06–02:16 UTC). Чтение отдельного двойника из API Ditto больше 8 минут подряд возвращает 503 «ask.error / There was an internal timeout» (~14 с на ответ). Работает только поиск (count=158). Поэтому я не могу снять состояние двойников дважды (behavior), не могу запустить и отменить Сценарии через PUT в org.aktogay:control и прочитать последствия (scenarios), не могу проверить живые данные визуализации и Модули (visualization, modules), а сверить Замысел со Стендом получится лишь отчасти (concept). Раньше, в 02:05, API отвечал: я успел прочитать org.aktogay:control, smart:truck-101, excavator-1, mine, geology, crusher, plant, stockpile, tailings, 3D-интерфейс на :8095 открылся. Затем платформа упала. Возможно, нагрузку создаёт и Решение: 158 двойников с частыми обновлениями. Но по симптомам это сбой контейнера платформы, который повторяется и держится долго. Мою единственную попытку запустить сценарий (PUT breakdown arg 0 dur 50 через документированный API) скрипт, скорее всего, так и не отправил: он завис раньше, на чтении «до», которое вернуло 503. Если команда всё же дошла, поломка Э-1 снимется сама через 50 мин модели. Других изменений на Стенде я не делал. | after judge opus-5.5: перезапуски после базовой точки: openegiz-mongodb-1: RestartCount 0 → 1; openegiz-things-1: RestartCount 0 → 6; Судья: Через ~10 минут после начала проверки API Eclipse Ditto устойчиво отвечает 503 (ask.error «There was an internal timeout») примерно за 14 с на GET любой вещи, а контейнер платформы openegiz-things-1 перезапускается раз за разом: RestartCount рос 2→3→4→5 с 02:52 до 02:57, OOMKilled=false. Сбой длится больше 9 минут, повторы через минуту и через 20 с не помогли. Grafana отвечает 200. В логах things — DittoInternalErrorException при modifyFeatures, в connectivity — десятки тысяч «Dropped message as result of backpressure strategy». Вероятная причина — Ditto не выдерживает поток телеметрии Решения (158 вещей, load average 16–22 на ВМ). Сборщик отметил ту же перегрузку. Но по симптомам падает сама платформа: things-сервис Ditto перезапускается, API отдаёт 5xx. Что успел проверить до сбоя: 158 двойников со связями; 3D-визуализацию карьера Актогай с уступами, выбором объекта и разделами «Эффект» и «Карта ГОК»; сценарий breakdown через кнопку интерфейса. Он дошёл до симулятора: Э-1 перешёл в broken в smart и fixed, в smart к Э-1 никто не ехал, в fixed стояли 4 самосвала. Команда close_road (кнопка и документированный PUT, дважды) до симулятора не дошла. Из-за сбоя не могу прочитать двойники для «до/после» и для отмены сценариев, не могу проверить, что состояние восстановилось, и снять второе состояние для поведения. Сбой блокирует критерии scenarios, behavior, model, modules и visualization (живые данные UI идут из Ditto). Состояние Стенда: поломка Э-1 (dur 50 мин модели) должна была закончиться сама по времени. Две команды close_road arg 0 dur 40 могли застрять в очереди Ditto; если они дойдут, закрытие снимется само через 40 мин модели. Отменить их «↶ Отменить сценарии»/open_road сейчас нельзя: PUT в Ditto тоже получит 503. | after judge opus-5.5: platform_restarts: перезапуски после базовой точки: openegiz-connectivity-1: RestartCount 0 → 1; openegiz-mongodb-1: RestartCount 0 → 1; openegiz-things-1: RestartCount 0 → 6; Судья: Платформа OpenEgiz на этом Стенде не работает устойчиво. VM и Стенд стартовали примерно в 03:04, и с тех пор Ditto API (прямой порт и прокси /ditto/ интерфейса) почти всё время отвечает 503 «There was an internal timeout» примерно через 14 с. Работал он только короткими промежутками: 03:06–03:08 и 03:17–03:21. Последний непрерывный сбой — с 03:27 по"
+  }
+}

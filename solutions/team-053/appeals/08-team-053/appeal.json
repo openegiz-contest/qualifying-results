@@ -1,0 +1,39 @@
+{
+  "id": "08-team-053",
+  "source": "08-team-053.yaml",
+  "accepted": true,
+  "team": "team-053",
+  "document": "build_report",
+  "claim": "/scenarios/7/works",
+  "original": "no",
+  "statement": "The exact statement in the report that is wrong / Точное утверждение в отчёте, которое неверно\n\"name\": \"Обесточена насосная +150\", \"works\": \"no\",\n\"evidence\": \"Не запускал: не хватило времени на затопление и откачку (по описанию до десятков минут). Стенд этим сценарием не затронут.\"\n\nWhat is actually true / Что верно на самом деле\nСценарий работает, его последствия видны за секунды: через 20 с после нажатия насосная гор. +150 м в состоянии `failed` (исправных насосов 0), советник называет узким звеном водоотлив — 0 тыс. т/год; через 3 мин 40 с затоплен гор. −50 м. «Восстановить насосную» возвращает 3 насоса и узкое звено «откатка» 926 за 30 с, вода откачана за 3,5 мин. Пометка «no» — не результат проверки: в доказательстве сказано «Не запускал».",
+  "evidence": [
+    {
+      "kind": "log",
+      "content": "Репозиторий: openegiz-contest/team-053, замороженный коммит c0ad931. Стенд поднят по README на чистой Ubuntu 24.04 (8 vCPU, 16 ГБ, Docker очищен): make stand — код 0, 149 с; make stand-smoke — код 0, 18 с."
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -X POST localhost:8088/api/scenario -H 'Content-Type: application/json' -d '{\"preset\":\"pump_station_fail\"}'\ncurl -s localhost:8088/api/state | python3 -c \"import json,sys; t=json.load(sys.stdin)['things']; print(t['kz.sekis:ps-p150']['f'], t['kz.sekis:lvl-m050']['f']['state'], t['kz.sekis:mine']['f']['flood_volume_m3'])\"\ncurl -s localhost:8088/api/advisor | python3 -c \"import json,sys; a=json.load(sys.stdin); print(a['binding_link'], a['achievable_ktpa'])\""
+    },
+    {
+      "kind": "log",
+      "content": "Чистая ВМ, c0ad931, после make stand и make stand-smoke (UTC):\n04:11:13 POST {\"preset\":\"pump_station_fail\"} -> \"Обесточена насосная, гор. +150 м\"\n04:11:33 ps-p150: state=failed, pumps_available=0, sump_level_pct=97.8; mine.flood_eta_min=3.2; советник: binding_link=dewatering, achievable_ktpa=0\n04:14:53 ps-p150: failed, sump 100 %; mine.flood_volume_m3=15428.1; lvl-m050.state=flooded; советник: dewatering, 0; золото 0\n04:14:53 POST {\"preset\":\"pump_station_fail\"} -> \"Насосная гор. +150 м восстановлена\"\n04:15:23 ps-p150: state=pumping, pumps_available=3; lvl-m050=development; советник: haulage, 926\n04:18:23 mine.flood_volume_m3=0.0 — выработки откачаны"
+    },
+    {
+      "kind": "file",
+      "content": "team/tests/test_sim.py:1165\ntest_pump_station_fail_floods_the_levels_upward_and_drains_the_ponds — проходит на c0ad931"
+    },
+    {
+      "kind": "file",
+      "content": "team/tests/test_advisor.py:822\ntest_pump_station_fail_binds_at_once — проходит на c0ad931"
+    },
+    {
+      "kind": "file",
+      "content": "SUBMISSION.md:224\nописание сценария: гор. −50 м затапливается через 3,4 мин после отказа, советник с первой минуты называет узким водоотлив"
+    }
+  ],
+  "submitted_at": "2026-10-29T04:26:07+00:00",
+  "code": "",
+  "explanation": ""
+}

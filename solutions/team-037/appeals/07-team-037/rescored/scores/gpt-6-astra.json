@@ -1,0 +1,103 @@
+{
+  "team": "team-037",
+  "judge": "gpt-6-astra",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "Через API прочитаны 158 двойников 35 типов; в OpenEgiz проверены площадка и её дочерние объекты. Есть техника, бурение, переработка, выщелачивание, хвостохранилище, энергетика и вспомогательные службы с осмысленными состояниями, связями _parents и feeds. У забоев есть запас и содержание, у транспорта — назначение и груз. Уровень 4 не подтверждён: глубина неодинакова, подвоз ко второй фабрике условный, её хвосты исключены из общего хвостохранилища, пространственная геология не управляет добычей.",
+      "references": [
+        "ditto:org.aktogay.smart:excavator-1",
+        "ditto:org.aktogay.smart:truck-101",
+        "ditto:org.aktogay.smart:geology",
+        "ditto:org.aktogay.smart:tailings",
+        "team/aktogay/app/src/platform/twins.ts:40",
+        "team/aktogay/app/src/sim/chain2.ts:4",
+        "team/aktogay/app/src/geo/orebody.ts:9"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 3,
+      "max": 20,
+      "points": 15,
+      "reasoning": "Снимки с интервалом более минуты показывают движение truck-101 от loaded к dumping, рост переработки и изменение запасов. Между согласованными снимками feed_total вырос 2806→2949 т, приток склада 2267→2320 т, запас 2161→2071 т: баланс сходится, 2161+53−143=2071. Подача 3000 т/ч, груз 220 т, очереди и производительность погрузки правдоподобны. В коде ограничены ёмкости, сохраняются масса и медь, остановки связаны с обеспечением производства. Уровень 4 не подтверждён: климатическая таблица перенесена в код, но производственные параметры остаются оценками без проверенной калибровки.",
+      "references": [
+        "ditto:org.aktogay.smart:truck-101",
+        "ditto:org.aktogay.smart:plant",
+        "ditto:org.aktogay.smart:stockpile",
+        "team/aktogay/app/src/sim/engine.ts:1366",
+        "team/aktogay/app/src/sim/weather.ts:40",
+        "team/aktogay/app/src/sim/config.ts:5"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 2,
+      "max": 25,
+      "points": 12.5,
+      "reasoning": "Открыты «Карьер» в 3D и «Карта ГОК», проверены выбор Э-1 с карточкой состояния, управление камерой и обновление подписей производства. Представлены конкретный карьер и комплекс переработки; показания склада, очередей, бурения и тоннажа меняются вместе с двойниками. Последствия собственных запусков поломки и отключения энергии не подтвердились. Появившееся закрытие съезда было автоматическим событием, поэтому за проверенный сценарий его не засчитываю. Для уровня 3 не выполнено требование всех пяти признаков.",
+      "references": [
+        "screenshot:aktogay-before.png",
+        "screenshot:aktogay-selected-excavator.png",
+        "screenshot:aktogay-live-after-checks.png",
+        "screenshot:aktogay-final-state.png",
+        "ditto:org.aktogay.smart:excavator-1",
+        "ditto:org.aktogay.smart:stockpile"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Лично запустил breakdown кнопкой и повторным документированным PUT, затем power_cut через раздел сценариев. API принимал команды, но за несколько минут последствия не появились: Э-1 оставался working/waiting с repair_left=0, power_cut=0, фабрика running с подачей 3000 т/ч. Поэтому ни один сценарий не засчитан. Диагностика `docker logs --since 2m openegiz-connectivity-1` показала `Dropped message as result of backpressure strategy`. Отправлены repair и кнопка отмены; последнее значение command — cancel_all, но подтверждения исполнения в status нет. При завершении Э-1 исправен в обоих вариантах, питание включено; сохраняется автоматическое закрытие участка g=3, которого я не запускал. Задержанные команды исключить нельзя. Дополнительно cancel_all в коде не отменяет power_cut: он заканчивается только по сроку.",
+      "references": [
+        "SUBMISSION.md:150",
+        "ditto:org.aktogay:control",
+        "ditto:org.aktogay.smart:excavator-1",
+        "ditto:org.aktogay.fixed:excavator-1",
+        "ditto:org.aktogay.smart:energy",
+        "ditto:org.aktogay.smart:plant",
+        "ditto:org.aktogay.smart:roads",
+        "screenshot:aktogay-power-before.png",
+        "screenshot:aktogay-final-state.png",
+        "team/aktogay/app/src/platform/scenarios.ts:138"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 3,
+      "max": 5,
+      "points": 3.75,
+      "reasoning": "Подтверждены два содержательных механизма. Автодиспетчеризация меняет назначения: у smart:truck-101 home_excavator=2 при fixed_excavator=0, машина доставляет оксид на выщелачивание; код учитывает маршруты, очереди, план и качество. Прогноз смены в интерфейсе выдаёт 61 348±4468 т при плане 110 000 т и предупреждает о снижении запаса фабрики при подвозе 1431 против расхода 3000 т/ч; формулы проверены. Шихтовку отдельно от диспетчеризации не считаю. Четыре независимых содержательных модуля не подтверждены; наличие диагностических полей без наблюдённого решения недостаточно.",
+      "references": [
+        "ditto:org.aktogay.smart:truck-101",
+        "ditto:org.aktogay.smart:mine",
+        "team/aktogay/app/src/sim/dispatch.ts:50",
+        "team/aktogay/app/src/sim/forecast.ts:48",
+        "screenshot:aktogay-forecast.png"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 2,
+      "max": 15,
+      "points": 7.5,
+      "reasoning": "Собственный замысел узнаётся: сегмент реального Актогая, диспетчер управляет перевозками, руководство оценивает эффект; сульфидная и оксидная ветки, инфраструктура и геометрия реализованы под выбранный объект. Презентация читается, описывает именно Решение и признаёт синтетические данные, условный подвоз и ограничения. Однако обещанный путь от вмешательства до результата на Стенде не подтвердился: команды принимались, но последствия и отмена не наблюдались. Поэтому уровень 3 с соответствием утверждений Стенду не выполнен. Полная производственная калибровка и подтверждение каждого утверждения также отсутствуют.",
+      "references": [
+        "SUBMISSION.md:11",
+        "SUBMISSION.md:34",
+        "team/aktogay/app/src/sim/config.ts:334",
+        "presentation.pdf:3",
+        "presentation.pdf:11",
+        "presentation.pdf:17",
+        "ditto:org.aktogay:control",
+        "screenshot:aktogay-forecast.png"
+      ]
+    }
+  ],
+  "total": 57.5
+}

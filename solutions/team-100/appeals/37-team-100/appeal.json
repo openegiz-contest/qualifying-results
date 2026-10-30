@@ -1,0 +1,72 @@
+{
+  "id": "37-team-100",
+  "source": "37-team-100.yaml",
+  "accepted": true,
+  "team": "team-100",
+  "document": "build_report",
+  "claim": "/modules",
+  "original": [
+    {
+      "name": "Модуль «Где теряется медь» (mod-losses)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В вещи kz.aktogay:mod-losses есть статусы и разрывы по узлам (sag-1_status, gap_cu_tph, sigma), они обновляются по времени модели. В «Два сразу» к 10:05 модели flot-1.tail_cu вырос с 0,052 до 0,067, а модуль поставил Флотации 1 статус «потеря»: −0,72 т Cu/ч ± 0,23, −$10,0 тыс./ч, z = 3,1, «уставка АСУ не пересечена», звать КИПиА и металлурга. В свободном ходе все узлы «в пределах шума»."
+    },
+    {
+      "name": "Модуль «Какая руда идёт» (mod-ore)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Окно прихода и прогноз работают. При hard:1 в mod-ore появились next_hard_axb=27, next_hard_eta_early_h_l1=0,417 и next_hard_eta_h_l1=2,583 (до запуска −1), прогноз fc_tph_h1 снизился с 7706 до 7550 т/ч, в очереди беда «твёрдая руда, партия 13, SAG 3 842 → ≈ 3 329 т/ч». Сверку «сбылось ли» не увидел: check_text = «проверок ещё не было: твёрдая партия до SAG не дошла», сценарий я отменил раньше."
+    },
+    {
+      "name": "Модуль «Очередь бед» (mod-priority, issue-*)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В Ditto появляются вещи issue-N: issue-2 dam_alarm, issue-4 lube_trip, issue-5 loss_flot и другие. В queue_text есть цена, кого звать и «можно отложить до 11:57» (дробилка 2 в «Два сразу»). Беды S0 стоят первыми: при reline:1 «Люди в SAG-1 — пуск запрещён», при hpgr_fire — пожар ВВД. В «Два сразу» модуль сам вызвал бригаду (policy: mode=module, n_calls=1, вызов flot-1 в 575 мин модели). Кнопки «Принять» / «Не согласен» не нажимал."
+    },
+    {
+      "name": "Пути меди, Изнутри, Экономика, Калибровка, сводка /summary",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Страница /?view=copper отдаёт HTTP 200. В /summary.json есть калибровка (DONE, 62 строки: 38 в допуске, 2 вне допуска), правдоподобие 20/20 и module_effect +0,61 [0,23; 2,18]. /api/history отдаёт точки из InfluxDB. Визуальную часть без браузера не проверял."
+    },
+    {
+      "name": "Сдача смены, цепочка ответственности, наряд-допуск, зима/тариф, прогнозы, отклонения",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "В mod-priority есть признаки review_text, season_text, deviations_text. При crusher:1 у person-crusher-mech были permit=crusher-1 и free_at. В «Два сразу» в очереди было «Дежурный КИПиА: занят… → предложить заместителя Дежурный энергетик». Лист сдачи в 07:30/19:30, сценарии winter, pitstop и conveyor не проверял: не хватило времени."
+    },
+    {
+      "name": "Тихие перерасходы (energy:N, reagent:N, leak)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Отдельно не запускал. В mod-losses есть признаки энергии SAG (sag-1_e_meas_kwh_t, e_exp_kwh_t, energy_usd_h), в /summary — строка silent «тихих перерасходов не найдено». Срабатывание не наблюдал."
+    }
+  ],
+  "statement": "The exact statement in the report that is wrong / Точное утверждение в отчёте, которое неверно\n/modules: массив из 6 элементов — «Модуль «Где теряется медь» (mod-losses)», «Модуль «Какая руда идёт» (mod-ore)», «Модуль «Очередь бед» (mod-priority, issue-*)», «Пути меди, Изнутри, Экономика, Калибровка, сводка /summary», «Сдача смены, цепочка ответственности, наряд-допуск, зима/тариф, прогнозы, отклонения», «Тихие перерасходы (energy:N, reagent:N, leak)». Функций SUBMISSION.md:168 (startup_zone, tailings_dust) и SUBMISSION.md:173 (Тир S) в массиве нет.\n\nWhat is actually true / Что верно на самом деле\nВерное значение /modules — те же 6 элементов и ещё два, оба works = \"yes\": «Люди в опасной зоне при пуске (S0) и пыление пляжа (S1)» и «Тир S» (зимняя дорога, усталость водителя, канатирование циклонов, pH-метр, ВВД линии 2, замена брони, масло EX01): на 9c8b37f каждый их сценарий поднимает заявленную беду — startup_zone S0 первой в очереди, tailings_dust S1, road_winter S0, driver_fatigue S0, roping, sensor_ph, hpgr_uneven, crusher_mantle, oil_contam.",
+  "evidence": [
+    {
+      "kind": "command",
+      "content": "B=http://127.0.0.1:8000\nfor spec in \"startup:1 startup_zone 160\" \"dust tailings_dust 60\" \"icy road_winter 60\" \"fatigue driver_fatigue 60\" \"roping:1 roping 90\" \"phdrift:1 sensor_ph 60\" \"hpgr:2 hpgr_uneven 80\" \"mantle:1 crusher_mantle 60\" \"oil oil_contam 400\"; do\n  set -- $spec\n  curl -s -o /dev/null -X POST $B/api/scenario -H 'Content-Type: application/json' -d \"{\\\"id\\\":\\\"$1\\\",\\\"seed\\\":42,\\\"speed\\\":60}\"\n  for i in $(seq 1 $3); do sleep 3; curl -s $B/summary.json | python3 -c '\nimport sys,json\nd=json.load(sys.stdin); q=[x for x in d[\"queue\"] if x.get(\"kind\")==sys.argv[2]]\nq and print(sys.argv[1], d[\"now\"][\"model_time\"], [(x[\"rank\"], x[\"safety\"], x[\"call\"], x[\"text\"][:110]) for x in q], flush=True)\nsys.exit(0 if q else 1)' \"$1\" \"$2\" && break; done\ndone\ncurl -s -X POST $B/api/cancel\n\nЧто выводит: по одной строке на сценарий — время модели и беда, которую он поднимает: startup:1 — startup_zone, S0, rank 1, «ПУСК ПРИ ЛЮДЯХ … отменить пуск, снять напряжение, плакат «Не включать! Работают люди!»», звать начальника смены фабрики (команда на пуск включается через ≈60 мин модели, беда — около 09:05–09:15); dust — tailings_dust, S1, «пыление пляжа хвостохранилища: ветер 11 м/с при сухом пляже 85 %», около 08:15; icy — road_winter, S0, «зимняя дорога в карьере: видимость 120 м … сцепление 0,30»; fatigue — driver_fatigue, S0, HT141; roping:1 — roping на циклонах 1 (≈08:35–08:45); phdrift:1 — sensor_ph; hpgr:2 — hpgr_uneven на прессе линии 2 (≈08:20–08:30); mantle:1 — crusher_mantle; oil — oil_contam на EX01 (≈185–195 мин модели, ≈3–4 мин). Всего ≈12–15 мин при ×60; команды только запускают сценарии каталога и читают сводку, в конце — отмена."
+    },
+    {
+      "kind": "log",
+      "content": "Подсказка, не факт (стенд Команды): 30.10.2026, стенд из чистого клона 9c8b37f, ×60. startup:1 (прогон s42-scen-0018-29202914): 09:15 — startup_zone, S0, rank 1, «Шаровая 1A: ПУСК ПРИ ЛЮДЯХ: Шаровая 1A — Механик фабрики (мельницы) работает внутри по наряду-допуску, а команда на пуск включена; отменить пуск, снять напряжение, плакат «Не включать! Работают люди!» (п. 315 Правил № 348)…», звать «Начальник смены фабрики и механик фабрики». dust (s42-scen-0019-29203126): 08:15 — tailings_dust, S1, rank 1. icy (s42-scen-0020-29203228): 08:20 — road_winter, S0, rank 1, «зимняя дорога в карьере: видимость 120 м (порог 150 м), сцепление 0,30 (порог 0,40)…». fatigue (s42-scen-0021-29203334): 08:15 — driver_fatigue, S0, rank 1, HT141 (CAT 793D). Команда из первого доказательства целиком прогнана там же 30.10.2026: девять строк — startup:1 09:10 startup_zone S0 rank 1; dust 08:15 tailings_dust S1 rank 1; icy 08:15 road_winter S0 rank 1; fatigue 08:15 driver_fatigue S0 rank 1; roping:1 08:45 roping; phdrift:1 08:15 sensor_ph; hpgr:2 08:30 hpgr_uneven; mantle:1 08:05 crusher_mantle; oil 11:15 oil_contam (EX01), затем отмена."
+    },
+    {
+      "kind": "file",
+      "content": "aktogay/web/static/scenario_stand_check.json (в коммите 9c8b37f): все 32 сценария каталога прогнаны на стенде 25.10.2026 — startup:1, dust, icy, fatigue, roping:1, phdrift:1, hpgr:2, mantle:1, oil: ok true, беда появилась, отмена 200. aktogay/web/static/scenario_timing.json: первая беда сценария — dust: tailings_dust S1; icy: road_winter S0; fatigue: driver_fatigue S0; roping:1: roping; phdrift:1: sensor_ph; hpgr:2: hpgr_uneven; mantle:1: crusher_mantle; oil: oil_contam (185 мин); startup:1: сначала ball_stop (мельница стоит с человеком внутри), беда S0 — после команды на пуск через ≈60 мин."
+    },
+    {
+      "kind": "file",
+      "content": "SUBMISSION.md:168 и SUBMISSION.md:173 — заявки этих функций; SUBMISSION.md:145-174 — раздел «Modules and What-if Scenarios» с таблицей модулей, функций и сценариев."
+    },
+    {
+      "kind": "file",
+      "content": "aktogay/modules/priority.py:626-648 — беды startup_zone (S0) и tailings_dust (S1); aktogay/sim/plant.py:869-881 — сценарии startup:1 и dust; aktogay/web/static/app.js:1101-1121 — кнопки сценариев."
+    }
+  ],
+  "submitted_at": "2026-10-29T20:51:55+00:00",
+  "code": "",
+  "explanation": ""
+}

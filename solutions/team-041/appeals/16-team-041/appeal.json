@@ -1,0 +1,35 @@
+{
+  "id": "16-team-041",
+  "source": "16-team-041.yaml",
+  "accepted": true,
+  "team": "team-041",
+  "document": "build_report",
+  "claim": "/modules/2/works",
+  "original": "partly",
+  "statement": "The exact statement in the report that is wrong / Точное утверждение в отчёте, которое неверно\n\"name\": \"Модуль управления фабрикой (module-plant)\", \"works\": \"partly\",\n\"evidence\": \"module-plant online; mill.setpoint_source=plant-control, feed_setpoint_tph=3557; last_decision «Уставка питания 3557 т/ч: склад заполнен на 59 %… пик начинается при складе от 65 %». В логе sim set-feed-rate → mill {'tph': 3557.0}. Пик до 3900 т/ч не наблюдался (склад < 65 % за время проверки) — это заявленное поведение, увидеть его не удалось.\"\n\nWhat is actually true / Что верно на самом деле\nМодуль работает так, как заявлено в SUBMISSION.md:123: при складе дроблёной руды ниже 65 % он держит устойчивый потолок 3 557 т/ч, пик до 3 900 т/ч начинается только со склада от 65 %. Отчёт сборки сам фиксирует склад 59 % и уставку 3 557 т/ч, то есть ровно заявленное поведение («это заявленное поведение»); пик при таком складе и не должен был начаться.",
+  "evidence": [
+    {
+      "kind": "file",
+      "content": "SUBMISSION.md:123\n«Выше модуль поднимает уставку только пиками до 3 900 т/ч …: пока склад дроблёной руды заполнен не меньше чем на 65 % (начатый пик идёт до 55 %), дробилка работает и в смене осталось пиковое время». Замороженный коммит 56f1f6962a1bc361ea85f69468ee04c3edc6a15b."
+    },
+    {
+      "kind": "file",
+      "content": "mine/model/params.yaml:743\npeak_from_pct: 65 — заполнение склада, с которого модуль начинает пик; params.yaml:745 peak_hold_pct: 55."
+    },
+    {
+      "kind": "file",
+      "content": "mine/modules/plant/core.py:148\nПик выше устойчивого потолка — только при почти полном складе и работающей дробилке, пока в смене осталось пиковое время (строки 148–151)."
+    },
+    {
+      "kind": "file",
+      "content": "mine/tests/test_modules.py:79\ntest_plant_control_peaks_when_the_stockpile_is_full: когда склад заполняется (с остальными модулями), модуль даёт пики больше 60 минут за смену (assertGreater(max(on[\"shift_peak_min\"]), 60.0), строка 89); входит в `make mine-test`, проходит на 56f1f69."
+    },
+    {
+      "kind": "file",
+      "content": "solutions/team-041/build_report.json, /modules/2/evidence\n«склад заполнен на 59 %… пик начинается при складе от 65 %», «уставка питания 3557 т/ч», «это заявленное поведение» — наблюдение Сборщика совпадает с заявленным правилом."
+    }
+  ],
+  "submitted_at": "2026-10-29T10:04:18+00:00",
+  "code": "",
+  "explanation": ""
+}

@@ -1,0 +1,11 @@
+$ cd /home/judge/solution && make verify
+Bozshakol end-to-end check
+  FAIL  twins: HTTP Error 503: Service Unavailable
+  FAIL  model: HTTP Error 503: Service Unavailable
+  ok    history: 1680 points from site, haulage and gc-01 in InfluxDB over the last 3 min (Ditto -> Telegraf -> InfluxDB)
+  FAIL  ui: HTTP Error 503: Service Unavailable
+  FAIL  what-if: HTTP Error 503: Service Unavailable
+verify: FAILED
+make: *** [Makefile:81: verify] Error 1
+
+exit code: 2

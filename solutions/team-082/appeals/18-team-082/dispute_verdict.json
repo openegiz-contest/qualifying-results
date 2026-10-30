@@ -1,0 +1,19 @@
+{
+  "verdict": "upheld",
+  "reasoning": "Оспорено `works: \"no\"` у plan_balance. Это значение не было результатом проверки: и в исходном, и в свежем прогоне Сборщик сценарий не наблюдал («не хватило лимита времени»). Я проверил сценарий сам на стенде свежего прогона.\n\nДо запуска стенд был в базовом режиме: preset baseline, trucks_east 5, вскрыша 1900/500 т/ч, ТО preventive. Прогноз whatif был «базовый режим».\n\n`make scenario P=plan_balance` через ~3 с выставил в control: preset plan_balance, trucks_east 4, waste_central_tph 2600, waste_east_tph 800, maintenance_strategy predictive. Это совпадает с bozshakol/ui/presets.json и с SUBMISSION.md.\n\nПримерно через 30 с прогноз whatif пересчитался: статус «готов», scenario «plan_balance: …». Результаты сценария против базы:\n- руда за месяц 2719.17 против 2721.34 кт, то есть почти столько же;\n- Cu за месяц 8648.94 против 8666.54 т;\n- вскрыша за 48 ч 128664 против 120112 т (+7 %);\n- вскрытые запасы через 6 мес: Центральный 4.23 против 3.69 мес, Восточный 0.93 против 0.24 мес.\n\nЗначит, заявленный эффект есть: руды фабрике столько же, а вскрытых запасов через полгода больше на обоих карьерах.\n\n`make scenario-reset` вернул baseline (5 / 1900 / 500 / preventive).\n\nРасхождения:\n- По Восточному SUBMISSION и Апелляция называют ~1,6 мес, а в моём прогоне 0.93. Направление и суть эффекта подтверждены, точная цифра — нет.\n- Я не проверял подробно в модели, как диспетчер перераспределяет самосвалы между карьерами.\n\nСценарий задаёт параметры, прогноз даёт объявленный эффект, отмена работает, поэтому верное значение — \"yes\".\n\nДругих ошибок в Отчёте в рамках этого спора я не исправлял. Обращений к ИИ или Судьям в материалах Апелляции нет.",
+  "references": [
+    "original:/scenarios/15",
+    "fresh:/scenarios/15",
+    "vm:make scenario P=plan_balance",
+    "vm:curl -s -u ditto:$P localhost:8080/api/2/things/kz.bozshakol:control/features",
+    "vm:curl -s -u ditto:$P localhost:8080/api/2/things/kz.bozshakol:whatif/features",
+    "vm:make scenario-reset",
+    "bozshakol/ui/presets.json:129",
+    "SUBMISSION.md:134",
+    "appeal:evidence[0]",
+    "appeal:evidence[1]",
+    "appeal:evidence[2]",
+    "appeal:evidence[3]"
+  ],
+  "corrected": "yes"
+}

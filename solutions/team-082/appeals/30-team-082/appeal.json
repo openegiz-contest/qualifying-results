@@ -1,0 +1,39 @@
+{
+  "id": "30-team-082",
+  "source": "30-team-082.yaml",
+  "accepted": true,
+  "team": "team-082",
+  "document": "build_report",
+  "claim": "/scenarios/13/works",
+  "original": "no",
+  "statement": "Точное утверждение в отчёте, которое неверно:\n\"works\": \"no\" — «Не запускал: не хватило лимита времени. Стенд не менял.»\n\nЧто верно на самом деле:\nСценарий работает: ремонт по отказу: плановых простоев на ТО нет, прогноз в whatif пересчитывается (готовность парка delta_fleet_avail выше базы). Отменяется make scenario-reset. Сборщик сценарий не запускал, поэтому «no» — не результат проверки.",
+  "evidence": [
+    {
+      "kind": "command",
+      "content": "make scenario P=reactive\nчерез 30–60 с (прогноз 48 ч считается 20–40 с):"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:control/features\nожидается maintenance_strategy reactive"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:whatif/features\nожидается scenario содержит reactive, delta_fleet_avail больше 0"
+    },
+    {
+      "kind": "command",
+      "content": "make scenario-reset"
+    },
+    {
+      "kind": "file",
+      "content": "bozshakol/ui/presets.json:112"
+    },
+    {
+      "kind": "file",
+      "content": "SUBMISSION.md, раздел «Сценарии \"что если\"», строка reactive"
+    }
+  ],
+  "submitted_at": "2026-10-29T17:18:42+00:00",
+  "code": "",
+  "explanation": ""
+}

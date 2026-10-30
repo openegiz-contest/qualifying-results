@@ -1,0 +1,15 @@
+{
+  "rank": 11,
+  "score": 73.33,
+  "mean_total": 73.33,
+  "ceiling": [],
+  "judges": {
+    "gpt-6.1-sol": 68.75,
+    "gpt-6-astra": 68.75,
+    "opus-5.5": 82.5
+  },
+  "came_up": true,
+  "built_on_openegiz": "yes",
+  "injection_verdict": "clean",
+  "status": "ranked"
+}

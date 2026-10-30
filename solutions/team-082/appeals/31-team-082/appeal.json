@@ -1,0 +1,39 @@
+{
+  "id": "31-team-082",
+  "source": "31-team-082.yaml",
+  "accepted": true,
+  "team": "team-082",
+  "document": "build_report",
+  "claim": "/scenarios/14/works",
+  "original": "no",
+  "statement": "Точное утверждение в отчёте, которое неверно:\n\"works\": \"no\" — «Не запускал: не хватило лимита времени. Стенд не менял.»\n\nЧто верно на самом деле:\nСценарий работает: ТО по состоянию и 2 CAT 785C в резерве: в двойнике control trucks_parked 2, два самосвала уходят в состояние parked, прогноз в whatif: вскрыша около +7 %, расход ДТ ниже базы. Отменяется make scenario-reset. Сборщик сценарий не запускал, поэтому «no» — не результат проверки.",
+  "evidence": [
+    {
+      "kind": "command",
+      "content": "make scenario P=fleet_optimum\nчерез 30–60 с (прогноз 48 ч считается 20–40 с):"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:control/features\nожидается maintenance_strategy predictive, trucks_parked 2"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:whatif/features\nожидается delta_waste_t около +7, delta_diesel_l отрицательная"
+    },
+    {
+      "kind": "command",
+      "content": "make scenario-reset"
+    },
+    {
+      "kind": "file",
+      "content": "bozshakol/ui/presets.json:120"
+    },
+    {
+      "kind": "file",
+      "content": "SUBMISSION.md, раздел «Сценарии \"что если\"», строка fleet_optimum"
+    }
+  ],
+  "submitted_at": "2026-10-29T17:18:57+00:00",
+  "code": "",
+  "explanation": ""
+}

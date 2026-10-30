@@ -1,0 +1,31 @@
+{
+  "id": "06-team-037",
+  "source": "06-team-037.yaml",
+  "accepted": true,
+  "team": "team-037",
+  "document": "build_report",
+  "claim": "/scenarios/8/works",
+  "original": "no",
+  "statement": "Точное утверждение в отчёте, которое неверно (цитата):\n\"name\": \"Сценарии снабжения (fuel_shortage, no_tyres, kpp_closed)\", \"works\": \"no\", \"evidence\": \"Не запускал из-за времени и ненадёжного канала команд. fuel-depot.supply_cut 0, repair-shop.tyre_cut 0, checkpoint.closed_left 0.\"\n\nЧто верно на самом деле:\nСценарии работают. Доказательство в Отчёте прямо говорит, что их не запускали, а перечисленные нулевые значения — это и есть ожидаемое состояние двойников при незапущенном Сценарии, а не признак неработоспособности. Отчёт противоречит сам себе: в /modules/20 те же объекты признаны работающими.",
+  "evidence": [
+    {
+      "kind": "file",
+      "content": "Тот же Отчёт сборки, /modules/20/evidence: «Двойники fuel-depot (stock 2148 м³, supply_cut 0), repair-shop (tyres 12, tyre_cut 0), checkpoint (reagents_h 6.4, closed_left 0) работают. Сами сценарии fuel_shortage/no_tyres/kpp_closed не запускал»."
+    },
+    {
+      "kind": "file",
+      "content": "Коммит 76f36ae: обработчики fuel_shortage, no_tyres, kpp_closed и парные отмены в team/aktogay/app/src/platform/scenarios.ts; допустимые длительности — строки 27–28 того же файла."
+    },
+    {
+      "kind": "file",
+      "content": "Тесты последствий в том же коммите: team/aktogay/app/src/sim/__tests__/supply.test.ts:21 (fuel_shortage), :36 (kpp_closed), :49 (no_tyres) — проверяется именно поведение после applyScenario."
+    },
+    {
+      "kind": "file",
+      "content": "Модель объектов снабжения: team/aktogay/app/src/sim/depot.ts, team/aktogay/app/src/sim/checkpoint.ts."
+    }
+  ],
+  "submitted_at": "2026-10-28T11:45:20+00:00",
+  "code": "",
+  "explanation": ""
+}

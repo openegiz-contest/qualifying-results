@@ -1,0 +1,43 @@
+{
+  "id": "34-team-100",
+  "source": "34-team-100.yaml",
+  "accepted": true,
+  "team": "team-100",
+  "document": "build_report",
+  "claim": "/modules/3/works",
+  "original": "partly",
+  "statement": "The exact statement in the report that is wrong / Точное утверждение в отчёте, которое неверно\n/modules/3/works = \"partly\" (элемент /modules/3, \"name\": \"Пути меди, Изнутри, Экономика, Калибровка, сводка /summary\").\n/modules/3/evidence целиком: \"Страница /?view=copper отдаёт HTTP 200. В /summary.json есть калибровка (DONE, 62 строки: 38 в допуске, 2 вне допуска), правдоподобие 20/20 и module_effect +0,61 [0,23; 2,18]. /api/history отдаёт точки из InfluxDB. Визуальную часть без браузера не проверял.\"\n\nWhat is actually true / Что верно на самом деле\nВерное значение /modules/3/works — \"yes\": на коммите 9c8b37f, поднятом по README, все пять частей из name открываются и показывают заявленное — ?view=copper («Путь меди», балансы меди и воды, сверка с KAZ Minerals), ?view=inside (шесть групп узлов с сигналами, источниками и глубиной A/B/C), ?view=economics (+0,61 т Cu за смену [95 % ДИ +0,23; +2,18], медиана +0,09, +0,26 без смены-выброса), ?view=calib (62 строки калибровки, аудит балансов, правдоподобие) и /summary (сводка текстом без JavaScript). Ни одной неработающей части в evidence нет: partly поставлено только потому, что браузера у Сборщика не было.",
+  "evidence": [
+    {
+      "kind": "command",
+      "content": "curl -s http://127.0.0.1:8000/summary | grep -o 'Стенд «Актогай»: сводка текстом'\ncurl -s http://127.0.0.1:8000/summary.json | python3 -c '\nimport sys,json\nd=json.load(sys.stdin); c=d.get(\"calibration\") or {}; m=(d.get(\"module_effect\") or {}).get(\"total\") or {}\nprint(\"calibration:\", c.get(\"state\"), c.get(\"rows\"), c.get(\"in_tolerance\"), c.get(\"out_of_tolerance\"), c.get(\"no_tolerance\"), \"| plausibility:\", c.get(\"plausibility\"), \"| module_effect:\", m.get(\"mean\"), m.get(\"ci95\"))'\nfor f in inside.json exp23.json audit.json plausibility.json; do curl -s -o /dev/null -w \"$f %{http_code} %{size_download}\\n\" http://127.0.0.1:8000/$f; done\n\nЧто выводит: «Стенд «Актогай»: сводка текстом»; «calibration: DONE 62 38 2 22 | plausibility: {'ok': 20, 'bad': 0, 'no_data': 0, 'total': 20} | module_effect: 0.606475 [0.229896, 2.179587]» (после make akt-calib, README.md:84; в свободном ходе 20 из 20, во время сценария с утечкой одна проверка воды может быть bad); для четырёх файлов данных видов — код 200 и ненулевой размер. Команды только читают."
+    },
+    {
+      "kind": "command",
+      "content": "Браузер стенда (страницы рисует JavaScript из данных двойника и файлов выше; «Путь меди» показывает невязку «по счётчикам за 2 ч» после ≈2 мин хода):\nhttp://127.0.0.1:8000/?view=copper — «Путь меди», схема линий 1 и 2 с т/ч и «в хвосты … т Cu/ч», «Окисленная цепочка: руда → куча → SX → электролиз → катод», «Баланс меди: питание = концентрат + хвосты», «Баланс воды», «Против факта: KAZ Minerals — забор воды 0,60 м³ на тонну…».\nhttp://127.0.0.1:8000/?view=inside — «Изнутри: руда, дамба, люди, машины, фабрика, данные», вкладки «Руда», «Дамба», «Люди», «Машины», «Фабрика», «Среда и данные»; на «Машины» у EX3600-6, EX1200-6 и CAT 793 глубина A.\nhttp://127.0.0.1:8000/?view=economics — «Экономика: что даёт двойник — оценка на модели, не замер фабрики», «+0,61 т Cu», «+0,23…+2,18», «медиана +0,09», «+0,26».\nhttp://127.0.0.1:8000/?view=calib — «Калибровка и проверка модели», «Независимый аудит балансов», «Калибровка по годовым отчётам» со строкой «Строк 62: в допуске 38, вне допуска 2, без допуска 22», «Сверка с фактом KAZ Minerals: вода, энергия, CO₂»."
+    },
+    {
+      "kind": "log",
+      "content": "Официальный стенд Отборочного этапа, тот же коммит 9c8b37f: Судья gpt-6-astra открыл /?view=copper; скриншот solutions/team-100/screenshots/gpt-6-astra/copper-grid-hard.png в qualifying-results показывает «Путь меди» по двум линиям с т/ч, «в хвосты 1,99 т Cu/ч» и пояснение про серые хвосты. solutions/team-100/logs/04-make-akt-calib-2-4.txt:67 — «62 rows: 38 ok, 2 not ok, 22 without tolerance»; :69 — «validation-calib: DONE, 62 rows, trial N 100»."
+    },
+    {
+      "kind": "log",
+      "content": "Подсказка, не факт (стенд Команды): 29.10.2026, стенд из чистого клона 9c8b37f, headless Chrome 1440×1600 — все пять страниц отрисованы: на «Экономике» +0,61 т Cu [+0,23…+2,18], медиана +0,09, без смены-выброса +0,26; на «Калибровке» — аудит балансов (32 смены, нарушений 0) и «Сейчас выполнено 20 из 20 проверок»; на «Изнутри» — шесть вкладок и живые числа забоев."
+    },
+    {
+      "kind": "file",
+      "content": "README.md:6 — /summary: то же состояние текстом без JavaScript; README.md:12 — ?view=copper, ?view=inside; README.md:13 — ?view=economics (+0,61 т Cu за смену [95 % ДИ +0,23; +2,18]), ?view=calib."
+    },
+    {
+      "kind": "file",
+      "content": "SUBMISSION.md:171 — «Путь меди», балансы меди и воды, сверка с KAZ Minerals 0,60 м³/т; SUBMISSION.md:172 — «Экономика» как итог опыта «вкл/выкл» от 24.10.2026; SUBMISSION.md:174 — «Изнутри»."
+    },
+    {
+      "kind": "file",
+      "content": "aktogay/web/static/flow.js:157-205 (вид copper; :117 — медь в хвосты, т Cu/ч; :161 — пояснение про серые хвосты), aktogay/web/static/inside.js:218-280 (вид inside, данные /inside.json), aktogay/web/static/pages.js:220-248 (вид economics, данные /exp23.json), aktogay/web/static/views.js:153-226 (вид calib), aktogay/web/static/app.js:1011-1013 (пункты меню), aktogay/web/summary.py:300-317 и aktogay/web/server.py:610-613 (/summary, /summary.json)."
+    }
+  ],
+  "submitted_at": "2026-10-29T20:14:23+00:00",
+  "code": "",
+  "explanation": ""
+}

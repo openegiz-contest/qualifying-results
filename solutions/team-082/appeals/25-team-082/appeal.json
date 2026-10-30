@@ -1,0 +1,39 @@
+{
+  "id": "25-team-082",
+  "source": "25-team-082.yaml",
+  "accepted": true,
+  "team": "team-082",
+  "document": "build_report",
+  "claim": "/scenarios/8/works",
+  "original": "no",
+  "statement": "Точное утверждение в отчёте, которое неверно:\n\"works\": \"no\" — «Не запускал: не хватило лимита времени. Стенд не менял.»\n\nЧто верно на самом деле:\nСценарий работает: МПСИ −20 % и ШМ −12 % в часы пика 17–23; прогноз в whatif показывает потерю меди около −3,7 % и маржи около −4 % за 48 ч. Отменяется make scenario-reset. Сборщик сценарий не запускал, поэтому «no» — не результат проверки.",
+  "evidence": [
+    {
+      "kind": "command",
+      "content": "make scenario P=peak_shaving\nчерез 30–60 с (прогноз 48 ч считается 20–40 с):"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:control/features\nожидается peak_shaving true"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:whatif/features\nожидается delta_cu_t около −3,7, delta_margin_mkzt около −4"
+    },
+    {
+      "kind": "command",
+      "content": "make scenario-reset"
+    },
+    {
+      "kind": "file",
+      "content": "bozshakol/ui/presets.json:64"
+    },
+    {
+      "kind": "file",
+      "content": "SUBMISSION.md, раздел «Сценарии \"что если\"», строка peak_shaving"
+    }
+  ],
+  "submitted_at": "2026-10-29T17:16:35+00:00",
+  "code": "",
+  "explanation": ""
+}

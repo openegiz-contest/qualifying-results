@@ -1,0 +1,139 @@
+{
+  "appeal": "37-team-100",
+  "team": "team-100",
+  "document": "build_report",
+  "claim": "/modules",
+  "original": [
+    {
+      "name": "Модуль «Где теряется медь» (mod-losses)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В вещи kz.aktogay:mod-losses есть статусы и разрывы по узлам (sag-1_status, gap_cu_tph, sigma), они обновляются по времени модели. В «Два сразу» к 10:05 модели flot-1.tail_cu вырос с 0,052 до 0,067, а модуль поставил Флотации 1 статус «потеря»: −0,72 т Cu/ч ± 0,23, −$10,0 тыс./ч, z = 3,1, «уставка АСУ не пересечена», звать КИПиА и металлурга. В свободном ходе все узлы «в пределах шума»."
+    },
+    {
+      "name": "Модуль «Какая руда идёт» (mod-ore)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Окно прихода и прогноз работают. При hard:1 в mod-ore появились next_hard_axb=27, next_hard_eta_early_h_l1=0,417 и next_hard_eta_h_l1=2,583 (до запуска −1), прогноз fc_tph_h1 снизился с 7706 до 7550 т/ч, в очереди беда «твёрдая руда, партия 13, SAG 3 842 → ≈ 3 329 т/ч». Сверку «сбылось ли» не увидел: check_text = «проверок ещё не было: твёрдая партия до SAG не дошла», сценарий я отменил раньше."
+    },
+    {
+      "name": "Модуль «Очередь бед» (mod-priority, issue-*)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В Ditto появляются вещи issue-N: issue-2 dam_alarm, issue-4 lube_trip, issue-5 loss_flot и другие. В queue_text есть цена, кого звать и «можно отложить до 11:57» (дробилка 2 в «Два сразу»). Беды S0 стоят первыми: при reline:1 «Люди в SAG-1 — пуск запрещён», при hpgr_fire — пожар ВВД. В «Два сразу» модуль сам вызвал бригаду (policy: mode=module, n_calls=1, вызов flot-1 в 575 мин модели). Кнопки «Принять» / «Не согласен» не нажимал."
+    },
+    {
+      "name": "Пути меди, Изнутри, Экономика, Калибровка, сводка /summary",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Страница /?view=copper отдаёт HTTP 200. В /summary.json есть калибровка (DONE, 62 строки: 38 в допуске, 2 вне допуска), правдоподобие 20/20 и module_effect +0,61 [0,23; 2,18]. /api/history отдаёт точки из InfluxDB. Визуальную часть без браузера не проверял."
+    },
+    {
+      "name": "Сдача смены, цепочка ответственности, наряд-допуск, зима/тариф, прогнозы, отклонения",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "В mod-priority есть признаки review_text, season_text, deviations_text. При crusher:1 у person-crusher-mech были permit=crusher-1 и free_at. В «Два сразу» в очереди было «Дежурный КИПиА: занят… → предложить заместителя Дежурный энергетик». Лист сдачи в 07:30/19:30, сценарии winter, pitstop и conveyor не проверял: не хватило времени."
+    },
+    {
+      "name": "Тихие перерасходы (energy:N, reagent:N, leak)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Отдельно не запускал. В mod-losses есть признаки энергии SAG (sag-1_e_meas_kwh_t, e_exp_kwh_t, energy_usd_h), в /summary — строка silent «тихих перерасходов не найдено». Срабатывание не наблюдал."
+    }
+  ],
+  "status": "upheld",
+  "reasoning": "Оспорено только /modules исходного отчёта: в нём нет двух функций, которые заявлены в SUBMISSION.md. Это строки таблицы «Modules and What-if Scenarios»: «Люди в опасной зоне при пуске (S0) и пыление пляжа (S1)» (startup_zone, tailings_dust) и «Тир S» (icy, fatigue, roping:N, phdrift:N, hpgr:2, mantle:N, oil). Исходный Сборщик включал в /modules и другие строки этой таблицы, которые не являются отдельными модулями, например «Тихие перерасходы» и «Сдача смены…». Беды startup_zone и tailings_dust создаёт mod-priority. Значит, пропуск этих двух строк делает массив неполным: дело не в выборе категории.\n\nЧто проверил: git HEAD = 9c8b37f. Я прогнал на стенде свежей VM команду из evidence[0], ничего в ней не меняя, только добавил вывод. Она лишь запускает сценарии каталога через POST /api/scenario и читает /summary.json. Все девять сценариев подняли заявленную беду, у каждой rank 1:\n- startup:1 — startup_zone, S0, в 09:15 модели, текст «ПУСК ПРИ ЛЮДЯХ…»;\n- dust — tailings_dust, S1, в 08:10;\n- icy — road_winter, S0, в 08:15;\n- fatigue — driver_fatigue, S0, в 08:10, HT141;\n- roping:1 — roping, в 08:40;\n- phdrift:1 — sensor_ph, в 08:15;\n- hpgr:2 — hpgr_uneven, в 08:25;\n- mantle:1 — crusher_mantle, в 08:10;\n- oil — oil_contam на EX01, в 11:15.\n\nПосле cancel scenario пуст, очередь пуста, git status чистый.\n\nВ свежем отчёте startup:1 стоит как partly: беду там ждали только 60 с. По описанию в SUBMISSION команда на пуск включается позже, и у меня S0 появилась в 09:15 модели. Свежий отчёт не опровергает работоспособность функции, он лишь показывает, что ждали слишком мало. Поэтому я принимаю Апелляцию.\n\nВ corrected_claim шесть исходных элементов оставлены как есть и добавлены два новых с works = \"yes\". Замечание без исправления: в «now.scenario» для roping:1 и phdrift:1 пусто, это сценарии скрытой причины. Беды при этом появились. Текстов, обращённых к Судье, в материалах не нашёл.",
+  "references": [
+    "vm:cd /home/judge/solution && git log -1 --format=%H && sed -n 140,180p SUBMISSION.md",
+    "vm:команда из appeal:evidence[0] (job dad853172e62): startup:1..oil, POST /api/scenario + /summary.json, затем POST /api/cancel",
+    "vm:curl -s localhost:8000/summary.json (после cancel: scenario пуст, queue [])",
+    "appeal:evidence[0]",
+    "appeal:evidence[3]",
+    "fresh:/scenarios/8",
+    "fresh:/scenarios/9",
+    "original:/modules"
+  ],
+  "submitted_at": "2026-10-29T20:51:55+00:00",
+  "decided_at": "2026-10-30T04:57:43+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 3,
+    "score": 89.17,
+    "mean_total": 89.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 88.75,
+      "gpt-6-astra": 88.75,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "corrected": [
+    {
+      "name": "Модуль «Где теряется медь» (mod-losses)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В вещи kz.aktogay:mod-losses есть статусы и разрывы по узлам (sag-1_status, gap_cu_tph, sigma), они обновляются по времени модели. В «Два сразу» к 10:05 модели flot-1.tail_cu вырос с 0,052 до 0,067, а модуль поставил Флотации 1 статус «потеря»: −0,72 т Cu/ч ± 0,23, −$10,0 тыс./ч, z = 3,1, «уставка АСУ не пересечена», звать КИПиА и металлурга. В свободном ходе все узлы «в пределах шума»."
+    },
+    {
+      "name": "Модуль «Какая руда идёт» (mod-ore)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Окно прихода и прогноз работают. При hard:1 в mod-ore появились next_hard_axb=27, next_hard_eta_early_h_l1=0,417 и next_hard_eta_h_l1=2,583 (до запуска −1), прогноз fc_tph_h1 снизился с 7706 до 7550 т/ч, в очереди беда «твёрдая руда, партия 13, SAG 3 842 → ≈ 3 329 т/ч». Сверку «сбылось ли» не увидел: check_text = «проверок ещё не было: твёрдая партия до SAG не дошла», сценарий я отменил раньше."
+    },
+    {
+      "name": "Модуль «Очередь бед» (mod-priority, issue-*)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В Ditto появляются вещи issue-N: issue-2 dam_alarm, issue-4 lube_trip, issue-5 loss_flot и другие. В queue_text есть цена, кого звать и «можно отложить до 11:57» (дробилка 2 в «Два сразу»). Беды S0 стоят первыми: при reline:1 «Люди в SAG-1 — пуск запрещён», при hpgr_fire — пожар ВВД. В «Два сразу» модуль сам вызвал бригаду (policy: mode=module, n_calls=1, вызов flot-1 в 575 мин модели). Кнопки «Принять» / «Не согласен» не нажимал."
+    },
+    {
+      "name": "Пути меди, Изнутри, Экономика, Калибровка, сводка /summary",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Страница /?view=copper отдаёт HTTP 200. В /summary.json есть калибровка (DONE, 62 строки: 38 в допуске, 2 вне допуска), правдоподобие 20/20 и module_effect +0,61 [0,23; 2,18]. /api/history отдаёт точки из InfluxDB. Визуальную часть без браузера не проверял."
+    },
+    {
+      "name": "Сдача смены, цепочка ответственности, наряд-допуск, зима/тариф, прогнозы, отклонения",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "В mod-priority есть признаки review_text, season_text, deviations_text. При crusher:1 у person-crusher-mech были permit=crusher-1 и free_at. В «Два сразу» в очереди было «Дежурный КИПиА: занят… → предложить заместителя Дежурный энергетик». Лист сдачи в 07:30/19:30, сценарии winter, pitstop и conveyor не проверял: не хватило времени."
+    },
+    {
+      "name": "Тихие перерасходы (energy:N, reagent:N, leak)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Отдельно не запускал. В mod-losses есть признаки энергии SAG (sag-1_e_meas_kwh_t, e_exp_kwh_t, energy_usd_h), в /summary — строка silent «тихих перерасходов не найдено». Срабатывание не наблюдал."
+    },
+    {
+      "name": "Люди в опасной зоне при пуске (S0) и пыление пляжа (S1) (startup_zone, tailings_dust)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Перепроверка Судьи по Апелляции 37-team-100 на 9c8b37f при ×60. startup:1 (s42-scen-0002): в 09:15 модели — startup_zone, S0, rank 1, «Шаровая 1A: ПУСК ПРИ ЛЮДЯХ… команда на пуск включена; отменить пуск…», звать начальника смены фабрики и механика фабрики. dust (s42-scen-0003): в 08:10 — tailings_dust, S1, rank 1, «пыление пляжа хвостохранилища: ветер 11 м/с при сухом пляже 85 %», звать технолога хвостов и оборотной воды."
+    },
+    {
+      "name": "Тир S: зимняя дорога, усталость водителя, канатирование циклонов, pH-метр, ВВД линии 2, замена брони, масло EX01 (icy, fatigue, roping:N, phdrift:N, hpgr:2, mantle:N, oil)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Перепроверка Судьи по Апелляции 37-team-100: каждый сценарий поднял заявленную беду с rank 1. icy — road_winter S0 (08:15: видимость 120 м, сцепление 0,30); fatigue — driver_fatigue S0 (08:10, HT141 CAT 793D); roping:1 — roping (08:40, циркулирующая нагрузка 332 %); phdrift:1 — sensor_ph (08:15, онлайн 10,81 против пробы 11,50); hpgr:2 — hpgr_uneven (08:25, перекос валков 11 %); mantle:1 — crusher_mantle (08:10, замена брони ≈60 ч); oil — oil_contam на EX01 (11:15, 104 % уровня тревоги). После POST /api/cancel scenario пуст, бед нет."
+    }
+  ],
+  "after": {
+    "rank": 3,
+    "score": 89.17,
+    "mean_total": 89.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 88.75,
+      "gpt-6-astra": 88.75,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  }
+}

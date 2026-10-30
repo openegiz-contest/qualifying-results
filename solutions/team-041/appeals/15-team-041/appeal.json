@@ -1,0 +1,51 @@
+{
+  "id": "15-team-041",
+  "source": "15-team-041.yaml",
+  "accepted": true,
+  "team": "team-041",
+  "document": "build_report",
+  "claim": "/scenarios/7/works",
+  "original": "no",
+  "statement": "The exact statement in the report that is wrong / Точное утверждение в отчёте, которое неверно\n\"name\": \"Замена футеровки МПСИ (scenario-sag-reline)\", \"works\": \"no\", \"undone\": \"yes\",\n\"evidence\": \"activate {params:{cause:full,start:next-shift}} через шлюз страницы (тело как activateBody в control.js) — HTTP 202 (в логе nginx mine-ui), но за 2 мин status=inactive, mill-sag.reline_state пуст; в логе mine-sim сообщение не появилось. Повторил тот же запрос один раз — результат тот же. В журнале соединения Ditto mosquitto-target-connection есть записи «Message is dropped as a result of backpressure strategy!» — вероятная причина потери. Стенд не изменился, сценарий не включён.\"\n\nWhat is actually true / Что верно на самом деле\nСценарий работает. Отчёт сборки сам показывает, что запрос не дошёл до симулятора («в логе mine-sim сообщение не появилось»): Ditto отбросило сообщение в соединении Ditto → MQTT. Это потеря доставки на Стенде в тот момент, а не отказ Сценария. На том же Стенде Судья opus-5.5 запустил этот Сценарий через интерфейс, и он включился (`mill-sag reline_state=planned`). На чистой VM тот же запрос Сборщика доходит и включает Сценарий.",
+  "evidence": [
+    {
+      "kind": "file",
+      "content": "solutions/team-041/scores/opus-5.5.json, критерий «Сценарии»\n«Сам через интерфейс запустил четыре сценария. … Замена футеровки МПСИ: mill-sag reline_state=planned.» Это тот же Стенд, что у Сборщика. Там же Судья отмечает, что одно его нажатие «Отменить» вернуло 202, но тоже не дошло до mine-sim, а со второго нажатия Сценарий отменился. Это потеря доставки сообщения, а не поведение Сценария."
+    },
+    {
+      "kind": "file",
+      "content": "solutions/team-041/build_report.json, /scenarios/7/evidence\n«HTTP 202 … в логе mine-sim сообщение не появилось», «Message is dropped as a result of backpressure strategy!». Симулятор запрос не получал, поэтому проверить Сценарий этой попыткой нельзя."
+    },
+    {
+      "kind": "command",
+      "content": "README на чистой Ubuntu 24.04 (WSL), Docker 29.1.3, Compose 2.40.3, коммит 56f1f6962a1bc361ea85f69468ee04c3edc6a15b, 2026-10-29: sudo apt-get update && sudo apt-get install -y make curl; make mine; make mine-check"
+    },
+    {
+      "kind": "log",
+      "content": "  ok    sag-reline planned: 2026-10-26T20:00:00 → 2026-10-29T20:00:00, 72.0 h (полная замена футеровки МПСИ 40 футов — около 72 ч по оценке Bradken для мельницы этого диаметра; для Бозшаколя длительность не опубликована — допущение модели)\n  ok    plan-reline {start: now} to mill-sag: mill.state = reline, mill feed 0 t/h, ОФ-2 starting\n  ok    sag-reline cancelled: scenario inactive, mill.state = idle, no reline planned"
+    },
+    {
+      "kind": "command",
+      "content": "тот же Стенд, запрос Сборщика как есть, трижды:\ncurl -X POST -H 'Content-Type: application/json' -d '{\"params\":{\"cause\":\"full\",\"start\":\"next-shift\"}}' 'http://127.0.0.1:8088/ditto/api/2/things/kz.bozshakol:scenario-sag-reline/inbox/messages/activate?timeout=0'"
+    },
+    {
+      "kind": "log",
+      "content": "docker logs openegiz-mine-sim-1\n2026-10-29 07:32:01,570 mine.sim INFO live message activate -> scenario-sag-reline {'params': {'cause': 'full', 'start': 'next-shift'}}\n2026-10-29 07:32:02,533 mine.sim INFO live message forecast -> mine {'slot': 3, 'horizon_h': 98, … 'label_b': 'Начать замену футеровки сразу (26.10 10:41) вместо 26.10 20:00: пуск мельницы около 29.10 10:41', …}\n2026-10-29 07:34:17,444 mine.sim INFO live message activate -> scenario-sag-reline {'params': {'cause': 'full', 'start': 'next-shift'}}\n2026-10-29 07:34:19,444 mine.sim INFO live message forecast -> mine {'slot': 3, 'horizon_h': 97, … 'label_b': 'Начать замену футеровки сразу (26.10 11:27) вместо 26.10 20:00: …'}\n2026-10-29 07:36:32,355 mine.sim INFO live message activate -> scenario-sag-reline {'params': {'cause': 'full', 'start': 'next-shift'}}\n2026-10-29 07:36:33,355 mine.sim INFO live message forecast -> mine {'slot': 3, 'horizon_h': 96, … 'label_b': 'Начать замену футеровки сразу (26.10 12:12) вместо 26.10 20:00: …'}\nВсе три запроса дошли. Через 1–2 с после каждого Модуль-советник считает варианты для замены, запланированной на начало следующей смены (26.10 20:00). Это значит, что Сценарий включился в фазе «запланирована». В журнале соединения Ditto записей backpressure 0."
+    },
+    {
+      "kind": "file",
+      "content": "mine/sim/scenarios.py:1201\nclass SagReline — Сценарий: план на начало следующей смены, остановка МПСИ, отмена; live-сообщение plan-reline (строка 1279)."
+    },
+    {
+      "kind": "file",
+      "content": "mine/tests/stand_check.sh:320\nПроверка `make mine-check`: план, plan-reline {start: now}, остановка мельницы, отмена (строки 320–344)."
+    },
+    {
+      "kind": "file",
+      "content": "mine/tests/test_scenarios.py:630\nclass SagReline — тесты Сценария в `make mine-test`."
+    }
+  ],
+  "submitted_at": "2026-10-29T10:04:16+00:00",
+  "code": "",
+  "explanation": ""
+}

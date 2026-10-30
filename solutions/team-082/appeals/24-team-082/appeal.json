@@ -1,0 +1,39 @@
+{
+  "id": "24-team-082",
+  "source": "24-team-082.yaml",
+  "accepted": true,
+  "team": "team-082",
+  "document": "build_report",
+  "claim": "/scenarios/7/works",
+  "original": "no",
+  "statement": "Точное утверждение в отчёте, которое неверно:\n\"works\": \"no\" — «Не запускал: не хватило лимита времени. Стенд не менял.»\n\nЧто верно на самом деле:\nСценарий работает: ограничение 30 км/ч на магистралях: самосвалы на дорогах едут не быстрее 30 км/ч, цикл рейса длиннее, прогноз в whatif пересчитывается (delta_waste_t около −0,7 %). Отменяется make scenario-reset. Сборщик сценарий не запускал, поэтому «no» — не результат проверки.",
+  "evidence": [
+    {
+      "kind": "command",
+      "content": "make scenario P=speed_limit\nчерез 30–60 с (прогноз 48 ч считается 20–40 с):"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:control/features\nожидается speed_limit_kmh 30"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:whatif/features\nожидается scenario содержит speed_limit, delta_waste_t отрицательная; у самосвалов ht-* на магистралях speed не выше 30"
+    },
+    {
+      "kind": "command",
+      "content": "make scenario-reset"
+    },
+    {
+      "kind": "file",
+      "content": "bozshakol/ui/presets.json:40"
+    },
+    {
+      "kind": "file",
+      "content": "SUBMISSION.md, раздел «Сценарии \"что если\"», строка speed_limit"
+    }
+  ],
+  "submitted_at": "2026-10-29T17:16:19+00:00",
+  "code": "",
+  "explanation": ""
+}

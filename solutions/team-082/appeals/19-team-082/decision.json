@@ -1,0 +1,53 @@
+{
+  "appeal": "19-team-082",
+  "team": "team-082",
+  "document": "build_report",
+  "claim": "/scenarios/16/works",
+  "original": "no",
+  "status": "upheld",
+  "reasoning": "Сборщик этот сценарий не запускал: и в исходном отчёте («не хватило лимита времени»), и в свежем («не наблюдал») он помечен как непроверенный. Поэтому `\"works\": \"no\"` записан без наблюдения. Я проверил сценарий сам на стенде свежего прогона. Начальное состояние было базовым: preset baseline, east_ore_share 0.3, trucks_east 5, scen_ore_short_6m_kt 0. Запустил `make scenario P=plan_east_push`. Через 50 с в control стало preset plan_east_push, east_ore_share 0.45, trucks_east 7. В whatif стало: scenario «plan_east_push: east_ore_share=0.45, trucks_east=7», status «готов», scen_exposed6_east_mo 0.0 (база 0.4, −100 %), scen_exposed6_central_mo 5.49 (база 3.61), scen_ore_short_6m_kt 1858.94, delta_cu_6m_kt −9.7 %. Это совпадает с описанием в presets.json и в SUBMISSION.md. После `make scenario-reset` стенд вернулся в базу: preset baseline, east_ore_share 0.3, trucks_east 5, в whatif «базовый режим», ore_short 0, delta_cu_6m 0. Сценарий работает по README без изменений кода и окружения, значит верное значение — \"yes\". Попутно: у plan_east_strip и fleet_optimum отметка «no» тоже поставлена без запуска, но их я не проверял и не исправляю. Текстов, обращённых к судьям, в материалах нет.",
+  "references": [
+    "original:/scenarios/16",
+    "fresh:/scenarios/16",
+    "vm:make scenario P=plan_east_push; sleep 50; curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:control/features; curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:whatif/features",
+    "vm:make scenario-reset; sleep 40; curl whatif/control features",
+    "bozshakol/ui/presets.json:140",
+    "SUBMISSION.md:135",
+    "appeal:evidence[0]",
+    "appeal:evidence[2]"
+  ],
+  "submitted_at": "2026-10-29T17:08:10+00:00",
+  "decided_at": "2026-10-30T03:45:54+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 5,
+    "score": 84.17,
+    "mean_total": 84.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 80,
+      "gpt-6-astra": 82.5,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "corrected": "yes",
+  "after": {
+    "rank": 5,
+    "score": 84.17,
+    "mean_total": 84.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 80,
+      "gpt-6-astra": 82.5,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  }
+}

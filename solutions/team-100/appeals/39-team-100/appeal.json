@@ -1,0 +1,27 @@
+{
+  "id": "39-team-100",
+  "source": "39-team-100.yaml",
+  "accepted": true,
+  "team": "team-100",
+  "document": "build_report",
+  "claim": "/modules/3/evidence",
+  "original": "Страница /?view=copper отдаёт HTTP 200. В /summary.json есть калибровка (DONE, 62 строки: 38 в допуске, 2 вне допуска), правдоподобие 20/20 и module_effect +0,61 [0,23; 2,18]. /api/history отдаёт точки из InfluxDB. Визуальную часть без браузера не проверял.",
+  "statement": "The exact statement in the report that is wrong / Точное утверждение в отчёте, которое неверно\n/modules/3/evidence: «Страница /?view=copper отдаёт HTTP 200. В /summary.json есть калибровка (DONE, 62 строки: 38 в допуске, 2 вне допуска), правдоподобие 20/20 и module_effect +0,61 [0,23; 2,18]. /api/history отдаёт точки из InfluxDB. Визуальную часть без браузера не проверял.» Неполна разбивка «62 строки: 38 в допуске, 2 вне допуска»: опущены 22 строки без допуска.\n\nWhat is actually true / Что верно на самом деле\nКалибровка: DONE, 62 строки — 38 в допуске, 2 вне допуска, 22 без допуска (входы и справочные строки); допуск задан у 40 строк, в допуске 38 из 40; вне допуска только два значения извлечения (2024 г. 87,23 против 87,90 % при ±0,5; III кв. 2025 г. 87,26 против 86,10 % при ±1,1). Верное значение /modules/3/evidence: «Страница /?view=copper отдаёт HTTP 200. В /summary.json есть калибровка (DONE, 62 строки: 38 в допуске, 2 вне допуска, 22 без допуска — входы и справочные строки; допуск задан у 40 строк, вне допуска — два значения извлечения: проверка 2024 г. 87,23 против 87,90 % при допуске ±0,5 и III кв. 2025 г. 87,26 против 86,10 % при допуске ±1,1), правдоподобие 20/20 и module_effect +0,61 [0,23; 2,18]. /api/history отдаёт точки из InfluxDB. Визуальную часть без браузера не проверял.»",
+  "evidence": [
+    {
+      "kind": "command",
+      "content": "curl -s http://127.0.0.1:8000/summary.json | python3 -c '\nimport sys,json\nc=json.load(sys.stdin)[\"calibration\"]; print({k:c[k] for k in (\"state\",\"rows\",\"in_tolerance\",\"out_of_tolerance\",\"no_tolerance\")})'\n\nЧто выводит: {'state': 'DONE', 'rows': 62, 'in_tolerance': 38, 'out_of_tolerance': 2, 'no_tolerance': 22} — после шага README «make akt-calib» (тот же шаг, что в /steps/3). Команда только читает. Сам шаг «make akt-calib» печатает таблицу и в конце строку «62 rows: 38 ok, 2 not ok, 22 without tolerance»; у 22 строк в колонках допуска и ok стоит «-»."
+    },
+    {
+      "kind": "log",
+      "content": "Собственный лог Сборщика, опубликован: solutions/team-100/logs/04-make-akt-calib-2-4.txt:67 — «62 rows: 38 ok, 2 not ok, 22 without tolerance»; :15 — «check 2024 | recovery | 87.230 | 87.900 | % | -0.6695 | +-0.5000 | NO»; :32 — «quarters | Q3 2025 recovery, model at quarter grade | 87.255 | 86.100 | % | +1.155 | +-1.100 | NO»; у 22 строк в колонках допуска и ok — «-». Подсказка (стенд Команды, 30.10.2026, чистый клон 9c8b37f): GET /summary.json → calibration {'state': 'DONE', 'rows': 62, 'in_tolerance': 38, 'out_of_tolerance': 2, 'no_tolerance': 22}."
+    },
+    {
+      "kind": "file",
+      "content": "aktogay/web/summary.py:307-310 — rows, in_tolerance (ok is True), out_of_tolerance (ok is False), no_tolerance (ok is None); README.md:103 и :240-241 — «62 строки: 38 в допуске, 2 вне допуска, 22 без допуска»; SUBMISSION.md:270 — калибровка, 22 строки без допуска (входы и справочные строки)."
+    }
+  ],
+  "submitted_at": "2026-10-29T21:17:16+00:00",
+  "code": "",
+  "explanation": ""
+}

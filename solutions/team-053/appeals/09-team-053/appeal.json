@@ -1,0 +1,47 @@
+{
+  "id": "09-team-053",
+  "source": "09-team-053.yaml",
+  "accepted": true,
+  "team": "team-053",
+  "document": "build_report",
+  "claim": "/scenarios/9/works",
+  "original": "no",
+  "statement": "The exact statement in the report that is wrong / Точное утверждение в отчёте, которое неверно\n\"name\": \"Снять узкое место / Применить все меры\", \"works\": \"no\",\n\"evidence\": \"advisor_next и advisor_all запущены последними в фоновом скрипте, после каждого шёл {action:undo}. Результатов я не дождался, последствия не подтверждены.\"\n\nWhat is actually true / Что верно на самом деле\nОбе кнопки работают и отменяются. Первое «Снять узкое место» вводит самосвалы № 6–7: они ждут воздуха, узким становится вентиляция 926. Второе запускает вентилятор ВПВ: подача растёт, самосвалы № 6–7 идут в работу, узкое звено — фабрика 1 000, золото 51,87 → 55,99 тыс. унц./год. «Применить все меры» даёт то же итоговое состояние одним шагом. «Шаг назад» возвращает откатку 926. Это же сами видели все три учтённых Судьи этой работы.",
+  "evidence": [
+    {
+      "kind": "log",
+      "content": "Репозиторий: openegiz-contest/team-053, замороженный коммит c0ad931. Стенд поднят по README на чистой Ubuntu 24.04 (8 vCPU, 16 ГБ, Docker очищен): make stand — код 0, 149 с; make stand-smoke — код 0, 18 с."
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -X POST localhost:8088/api/scenario -H 'Content-Type: application/json' -d '{\"action\":\"advisor_next\"}'\ncurl -s -X POST localhost:8088/api/scenario -H 'Content-Type: application/json' -d '{\"action\":\"advisor_all\"}'\ncurl -s -X POST localhost:8088/api/scenario -H 'Content-Type: application/json' -d '{\"action\":\"undo\"}'"
+    },
+    {
+      "kind": "log",
+      "content": "Чистая ВМ, c0ad931 (UTC):\n04:06:02 advisor_next -> \"Снято узкое место: откатка, ввод самосвалов № 6–7 (парк: 5 → 7 машин); воздуха на весь парк не хватит…\"\n04:06:33 truck-06=held_vent, truck-07=held_vent, mine.units_held_vent=2; советник: binding=ventilation 926, откатка 1388\n04:07:33 advisor_next -> \"Снято узкое место: вентиляция, ввод в работу: вентилятор ВПВ (подача воздуха 322 → 427 м³/с); в работу возвращаются: самосвалы № 6–7\"\n04:08:03 fan-vpv=running; truck-06=hauling_up, truck-07=loading; units_held_vent=0; советник: binding=plant 1000, вентиляция 1805, gold_koz_year 55.99\n04:09:03 undo, undo -> советник: haulage 926\n04:09:23 advisor_all -> \"Применены все меры советника\"\n04:09:53 fan-vpv=running, самосвалы № 6–7 в работе; советник: binding=plant 1000, gold_koz_year 55.99\n04:10:53 undo -> 04:11:13 советник: haulage 926, gold_koz_year 51.87"
+    },
+    {
+      "kind": "file",
+      "content": "team/tests/test_stand_api.py:337\ntest_advisor_next_and_undo — проходит на c0ad931"
+    },
+    {
+      "kind": "file",
+      "content": "team/tests/test_stand_api.py:401\ntest_advisor_all_and_undo — проходит на c0ad931"
+    },
+    {
+      "kind": "file",
+      "content": "solutions/team-053/scores/opus-5.5.json (qualifying-results), критерий modules\n«Через «Снять узкое место» сам вводит меру, и имитатор выводит самосвалы № 6–7»"
+    },
+    {
+      "kind": "file",
+      "content": "solutions/team-053/scores/gpt-6.1-sol.json, критерий modules\n«после следующего шага ВПВ заработал, подача выросла до 427 м³/с, самосвал № 6 начал движение»"
+    },
+    {
+      "kind": "file",
+      "content": "solutions/team-053/scores/gpt-6-astra.json, критерий modules\n«после второго включается ВПВ, проектная подача растёт до 427 м³/с, ожидание исчезает»"
+    }
+  ],
+  "submitted_at": "2026-10-29T04:26:27+00:00",
+  "code": "",
+  "explanation": ""
+}

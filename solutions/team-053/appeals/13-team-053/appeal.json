@@ -1,0 +1,35 @@
+{
+  "id": "13-team-053",
+  "source": "13-team-053.yaml",
+  "accepted": true,
+  "team": "team-053",
+  "document": "build_report",
+  "claim": "/scenarios/6/works",
+  "original": "partly",
+  "statement": "The exact statement in the report that is wrong / Точное утверждение в отчёте, которое неверно\n\"name\": \"Отказ одного насоса +150\", \"works\": \"partly\",\n\"evidence\": \"pump_one_fail принят (ревизия 18). По описанию полосы не меняются: узкое звено haulage 926, inflow 197, flood_volume 0. Число исправных насосов в двойнике ps-p150 я не снимал. Восстановление: ревизия 19.\"\n\nWhat is actually true / Что верно на самом деле\nСценарий работает ровно как заявлено в SUBMISSION.md:223: в двойнике ps-p150 исправных насосов 3 → 2, насосная продолжает качать, полосы советника не меняются (узкое звено «откатка» 926). Восстановление возвращает 3 насоса. Неизменные полосы, которые сборщик видел, — это и есть заявленный результат.",
+  "evidence": [
+    {
+      "kind": "log",
+      "content": "Репозиторий: openegiz-contest/team-053, замороженный коммит c0ad931. Стенд поднят по README на чистой Ubuntu 24.04 (8 vCPU, 16 ГБ, Docker очищен): make stand — код 0, 149 с; make stand-smoke — код 0, 18 с."
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -X POST localhost:8088/api/scenario -H 'Content-Type: application/json' -d '{\"preset\":\"pump_one_fail\"}'\ncurl -s localhost:8088/api/state | python3 -c \"import json,sys; f=json.load(sys.stdin)['things']['kz.sekis:ps-p150']['f']; print(f['pumps_available'], f['state'])\""
+    },
+    {
+      "kind": "log",
+      "content": "Чистая ВМ, c0ad931 (UTC):\n04:00:02 POST {\"preset\":\"pump_one_fail\"} -> \"Отказ одного насоса, гор. +150 м\"\n04:00:32 ps-p150.pumps_available=2.0, state=pumping; советник: haulage 926\n04:01:32 POST {\"preset\":\"pump_one_fail\"} -> \"Насосы гор. +150 м восстановлены\"\n04:02:02 ps-p150.pumps_available=3.0"
+    },
+    {
+      "kind": "file",
+      "content": "team/tests/test_sim.py:1152\ntest_pump_one_fail_changes_nothing_but_the_pump_count — проходит на c0ad931"
+    },
+    {
+      "kind": "file",
+      "content": "team/tests/test_advisor.py:819\ntest_pump_one_fail_changes_no_bar — проходит на c0ad931"
+    }
+  ],
+  "submitted_at": "2026-10-29T04:26:46+00:00",
+  "code": "",
+  "explanation": ""
+}

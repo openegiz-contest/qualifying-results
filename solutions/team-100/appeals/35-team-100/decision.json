@@ -1,0 +1,52 @@
+{
+  "appeal": "35-team-100",
+  "team": "team-100",
+  "document": "build_report",
+  "claim": "/scenarios/7/works",
+  "original": "partly",
+  "status": "upheld",
+  "reasoning": "На стенде свежего прогона я выполнил команду Команды из evidence[0]. Это тот же POST /api/scenario, что делал Сборщик (fork, auto=1, safety=1, плюс seed=42 и speed=60). Решение при этом не менялось. Начался прогон s42-scen-0002, site.scenario = fork+safety.\n\nЧто видно в данных двойников:\n- В 08:15 модели water.state = ALARM.\n- С 08:20 у piezo-1 153–154 кПа и alarm=1, у piezo-2 156–158 кПа и alarm=1 при уставке 150. Значения держатся до 09:05.\n- В 08:20 появилась беда issue-2 kind=dam_alarm, safety_class S0, ответственный «Технолог хвостов и оборотной воды». Модуль её уже вызвал: status CALLED, rank 99.\n- В 09:10 давление вернулось к ≈116/120 кПа, water NORMAL. С 09:15 беда RESOLVED.\n\nОба последствия, заявленные в SUBMISSION.md:161, проявились: пьезометр выше уставки через ≈10–20 мин модели и беда S0 для технолога хвостов. Сборщик поставил partly, потому что к его снимку в 10:05 тревога уже была снята. Это штатная развязка после автовызова, а не отсутствие последствий. Свежий Сборщик тоже поставил fork+safety works=yes и в 08:15 видел S0 dam_alarm (П-1 155, П-2 160 кПа).\n\nТо, что беда стояла в очереди первой, я напрямую не видел. Мой опрос раз в 4 с застал её уже вызванной (rank 99). Слова «впереди всего» есть в тексте модуля, его приводит свежий отчёт в /modules/2. Заявленное поведение подтверждено и без этого.\n\nПосле проверки я выполнил POST /api/cancel: site.scenario пуст, стенд в свободном ходе. Текста, обращённого к Судьям или к ИИ, в апелляции не нашёл.",
+  "references": [
+    "vm:curl -s -X POST http://127.0.0.1:8000/api/scenario -d '{\"id\":\"fork\",\"preset\":\"fork\",\"kip\":1,\"auto\":1,\"safety\":1,\"seed\":42,\"speed\":60}' + цикл опроса /api/state",
+    "vm:curl -s -X POST http://127.0.0.1:8000/api/cancel",
+    "fresh:/scenarios/0",
+    "fresh:/modules/2",
+    "original:/scenarios/7/evidence",
+    "appeal:evidence[0]",
+    "SUBMISSION.md:161"
+  ],
+  "submitted_at": "2026-10-29T20:15:35+00:00",
+  "decided_at": "2026-10-30T04:28:02+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 3,
+    "score": 89.17,
+    "mean_total": 89.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 88.75,
+      "gpt-6-astra": 88.75,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "corrected": "yes",
+  "after": {
+    "rank": 3,
+    "score": 89.17,
+    "mean_total": 89.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 88.75,
+      "gpt-6-astra": 88.75,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  }
+}

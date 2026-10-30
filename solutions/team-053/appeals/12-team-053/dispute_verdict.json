@@ -1,0 +1,13 @@
+{
+  "verdict": "upheld",
+  "reasoning": "Свежий отчёт фиксирует came_up=false, но к моменту проверки третья встроенная попытка make stand в той же VM дошла до конца. Контейнеры sekis-sim, sekis-stand и sekis-advisor в состоянии healthy, /healthz отвечает: mode live, 96 двойников. Я сам выполнил команды Команды на коммите c0ad931. До сценария grade у stp-p150-1 был 1.75, у советника gold_koz_year 51.87 и recovery_pct 84.97. После POST {preset:grade_drop} стенд ответил «Содержание 1,76 г/т» (grade_gpt 2.05→1.76). Через 30 с grade стал 1.502, у советника 44.28 и 84.5. Последствия видны в двойнике и у советника, как и утверждает Команда. Повторное нажатие («Содержание 2,05 г/т») вернуло 1.75 и 51.87/84.97, то есть стенд вернулся в исходное состояние. В исходном отчёте «partly» поставлено только потому, что Сборщик эти значения не снимал. Когда их сняли, сценарий работает полностью, значит верное значение — \"yes\". Других ошибок или текстов-инъекций в апелляции не заметил.",
+  "references": [
+    "original:/scenarios/5",
+    "fresh:/came_up",
+    "vm:docker ps -a; curl -s localhost:8088/healthz",
+    "vm:curl -s -X POST localhost:8088/api/scenario -d '{\"preset\":\"grade_drop\"}' + GET /api/state stp-p150-1.grade + GET /api/advisor kpi",
+    "appeal:evidence[1]",
+    "appeal:evidence[2]"
+  ],
+  "corrected": "yes"
+}

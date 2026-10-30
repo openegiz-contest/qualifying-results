@@ -1,0 +1,69 @@
+{
+  "appeal": "07-team-037",
+  "team": "team-037",
+  "document": "build_report",
+  "claim": "/scenarios/9/works",
+  "original": "no",
+  "status": "upheld",
+  "reasoning": "В исходном Отчёте у этих сценариев стоит works=no с пометкой «Не запускал». Это значит, что их не проверили, а не что они не работают. Свежий прогон Сборщика сначала не поднялся (сеть упала при git-клоне), и этот сценарий в нём вообще не появился. Однако когда я проверял, стенд на коммите 76f36ae уже работал: контейнеры подняты, в Ditto 158 двойников, API отвечал.\n\nЯ запустил все три сценария документированным PUT в org.aktogay:control/features/command, как описано в SUBMISSION.md, ничего не меняя в коде и окружении: storm_water arg 0 dur 15, leach_stop dur 30, weather blizzard dur 15. На каждый запрос пришёл ответ 204. В логе симулятора появились строки «команда: storm_water 0 → ливень…», «leach_stop → орошение карт остановлено на 30 мин» и «weather blizzard → погода: метель». Все три команды записались в status.history_log.\n\nПоследствия видны в обоих вариантах, smart и fixed:\n- хвостохранилище: storm_inflow вырос с 0 до 120000 м³/ч, pond_level — с 2.4 до 2.43;\n- кучное выщелачивание: irrigation_hold вырос с 0 до 1548 с;\n- погода: sky сменилось с «ясно» на «метель», visibility упала с 20000 до 180, speed_factor — со 100 до 50, blast_ok стал «нет», leach_factor снизился с 55 до 44.\n\nОтдельной команды отмены у этих сценариев нет, они снимаются сами по истечении dur. Через ~200 с я проверил ещё раз: storm_inflow 0, sky «дождь» (обычная погода сезона), speed_factor 92, irrigation_hold почти истёк (117), active_scenarios пуст. Стенд вернулся в обычный режим.\n\nЗначит, утверждение «works: no» неверно. Unit-тесты и ссылки на код из доказательств Команды я фактом не считал. Вердикт опирается только на запуск на стенде. Инъекций в материалах не заметил.",
+  "references": [
+    "original:/scenarios/9",
+    "fresh:/scenarios",
+    "vm:curl -X PUT .../org.aktogay:control/features/command/properties -d {value:storm_water|leach_stop|weather,...}",
+    "vm:docker logs --since 2m openegiz-aktogay-sim-1 | grep команда",
+    "vm:curl .../things/org.aktogay.{smart,fixed}:{tailings,heap-leach,weather}/features",
+    "team/aktogay/app/src/platform/scenarios.ts:96",
+    "appeal:evidence[0]"
+  ],
+  "submitted_at": "2026-10-28T11:45:48+00:00",
+  "decided_at": "2026-10-29T21:01:56+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 11,
+    "score": 73.33,
+    "mean_total": 73.33,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 68.75,
+      "gpt-6-astra": 68.75,
+      "opus-5.5": 82.5
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "corrected": "yes",
+  "after": {
+    "rank": 11,
+    "score": 73.33,
+    "mean_total": 73.33,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 68.75,
+      "gpt-6-astra": 68.75,
+      "opus-5.5": 82.5
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "rescoring": {
+    "gpt-6.1-sol": {
+      "before": 68.75,
+      "rescored": 57.5,
+      "final": 68.75
+    },
+    "gpt-6-astra": {
+      "before": 68.75,
+      "rescored": 57.5,
+      "final": 68.75
+    },
+    "opus-5.5": {
+      "before": 82.5,
+      "rescored": 70,
+      "final": 82.5
+    }
+  }
+}

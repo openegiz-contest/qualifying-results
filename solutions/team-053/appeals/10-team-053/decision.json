@@ -1,0 +1,66 @@
+{
+  "appeal": "10-team-053",
+  "team": "team-053",
+  "document": "build_report",
+  "claim": "/modules/1/works",
+  "original": "partly",
+  "status": "upheld",
+  "reasoning": "На стенде свежего прогона я трижды с интервалом 20 с снял состояние kz.sekis:mine. Каждый раз vod_state=demand, подача 294,8 м³/с при потребности 280,7 м³/с, мощность вентиляторов 859,3 кВт вместо проектных 1120 кВт. Экономия fan_saving_day_kwh росла: 5430 → 5556 → 5564,8 кВт·ч. Значит, режим «по потребности» действительно снижает подачу и мощность и даёт экономию. Свежий отчёт (/modules/1) показывает то же и подтверждает, что переключатель работает в обе стороны: выключение даёт off, 322 м³/с и 1120 кВт, повторное включение возвращает demand, 294,8 м³/с и 859,3 кВт. Поэтому модуль работает полностью: works = yes. В исходном прогоне экономия была 0, а подача 322 м³/с, потому что снимки попали на работу полного парка вне окон снижения. Это штатное поведение, а не отказ модуля. Само снижение до 189 м³/с в окно взрывных работ я не наблюдал, но для вывода оно не нужно: снижение подачи, экономия и переключатель подтверждены. Обращений к ИИ или судьям в материалах Апелляции нет.",
+  "references": [
+    "fresh:/modules/1",
+    "vm:curl -s localhost:8088/api/state (kz.sekis:mine: vod_state, air_delivered_m3s, fan_power_kw, fan_saving_day_kwh) x3 с интервалом 20 с",
+    "original:/modules/1",
+    "appeal:evidence[2]"
+  ],
+  "submitted_at": "2026-10-29T04:26:32+00:00",
+  "decided_at": "2026-10-29T16:53:09+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 1,
+    "score": 90,
+    "mean_total": 90,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 88.75,
+      "gpt-6-astra": 88.75,
+      "opus-5.5": 92.5
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "corrected": "yes",
+  "after": {
+    "rank": 1,
+    "score": 90,
+    "mean_total": 90,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 88.75,
+      "gpt-6-astra": 88.75,
+      "opus-5.5": 92.5
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "rescoring": {
+    "gpt-6.1-sol": {
+      "before": 88.75,
+      "rescored": 88.75,
+      "final": 88.75
+    },
+    "gpt-6-astra": {
+      "before": 88.75,
+      "rescored": 88.75,
+      "final": 88.75
+    },
+    "opus-5.5": {
+      "before": 92.5,
+      "rescored": 92.5,
+      "final": 92.5
+    }
+  }
+}

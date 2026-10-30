@@ -1,0 +1,54 @@
+{
+  "appeal": "33-team-100",
+  "team": "team-100",
+  "document": "build_report",
+  "claim": "/modules/1/works",
+  "original": "partly",
+  "status": "upheld",
+  "reasoning": "Стенд свежего прогона на коммите 9c8b37f (git rev-parse HEAD совпадает, рабочее дерево без изменений). Перед запуском у mod-ore было hit_rate=-1 и check_text «проверок ещё не было». Я запустил С3 документированной в README командой POST /api/scenario {\"id\":\"hard:1\"} (README: таблица сценариев, блок «То же из терминала»), ничего не меняя в коде и окружении. Начался новый прогон s42-scen-0016. Двойник kz.aktogay:mod-ore я опрашивал каждые 10 с. До 12:15 модели сверки не было, в 12:30 модели появились hit_rate=100.0 и check_text «Прогноз от 08:15: твёрдая (партия 13) в 11:05–12:50 (не позже 20:15). Факт: пришла в 12:30 — сбылось; т/ч: прогноз 3 305, факт — минимум часа 3 536 к 12:30, ещё идёт [оценка на модели] · сбылось 1 из 1». Значит, последняя заявленная часть модуля, сверка «сбылось ли» с долей попаданий (SUBMISSION.md:152), работает. Окна прихода и прогноз т/ч подтвердили оба Сборщика. Пометка «partly» стояла только потому, что Сборщик не дождался прихода партии: исходный прогон отменил сценарий в 10:35 модели при ETA ≈2,6 ч (original:/scenarios/2, original:/modules/1). Свежий отчёт тоже не дождался (hit_rate=-1) и сам поставил модулю «yes». Верное значение — \"yes\". Попутно: после проверки я выполнил POST /api/cancel, стенд снова в свободном ходе (site.scenario пуст). Текстов, обращённых к судье, в Апелляции нет.",
+  "references": [
+    "vm:curl -s -X POST http://127.0.0.1:8000/api/scenario -d '{\"id\":\"hard:1\"}' + опрос /api/thing?id=kz.aktogay:mod-ore → 12:30 hit_rate 100.0, «сбылось 1 из 1»",
+    "vm:git rev-parse HEAD → 9c8b37ff76bcc22d28b76ba459bf15ed8e1cf837",
+    "README.md (таблица сценариев С3 hard:1, блок «То же из терминала»)",
+    "SUBMISSION.md:152",
+    "original:/modules/1",
+    "original:/scenarios/2",
+    "fresh:/modules/1",
+    "appeal:evidence[0]",
+    "appeal:evidence[1]"
+  ],
+  "submitted_at": "2026-10-29T20:12:58+00:00",
+  "decided_at": "2026-10-30T04:15:25+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 3,
+    "score": 89.17,
+    "mean_total": 89.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 88.75,
+      "gpt-6-astra": 88.75,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "corrected": "yes",
+  "after": {
+    "rank": 3,
+    "score": 89.17,
+    "mean_total": 89.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 88.75,
+      "gpt-6-astra": 88.75,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "id": "36-team-100",
+  "source": "36-team-100.yaml",
+  "accepted": true,
+  "team": "team-100",
+  "document": "build_report",
+  "claim": "/modules/5/works",
+  "original": "partly",
+  "statement": "The exact statement in the report that is wrong / Точное утверждение в отчёте, которое неверно\n/modules/5/works = \"partly\" (элемент /modules/5, \"name\": \"Тихие перерасходы (energy:N, reagent:N, leak)\").\n/modules/5/evidence целиком: \"Отдельно не запускал. В mod-losses есть признаки энергии SAG (sag-1_e_meas_kwh_t, e_exp_kwh_t, energy_usd_h), в /summary — строка silent «тихих перерасходов не найдено». Срабатывание не наблюдал.\"\n\nWhat is actually true / Что верно на самом деле\nВерное значение /modules/5/works — \"yes\": на 9c8b37f сценарий energy:1+reagent:2+leak, запущенный тем же POST /api/scenario, что в README.md:219, открывает все три беды, заявленные в SUBMISSION.md:162 — water_short «тихая утечка воды» (≈08:45 модели), reagent_over на rougher-2 (≈08:55: расход из бака больше показаний расходомера, звать КИПиА) и loss_sag на sag-1 (≈09:45–10:25, металлург), — с $/ч и тем, кого звать, а mod-losses.silent_text и раздел «Тихие перерасходы» вида «Беды» показывают все три. Сборщик этот сценарий не запускал («Отдельно не запускал»), а «тихих перерасходов не найдено» — штатный вывод модуля, пока причины нет.",
+  "evidence": [
+    {
+      "kind": "command",
+      "content": "B=http://127.0.0.1:8000\ncurl -s -X POST $B/api/scenario -H 'Content-Type: application/json' -d '{\"id\":\"energy:1+reagent:2+leak\",\"seed\":42,\"speed\":60}'; echo\nfor i in $(seq 1 60); do sleep 10; curl -s $B/api/state | python3 -c '\nimport sys,json\nT={x[\"thingId\"].split(\":\",1)[1]:x for x in json.load(sys.stdin)[\"things\"]}\nv=lambda n,k:((T.get(n) or {}).get(\"features\",{}).get(k) or {}).get(\"properties\",{}).get(\"value\")\nrun=v(\"site\",\"idSimulationRun\"); t=v(\"site\",\"sim_time\") or 0; want={\"loss_sag\",\"reagent_over\",\"water_short\"}\niss=sorted((v(n,\"kind\"),v(n,\"node\"),v(n,\"status\"),v(n,\"responsible\")) for n in T if n.startswith(\"issue-\") and v(n,\"kind\") in want and v(n,\"idSimulationRun\")==run)\nprint(run, \"%02d:%02d\" % (int(t//60)%24, int(t%60)), iss, \"| silent_text:\", v(\"mod-losses\",\"silent_text\"), flush=True)\nsys.exit(0 if want <= {i[0] for i in iss} else 1)' && break; done\n\nЧто выводит: строку каждые 10 с. Через ≈1 мин после POST появляются ('water_short', 'water', 'OPEN', 'Технолог хвостов и оборотной воды') и ('reagent_over', 'rougher-2', 'OPEN', 'Дежурный КИПиА и металлург смены'); около 09:45–10:25 модели (≈2,5–3 мин после POST) — ('loss_sag', 'sag-1', 'OPEN', 'Металлург смены и механик фабрики'), и цикл останавливается. silent_text в последней строке — из трёх частей: «перерасход энергии SAG-1: E … против … кВт·ч/т …; перерасход собирателя на линии 2: +… % к расходомеру …; вода: невязка баланса ≈ … м³/ч — утечка…». Команда только запускает сценарий и читает двойники; длится до 10 мин."
+    },
+    {
+      "kind": "command",
+      "content": "В интерфейсе: http://127.0.0.1:8000/?view=queue — раздел «Тихие перерасходы» (aktogay/web/static/views.js:18, :79) и карточки «…: тихий перерасход энергии», «…: перерасход собирателя», «Утечка воды: видна только по балансу» (app.js:687). Запуск из браузера: http://127.0.0.1:8000/?scenario=energy:1%2Breagent:2%2Bleak&run=1 или конструктор ?view=scenarios. Отмена: curl -s -X POST http://127.0.0.1:8000/api/cancel (README.md:221)."
+    },
+    {
+      "kind": "log",
+      "content": "original:/modules/5/evidence — «Отдельно не запускал … Срабатывание не наблюдал»; в /scenarios (8 элементов) нет ни energy, ни reagent, ни leak."
+    },
+    {
+      "kind": "log",
+      "content": "Подсказка, не факт (стенд Команды): 29.10.2026, стенд из чистого клона 9c8b37f, ×60, POST {\"id\":\"energy:1+reagent:2+leak\"}, прогон s42-scen-0009-29185037: water_short (water) с 08:45; reagent_over (rougher-2, «из бака ушло 118 кг/ч, расходомер показал 96 кг/ч (+23 %)», КИПиА) с 08:55; loss_sag (sag-1, «E 7,39 против 6,75 кВт·ч/т по Морреллу … лишняя энергия ≈ $75/ч», металлург) с 10:15; silent_text — все три части; POST /api/cancel → 200, сценарий пуст. Отдельный прогон energy:1 (29.10.2026, прогон s42-scen-0003-29174320): loss_sag на sag-1 с 09:45."
+    },
+    {
+      "kind": "file",
+      "content": "SUBMISSION.md:162 — заявка: беды loss_sag, reagent_over, water_short с $/ч и ролями; вид «Беды», раздел «Тихие перерасходы»; токены energy:N, reagent:N, leak."
+    },
+    {
+      "kind": "file",
+      "content": "aktogay/sim/events.py:17, :47-48 — токены energy:N, reagent:N, leak задают тихие причины; aktogay/modules/losses.py:543-545 — silent_text («тихих перерасходов не найдено», если причин нет); aktogay/modules/priority.py:95-96 (кого звать), :451-458 (reagent_over по балансу бака), :513-522 (water_short, «тихая утечка воды»)."
+    }
+  ],
+  "submitted_at": "2026-10-29T20:17:19+00:00",
+  "code": "",
+  "explanation": ""
+}

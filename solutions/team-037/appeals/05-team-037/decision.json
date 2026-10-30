@@ -1,0 +1,35 @@
+{
+  "appeal": "05-team-037",
+  "team": "team-037",
+  "document": "build_report",
+  "claim": "/modules/35/works",
+  "original": "no",
+  "status": "rejected",
+  "reasoning": "В свежем Отчёте сборки (тот же коммит 76f36ae) Решение по README не поднялось: make aktogay дважды упал при сборке extended-api. Модуль «Живая погода» там тоже отмечен как works=no. Сейчас контейнеры на VM есть. В README (строка ~65) у AKTOGAY_LIVE_WEATHER значение по умолчанию 0. docker inspect у openegiz-aktogay-sim-1 показывает SIM_LIVE_WEATHER=0. Значит, при штатном запуске по README модуль выключен, и погода берётся из климатических норм. Команда предлагает доказать работу модуля запуском с AKTOGAY_LIVE_WEATHER=1 и выходом в интернет к Open-Meteo, то есть сменой переменных окружения. По правилам такое доказательство утверждение не опровергает. Код (liveWeather.ts, тесты, проброс переменной в compose.yml) показывает, что функция реализована, но не что она работает на Стенде. Перепроверка не показывает, что модуль работает, поэтому утверждение works=no остаётся.",
+  "references": [
+    "fresh:/modules/35",
+    "original:/modules/35",
+    "vm:docker inspect openegiz-aktogay-sim-1 --format '{{range .Config.Env}}{{println .}}{{end}}' | grep -i weather",
+    "vm:sed -n 55,70p README.md",
+    "appeal:evidence[0]",
+    "appeal:evidence[5]"
+  ],
+  "submitted_at": "2026-10-28T11:44:57+00:00",
+  "decided_at": "2026-10-29T20:23:22+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 11,
+    "score": 73.33,
+    "mean_total": 73.33,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 68.75,
+      "gpt-6-astra": 68.75,
+      "opus-5.5": 82.5
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  }
+}

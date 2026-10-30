@@ -1,0 +1,137 @@
+{
+  "team": "team-041",
+  "sha": "56f1f6962a1bc361ea85f69468ee04c3edc6a15b",
+  "started_at": "2026-10-29T20:38:02+00:00",
+  "finished_at": "2026-10-29T21:05:22+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update && sudo apt-get install -y make curl",
+      "command": "cd /home/judge/solution && sudo apt-get update && sudo apt-get install -y make curl",
+      "exit_code": 0,
+      "duration_s": 11.0,
+      "log": "logs/01-sudo-apt-get-update-sudo-apt-get-install.txt"
+    },
+    {
+      "readme_step": "make mine",
+      "command": "cd /home/judge/solution && make mine",
+      "exit_code": 0,
+      "duration_s": 254.0,
+      "log": "logs/02-make-mine.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 20 of 23 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 20 of 23 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Модуль диспетчеризации (module-dispatch)",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Сервис openegiz-mine-dispatch-1 healthy. В Ditto module-dispatch enabled=true, decisions_total растёт (408→632→686), last_decision «Самосвал №22 → Экскаватор №5…». У самосвалов assignment_source=dispatch (11–19 из 31), есть route и assigned_dump. Выключение set-enabled {enabled:false} через шлюз :8088 дошло до сервиса (лог «set-enabled False»), и в MQTT telemetry/module-dispatch ушло enabled=false, status=disabled, decisions_total=771 (замер). Однако в Ditto я этого не увидел: из-за отставания Ditto двойник ещё минуты показывал enabled=true. Затем модуль включён обратно; в конце в Ditto enabled=true, status=online."
+    },
+    {
+      "name": "Модуль управления качеством руды (module-grade)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В Ditto module-grade enabled=true, feed_grade_pct=0.381, полоса 0.36–0.42, in_band_pct=100, clay_limit_pct=8. У блоков стоит destination_source=grade-control: block-09 (clay 15.5 %) и block-10 (31 %) → clay-plant, block-25 → crusher. В логе симулятора — поток сообщений set-destination и set-reclaim от модуля."
+    },
+    {
+      "name": "Модуль управления фабрикой (module-plant)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В Ditto у mill feed_setpoint_tph=3557, setpoint_source=plant-control, max_feed_tph=4081, peak_min_shift=0. У module-plant sustained_tph=3557, peak_tph=3900, peak_left_min=120, last_decision «Уставка питания 3557 т/ч: склад заполнен на 59 %…». В логе симулятора — set-feed-rate → mill со значениями 3300 и 3557 т/ч. Пик до 3900 не наблюдался: склад был ниже 65 %, что соответствует заявленному правилу."
+    },
+    {
+      "name": "Модуль техобслуживания (module-maint)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В Ditto module-maint: units_watched=37, defects_found=3, services_booked=23, units_at_risk=truck-12,truck-29, last_decision «Самосвал №12: показатель состояния 88,6 %… ходовая часть и шины…». У одного самосвала service_reason «Обслуживание по заявке: быстро развивающийся дефект…», workshop bays_busy=1. В логе симулятора — schedule-service → truck-29 и truck-23."
+    },
+    {
+      "name": "Модуль-советник (module-advisor)",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Сервис healthy, в Ditto до сценариев incident пуст, analysis_status=idle. После запуска остановки ОФ-2 советник опубликовал в MQTT telemetry/module-advisor: incident=clay-plant-stop, incident_text «ОФ-2 … остановлена: глинистая руда копится на приёмном складе…», option1 «Ничего не менять», option2 «Вторая бригада с подрядчиком на ремонт ОФ-2: пуск около 17:14 вместо 19:38 (около 1,3 млн тг)». В Ditto во время моих проверок (они отставали) поле incident было ещё пустым. «Применить» я не проверял."
+    },
+    {
+      "name": "Прогноз «две ветки будущего» (forecast-1…)",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Симулятор принимает сообщения forecast: в его логе запросы модулей (слоты 7, 8, 9) и мой запрос slot 1 (request_id judge-2), а также «forecast branches: 2 done (80.0, 84.4 s each)». Готовый результат в двойнике forecast-1 (status=ready, delta_*) я не проверил: при последнем снимке там было status=idle, а времени на повтор не осталось."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Закрытие дороги (scenario-road-closure)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск: POST :8088/ditto/api/2/things/kz.bozshakol:scenario-road-closure/inbox/messages/activate {target: road-segment-01}; этот запрос отправляет кнопка «Запустить» (control.js → api.js sendMessage). До: road-segment-01 status=open, closed_by пусто. После: status=closed, closed_by=scenario-road-closure, сценарий active, expected_end 19:38, affected road-segment-01 и truck-02/03/10/15; у truck-02 маршрут в объезд. Отмена: cancel. После неё в Ditto road-segment-01 open, closed_by пусто, сценарий inactive."
+    },
+    {
+      "name": "Отказ экскаватора (scenario-shovel-failure)",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "Первый activate {target: loader-01} до симулятора не дошёл; повтор того же запроса — дошёл (лог «activate -> scenario-shovel-failure»). В MQTT-телеметрии сценарий active с impact_text «Экскаватор №1 в ремонте 145 мин. Переведено самосвалов: 4…». В Ditto loader-01 state=down я не застал из-за отставания Ditto. После cancel в Ditto сценарий inactive, loader-01 в работе (waiting/loading)."
+    },
+    {
+      "name": "Остановка дробилки (scenario-crusher-stop)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "activate {params: {cause: jam}} через шлюз :8088 вернул 202 дважды (запуск и один повтор), но в лог симулятора не попал. В Ditto crusher остался running, scenario-crusher-stop inactive. Сценарий не запустился, Стенд не изменился."
+    },
+    {
+      "name": "Сильный дождь (scenario-heavy-rain)",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "activate {} вернул 202 дважды, но до симулятора не дошёл. weather condition=dry, road-segment-09 open, сценарий inactive. Сценарий не запустился, Стенд не изменился."
+    },
+    {
+      "name": "Взрыв блока (scenario-blast)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск: activate {target: block-46}, первый блок из valid_targets. До: pit blast_state=idle, block-46 charged. После: сценарий active, affected block-46, pit, road-segment-04/05/06, loader-01, drill-rig-01; pit blast_state=clearing → reentry; block-46 charged → blasted. После cancel в Ditto сценарий inactive, pit blast_state=idle."
+    },
+    {
+      "name": "Глинистая руда в забое (scenario-clay-face)",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "Запуск: activate {target: loader-03, params: {clay_pct: 32}}; дошёл только со второго раза. В MQTT-телеметрии сценарий active, impact_text «Блок 140-01, глины 3,4 → 32,0 %. Руда забоя идёт на «Первичная гирационная дробилка ОФ-1» (модуль управления качеством руды)». В Ditto я застал только «до» (block-25 clay_pct=3.4): Ditto отставал. Документированный cancel дважды не дошёл до симулятора, третья отправка дошла. После неё сценарий inactive в телеметрии и в Ditto."
+    },
+    {
+      "name": "Остановка глинистой фабрики (scenario-clay-plant-stop)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск: activate {params: {cause: mechanical}}. До: clay-plant running, feed_tph=755, bin_t=25090. После: clay-plant state=stopped, feed_tph=0, bin_t=25508, restart_expected 19:38; affected clay-plant, desliming, clay-flotation. Советник выдал инцидент с вариантом второй бригады (в MQTT). После cancel в Ditto clay-plant running, сценарий inactive."
+    },
+    {
+      "name": "Замена футеровки МПСИ (scenario-sag-reline)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск: activate {params: {cause: full, start: next-shift}}. После: сценарий active, phase=planned, expected_end 2026-10-29T20:00. У mill-sag reline_state=planned, reline_start 26.10 20:00, reline_end 29.10 20:00, affected mill-sag и mill. Проверена только фаза плана, сама остановка мельницы не наступила. Первый cancel потерялся, повтор дошёл. После него в Ditto mill-sag reline_state пусто, сценарий inactive."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "(1) Двойники: GET /api/2/search/things/count = 195, пространство имён kz.bozshakol (mine, truck-XX, loader-XX, crusher, mill, block-XX и т. д.). (2) Поток данных: соединения Ditto mosquitto-source-connection (telemetry/#) и mosquitto-target-connection — connectionStatus=open. mosquitto_sub на telemetry/# показывает Ditto-команды modify от симулятора и модулей (telemetry/mine, telemetry/block-01, telemetry/module-dispatch). В коде runner.py и modules/runtime.py публикация идёт через MQTT; HTTP к Ditto используется только для начального чтения. Признаки меняются: truck-05 за 35 с перешёл из to_fuel (2399.9, 203.7) в refuel (2585, -1130); mine ore_shift_t 23146→23683, sim_time 11:01→11:08. Команды страницы и модулей — Ditto live messages, которые доходят до сервисов через MQTT. (3) Интерфейс: страница :8088 читает двойники через свой nginx-шлюз /ditto/api/2 → ditto-nginx (ответ 200). Дашборд Grafana bozshakol-history использует источник opentwins-influxdb (Flux, bucket default, measurement mqtt_consumer). В InfluxDB за 5 минут 120 точек value_mill_feed_tph от topic opentwins/twin/events/kz.bozshakol/mine, то есть из событий Ditto через Telegraf. Замечание: под нагрузкой (около 4 000 обновлений в минуту, connectivity около 220 % CPU) Ditto отставал от симулятора до 2,5 ч модели, а часть live messages терялась."
+  },
+  "notes": "Шаги README выполнены без повторов, оба завершились успешно. make mine за 10 минут напечатал «Bozshakol mine model is running». Файлы AGENTS.md/CLAUDE.md адресованы агентам Команды; попыток инъекции, обращённых к Сборщику, не нашёл. Сценарии и модули запускаются только кнопками страницы. Я отправлял те же HTTP-запросы, что код страницы (mine/ui/site/js/control.js → api.js sendMessage: POST /ditto/api/2/things/<id>/inbox/messages/activate|cancel|set-enabled?timeout=0), через шлюз :8088. Из-за нехватки времени все 8 сценариев запущены почти одновременно, а не по одному. Главное наблюдение: под нагрузкой Ditto отставал от MQTT-телеметрии на 1–2,5 ч модельного времени (около 3–8 мин реального), а часть live messages терялась, хотя Ditto отвечал 202. Activate для crusher-stop и heavy-rain не дошли ни с первого раза, ни при одном повторе. Shovel-failure и clay-face дошли со второго раза. Cancel для clay-face дошёл с третьей отправки, для sag-reline — со второй. Повторную отправку я считал повторным нажатием кнопки и делал, чтобы не оставить Стенд со включёнными сценариями. После отмены отставание исчезло: в конце Ditto совпадал с симулятором (sim_time 17:55), все сценарии inactive, road-segment-01 open, clay-plant running, pit idle, module-dispatch enabled=true. Скорость модели (×20) я не менял, мой set-speed был {speedup:20}. make mine-check и make mine-test не запускал: это проверки, а не шаги запуска.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел заполнен: медный рудник Бозшаколь (карьер и фабрики ОФ-1/ОФ-2), пользователь — начальник смены, решения — вызывать ли вторую бригаду на ремонт и куда везти глинистую руду, с обоснованием выбора и источниками данных."
+  }
+}

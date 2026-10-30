@@ -1,0 +1,31 @@
+{
+  "id": "43-team-100",
+  "source": "43-team-100.yaml",
+  "accepted": true,
+  "team": "team-100",
+  "document": "build_report",
+  "claim": "/scenarios/6/evidence",
+  "original": "Запуск — POST /api/scenario {\"id\":\"fork\",\"preset\":\"fork\",\"kip\":1,\"auto\":1,\"safety\":1}; это тело Panel.scenario для ?view=queue&preset=fork&safety=1&run=1. К 10:05 модели: flot-1 tail_cu 0,052 → 0,067, recovery 87,4 → 83,4; crusher-2 STOP, lube_kpa 247 → 99; mod-losses — «потеря» на флотации 1; копии fact/base/loud/no_twin в base_to_fact, модуль сделал 1 вызов. Итог к 20:00 не ждал. Отмена — POST /api/cancel: flot-1 tail_cu 0,050, recovery 88,3, crusher-2 RUN, бед нет.",
+  "statement": "The exact statement in the report that is wrong / Точное утверждение в отчёте, которое неверно\n/scenarios/6/evidence: «… Итог к 20:00 не ждал. …» Неполно: итог смены к 20:00 — главный результат сценария (SUBMISSION.md:158, :318) — в поле не попал.\n\nWhat is actually true / Что верно на самом деле\nК автопаузе 20:00 команда README.md:220 на стенде из 9c8b37f даёт: база 304,76 т Cu, «по $» 305,92, «по громкости» 303,23, «без двойника» 302,38; вклад находки +0,85, вклад порядка +2,69; n_module 2. Так в первом «Два сразу» после запуска akt-sim; в повторном на том же процессе автовызовы модуля теряются (priority.py:193, :1356-1362; service.py:539, :370-378), и тогда порядок −35,21 т. Верное значение /scenarios/6/evidence: «Запуск — POST /api/scenario {\"id\":\"fork\",\"preset\":\"fork\",\"kip\":1,\"auto\":1,\"safety\":1}; это тело Panel.scenario для ?view=queue&preset=fork&safety=1&run=1. К 10:05 модели: flot-1 tail_cu 0,052 → 0,067, recovery 87,4 → 83,4; crusher-2 STOP, lube_kpa 247 → 99; mod-losses — «потеря» на флотации 1; копии fact/base/loud/no_twin в base_to_fact, модуль сделал 1 вызов. Итог к 20:00 (прогон README.md:220, без safety, первый «Два сразу» после запуска akt-sim): база 304,76 т Cu, «по $» 305,92, «по громкости» 303,23, «без двойника» 302,38; вклад находки +0,85, вклад порядка +2,69; модуль сам вызвал флотацию 1 в 09:40 и дробилку 2 в 12:12 (n_module 2). Повторный прогон на том же процессе akt-sim теряет автовызовы модуля (их seq снова с 1, akt-sim отбрасывает seq не больше уже виденного): «по $» 267,17 т, порядок −35,21, n_module 0. Отмена — POST /api/cancel: flot-1 tail_cu 0,050, recovery 88,3, crusher-2 RUN, бед нет.»",
+  "evidence": [
+    {
+      "kind": "command",
+      "content": "curl -s -X POST http://127.0.0.1:8000/api/scenario -H 'Content-Type: application/json' -d '{\"id\":\"fork\",\"preset\":\"fork\",\"kip\":1}'; echo\nP='\nimport sys,json,urllib.request\ns=json.load(urllib.request.urlopen(\"http://127.0.0.1:8000/summary.json\"))\ne=s[\"scenario\"][\"base_to_fact\"] or {}\nif e.get(\"at\") != \"20:00\" or not e.get(\"fork\"): sys.exit(1)\nprint(\"at\", e[\"at\"], \"| scenario\", s[\"scenario\"][\"active\"])\nprint(\"copies_cu_t\", e[\"copies_cu_t\"])\nprint(\"diff_cu_t\", e[\"diff_cu_t\"])\nprint(\"fork\", e[\"fork\"])\nprint(\"policy\", e[\"policy\"])\n'\nfor i in $(seq 1 400); do python3 -c \"$P\" >/dev/null && break; sleep 3; done\npython3 -c \"$P\"\ncurl -s -X POST http://127.0.0.1:8000/api/cancel; echo\n\nЧто выводит: ответ {\"ok\": true, \"control\": \"scenario\", …}; через ≈ 12–13 мин (ход ×60, автопауза 20:00) — «at 20:00 | scenario fork», copies_cu_t {'fact': ≈ 305,9, 'base': 304,76, 'loud': ≈ 303,2, 'no_twin': 302,38}, diff_cu_t, fork {'detection_cu_t': ≈ 0,85, 'order_cu_t': ≈ 2,5–2,7}, policy {'mode': 'module', 'n_module': 2.0, calls flot-1 и crusher-2 с src module…}; затем ответ отмены (README.md:221). Так на первом «Два сразу» после запуска akt-sim; если на том же процессе akt-sim уже был прогон с автовызовами модуля, n_module будет 0 и итог отрицательный (см. оговорку)."
+    },
+    {
+      "kind": "log",
+      "content": "Подсказка, не факт (стенд Команды, 30.10.2026, чистый клон 9c8b37f). Первый прогон после перезапуска akt-sim (s42-scen-0002-30034048, 03:40–03:53 UTC): at 20:00 | copies {'fact': 305.9184, 'base': 304.7587, 'loud': 303.2286, 'no_twin': 302.3814} | fork {'detection_cu_t': 0.8472654, 'order_cu_t': 2.689762} | policy n_calls 2, n_module 2, calls flot-1 580 module, crusher-2 732 module. Сразу следом второй прогон на том же процессе akt-sim (s42-scen-0003-30035354, 03:53–04:06 UTC): copies {'fact': 267.167, 'base': 304.7587, 'loud': 302.3814, 'no_twin': 302.3814} | fork {'detection_cu_t': 0.0, 'order_cu_t': -35.21433} | n_module 0, calls flot-1 840 lab."
+    },
+    {
+      "kind": "file",
+      "content": "SUBMISSION.md:158 — «до автопаузы 20:00 ≈ 12 мин (ход ×60): «Итог смены» трёх копий, вклад находки и вклад порядка»; SUBMISSION.md:318 — «Два сразу» до итога смены; SUBMISSION.md:191-195 — расчёт без стенда, kip=1: +0,85 / +2,54 / +3,38 т Cu; aktogay/web/summary.py:266-276 — scenario.base_to_fact в /summary.json."
+    },
+    {
+      "kind": "file",
+      "content": "aktogay/modules/priority.py:193, :207-210, :1356-1362 — call_seq с 0 в каждом прогоне, auto_call без t_wall; aktogay/sim/service.py:539, :370-378, :893-894 — один CommandLog на процесс akt-sim, отброс seq не больше уже виденного."
+    }
+  ],
+  "submitted_at": "2026-10-30T04:28:28+00:00",
+  "code": "",
+  "explanation": ""
+}

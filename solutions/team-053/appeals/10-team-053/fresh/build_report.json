@@ -1,0 +1,174 @@
+{
+  "team": "team-053",
+  "sha": "c0ad931f9970ba8bf343313d341d50656fe0c5fd",
+  "started_at": "2026-10-29T16:00:18+00:00",
+  "finished_at": "2026-10-29T16:33:36+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update && sudo apt-get install -y make",
+      "command": "cd /home/judge/solution && sudo apt-get update && sudo apt-get install -y make",
+      "exit_code": 0,
+      "duration_s": 8.0,
+      "log": "logs/01-sudo-apt-get-update-sudo-apt-get-install.txt"
+    },
+    {
+      "readme_step": "make stand",
+      "command": "cd /home/judge/solution && make stand",
+      "exit_code": 0,
+      "duration_s": 189.0,
+      "log": "logs/02-make-stand.txt"
+    },
+    {
+      "readme_step": "make stand-smoke",
+      "command": "cd /home/judge/solution && make stand-smoke",
+      "exit_code": 0,
+      "duration_s": 20.0,
+      "log": "logs/03-make-stand-smoke.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 16 of 19 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 16 of 19 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Советник по расширению",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Контейнер openegiz-sekis-advisor-1 healthy. GET :8088/api/advisor отдаёт links (откатка 926, вентиляция 958, блоки 1024, фабрика 1000 …), binding_link=haulage, next_measure, ladder для 4 целей со сроками ввода (например, «ввод самосвалов № 6–7 … в работе с начала 2028 г.»), projection 2027–2036, calibration. Двойник kz.sekis:advisor в Ditto: cap_haulage_ktpa=926, gold_koz_year=51.87. Реагирует на сценарии: при закрытом ТУ-2 откатка 834 и next=open_tu2, при отказе ВС-2 узкое место — вентиляция 374. POST preset advisor_next поставил m_haul 0→1 (откатка 1388, узким стала вентиляция 926), advisor_all при цели 2,5 применил 6 мер (узкое звено — фабрика 2500, золото 140,01 тыс. унц./год, truck-12 в рейсе по tu2)."
+    },
+    {
+      "name": "Вентиляция по потребности",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "kz.sekis:mine: vod_state=demand, air_delivered_m3s=294.8 при vod_demand 280.7, fan_power_kw=859.3 (против 1120), fan_saving_day_kwh≈5276; fan-vs1 137.3 м³/с, 383.6 кВт. После preset vod_toggle (выкл): vod_state=off, 322 м³/с, 1120 кВт, fan-vs1 150 м³/с / 500 кВт; после повторного переключения снова demand, 294.8 м³/с, 859.3 кВт. При полном парке в рабочем блоке — vod_state=full, 322 м³/с, как описано."
+    },
+    {
+      "name": "Имитатор процесса",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "openegiz-sekis-sim-1 публикует в MQTT telemetry/sekis/<name>. Между снимками с разницей 35 с: enterprise.sim_time 10:36:30→11:13:00, truck-01 queue_load→dumping (payload 0→30), mine.ore_hoisted_total_t 165→270, rom-stockpile 94292.5→94323.1 т. Блоки, ПДМ, насосные, пруды, фабрика меняют состояния; smoke: в движении 5 из 5 годных самосвалов."
+    },
+    {
+      "name": "Веб-стенд (3D-сцена, разрез, план, панели)",
+      "claimed_in_submission": false,
+      "works": "partly",
+      "evidence": "openegiz-sekis-stand-1 на :8088: /healthz live, 96 двойников; /api/state, /api/scenario, /api/geometry отвечают 200, а состояние читается опросом Ditto (server.py poll_once GET things?ids=). Отрисовку 3D, разреза и плана без браузера проверить не удалось."
+    },
+    {
+      "name": "Дашборды Grafana",
+      "claimed_in_submission": false,
+      "works": "yes",
+      "evidence": "В папке Sekisovskoye три дашборда: sekis-overview (14 панелей), sekis-underground (21), sekis-eco (14). Все запросы идут к datasource opentwins-influxdb (bucket default, measurement mqtt_consumer). Запрос через /api/ds/query вернул точки за 10 мин (enterprise ore_mined_tpd — 21 точка, power_kw вентиляторов 500/280/340)."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Цель 1,2 млн т/год",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Отправлен POST /api/scenario {preset:step1200}: target 1000→1200, m_plant 0→1; kz.sekis:plant capacity_ktpa 1000→1200, у советника фабрика 1200, узкое место — откатка 926. Отмена «Шаг назад» (preset undo): target 1000, m_plant 0."
+    },
+    {
+      "name": "Цель 2,0 млн т/год",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Отправлен preset step2000: plant capacity_ktpa 2000, lines_running 3→5, plant-line-4 planned→running. После undo: target 1000, m_plant 0, plant-line-4 снова planned, работают 3 линии."
+    },
+    {
+      "name": "Цель 2,5 млн т/год",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Отправлен preset step2500: plant capacity 2500, lines_running 6. Отменён через undo (после «Применить все меры» — двумя шагами): target 1000, m_plant 0, capacity 1000, работают 3 линии, plant-line-4 planned."
+    },
+    {
+      "name": "Снять узкое место",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Отправлен preset advisor_next: m_haul 0→1, откатка 926→1388, узким стала вентиляция 926; truck-06 и truck-07 вышли из parked в held_vent (ждут воздуха, как предупреждает советник). Undo: m_haul 0, откатка 926; через ~30 с truck-06 и truck-07 снова parked."
+    },
+    {
+      "name": "Применить все меры",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "При цели 2,5 отправлен preset advisor_all: m_haul 3, m_stopes 3, m_vent 2, m_dev 1, m_water 2, m_tailings 1; у советника фабрика 2500 (узкое звено), откатка 2515, вентиляция 2942, золото 140,01; truck-06 и truck-12 в рейсах. «Шаг назад» одним шагом вернул все меры в 0, затем второй undo — цель 1000; truck-06 parked."
+    },
+    {
+      "name": "Меры расширения − / +",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Отправлен POST {step:{m_vent:1}}: m_vent 0→1, mine.air_supply_m3s 322→427, fan-vpv running 68.2 м³/с, вентиляция у советника 1667. Затем {step:{m_vent:-1}}: m_vent 0, подача 322, fan-vpv planned 0 м³/с."
+    },
+    {
+      "name": "Закрыть уклон ТУ-2",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Отправлен preset close_tu2: kz.sekis:decline-tu2 open→closed, на нём 0 машин; truck-01 и truck-03 decline tu2→tu1; откатка 926→834, золото 51.87→46.69, next=open_tu2. Повтор той же кнопки: decline-tu2 open, откатка 926, золото 51.87."
+    },
+    {
+      "name": "Закрыть уклон ТУ-1",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Отправлен preset close_tu1: decline-tu1 closed, truck-05 decline tu1→tu2, откатка 926→923, next=open_tu1. Повтор кнопки: tu1 open, truck-05 снова tu1, откатка 926."
+    },
+    {
+      "name": "Отказ вентилятора ВС-2",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Отправлен preset fan_vs2_fail: fan-vs2 running 70→failed 0 м³/с; mine.air_supply 322→252, units_held_vent 0→4, trucks_active 5→2; truck-05 held_vent, lhd-04 standby_vent; узкое место — вентиляция 374, next=restore_fan_vs2. Повтор кнопки: ВС-2 running 70, подача 322, held 0, active 5, lhd-04 mucking."
+    },
+    {
+      "name": "Отказ одного насоса +150",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Отправлен preset pump_one_fail: ps-p150 pumps_available 3→2, насосная pumping, мощности звеньев не изменились, next_measure=restore_pumps. Повтор кнопки: pumps_available 3, next=m_haul."
+    },
+    {
+      "name": "Обесточена насосная +150",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Отправлен preset pump_station_fail: ps-p150 failed, 0 насосов, sump 100%; ps-m050 alarm_high; mine.pumped 197→0, flood_volume_m3 0→3650→8378→13106→17834 за 4 мин; flood_eta_min отсчитывает; через ~4 мин lvl-m050 development→flooded; советник: узкое место — водоотлив 0, золото 0. Восстановление той же кнопкой: насосы откачивали 422–432 м³/ч, flood_volume 13332→8024→2715→0 за ~4 мин, lvl-m050 снова development, pumped 197."
+    },
+    {
+      "name": "Паводок: приток 430 м³/ч",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Отправлен preset flood: mine.inflow 197→429.5 м³/ч; mon-volchevka discharge 0→28.9 (minutes_to_permit 0.8), затем 221.7 м³/ч, state exceeded (101.3%), через 5 мин 227.7 (104.1%). «Отменить паводок» (повтор кнопки): inflow 197, через 2 мин discharge 0, state normal."
+    },
+    {
+      "name": "Содержание 1,76 г/т",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Отправлен preset grade_drop: содержание блоков stp-p050-1 2.15→1.846, stp-000-1 2.35→2.018; золото у советника 51.87→44.28; склад и фабрика остались на 2.05 (как и заявлено, меняются медленно). Повтор кнопки: блоки 2.15 и 2.35, золото 51.87."
+    },
+    {
+      "name": "Остановить линию № 2",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Отправлен preset line2_down: plant-line-2 running→off (feed 41.36→0); plant lines_running 3→2, feed 124.1→82.7 т/ч, capacity 666.7; узкое место — фабрика 667, золото 37.34, next=restart_line. Повтор кнопки: линия running 41.36, 3 линии, 1000."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) В Ditto 118 вещей: 22 типа kz.sekis.type:* и 96 двойников kz.sekis:* (truck-01..12, decline-tu1/2, fan-vs1..3, ps-p150, stp-*, plant-line-1..6, tsf-*, advisor, scenario и др.). 2) Соединения mosquitto-source-connection (mqtt-5, источник telemetry/#) и mosquitto-target-connection — status open. Метрики источника: consumed/mapped 659 сообщений за минуту, 0 ошибок. sekis-sim и sekis-advisor публикуют через paho-mqtt в telemetry/sekis/<name> (sim_service.py, advisor/service.py). Признаки меняются между снимками с разницей 35 с: sim_time 10:36:30→11:13:00, ore_hoisted_total_t 165→270, truck-01 queue_load→dumping. 3) Три дашборда Grafana (sekis-overview, sekis-underground, sekis-eco) читают datasource opentwins-influxdb, measurement mqtt_consumer (Telegraf). Запрос /api/ds/query вернул свежие точки, smoke подтвердил доход значения до InfluxDB за 2 с. Веб-стенд читает состояние опросом API Ditto (server.py poll_once). Сценарии стенд записывает в двойник kz.sekis:scenario через HTTP API Ditto, имитатор подхватывает их оттуда."
+  },
+  "notes": "Все три команды README выполнены с первой попытки, повторов не было. `make stand` поднял платформу и 4 контейнера команды, `make stand-smoke` прошёл за 20 с. Шаг установки make — дословная строка README. Во время `make stand` в логе сборки extended-api было «fatal: Not a valid object name b49663de…^{commit}», но сборка дошла до конца и все контейнеры стали healthy.\n\nСценарии запускаются только кнопками стенда. Я отправлял те же HTTP-запросы, что шлёт интерфейс (web/js/panels/api.js → POST /api/scenario с {preset}/{step}; id пресетов взяты из team/stand/server.py, словари TOGGLES и TARGETS). «Базовый режим», «Шаг назад» и «Сброс» — это средства отмены, отдельными сценариями я их не считал. В конце выполнен «Сброс» (preset reset): ревизия 34, «Базовый режим», ТУ-2 открыт, подача 322, flood_volume 0.\n\nСценарий «Обесточена насосная» держал около 4 мин (затоплен гор. −50 м), а не до портала: так отмена уложилась во время.\n\nAGENTS.md и CLAUDE.md — стандартные инструкции Шаблона для агентов Команды; я их не выполнял, попыток повлиять на Сборщика в них нет. Возможных инъекций не найдено.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел о реальном подземном золотом руднике Секисовское (AltynGold): пользователи — главный инженер, отдел планирования и эколог; решение — наращивать ли переработку с 1 до 2,0–2,5 млн т/год и какими ступенями."
+  }
+}

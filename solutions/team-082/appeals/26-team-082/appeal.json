@@ -1,0 +1,39 @@
+{
+  "id": "26-team-082",
+  "source": "26-team-082.yaml",
+  "accepted": true,
+  "team": "team-082",
+  "document": "build_report",
+  "claim": "/scenarios/9/works",
+  "original": "no",
+  "statement": "Точное утверждение в отчёте, которое неверно:\n\"works\": \"no\" — «Не запускал: не хватило лимита времени. Стенд не менял.»\n\nЧто верно на самом деле:\nСценарий работает: удельный расход ВВ 0,85 кг/м³: двойник drill-blast пересчитывает сетку скважин и кусок x80 (Kuz-Ram), установившийся потенциал МПСИ около +7 %; прогноз в whatif пересчитывается. Отменяется make scenario-reset. Сборщик сценарий не запускал, поэтому «no» — не результат проверки.",
+  "evidence": [
+    {
+      "kind": "command",
+      "content": "make scenario P=pf_up\nчерез 30–60 с (прогноз 48 ч считается 20–40 с):"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:control/features\nожидается powder_factor 0.85"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:whatif/features\nожидается у kz.bozshakol:drill-blast меняются m2m_x80_cm, m2m_holes_per_100kt, m2m_sag_tph"
+    },
+    {
+      "kind": "command",
+      "content": "make scenario-reset"
+    },
+    {
+      "kind": "file",
+      "content": "bozshakol/ui/presets.json:80"
+    },
+    {
+      "kind": "file",
+      "content": "SUBMISSION.md, раздел «Сценарии \"что если\"», строка pf_up"
+    }
+  ],
+  "submitted_at": "2026-10-29T17:16:56+00:00",
+  "code": "",
+  "explanation": ""
+}

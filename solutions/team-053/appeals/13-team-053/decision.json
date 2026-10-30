@@ -1,0 +1,53 @@
+{
+  "appeal": "13-team-053",
+  "team": "team-053",
+  "document": "build_report",
+  "claim": "/scenarios/6/works",
+  "original": "partly",
+  "status": "upheld",
+  "reasoning": "В отчёте свежего прогона стенд помечен как не поднявшийся, но к моменту проверки он работал на той же VM и на коммите c0ad931: все контейнеры healthy, /healthz отдаёт mode=live и 96 двойников. Я сам запустил сценарий той же кнопкой, что и в стенде: POST /api/scenario {\"preset\":\"pump_one_fail\"}. Ответ — ревизия «Отказ одного насоса, гор. +150 м», pumps_failed_p150=1. Через 30 с в двойнике kz.sekis:ps-p150 pumps_available стало 2.0 (до запуска было 3.0). Узкое звено советника осталось haulage. Первым шагом лестницы советник предлагает «восстановить отказавший насос … (исправных 2 → 3)». Всё это совпадает с заявленным в SUBMISSION.md: исправных насосов 3 → 2, полосы не меняются, советник предлагает восстановить насос. Повторное нажатие дало ревизию «Насосы гор. +150 м восстановлены»: pumps_available снова 3.0, узкое звено haulage. Стенд возвращён в исходное состояние. Сборщик поставил «partly» только потому, что не снял число насосов, но сценарий работает полностью. Одно замечание: поле state у ps-p150 в обоих снимках было «idle», а не «pumping». Похоже, это циклический режим насосной, на заявленный результат оно не влияет. Текстов, обращённых к судье, в материалах нет. Попутно: в свежем отчёте стоит came_up=false, хотя сейчас стенд работает. Это поле я не исправляю.",
+  "references": [
+    "vm:curl -s -X POST localhost:8088/api/scenario -H 'Content-Type: application/json' -d '{\"preset\":\"pump_one_fail\"}'",
+    "vm:curl -s localhost:8088/api/state (kz.sekis:ps-p150 pumps_available 3.0 → 2.0 → 3.0)",
+    "vm:curl -s localhost:8088/api/advisor (binding_link haulage, ladder: restore_pumps)",
+    "SUBMISSION.md:223",
+    "team/stand/server.py:109",
+    "original:/scenarios/6/works",
+    "appeal:evidence[1]",
+    "appeal:evidence[2]"
+  ],
+  "submitted_at": "2026-10-29T04:26:46+00:00",
+  "decided_at": "2026-10-29T20:04:21+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 1,
+    "score": 90,
+    "mean_total": 90,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 88.75,
+      "gpt-6-astra": 88.75,
+      "opus-5.5": 92.5
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "corrected": "yes",
+  "after": {
+    "rank": 1,
+    "score": 90,
+    "mean_total": 90,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 88.75,
+      "gpt-6-astra": 88.75,
+      "opus-5.5": 92.5
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  }
+}

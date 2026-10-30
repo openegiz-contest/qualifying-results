@@ -1,0 +1,16 @@
+{
+  "verdict": "upheld",
+  "reasoning": "Проверил по коду и на живом Стенде. В bozshakol/sim/realdata.py (_update, строки 256–264) mwd-01 меняет запись раз в модельный час (t_s//3600), а sm-01 — раз в смену (t_s//(12*3600)). sim_speed на Стенде равен 10, значит mwd-01 обновляется примерно раз в 6 мин реального времени, sm-01 — примерно раз в 72 мин. Исходная проверка шла чуть больше 5 мин, то есть меньше обоих периодов, поэтому неизменность двойников ожидаема и поломкой не является. Сам наблюдал Ditto 9 мин, с 04:58 до 05:06, sim_time 11:43→13:03. mwd-01 сменил цикл: chainage_m 2387→2393, hits_48 «1 из 1»→«1 из 2». _revision растёт у mwd-01, у qc-01 тоже. У sm-01 заполнены record_no 2067, hazard_ml 5.4 и model_auc. Его смену записи я за 72 мин не дождался, но период задан кодом, и за 5 мин запись меняться не должна. В свежем отчёте этот модуль тоже «yes»: работают mwd-01, qc-01, sm-01 и en-01, в дашборде bozshakol-data-ml данные есть у 26 из 26 запросов. Значит, «partly» опиралось только на слишком короткое окно наблюдения. Попутно: контейнеры Стенда, судя по аптайму 2–3 мин, недавно перезапустились; на вывод это не влияет. Текста, обращённого к Судье, в Апелляции и выводе команд не нашёл.",
+  "references": [
+    "bozshakol/sim/realdata.py:256",
+    "bozshakol/sim/realdata.py:264",
+    "vm:curl -s -u ditto:$P 'localhost:8080/api/2/things/kz.bozshakol:mwd-01?fields=_revision,features/chainage_m,features/tunnel,features/hits_48' (раз в 60 с, 04:58–05:06)",
+    "vm:curl -s -u ditto:$P localhost:8080/api/2/things/kz.bozshakol:sm-01/features",
+    "fresh:/modules/7",
+    "original:/modules/7",
+    "appeal:evidence[0]",
+    "appeal:evidence[1]",
+    "appeal:evidence[2]"
+  ],
+  "corrected": "yes"
+}

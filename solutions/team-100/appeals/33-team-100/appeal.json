@@ -1,0 +1,39 @@
+{
+  "id": "33-team-100",
+  "source": "33-team-100.yaml",
+  "accepted": true,
+  "team": "team-100",
+  "document": "build_report",
+  "claim": "/modules/1/works",
+  "original": "partly",
+  "statement": "The exact statement in the report that is wrong / Точное утверждение в отчёте, которое неверно\n/modules/1/works = \"partly\" (элемент /modules/1, \"name\": \"Модуль «Какая руда идёт» (mod-ore)\").\nОснование пометки в /modules/1/evidence: \"Сверку «сбылось ли» не увидел: check_text = «проверок ещё не было: твёрдая партия до SAG не дошла», сценарий я отменил раньше.\"\n\nWhat is actually true / Что верно на самом деле\nВерное значение /modules/1/works — \"yes\": на коммите 9c8b37f при запуске С3 hard:1 так, как описано в README (README.md:194, :219), mod-ore около 12:30 модели (≈5 мин после запуска при ×60) пишет в kz.aktogay:mod-ore check_text «Прогноз от 08:15: твёрдая (партия 13) в 11:05–12:50 (не позже 20:15). Факт: пришла в 12:30 — сбылось; … · сбылось 1 из 1» и hit_rate = 100, то есть работает и последняя заявленная часть SUBMISSION.md:152 — сверка «сбылось ли»; окна прихода и прогноз т/ч Сборщик подтвердил сам. Исходный прогон её не показал только потому, что hard:1 был отменён в 10:35 модели, за ≈2 ч до прихода партии (/scenarios/2/evidence; ETA 2,58 ч в /modules/1/evidence).",
+  "evidence": [
+    {
+      "kind": "command",
+      "content": "B=http://127.0.0.1:8000\nR0=$(curl -s -X POST $B/api/scenario -H 'Content-Type: application/json' -d '{\"id\":\"hard:1\",\"seed\":42,\"speed\":60}' | tee /dev/stderr | python3 -c 'import sys,json; print(json.load(sys.stdin)[\"value\"][\"run\"])')\nfor i in $(seq 1 60); do sleep 10; curl -s \"$B/api/thing?id=kz.aktogay:mod-ore\" | python3 -c '\nimport sys,json\nf=json.load(sys.stdin)[\"features\"]; v=lambda k:(f.get(k) or {}).get(\"properties\",{}).get(\"value\")\nr=v(\"idSimulationRun\"); t=v(\"processed_sim_time\") or 0; h=v(\"hit_rate\")\nprint(r, \"%02d:%02d\" % (int(t//60)%24, int(t%60)), h, v(\"check_text\"), flush=True)\nsys.exit(0 if r != sys.argv[1] and h not in (None, -1, -1.0) else 1)' \"$R0\" && break; done\n\nЧто выводит: ответ POST {\"ok\": true, \"control\": \"scenario\", …}; затем строка каждые 10 с. Пока партия не дошла: «s42-scen-… ЧЧ:ММ -1.0 проверок ещё не было: твёрдая партия до SAG не дошла». Через ≈5–6 мин после POST (прогрев ≈15 с + 270 мин модели при ×60) цикл останавливается на строке «s42-scen-… 12:30 100.0 Прогноз от 08:15: твёрдая (партия 13) в 11:05–12:50 (не позже 20:15). Факт: пришла в 12:30 — сбылось; т/ч: прогноз 3 305, факт — минимум часа …, ещё идёт [оценка на модели] · сбылось 1 из 1». Команда только запускает документированный сценарий (README.md:216-219) и читает двойник; длится до 10 мин.\nТо же в браузере после 12:30 модели: http://127.0.0.1:8000/?view=ore — раздел «Сбылось ли» с этим текстом и строка «Доля сбывшихся прогнозов» (aktogay/web/static/views.js:114, :137, :148)."
+    },
+    {
+      "kind": "log",
+      "content": "original:/scenarios/2/evidence — Сборщик запустил hard:1, сделал снимок «через ≈ 200 с (10:35 модели)» и выполнил POST /api/cancel. original:/modules/1/evidence — в том же снимке next_hard_eta_h_l1=2,583: партия была в ≈2,6 ч от SAG, поэтому сверка не могла появиться до отмены."
+    },
+    {
+      "kind": "log",
+      "content": "Подсказка, не факт (стенд Команды): стенд поднят 29.10.2026 из чистого клона 9c8b37f (новые тома, пустой Ditto), seed 42, ход ×60, сценарий hard:1. GET /api/thing?id=kz.aktogay:mod-ore → idSimulationRun s42-scen-0002-29172957, processed_sim_time 1200, hit_rate 100.0, check_text «Прогноз от 08:15: твёрдая (партия 13) в 11:05–12:50 (не позже 20:15). Факт: пришла в 12:30 — сбылось; т/ч: прогноз 3 305, факт — минимум часа 3 029 к 20:00, ещё идёт [оценка на модели] · сбылось 1 из 1»."
+    },
+    {
+      "kind": "file",
+      "content": "SUBMISSION.md:152 — заявка mod-ore: окна прихода партий, прогноз т/ч на 12 ч и «когда партия дошла, сверяет прогноз с мягким датчиком A×b («сбылось ли», доля попаданий)»; как увидеть: ?scenario=hard:1&run=1, меню «Руда», строка «сбылось ли»."
+    },
+    {
+      "kind": "file",
+      "content": "aktogay/modules/ore.py:379-422 — сверка: приход партии = медиана sag-N.axb_soft за 45 мин ниже середины между базовой и прогнозной A×b при SAG в RUN; попадание, если приход внутри окна [early, late]. ore.py:424-435 — текст «Факт: пришла в … — сбылось / мимо окна». ore.py:527-529 — прогноз запоминается для ближайшей твёрдой партии."
+    },
+    {
+      "kind": "file",
+      "content": "aktogay/modules/ore.py:563-567 — признаки hit_rate и check_text; до первой сверки check_text = «проверок ещё не было: твёрдая партия до SAG не дошла» (то, что видел Сборщик). aktogay/modules/main.py:264-266 — mod-ore пишется в kz.aktogay:mod-ore каждый такт."
+    }
+  ],
+  "submitted_at": "2026-10-29T20:12:58+00:00",
+  "code": "",
+  "explanation": ""
+}

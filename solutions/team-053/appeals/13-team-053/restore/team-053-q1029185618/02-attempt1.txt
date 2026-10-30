@@ -1,0 +1,219 @@
+$ cd /home/judge/solution && make stand
+Created /home/judge/solution/deploy/compose/.env with new random credentials.
+ sekis-stand Skipped 
+ sekis-advisor Skipped 
+ unity Skipped - Image is already being pulled by ditto-nginx 
+ sekis-sim Skipped 
+ sekis-setup Skipped - Image can be built 
+ extended-api Skipped - Image can be built 
+ connectivity Pulling 
+ grafana Pulling 
+ policies Pulling 
+ influxdb Pulling 
+ things Pulling 
+ init Pulling 
+ ditto-nginx Pulling 
+ gateway Pulling 
+ mongodb Pulling 
+ grafana-plugins Pulling 
+ mosquitto Pulling 
+ things-search Pulling 
+ telegraf Pulling 
+ init Pulled 
+ influxdb Pulled 
+ things-search Pulled 
+ gateway Pulled 
+ connectivity Pulled 
+ things Pulled 
+ policies Pulled 
+ grafana Pulled 
+ grafana-plugins Pulled 
+ mosquitto Pulled 
+ ditto-nginx Pulled 
+ telegraf Pulled 
+ mongodb Pulled 
+Образы скачаны.
+docker compose -f deploy/compose/docker-compose.yml up -d --build --wait --wait-timeout 900
+#1 [internal] load local bake definitions
+#1 reading from stdin 764B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 188B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-slim
+#3 DONE 0.0s
+
+#4 [internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#4 6.932 Initialized empty Git repository in /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/86/fs/
+#4 ...
+
+#5 [1/5] FROM docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#5 resolve docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 7.0s done
+#5 DONE 7.0s
+
+#4 [internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#4 6.969 fatal: Not a valid object name b49663dea326854a2323423eaeab7e7f54d325a7^{commit}
+#4 ...
+
+#6 [2/5] WORKDIR /usr/src/app
+#6 DONE 1.7s
+
+#4 [internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#4 445.0 error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+#4 445.0 error: 5729 bytes of body are still expected
+#4 445.0 fetch-pack: unexpected disconnect while reading sideband packet
+#4 445.0 fatal: early EOF
+#4 445.0 fatal: fetch-pack: invalid index-pack output
+#4 ERROR: failed to fetch remote https://github.com/ertis-research/extended-api-for-eclipse-ditto.git: git stderr:
+error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+error: 5729 bytes of body are still expected
+fetch-pack: unexpected disconnect while reading sideband packet
+fatal: early EOF
+fatal: fetch-pack: invalid index-pack output
+: exit status 128
+------
+ > [internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7:
+6.932 Initialized empty Git repository in /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/86/fs/
+6.969 fatal: Not a valid object name b49663dea326854a2323423eaeab7e7f54d325a7^{commit}
+445.0 error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+445.0 error: 5729 bytes of body are still expected
+445.0 fetch-pack: unexpected disconnect while reading sideband packet
+445.0 fatal: early EOF
+445.0 fatal: fetch-pack: invalid index-pack output
+------
+failed to solve: failed to fetch remote https://github.com/ertis-research/extended-api-for-eclipse-ditto.git: git stderr:
+
+error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+
+error: 5729 bytes of body are still expected
+
+fetch-pack: unexpected disconnect while reading sideband packet
+
+fatal: early EOF
+
+fatal: fetch-pack: invalid index-pack output
+
+: exit status 128
+
+make[1]: *** [Makefile:95: stand-platform] Error 1
+Платформа не запустилась с первой попытки, пробую ещё раз через 30 с.
+docker compose -f deploy/compose/docker-compose.yml up -d --build --wait --wait-timeout 900
+#1 [internal] load local bake definitions
+#1 reading from stdin 764B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 188B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-slim
+#3 DONE 0.2s
+
+#4 [1/5] FROM docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#4 resolve docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 done
+#4 DONE 0.0s
+
+#5 [2/5] WORKDIR /usr/src/app
+#5 CACHED
+
+#6 [internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#6 0.003 fatal: Not a valid object name b49663dea326854a2323423eaeab7e7f54d325a7^{commit}
+#6 1687.8 error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+#6 1687.8 error: 49 bytes of body are still expected
+#6 1687.8 fetch-pack: unexpected disconnect while reading sideband packet
+#6 1687.8 fatal: early EOF
+#6 1687.8 fatal: fetch-pack: invalid index-pack output
+#6 ERROR: failed to fetch remote https://github.com/ertis-research/extended-api-for-eclipse-ditto.git: git stderr:
+error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+error: 49 bytes of body are still expected
+fetch-pack: unexpected disconnect while reading sideband packet
+fatal: early EOF
+fatal: fetch-pack: invalid index-pack output
+: exit status 128
+------
+ > [internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7:
+0.003 fatal: Not a valid object name b49663dea326854a2323423eaeab7e7f54d325a7^{commit}
+1687.8 error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+1687.8 error: 49 bytes of body are still expected
+1687.8 fetch-pack: unexpected disconnect while reading sideband packet
+1687.8 fatal: early EOF
+1687.8 fatal: fetch-pack: invalid index-pack output
+------
+failed to solve: failed to fetch remote https://github.com/ertis-research/extended-api-for-eclipse-ditto.git: git stderr:
+
+error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+
+error: 49 bytes of body are still expected
+
+fetch-pack: unexpected disconnect while reading sideband packet
+
+fatal: early EOF
+
+fatal: fetch-pack: invalid index-pack output
+
+: exit status 128
+
+make[1]: *** [Makefile:95: stand-platform] Error 1
+Платформа не запустилась со второй попытки, пробую ещё раз через 60 с.
+docker compose -f deploy/compose/docker-compose.yml up -d --build --wait --wait-timeout 900
+#1 [internal] load local bake definitions
+#1 reading from stdin 764B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 188B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-slim
+#3 DONE 0.5s
+
+#4 [1/5] FROM docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#4 resolve docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 0.0s done
+#4 DONE 0.0s
+
+#5 [2/5] WORKDIR /usr/src/app
+#5 CACHED
+
+#6 [internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#6 0.003 fatal: Not a valid object name b49663dea326854a2323423eaeab7e7f54d325a7^{commit}
+#6 675.3 error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+#6 675.3 error: 49171 bytes of body are still expected
+#6 675.3 fetch-pack: unexpected disconnect while reading sideband packet
+#6 675.3 fatal: early EOF
+#6 675.3 fatal: fetch-pack: invalid index-pack output
+#6 ERROR: failed to fetch remote https://github.com/ertis-research/extended-api-for-eclipse-ditto.git: git stderr:
+error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+error: 49171 bytes of body are still expected
+fetch-pack: unexpected disconnect while reading sideband packet
+fatal: early EOF
+fatal: fetch-pack: invalid index-pack output
+: exit status 128
+------
+ > [internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7:
+0.003 fatal: Not a valid object name b49663dea326854a2323423eaeab7e7f54d325a7^{commit}
+675.3 error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+675.3 error: 49171 bytes of body are still expected
+675.3 fetch-pack: unexpected disconnect while reading sideband packet
+675.3 fatal: early EOF
+675.3 fatal: fetch-pack: invalid index-pack output
+------
+failed to solve: failed to fetch remote https://github.com/ertis-research/extended-api-for-eclipse-ditto.git: git stderr:
+
+error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+
+error: 49171 bytes of body are still expected
+
+fetch-pack: unexpected disconnect while reading sideband packet
+
+fatal: early EOF
+
+fatal: fetch-pack: invalid index-pack output
+
+: exit status 128
+
+make[1]: *** [Makefile:95: stand-platform] Error 1
+make: *** [Makefile:79: stand] Error 2
+
+exit code: 2

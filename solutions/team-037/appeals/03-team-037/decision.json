@@ -1,0 +1,52 @@
+{
+  "appeal": "03-team-037",
+  "team": "team-037",
+  "document": "build_report",
+  "claim": "/scenarios/7/works",
+  "original": "no",
+  "status": "upheld",
+  "reasoning": "В свежем Отчёте сборки записано came_up=false, и power_cut там вообще не проверялся. Но к моменту моей проверки Стенд в той же VM уже работал на коммите 76f36ae: 15 контейнеров, 158 двойников в Ditto. Сценарий я запустил сам документированным PUT из SUBMISSION.md: {\"value\":\"power_cut\",\"dur\":25,\"seq\":…} в org.aktogay:control/features/command/properties, Ditto ответил 204.\n\nДо запуска: smart:energy power_cut 0, total_mw 118.5, sxew ew_current 17.3. Сразу после команды симулятор записал в лог «команда: power_cut → отключение электроснабжения на 25 мин». status.last_scenario стал «отключение электроснабжения на 25 мин». В обоих вариантах (smart и fixed) power_cut 1053 с, total_mw упал до 7.7 МВт, ток электролиза до 0. feed_total фабрики встал на 798 т и не рос всё время отключения.\n\nСценарий снялся сам по dur: power_cut 0, total_mw 125, ew_current 17.1–17.2, feed_total снова растёт (968 → 1219). Значит, Сценарий запускается, даёт наблюдаемые последствия и отменяется. В исходном прогоне команда не дошла из-за перегрузки канала Ditto→MQTT на том Стенде, то есть это был сбой Стенда, а не неработоспособность Сценария.\n\nПризнак smart:plant.state всё время оставался «running», хотя переработка фактически остановилась. Это мелкая неточность отображения, на вывод она не влияет. Оценки Судей (evidence[0–2]) я фактом не считал, факт — моя перепроверка. Текста, обращённого к ИИ или Судьям, в материалах не заметил.\n\nВне спора: строка «Сценарии на технологических системах» = \"no\" в исходном отчёте опирается на тот же недошедший power_cut, но её я не исправляю.",
+  "references": [
+    "original:/scenarios/7",
+    "fresh:/came_up",
+    "vm:curl -u ditto:$DITTO_PASSWORD -X PUT localhost:8080/api/2/things/org.aktogay:control/features/command/properties -d '{\"value\":\"power_cut\",\"dur\":25,\"seq\":...}'",
+    "vm:docker logs --since 2m openegiz-aktogay-sim-1 | grep команд",
+    "vm:curl localhost:8080/api/2/things/org.aktogay.smart:energy/features (power_cut 0→1053→0, total_mw 118.5→7.7→125)",
+    "team/aktogay/app/src/platform/scenarios.ts:67",
+    "appeal:evidence[3]"
+  ],
+  "submitted_at": "2026-10-28T11:43:59+00:00",
+  "decided_at": "2026-10-29T20:03:27+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 11,
+    "score": 73.33,
+    "mean_total": 73.33,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 68.75,
+      "gpt-6-astra": 68.75,
+      "opus-5.5": 82.5
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "corrected": "yes",
+  "after": {
+    "rank": 11,
+    "score": 73.33,
+    "mean_total": 73.33,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 68.75,
+      "gpt-6-astra": 68.75,
+      "opus-5.5": 82.5
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  }
+}

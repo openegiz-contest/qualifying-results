@@ -1,0 +1,272 @@
+docker compose -f deploy/compose/docker-compose.yml -f team/compose.yml up -d --build --wait --wait-timeout 900
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.21kB done
+#1 DONE 0.0s
+
+#2 [extended-api internal] load build definition from Dockerfile
+#2 transferring dockerfile: 188B done
+#2 DONE 0.0s
+
+#3 [team-simulator internal] load build definition from Dockerfile
+#3 transferring dockerfile: 538B done
+#3 DONE 0.0s
+
+#4 [team-simulator internal] load metadata for docker.io/library/python:3.13-slim@sha256:70729b46c69b4f1e97c4822c1af3df53a1476cf5ddc6c087c0c10bc3a5678c2f
+#4 DONE 1.2s
+
+#5 [extended-api internal] load metadata for docker.io/library/node:20-slim
+#5 ...
+
+#6 [team-simulator internal] load .dockerignore
+#6 transferring context: 139B done
+#6 DONE 0.0s
+
+#7 [team-simulator internal] load build context
+#7 transferring context: 7.72kB done
+#7 DONE 0.0s
+
+#8 [team-simulator 1/7] FROM docker.io/library/python:3.13-slim@sha256:70729b46c69b4f1e97c4822c1af3df53a1476cf5ddc6c087c0c10bc3a5678c2f
+#8 resolve docker.io/library/python:3.13-slim@sha256:70729b46c69b4f1e97c4822c1af3df53a1476cf5ddc6c087c0c10bc3a5678c2f 0.0s done
+#8 DONE 0.0s
+
+#9 [team-simulator 4/7] RUN pip install --no-cache-dir -r /tmp/requirements.txt && useradd --uid 10001 --create-home mine && mkdir /state && chown mine /state
+#9 CACHED
+
+#10 [team-simulator 5/7] COPY team/sim /app/team/sim
+#10 CACHED
+
+#11 [team-simulator 6/7] COPY team/gateway /app/team/gateway
+#11 CACHED
+
+#12 [team-simulator 2/7] WORKDIR /app
+#12 CACHED
+
+#13 [team-simulator 3/7] COPY team/sim/requirements.txt /tmp/requirements.txt
+#13 CACHED
+
+#14 [team-simulator 7/7] COPY team/ui/public /app/team/ui/public
+#14 CACHED
+
+#15 [team-simulator] exporting to image
+#15 exporting layers done
+#15 exporting manifest sha256:38e44deb6e582ae46e5193b3fa90160bfdc2c75b607ee4b0a8e374321b1e204c done
+#15 exporting config sha256:8a8ac6395e4909a9ecf1ea9677202fc074c398c8f0c4ee986ddc66cceb812357 done
+#15 exporting attestation manifest sha256:bee65626634e739ef6827cb7c9775ba1fbe676b971fc26ea85aaac3ca4daf7b3 0.0s done
+#15 exporting manifest list sha256:0e1b7e2fd9ca3aa05ec697cb2e55d86cf0fa7e3b2cf63a527628beff47491ec2 done
+#15 naming to docker.io/openegiz/team040:local done
+#15 unpacking to docker.io/openegiz/team040:local done
+#15 DONE 0.0s
+
+#16 [team-simulator] resolving provenance for metadata file
+#16 DONE 0.0s
+
+#5 [extended-api internal] load metadata for docker.io/library/node:20-slim
+#5 DONE 6.3s
+
+#17 [extended-api 1/5] FROM docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#17 resolve docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 done
+#17 DONE 0.0s
+
+#18 [extended-api 2/5] WORKDIR /usr/src/app
+#18 CACHED
+
+#19 [extended-api internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#19 0.003 fatal: Not a valid object name b49663dea326854a2323423eaeab7e7f54d325a7^{commit}
+#19 200.9 From https://github.com/ertis-research/extended-api-for-eclipse-ditto
+#19 200.9  * branch            b49663dea326854a2323423eaeab7e7f54d325a7 -> FETCH_HEAD
+#19 200.9 b49663dea326854a2323423eaeab7e7f54d325a7
+#19 DONE 200.9s
+
+#20 [extended-api 3/5] COPY package*.json yarn.lock ./
+#20 DONE 0.0s
+
+#21 [extended-api 4/5] RUN yarn install --frozen-lockfile
+#21 0.206 yarn install v1.22.22
+#21 0.231 [1/4] Resolving packages...
+#21 0.291 [2/4] Fetching packages...
+#21 12.46 [3/4] Linking dependencies...
+#21 13.84 [4/4] Building fresh packages...
+#21 13.85 Done in 13.64s.
+#21 DONE 14.1s
+
+#22 [extended-api 5/5] COPY . .
+#22 DONE 0.1s
+
+#23 [extended-api] exporting to image
+#23 exporting layers
+#23 exporting layers 5.7s done
+#23 exporting manifest sha256:5da588c83ad607360fb2dc50f6032ea6ca4e177fe69338eb761ccb7cdbcffaf3 done
+#23 exporting config sha256:abbc011729fa785fd5b2cc437e7978c9ed8bfb3eff1f40da5b08099dcfb1018f done
+#23 exporting attestation manifest sha256:16e88fc2f462f284bded7ba470a8335c2f403f8ee0fb1036bb733580a5be7bcb 0.0s done
+#23 exporting manifest list sha256:b04f196e4790b928c6e4d3dfb730aae16cf6dd860160314d131f6202721eaef5 done
+#23 naming to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#23 unpacking to docker.io/openegiz/ditto-extended-api:local-b49663d
+#23 unpacking to docker.io/openegiz/ditto-extended-api:local-b49663d 2.5s done
+#23 DONE 8.2s
+
+#24 [extended-api] resolving provenance for metadata file
+#24 DONE 0.0s
+ openegiz/team040:local  Built
+ openegiz/ditto-extended-api:local-b49663d  Built
+ Network openegiz_default  Creating
+ Network openegiz_default  Created
+ Volume openegiz_influxdb-data  Creating
+ Volume openegiz_influxdb-data  Created
+ Volume openegiz_influxdb-config  Creating
+ Volume openegiz_influxdb-config  Created
+ Volume openegiz_mosquitto-data  Creating
+ Volume openegiz_mosquitto-data  Created
+ Volume openegiz_grafana-data  Creating
+ Volume openegiz_grafana-data  Created
+ Volume openegiz_grafana-plugins  Creating
+ Volume openegiz_grafana-plugins  Created
+ Volume openegiz_team040-state  Creating
+ Volume openegiz_team040-state  Created
+ Volume openegiz_mongodb-data  Creating
+ Volume openegiz_mongodb-data  Created
+ Container openegiz-unity-1  Creating
+ Container openegiz-influxdb-1  Creating
+ Container openegiz-mongodb-1  Creating
+ Container openegiz-grafana-plugins-1  Creating
+ Container openegiz-mosquitto-1  Creating
+ Container openegiz-mosquitto-1  Created
+ Container openegiz-grafana-plugins-1  Created
+ Container openegiz-influxdb-1  Created
+ Container openegiz-telegraf-1  Creating
+ Container openegiz-mongodb-1  Created
+ Container openegiz-gateway-1  Creating
+ Container openegiz-connectivity-1  Creating
+ Container openegiz-things-search-1  Creating
+ Container openegiz-grafana-1  Creating
+ Container openegiz-policies-1  Creating
+ Container openegiz-things-1  Creating
+ Container openegiz-unity-1  Created
+ Container openegiz-grafana-1  Created
+ Container openegiz-things-search-1  Created
+ Container openegiz-telegraf-1  Created
+ Container openegiz-things-1  Created
+ Container openegiz-policies-1  Created
+ Container openegiz-connectivity-1  Created
+ Container openegiz-gateway-1  Created
+ Container openegiz-ditto-nginx-1  Creating
+ Container openegiz-ditto-nginx-1  Created
+ Container openegiz-init-1  Creating
+ Container openegiz-extended-api-1  Creating
+ Container openegiz-init-1  Created
+ Container openegiz-team-ui-1  Creating
+ Container openegiz-team-simulator-1  Creating
+ Container openegiz-extended-api-1  Created
+ Container openegiz-team-ui-1  Created
+ Container openegiz-team-simulator-1  Created
+ Container openegiz-grafana-plugins-1  Starting
+ Container openegiz-mongodb-1  Starting
+ Container openegiz-influxdb-1  Starting
+ Container openegiz-unity-1  Starting
+ Container openegiz-mosquitto-1  Starting
+ Container openegiz-grafana-plugins-1  Started
+ Container openegiz-mongodb-1  Started
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-influxdb-1  Started
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-unity-1  Started
+ Container openegiz-mosquitto-1  Started
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-connectivity-1  Starting
+ Container openegiz-policies-1  Starting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-gateway-1  Starting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-things-1  Starting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-things-search-1  Starting
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-grafana-1  Starting
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-policies-1  Started
+ Container openegiz-connectivity-1  Started
+ Container openegiz-gateway-1  Started
+ Container openegiz-ditto-nginx-1  Starting
+ Container openegiz-things-search-1  Started
+ Container openegiz-things-1  Started
+ Container openegiz-grafana-1  Started
+ Container openegiz-ditto-nginx-1  Started
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-extended-api-1  Starting
+ Container openegiz-extended-api-1  Started
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-telegraf-1  Starting
+ Container openegiz-telegraf-1  Started
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-init-1  Starting
+ Container openegiz-init-1  Started
+ Container openegiz-init-1  Waiting
+ Container openegiz-init-1  Waiting
+ Container openegiz-init-1  Exited
+ Container openegiz-team-simulator-1  Starting
+ Container openegiz-init-1  Exited
+ Container openegiz-team-ui-1  Starting
+ Container openegiz-team-ui-1  Started
+ Container openegiz-team-simulator-1  Started
+ Container openegiz-policies-1  Waiting
+ Container openegiz-things-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-telegraf-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-init-1  Waiting
+ Container openegiz-gateway-1  Waiting
+ Container openegiz-grafana-1  Waiting
+ Container openegiz-team-ui-1  Waiting
+ Container openegiz-connectivity-1  Waiting
+ Container openegiz-extended-api-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-team-simulator-1  Waiting
+ Container openegiz-unity-1  Waiting
+ Container openegiz-things-search-1  Waiting
+ Container openegiz-unity-1  Healthy
+ Container openegiz-policies-1  Healthy
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-extended-api-1  Healthy
+ Container openegiz-grafana-1  Healthy
+ Container openegiz-things-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-telegraf-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-things-search-1  Healthy
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-connectivity-1  Healthy
+ Container openegiz-init-1  Exited
+ Container openegiz-gateway-1  Healthy
+ Container openegiz-team-simulator-1  Healthy
+ Container openegiz-team-ui-1  Healthy
+Waiting for Ditto to serve requests ..... ready
+Waiting for Team 040 live data through MQTT / Ditto / UI proxy...
+Team 040 ready: complete, fresh scene and advancing publication sequence.
+
+OpenEgiz is up.
+
+  Team 040 UI    http://127.0.0.1:8088
+
+  Grafana        http://localhost:3000        admin / kfO4zFFjPkuEcOIUoWa3N9UN
+  Ditto API      http://localhost:8080/api/2    ditto / cE3EEa4j2BzLcODXcIHtLRTN   (devops / yRzz6m8GiVVaNceujZQvmTBt)
+  Extended API   http://localhost:8085
+  InfluxDB       http://localhost:8086        admin / zRVR7OrjWyHevWGAXLCUUkwk
+  MQTT           tcp://localhost:1883
+  Unity WebGL    http://localhost:8090/build/<file>   (files from ./build/)
+
+Credentials live in deploy/compose/.env. Check everything with: make smoke

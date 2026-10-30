@@ -1,0 +1,505 @@
+$ cd /home/judge/solution && make aktogay
+docker compose -f deploy/compose/docker-compose.yml -f team/aktogay/compose.yml up -d --build --wait --wait-timeout 900
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.69kB done
+#1 DONE 0.0s
+
+#2 [aktogay-ui internal] load build definition from Dockerfile.ui
+#2 transferring dockerfile: 768B done
+#2 DONE 0.0s
+
+#3 [aktogay-sim internal] load build definition from Dockerfile.sim
+#3 transferring dockerfile: 738B done
+#3 DONE 0.0s
+
+#4 [extended-api internal] load build definition from Dockerfile
+#4 transferring dockerfile: 188B done
+#4 DONE 0.0s
+
+#5 [aktogay-ui internal] load metadata for docker.io/library/nginx:1.25-alpine
+#5 DONE 0.0s
+
+#6 [aktogay-ui internal] load metadata for docker.io/library/node:22-alpine
+#6 DONE 1.1s
+
+#7 [aktogay-ui internal] load .dockerignore
+#7 transferring context: 98B done
+#7 DONE 0.0s
+
+#8 [aktogay-ui internal] load build context
+#8 transferring context: 5.48kB done
+#8 DONE 0.0s
+
+#9 [aktogay-ui stage-1 1/3] FROM docker.io/library/nginx:1.25-alpine@sha256:516475cc129da42866742567714ddc681e5eed7b9ee0b9e9c015e464b4221a00
+#9 resolve docker.io/library/nginx:1.25-alpine@sha256:516475cc129da42866742567714ddc681e5eed7b9ee0b9e9c015e464b4221a00 0.0s done
+#9 DONE 0.0s
+
+#10 [aktogay-sim build 1/7] FROM docker.io/library/node:22-alpine@sha256:fe4f6d74e20370acb04ad889077d14d0f64a9c8ea6a42bc60cddf1e844699914
+#10 resolve docker.io/library/node:22-alpine@sha256:fe4f6d74e20370acb04ad889077d14d0f64a9c8ea6a42bc60cddf1e844699914 0.0s done
+#10 DONE 0.0s
+
+#11 [aktogay-ui build 6/8] COPY public ./public
+#11 CACHED
+
+#12 [aktogay-ui stage-1 2/3] COPY --from=build /app/dist /usr/share/nginx/html
+#12 CACHED
+
+#13 [aktogay-ui build 3/8] COPY package.json package-lock.json ./
+#13 CACHED
+
+#14 [aktogay-ui build 5/8] COPY index.html vite.config.ts tsconfig.json ./
+#14 CACHED
+
+#15 [aktogay-ui build 8/8] RUN npx vite build
+#15 CACHED
+
+#16 [aktogay-ui build 4/8] RUN npm ci --no-audit --no-fund
+#16 CACHED
+
+#17 [aktogay-ui build 7/8] COPY src ./src
+#17 CACHED
+
+#18 [aktogay-sim internal] load build context
+#18 transferring context: 5.31kB done
+#18 DONE 0.0s
+
+#19 [aktogay-ui stage-1 3/3] COPY docker/ui.conf.template /etc/nginx/templates/default.conf.template
+#19 CACHED
+
+#20 [aktogay-sim build 7/7] RUN npx esbuild service/main.ts --bundle --platform=node --format=esm --target=node22       --outfile=dist-service/main.mjs       --banner:js="import { createRequire } from 'module'; const require = createRequire(import.meta.url);"
+#20 CACHED
+
+#21 [aktogay-sim build 2/7] WORKDIR /app
+#21 CACHED
+
+#22 [aktogay-sim build 6/7] COPY service ./service
+#22 CACHED
+
+#23 [aktogay-sim build 5/7] COPY src ./src
+#23 CACHED
+
+#24 [aktogay-sim build 3/7] COPY package.json package-lock.json ./
+#24 CACHED
+
+#25 [aktogay-sim build 4/7] RUN npm ci --no-audit --no-fund
+#25 CACHED
+
+#26 [aktogay-sim stage-1 3/3] COPY --from=build /app/dist-service/main.mjs ./main.mjs
+#26 CACHED
+
+#27 [aktogay-sim] exporting to image
+#27 exporting layers done
+#27 exporting manifest sha256:37f1ff6ff5e77ff08d30e49f4789c72fd3a53af36820b5ad8aac0fb8d6be19a3 done
+#27 exporting config sha256:ab7d6d7cb88235a5b0226077dc4850b94fdddf09981d9a9f5c3050c95aa218a2 done
+#27 exporting attestation manifest sha256:e3f7fe5d547deec94453a5c473fae64f5ead43d36f3fc438e7c57c1bfd6da414 0.0s done
+#27 exporting manifest list sha256:e0d42dcab21844e5cae5795103a1b04dfe14b9985a01db47a924575702675608
+#27 exporting manifest list sha256:e0d42dcab21844e5cae5795103a1b04dfe14b9985a01db47a924575702675608 done
+#27 naming to docker.io/aktogay/sim:local done
+#27 unpacking to docker.io/aktogay/sim:local done
+#27 DONE 0.1s
+
+#28 [aktogay-ui] exporting to image
+#28 exporting layers done
+#28 exporting manifest sha256:da2fdccdc7d3c32b3b4b6ff8bc8e2a4a5acc1ea0a5a66f6c4cadaacb9926a0dd done
+#28 exporting config sha256:c0bbbb54311ebfde7fd0b877eda7d8ee4e908308fb3ed8e7ca0fd0fb3f9a339b done
+#28 exporting attestation manifest sha256:4cb62045ca32ed56abee521ed826bd79af170dd2e86da1808a826dc51ce06226 0.0s done
+#28 exporting manifest list sha256:2a59fae9da858253e9449c3c54422d4200aa108020502063678b081817ddd2e2 done
+#28 naming to docker.io/aktogay/ui:local done
+#28 unpacking to docker.io/aktogay/ui:local 0.0s done
+#28 DONE 0.1s
+
+#29 [aktogay-sim] resolving provenance for metadata file
+#29 DONE 0.0s
+
+#30 [aktogay-ui] resolving provenance for metadata file
+#30 DONE 0.0s
+
+#31 [extended-api internal] load metadata for docker.io/library/node:20-slim
+#31 DONE 1.7s
+
+#32 [extended-api internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#32 DONE 0.0s
+
+#33 [extended-api 1/5] FROM docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#33 resolve docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 0.0s done
+#33 DONE 0.0s
+
+#34 [extended-api 4/5] RUN yarn install --frozen-lockfile
+#34 CACHED
+
+#35 [extended-api 3/5] COPY package*.json yarn.lock ./
+#35 CACHED
+
+#36 [extended-api 2/5] WORKDIR /usr/src/app
+#36 CACHED
+
+#37 [extended-api 5/5] COPY . .
+#37 CACHED
+
+#38 [extended-api] exporting to image
+#38 exporting layers done
+#38 exporting manifest sha256:91c689c26477674e7d7508fb5b3fa2a9d2e4af2429b493140caf7e5423d88174 done
+#38 exporting config sha256:9557049e3d3788f5bde2c43dac08bddc9673e5cd05c47dc56add297dc2da5fba done
+#38 exporting attestation manifest sha256:fe0dd8f2b4b2fb0fda8f860bd01d4727e001feb8068968f979735840f09bb6f8 0.0s done
+#38 exporting manifest list sha256:071a7fad6de3f4f37ca89974b8390293f48d0fa755d94257bdf412fe0e4a67b7 done
+#38 naming to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#38 unpacking to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#38 DONE 0.1s
+
+#39 [extended-api] resolving provenance for metadata file
+#39 DONE 0.0s
+ aktogay/sim:local  Built
+ openegiz/ditto-extended-api:local-b49663d  Built
+ aktogay/ui:local  Built
+ Container openegiz-unity-1  Running
+ Container openegiz-mosquitto-1  Running
+ Container openegiz-influxdb-1  Running
+ Container openegiz-telegraf-1  Running
+ Container openegiz-grafana-1  Running
+ Container openegiz-mongodb-1  Running
+ Container openegiz-gateway-1  Running
+ Container openegiz-ditto-nginx-1  Running
+ Container openegiz-extended-api-1  Recreate
+ Container openegiz-policies-1  Running
+ Container openegiz-aktogay-ui-1  Recreate
+ Container openegiz-aktogay-sim-1  Recreate
+ Container openegiz-things-search-1  Running
+ Container openegiz-connectivity-1  Running
+ Container openegiz-things-1  Running
+ Container openegiz-aktogay-ui-1  Recreated
+ Container openegiz-extended-api-1  Recreated
+ Container openegiz-aktogay-sim-1  Recreated
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-grafana-plugins-1  Starting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-grafana-plugins-1  Started
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-extended-api-1  Starting
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-aktogay-ui-1  Starting
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-init-1  Starting
+ Container openegiz-init-1  Started
+ Container openegiz-init-1  Waiting
+ Container openegiz-extended-api-1  Started
+ Container openegiz-aktogay-ui-1  Started
+ Container openegiz-init-1  Exited
+ Container openegiz-aktogay-sim-1  Starting
+ Container openegiz-aktogay-sim-1  Started
+ Container openegiz-aktogay-ui-1  Waiting
+ Container openegiz-policies-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-things-search-1  Waiting
+ Container openegiz-grafana-1  Waiting
+ Container openegiz-connectivity-1  Waiting
+ Container openegiz-extended-api-1  Waiting
+ Container openegiz-gateway-1  Waiting
+ Container openegiz-aktogay-sim-1  Waiting
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-init-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-telegraf-1  Waiting
+ Container openegiz-things-1  Waiting
+ Container openegiz-unity-1  Waiting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-init-1  Exited
+ Container openegiz-telegraf-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-unity-1  Healthy
+ Container openegiz-aktogay-sim-1  Healthy
+ Container openegiz-gateway-1  Healthy
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-policies-1  Healthy
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-things-1  Healthy
+ Container openegiz-grafana-1  Healthy
+ Container openegiz-extended-api-1  Healthy
+ Container openegiz-connectivity-1  Healthy
+ Container openegiz-things-search-1  Healthy
+ Container openegiz-aktogay-ui-1  Healthy
+Waiting for Ditto to serve requests ..... ready
+
+OpenEgiz is up.
+
+  Grafana        http://localhost:3000        admin / PiCPwvIXNP7FC5kHvNDMzSLW
+  Ditto API      http://localhost:8080/api/2    ditto / qu9R4qB2tUZod8LZa1hRyZX1   (devops / fTlm1JmSMx2fxKz3HbUZfjBH)
+  Extended API   http://localhost:8085
+  InfluxDB       http://localhost:8086        admin / mcoRx4JlwpNtkuegi9JYhBE6
+  MQTT           tcp://localhost:1883
+  Unity WebGL    http://localhost:8090/build/<file>   (files from ./build/)
+
+Credentials live in deploy/compose/.env. Check everything with: make smoke
+docker compose -f deploy/compose/docker-compose.yml -f team/aktogay/compose.yml up -d --build --wait --wait-timeout 900
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.69kB done
+#1 DONE 0.0s
+
+#2 [aktogay-sim internal] load build definition from Dockerfile.sim
+#2 transferring dockerfile: 738B done
+#2 DONE 0.0s
+
+#3 [aktogay-ui internal] load build definition from Dockerfile.ui
+#3 transferring dockerfile: 768B done
+#3 DONE 0.0s
+
+#4 [extended-api internal] load build definition from Dockerfile
+#4 transferring dockerfile: 188B done
+#4 DONE 0.0s
+
+#5 [aktogay-ui internal] load metadata for docker.io/library/nginx:1.25-alpine
+#5 DONE 0.0s
+
+#6 [aktogay-ui internal] load metadata for docker.io/library/node:22-alpine
+#6 DONE 1.2s
+
+#7 [aktogay-ui internal] load .dockerignore
+#7 transferring context: 98B done
+#7 DONE 0.0s
+
+#8 [extended-api internal] load metadata for docker.io/library/node:20-slim
+#8 DONE 1.2s
+
+#9 [extended-api internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#9 DONE 0.0s
+
+#10 [aktogay-ui internal] load build context
+#10 transferring context: 5.48kB done
+#10 DONE 0.0s
+
+#11 [aktogay-ui build 1/7] FROM docker.io/library/node:22-alpine@sha256:fe4f6d74e20370acb04ad889077d14d0f64a9c8ea6a42bc60cddf1e844699914
+#11 resolve docker.io/library/node:22-alpine@sha256:fe4f6d74e20370acb04ad889077d14d0f64a9c8ea6a42bc60cddf1e844699914 0.0s done
+#11 DONE 0.0s
+
+#12 [aktogay-ui stage-1 1/3] FROM docker.io/library/nginx:1.25-alpine@sha256:516475cc129da42866742567714ddc681e5eed7b9ee0b9e9c015e464b4221a00
+#12 resolve docker.io/library/nginx:1.25-alpine@sha256:516475cc129da42866742567714ddc681e5eed7b9ee0b9e9c015e464b4221a00 0.0s done
+#12 DONE 0.0s
+
+#13 [extended-api 1/5] FROM docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#13 resolve docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 0.0s done
+#13 DONE 0.0s
+
+#14 [aktogay-sim internal] load build context
+#14 transferring context: 5.31kB done
+#14 DONE 0.0s
+
+#15 [extended-api 2/5] WORKDIR /usr/src/app
+#15 CACHED
+
+#16 [extended-api 3/5] COPY package*.json yarn.lock ./
+#16 CACHED
+
+#17 [extended-api 4/5] RUN yarn install --frozen-lockfile
+#17 CACHED
+
+#18 [extended-api 5/5] COPY . .
+#18 CACHED
+
+#19 [aktogay-ui build 3/8] COPY package.json package-lock.json ./
+#19 CACHED
+
+#20 [aktogay-ui build 7/8] COPY src ./src
+#20 CACHED
+
+#21 [aktogay-ui build 8/8] RUN npx vite build
+#21 CACHED
+
+#22 [aktogay-ui build 6/8] COPY public ./public
+#22 CACHED
+
+#23 [aktogay-ui build 4/8] RUN npm ci --no-audit --no-fund
+#23 CACHED
+
+#24 [aktogay-ui stage-1 2/3] COPY --from=build /app/dist /usr/share/nginx/html
+#24 CACHED
+
+#25 [aktogay-ui build 5/8] COPY index.html vite.config.ts tsconfig.json ./
+#25 CACHED
+
+#26 [aktogay-ui stage-1 3/3] COPY docker/ui.conf.template /etc/nginx/templates/default.conf.template
+#26 CACHED
+
+#27 [aktogay-sim build 6/7] COPY service ./service
+#27 CACHED
+
+#28 [aktogay-sim build 4/7] RUN npm ci --no-audit --no-fund
+#28 CACHED
+
+#29 [aktogay-sim build 5/7] COPY src ./src
+#29 CACHED
+
+#30 [aktogay-sim build 7/7] RUN npx esbuild service/main.ts --bundle --platform=node --format=esm --target=node22       --outfile=dist-service/main.mjs       --banner:js="import { createRequire } from 'module'; const require = createRequire(import.meta.url);"
+#30 CACHED
+
+#31 [aktogay-sim build 2/7] WORKDIR /app
+#31 CACHED
+
+#32 [aktogay-sim build 3/7] COPY package.json package-lock.json ./
+#32 CACHED
+
+#33 [aktogay-sim stage-1 3/3] COPY --from=build /app/dist-service/main.mjs ./main.mjs
+#33 CACHED
+
+#34 [extended-api] exporting to image
+#34 exporting layers done
+#34 exporting manifest sha256:91c689c26477674e7d7508fb5b3fa2a9d2e4af2429b493140caf7e5423d88174 done
+#34 exporting config sha256:9557049e3d3788f5bde2c43dac08bddc9673e5cd05c47dc56add297dc2da5fba done
+#34 exporting attestation manifest sha256:f4f2a1b78373eb00238f00f47a62d9ba6fba7ebe3de7c0722f94ebb9e80108ac 0.0s done
+#34 exporting manifest list sha256:44be3fb71006b5322e2ab75bcffff3821a15f6ea9d78675fef757ffa1077af77 0.0s done
+#34 naming to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#34 unpacking to docker.io/openegiz/ditto-extended-api:local-b49663d
+#34 unpacking to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#34 DONE 0.1s
+
+#35 [aktogay-sim] exporting to image
+#35 exporting layers done
+#35 exporting manifest sha256:37f1ff6ff5e77ff08d30e49f4789c72fd3a53af36820b5ad8aac0fb8d6be19a3 done
+#35 exporting config sha256:ab7d6d7cb88235a5b0226077dc4850b94fdddf09981d9a9f5c3050c95aa218a2 done
+#35 exporting attestation manifest sha256:176e093b430f4abc88df567a61c90d5d62ab4983248f1858c7ced86871cd23f1 0.0s done
+#35 exporting manifest list sha256:c6eb033b128680aea20744b994ed611d4ced01f087a77318a0f834968a8f18a9 0.0s done
+#35 naming to docker.io/aktogay/sim:local done
+#35 unpacking to docker.io/aktogay/sim:local done
+#35 DONE 0.1s
+
+#36 [aktogay-ui] exporting to image
+#36 exporting layers done
+#36 exporting manifest sha256:da2fdccdc7d3c32b3b4b6ff8bc8e2a4a5acc1ea0a5a66f6c4cadaacb9926a0dd done
+#36 exporting config sha256:c0bbbb54311ebfde7fd0b877eda7d8ee4e908308fb3ed8e7ca0fd0fb3f9a339b done
+#36 exporting attestation manifest sha256:54d256ef1e33bd55878e31d8c5f7faec218c45a044311b3ef13be889e0fb8e37 0.0s done
+#36 exporting manifest list sha256:d9a54e33a7c830ba86304feba1dac9b9b850dc834ee199051f7c40adca8f444a done
+#36 naming to docker.io/aktogay/ui:local done
+#36 unpacking to docker.io/aktogay/ui:local done
+#36 DONE 0.1s
+
+#37 [aktogay-ui] resolving provenance for metadata file
+#37 DONE 0.0s
+
+#38 [extended-api] resolving provenance for metadata file
+#38 DONE 0.0s
+
+#39 [aktogay-sim] resolving provenance for metadata file
+#39 DONE 0.0s
+ aktogay/sim:local  Built
+ aktogay/ui:local  Built
+ openegiz/ditto-extended-api:local-b49663d  Built
+ Container openegiz-mongodb-1  Running
+ Container openegiz-unity-1  Running
+ Container openegiz-influxdb-1  Running
+ Container openegiz-mosquitto-1  Running
+ Container openegiz-connectivity-1  Running
+ Container openegiz-things-1  Running
+ Container openegiz-things-search-1  Running
+ Container openegiz-policies-1  Running
+ Container openegiz-grafana-1  Running
+ Container openegiz-telegraf-1  Running
+ Container openegiz-gateway-1  Running
+ Container openegiz-ditto-nginx-1  Running
+ Container openegiz-aktogay-ui-1  Recreate
+ Container openegiz-aktogay-sim-1  Recreate
+ Container openegiz-extended-api-1  Recreate
+ Container openegiz-extended-api-1  Recreated
+ Container openegiz-aktogay-ui-1  Recreated
+ Container openegiz-aktogay-sim-1  Recreated
+ Container openegiz-grafana-plugins-1  Starting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-grafana-plugins-1  Started
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-extended-api-1  Starting
+ Container openegiz-aktogay-ui-1  Starting
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-init-1  Starting
+ Container openegiz-aktogay-ui-1  Started
+ Container openegiz-extended-api-1  Started
+ Container openegiz-init-1  Started
+ Container openegiz-init-1  Waiting
+ Container openegiz-init-1  Exited
+ Container openegiz-aktogay-sim-1  Starting
+ Container openegiz-aktogay-sim-1  Started
+ Container openegiz-things-1  Waiting
+ Container openegiz-grafana-1  Waiting
+ Container openegiz-unity-1  Waiting
+ Container openegiz-connectivity-1  Waiting
+ Container openegiz-extended-api-1  Waiting
+ Container openegiz-things-search-1  Waiting
+ Container openegiz-policies-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-telegraf-1  Waiting
+ Container openegiz-aktogay-ui-1  Waiting
+ Container openegiz-aktogay-sim-1  Waiting
+ Container openegiz-gateway-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-init-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-connectivity-1  Healthy
+ Container openegiz-unity-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-things-search-1  Healthy
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-telegraf-1  Healthy
+ Container openegiz-things-1  Healthy
+ Container openegiz-gateway-1  Healthy
+ Container openegiz-init-1  Exited
+ Container openegiz-aktogay-sim-1  Healthy
+ Container openegiz-grafana-1  Healthy
+ Container openegiz-extended-api-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-policies-1  Healthy
+ Container openegiz-aktogay-ui-1  Healthy
+
+  Aktogay digital mine:
+    3D mine + KPI + what-if scenarios   http://localhost:8095
+    Grafana dashboard                   Dashboards -> OpenEgiz Examples -> Aktogay
+    Check that everything works         make aktogay-check
+
+
+exit code: 0

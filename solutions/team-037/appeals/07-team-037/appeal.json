@@ -1,0 +1,31 @@
+{
+  "id": "07-team-037",
+  "source": "07-team-037.yaml",
+  "accepted": true,
+  "team": "team-037",
+  "document": "build_report",
+  "claim": "/scenarios/9/works",
+  "original": "no",
+  "statement": "Точное утверждение в отчёте, которое неверно (цитата):\n\"name\": \"Ливень на хвостохранилище, остановка орошения, непогода (storm_water, leach_stop, weather)\", \"works\": \"no\", \"evidence\": \"Не запускал. Стенд не менялся.\"\n\nЧто верно на самом деле:\nСценарии работают. Доказательство в Отчёте прямо говорит, что их не запускали: это отсутствие проверки, а не установленный факт неработоспособности.",
+  "evidence": [
+    {
+      "kind": "file",
+      "content": "Доказательства (коммит 76f36ae):\nОбработчики storm_water, leach_stop, weather и их длительности — team/aktogay/app/src/platform/scenarios.ts, строки 27–28 и соответствующие case."
+    },
+    {
+      "kind": "file",
+      "content": "team/aktogay/app/src/sim/__tests__/forecast.test.ts:51 — тест «ливень на хвостохранилище виден в прогнозе запаса до гребня»: после injectStormWater запас до гребня дамбы падает и строка прогноза перестаёт быть «ok»."
+    },
+    {
+      "kind": "file",
+      "content": "team/aktogay/app/src/sim/__tests__/liveWeather.test.ts:56 — тест «сценарий «вызвать погоду» имеет приоритет, после него возвращается наблюдение»."
+    },
+    {
+      "kind": "file",
+      "content": "Модель: team/aktogay/app/src/sim/tailings.ts (водный баланс и запас до гребня), team/aktogay/app/src/sim/leach.ts (орошение), team/aktogay/app/src/sim/weather.ts."
+    }
+  ],
+  "submitted_at": "2026-10-28T11:45:48+00:00",
+  "code": "",
+  "explanation": ""
+}

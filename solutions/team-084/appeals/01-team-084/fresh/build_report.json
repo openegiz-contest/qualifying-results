@@ -1,0 +1,221 @@
+{
+  "team": "team-084",
+  "sha": "c409df5918c286022618a72ed092ec8882f526a0",
+  "started_at": "2026-10-29T13:23:09+00:00",
+  "finished_at": "2026-10-29T13:44:43+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update && sudo apt-get install -y make",
+      "command": "cd /home/judge/solution && sudo apt-get update && sudo apt-get install -y make",
+      "exit_code": 0,
+      "duration_s": 17.0,
+      "log": "logs/01-sudo-apt-get-update-sudo-apt-get-install.txt"
+    },
+    {
+      "readme_step": "make tynys",
+      "command": "cd /home/judge/solution && make tynys",
+      "exit_code": 0,
+      "duration_s": 94.0,
+      "log": "logs/02-make-tynys.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 17 of 20 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 17 of 20 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`make smoke` exit 2: FAIL  value 445 did not reach InfluxDB within 60 s (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Геология GeoMet",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Двойник kz.tynys:geology: source doi 10.5281/zenodo.7051975, active_soft GM-018 (BWi 17.13), active_hard GM-0xx с BWi/Cu/LCT. В ходе работы места добычи меняются (GM-002 → GM-042 → GM-006). Во время сценария «Твёрдая руда» выбран GM-016 с BWi 26.05 (верх диапазона 15–26)."
+    },
+    {
+      "name": "ТОиР: ремонт на выдохе",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "coordinator.maintenance_json: у line-1 nominal 72, start 66, у line-2 nominal 156, start 162, strategy \"forecast\", в окне earliest/deadline ±12 ч. На линиях maintenance_count=1, maintenance_kind inspection, liner_remaining_pct ≈75–76 %."
+    },
+    {
+      "name": "Эквивалент МВт строительства",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "energy.attributes.wind_equivalent: equivalent_wind_mw 89.34, equivalent_wind_mw_per_t_cu 68.94, copper_change_pct −1.047, bracket 300/450 МВт — сходится с заявленным."
+    },
+    {
+      "name": "Демо за 3 минуты",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Воспроизвёл запросы из demo.js через curl/python к прокси :8095/ditto. Событие lull dur 48: wind.power_mw 269.6 → 21.57, energy.lull_grid_delta_mw 0 → 136.3. Затем запрос «Два будущих» evaluate: status done, snapshot содержит lull. Событие удалено, после отмены wind 269.6."
+    },
+    {
+      "name": "Координатор «Тыныс» (MPC 24 ч)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Двойник coordinator обновляется каждый модельный час: for_t 17 → 27 → …, mode «выдох»/«вдох», why с текстом объяснения, plan_json на 24 ч (renew/grid/feed/p80/charge/bess/shadow price), solve_ms 22. plant.decision_source=coordinator, SMOKE OK."
+    },
+    {
+      "name": "Сравнение V0 / V1 / V2",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Накопленные итоги к h27 обновляются в двойниках shadow-v0, shadow-v1 и site. co2_adj_t: V0 853.8, V1 798.9, V2 767.0; cu_adj_t: 540.5 / 536.8 / 537.1. В Grafana-дашборде «Тыныс · Актогай» есть панели CO₂ и меди V0/V1/V2 из InfluxDB."
+    },
+    {
+      "name": "Цель «медь / CO₂»",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Записал scenario.goal=copper (PUT, как в app.js): coordinator.goal стал copper, p80 на line-1/2 упал до 120 мкм. Вернул green: coordinator.goal green, p80 снова 150 мкм."
+    },
+    {
+      "name": "Сколько строить ВЭС и СЭС",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "energy.attributes.sizing — 100 строк (25 сочетаний × 4 варианта), есть sizing_model. make tynys вывел «100 sizing rows match»."
+    },
+    {
+      "name": "Предварительная оценка гибкости («Тыныс‑резерв»)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "substation.flex_down_mw 88.1 и flex_down_h 1.46 при импорте 176 МВт; при grid_mw 0 оценка 0 (не выше импорта). В Grafana есть панель «Тыныс‑резерв для KEGOC»."
+    },
+    {
+      "name": "Два будущих",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Отправил запрос, как futures.js: PUT future-request/features/request_json/properties/value {mode:evaluate, reduction 80, duration 4, lead 2}. Сервис tynys-futures ответил в future-result: status done, snapshot sim_hour 30, frames baseline/tynys, summary baseline cu 760.0 т / tynys 747.8 т. Состояние живого рудника не изменилось."
+    },
+    {
+      "name": "Проверка обещания",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Тот же отчёт: verdict feasible, «Запрос выполним в этом модельном сценарии», requested_cap_mw 180, delivery.actual_grid_reduction_mwh 0.0 (показано отдельно). Со штилем вердикт refused с причинами copper_loss и mining_debt."
+    },
+    {
+      "name": "Цена помощи завтра",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В summary.recovery: copper_debt_end_t, energy_debt_end_mwh, bess/fleet debt, extra_grid_mwh, recovered_at_hour 7, recovery_h 24."
+    },
+    {
+      "name": "Найди предел",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Запрос mode:limit с lull:true: status done, boundary — список длительностей 1, 2, 4 ч со статусами refused и причинами (mining_debt; copper_loss 2.01 % > 2 %)."
+    },
+    {
+      "name": "Теневая цена энергии",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "coordinator.shadow_kzt_kwh 49.03, в plan_json ряд shadow_kzt_kwh по часам (0 … 49.03). В Grafana есть панель «Теневая цена энергии» из InfluxDB."
+    },
+    {
+      "name": "Экран/пульт/3D/Unity на :8095",
+      "claimed_in_submission": false,
+      "works": "partly",
+      "evidence": "HTTP 200 у /, /dashboard.html, /futures.html, /3d.html, /unity/. Прокси /ditto отдаёт двойники. Отрисовку в браузере не проверял — браузера нет."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Штиль на сутки",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Событие lull (lead 3, dur 24), записано через PUT scenario/features, как в app.js. Ветер при запуске был низким: wind.power_mw 10.61 → 1.06 после t0, grid 185 → 226; после отмены 12.71. Чище видно в демо (то же событие lull): 269.6 → 21.57 МВт (8 %), после удаления события 269.6. events=[]."
+    },
+    {
+      "name": "Авария линии 2",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "line_trip line 2, dur 8. До: line-2 running/available true, feed 3998 т/ч, load 228.5 МВт. После: line-2 fault, available false, feed 0, load 75.1. После отмены (h72, до естественного конца в h73): line-2 running, feed 2664."
+    },
+    {
+      "name": "Запрос KEGOC −80 МВт",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "kegoc 80 МВт, lead 2, dur 4. substation.grid_cap_mw 259.85 → 179.89, grid_mw ограничен 179.89. После отмены 259.83. Оговорка: отмену записал в h81, а окно события (76–80) к тому времени уже закончилось само; событие из scenario удалено."
+    },
+    {
+      "name": "Пошла твёрдая руда",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "hard_ore dur 72 (запускал дважды). До: geology.active_hard GM-042 BWi 24.17, pit.hard_frac 0.36. После: GM-016 BWi 26.05, hard_frac 0.70. После отмены: GM-006 BWi 21.83, hard_frac 0.40 (обычный план)."
+    },
+    {
+      "name": "План добычи +10 %",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "plan_up ×1.1. pit.ore_plan_tph 6700 → 7370, ore_tph 6693 → 7355. После отмены 6700/6693."
+    },
+    {
+      "name": "Отказ дробилки",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "crusher_fault. crusher running → fault, throughput 6692 → 0, pile-soft 121473 → 104667 т. После отмены running, 6684 т/ч."
+    },
+    {
+      "name": "Отказ экскаватора",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "shovel_fault. shovel-1 running → fault, pit.ore_tph 6684 → 3918. После отмены running, 6683."
+    },
+    {
+      "name": "Отказ конвейера",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "conveyor_fault. conveyor-feed running → fault, plant.feed_tph 6660 → 0. После отмены running, feed 3996."
+    },
+    {
+      "name": "Отказ водовода",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "water_fault. water running → fault, flow_m3_h 7192.8 → 0, plant.feed_tph 3996 → 0. После отмены running, 7192.8 м³/ч, feed 3996."
+    },
+    {
+      "name": "Отказ зарядной группы",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "charger_fault. charger-1 idle/available → fault/available false. После отмены running, power 6.34 МВт, truck-01.charge_mw 1.7."
+    },
+    {
+      "name": "ТО дробилки",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "crusher_service, lead 2, dur 4. crusher running → maintenance, available false. После отмены running. Оговорка: отмена пришлась на h162, когда окно и так заканчивалось."
+    },
+    {
+      "name": "Отказ накопителя",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "bess_fault dur 12. bess available true/idle → false/fault. После отмены true/idle."
+    },
+    {
+      "name": "Цель «медь / CO₂» (переключение)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "scenario.goal copper: coordinator.goal copper, p80 150 → 120 мкм. Отмена «второй кнопкой» (goal green): coordinator.goal green, p80 150."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) Ditto: 79 вещей kz.tynys:* — 51 экземпляр (site, pit, plant, line-1/2, truck-01..14, wind, pv, bess, substation, coordinator, scenario, shadow-v0/v1 и др.) и 28 типов. 2) Снимки 13:30:03 и 13:30:38: site.sim_hour 55 → 61, truck-05.soc 69.9 → 50.1, pile-soft 93684 → 81907. Соединения Ditto mosquitto-source-connection и mosquitto-target-connection — open. mosquitto_sub на telemetry/# показывает Ditto-команды modify от сервисов (telemetry/site, telemetry/shadow-v0…). Код platform_client.Bus.send публикует в MQTT; HTTP PUT используется только для создания двойников (setup_twins), справочных атрибутов и записи сценариев/запросов из UI в Ditto. 3) Grafana-дашборд tynys-aktogay: 10 панелей, все Flux-запросы к источнику opentwins-influxdb (bucket default, measurement mqtt_consumer, фильтр по thingId kz.tynys:*). Запрос панели «Ветер и солнце» вернул свежие точки. UI :8095 (nginx) читает и пишет только через прокси /ditto → ditto-nginx."
+  },
+  "notes": "Оба шага README прошли с первой попытки, повторов не было; make tynys закончился строками «STAND OK» и «SMOKE OK». Пункт README про `node team/tynys/scripts/check_unity_web.cjs` (нужен Playwright) не выполнял: это необязательная проверка, а не шаг запуска. Сценарии и модули, которые запускаются кнопками в браузере, запускал теми же HTTP-запросами, что отправляют app.js, futures.js и demo.js: PUT в kz.tynys:scenario/features и в future-request/features/request_json/properties/value через прокси http://127.0.0.1:8095/ditto. Отменял так же — удалял своё событие из списка events или возвращал цель green. «Твёрдую руду» запускал дважды, чтобы снять pit.hard_frac (во время первого запуска его не записал); оба раза отменил. У KEGOC и «ТО дробилки» отмена пришлась на момент, когда окно события и так заканчивалось, поэтому эффект самой отмены там не отделить от естественного окончания. В двойнике future-result остался мой последний расчёт «Двух будущих» (judge-demo-1, done); живой рудник он не меняет. Итоговое состояние Стенда: scenario.events=[], goal=green, все контейнеры работают. Возможных инъекций не нашёл: AGENTS.md и CLAUDE.md — стандартные инструкции Шаблона для агентов Команды.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел о реальном медном руднике Актогай (KAZ Minerals): пользователи — энергетик, диспетчер и руководство; решения — когда и какую руду молоть, зарядка самосвалов, помощь энергосистеме, сколько строить ВЭС и СЭС."
+  }
+}

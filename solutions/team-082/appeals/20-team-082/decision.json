@@ -1,0 +1,54 @@
+{
+  "appeal": "20-team-082",
+  "team": "team-082",
+  "document": "build_report",
+  "claim": "/scenarios/17/works",
+  "original": "no",
+  "status": "upheld",
+  "reasoning": "Работа сценария проверена на стенде свежего прогона, тот же коммит. Код и данные Решения не менялись. Исходный и свежий Сборщики сценарий plan_east_strip не наблюдали: исходный его не запускал, в свежем он стоял последним в фоновой очереди. Поэтому «no» в отчёте означает только «не проверено», а не что сценарий не работает.\n\nЧто я сделал и увидел:\n1. До запуска стенд был в базовом режиме: preset=baseline, east_ore_share 0.3, trucks_east 5, waste_east_tph 500. В whatif разницы нет: базовый и сценарный прогноз совпадают.\n2. Выполнил `make scenario P=plan_east_strip` и подождал 50 с. Двойник control: preset=plan_east_strip, east_ore_share 0.25, trucks_east 4, waste_east_tph 900. Это совпадает с presets.json:149–157.\n3. Whatif пересчитался (status «готов», scenario «plan_east_strip: east_ore_share=0.25, trucks_east=4, waste_east_tph=900.0»):\n   - запасы Восточного (scen_exposed6_east_mo) — 1.19 мес против 0.27 в базе, +340.7 %;\n   - запасы Центрального (scen_exposed6_central_mo) — 3.29 мес против 3.76 в базе, −12.5 %.\n   Это ровно тот эффект, который описан в SUBMISSION.\n4. `make scenario-reset` вернул всё к базе: preset baseline, 0.3/5/500, в whatif разница 0.\n\nСценарий работает так, как заявлено, и отменяется. Обращений к ИИ или Судьям в материалах Апелляции нет.\n\nДругие расхождения в опубликованном отчёте я не исправляю, только отмечаю. В /scenarios/15 и /scenarios/16 поле works исправлено на «yes» по Апелляциям 18 и 19, но поле evidence там всё ещё «Не запускал».",
+  "references": [
+    "vm:make scenario P=plan_east_strip",
+    "vm:curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:control/features",
+    "vm:curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:whatif/features",
+    "vm:make scenario-reset",
+    "bozshakol/ui/presets.json:149",
+    "fresh:/scenarios/17",
+    "original:/scenarios/17",
+    "appeal:evidence[0]",
+    "appeal:evidence[2]"
+  ],
+  "submitted_at": "2026-10-29T17:08:29+00:00",
+  "decided_at": "2026-10-30T03:52:08+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 5,
+    "score": 84.17,
+    "mean_total": 84.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 80,
+      "gpt-6-astra": 82.5,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "corrected": "yes",
+  "after": {
+    "rank": 5,
+    "score": 84.17,
+    "mean_total": 84.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 80,
+      "gpt-6-astra": 82.5,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  }
+}

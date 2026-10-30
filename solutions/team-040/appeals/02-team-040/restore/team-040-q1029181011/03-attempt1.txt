@@ -1,0 +1,113 @@
+$ cd /home/judge/solution && make up
+docker compose -f deploy/compose/docker-compose.yml -f team/compose.yml up -d --build --wait --wait-timeout 900
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.21kB done
+#1 DONE 0.0s
+
+#2 [team-simulator internal] load build definition from Dockerfile
+#2 transferring dockerfile: 538B done
+#2 DONE 0.0s
+
+#3 [extended-api internal] load build definition from Dockerfile
+#3 transferring dockerfile: 188B done
+#3 DONE 0.0s
+
+#4 [extended-api internal] load metadata for docker.io/library/node:20-slim
+#4 ...
+
+#5 [team-simulator internal] load metadata for docker.io/library/python:3.13-slim@sha256:70729b46c69b4f1e97c4822c1af3df53a1476cf5ddc6c087c0c10bc3a5678c2f
+#5 DONE 1.6s
+
+#6 [team-simulator internal] load .dockerignore
+#6 transferring context: 139B done
+#6 DONE 0.0s
+
+#7 [team-simulator internal] load build context
+#7 transferring context: 7.72kB done
+#7 DONE 0.0s
+
+#8 [team-simulator 1/7] FROM docker.io/library/python:3.13-slim@sha256:70729b46c69b4f1e97c4822c1af3df53a1476cf5ddc6c087c0c10bc3a5678c2f
+#8 resolve docker.io/library/python:3.13-slim@sha256:70729b46c69b4f1e97c4822c1af3df53a1476cf5ddc6c087c0c10bc3a5678c2f 0.0s done
+#8 DONE 0.0s
+
+#9 [team-simulator 3/7] COPY team/sim/requirements.txt /tmp/requirements.txt
+#9 CACHED
+
+#10 [team-simulator 5/7] COPY team/sim /app/team/sim
+#10 CACHED
+
+#11 [team-simulator 4/7] RUN pip install --no-cache-dir -r /tmp/requirements.txt && useradd --uid 10001 --create-home mine && mkdir /state && chown mine /state
+#11 CACHED
+
+#12 [team-simulator 6/7] COPY team/gateway /app/team/gateway
+#12 CACHED
+
+#13 [team-simulator 2/7] WORKDIR /app
+#13 CACHED
+
+#14 [team-simulator 7/7] COPY team/ui/public /app/team/ui/public
+#14 CACHED
+
+#15 [team-simulator] exporting to image
+#15 exporting layers done
+#15 exporting manifest sha256:1bf13e7860bba687c7beabcad24747e301f601b5b1028b53b7b72cdeb7bdd4c3 done
+#15 exporting config sha256:9cfdee76b1b8d8c0622ef5f2b95817bc72197ab3bf6b3be4c35d3f70a7da690d done
+#15 exporting attestation manifest sha256:b7cccc79ab1bd124cb8941fa5afa62eddb174bad5129917f9390d2ddfff4b50f 0.0s done
+#15 exporting manifest list sha256:145f6fc33a921fd4ff468cf40a09a7ebf0716609953ca94522603e0701df74fd done
+#15 naming to docker.io/openegiz/team040:local done
+#15 unpacking to docker.io/openegiz/team040:local done
+#15 DONE 0.1s
+
+#16 [team-simulator] resolving provenance for metadata file
+#16 DONE 0.0s
+
+#4 [extended-api internal] load metadata for docker.io/library/node:20-slim
+#4 DONE 8.6s
+
+#17 [extended-api 1/5] FROM docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#17 resolve docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 0.0s done
+#17 DONE 0.0s
+
+#18 [extended-api 2/5] WORKDIR /usr/src/app
+#18 CACHED
+
+#19 [extended-api internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#19 0.004 fatal: Not a valid object name b49663dea326854a2323423eaeab7e7f54d325a7^{commit}
+#19 328.0 error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+#19 328.0 error: 24590 bytes of body are still expected
+#19 328.0 fetch-pack: unexpected disconnect while reading sideband packet
+#19 328.0 fatal: early EOF
+#19 328.0 fatal: fetch-pack: invalid index-pack output
+#19 ERROR: failed to fetch remote https://github.com/ertis-research/extended-api-for-eclipse-ditto.git: git stderr:
+error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+error: 24590 bytes of body are still expected
+fetch-pack: unexpected disconnect while reading sideband packet
+fatal: early EOF
+fatal: fetch-pack: invalid index-pack output
+: exit status 128
+------
+ > [extended-api internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7:
+0.004 fatal: Not a valid object name b49663dea326854a2323423eaeab7e7f54d325a7^{commit}
+328.0 error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+328.0 error: 24590 bytes of body are still expected
+328.0 fetch-pack: unexpected disconnect while reading sideband packet
+328.0 fatal: early EOF
+328.0 fatal: fetch-pack: invalid index-pack output
+------
+target extended-api: failed to solve: failed to fetch remote https://github.com/ertis-research/extended-api-for-eclipse-ditto.git: git stderr:
+
+error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+
+error: 24590 bytes of body are still expected
+
+fetch-pack: unexpected disconnect while reading sideband packet
+
+fatal: early EOF
+
+fatal: fetch-pack: invalid index-pack output
+
+: exit status 128
+
+make: *** [Makefile:18: up] Error 1
+
+exit code: 2

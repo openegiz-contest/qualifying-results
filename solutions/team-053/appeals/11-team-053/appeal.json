@@ -1,0 +1,35 @@
+{
+  "id": "11-team-053",
+  "source": "11-team-053.yaml",
+  "accepted": true,
+  "team": "team-053",
+  "document": "build_report",
+  "claim": "/scenarios/4/works",
+  "original": "partly",
+  "statement": "The exact statement in the report that is wrong / Точное утверждение в отчёте, которое неверно\n\"name\": \"Паводок: приток 430 м³/ч\", \"works\": \"partly\",\n\"evidence\": \"flood: mine.inflow_m3h 197 → 429,5 через 22 с. Превышение сброса в mon-volchevka (по описанию через ~5 мин) я не дожидался. «Отменить паводок» вернул 197.\"\n\nWhat is actually true / Что верно на самом деле\nСценарий работает полностью: приток 197 → 429,5 м³/ч, затем сброс в Волчевку превышает разрешённые 218,8 м³/ч — пост mon-volchevka переходит в `exceeded` (на свежем стенде через 6 мин 15 с, 103,2 % разрешения). Отмена возвращает приток 197 и пост в `normal`.",
+  "evidence": [
+    {
+      "kind": "log",
+      "content": "Репозиторий: openegiz-contest/team-053, замороженный коммит c0ad931. Стенд поднят по README на чистой Ubuntu 24.04 (8 vCPU, 16 ГБ, Docker очищен): make stand — код 0, 149 с; make stand-smoke — код 0, 18 с."
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -X POST localhost:8088/api/scenario -H 'Content-Type: application/json' -d '{\"preset\":\"flood\"}'\ncurl -s localhost:8088/api/state | python3 -c \"import json,sys; t=json.load(sys.stdin)['things']; print(t['kz.sekis:mine']['f']['inflow_m3h'], t['kz.sekis:mon-volchevka']['f'])\""
+    },
+    {
+      "kind": "log",
+      "content": "Чистая ВМ, c0ad931 (UTC):\n03:51:17 POST {\"preset\":\"flood\"} -> \"Паводок: приток 430 м³/ч\"\n03:54:32 mine.inflow_m3h=429.5, mon-volchevka.state=normal\n03:57:32 mon-volchevka.state=exceeded, permit_use_pct=103.2\n03:57:32 POST {\"preset\":\"flood\"} -> \"Приток воды в норме\"\n03:58:02 mine.inflow_m3h=197.0, mon-volchevka.state=normal"
+    },
+    {
+      "kind": "file",
+      "content": "team/tests/test_sim.py:1299\ntest_flood_raises_the_discharge_above_the_permit — проходит на c0ad931"
+    },
+    {
+      "kind": "file",
+      "content": "solutions/team-053/scores/opus-5.5.json (qualifying-results), критерий model\n«Паводок прошёл по цепочке pond-upper → water.discharge → mon-volchevka до exceeded»"
+    }
+  ],
+  "submitted_at": "2026-10-29T04:26:37+00:00",
+  "code": "",
+  "explanation": ""
+}

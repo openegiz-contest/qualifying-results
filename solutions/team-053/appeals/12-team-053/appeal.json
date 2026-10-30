@@ -1,0 +1,35 @@
+{
+  "id": "12-team-053",
+  "source": "12-team-053.yaml",
+  "accepted": true,
+  "team": "team-053",
+  "document": "build_report",
+  "claim": "/scenarios/5/works",
+  "original": "partly",
+  "statement": "The exact statement in the report that is wrong / Точное утверждение в отчёте, которое неверно\n\"name\": \"Содержание 1,76 г/т\", \"works\": \"partly\",\n\"evidence\": \"grade_drop принят (ревизия 16 «Содержание 1,76 г/т»), knob grade_gpt изменён. Значения золота и содержания в моих снимках не снимались, последствия в двойниках не подтверждены. …\"\n\nWhat is actually true / Что верно на самом деле\nПоследствия видны сразу, как описано в SUBMISSION.md:226: содержание в очистных блоках пересчитывается (stp-p150-1: 1,75 → 1,502 г/т), советник показывает золото 51,87 → 44,28 тыс. унц./год и извлечение 84,97 → 84,50 %. Содержание питания фабрики меняется постепенно через склад — так и заявлено. Отмена возвращает 1,75 г/т и 51,87.",
+  "evidence": [
+    {
+      "kind": "log",
+      "content": "Репозиторий: openegiz-contest/team-053, замороженный коммит c0ad931. Стенд поднят по README на чистой Ubuntu 24.04 (8 vCPU, 16 ГБ, Docker очищен): make stand — код 0, 149 с; make stand-smoke — код 0, 18 с."
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -X POST localhost:8088/api/scenario -H 'Content-Type: application/json' -d '{\"preset\":\"grade_drop\"}'\ncurl -s localhost:8088/api/state | python3 -c \"import json,sys; t=json.load(sys.stdin)['things']; print(t['kz.sekis:stp-p150-1']['f']['grade'])\"\ncurl -s localhost:8088/api/advisor | python3 -c \"import json,sys; k=json.load(sys.stdin)['kpi']; print(k['gold_koz_year'], k['recovery_pct'])\""
+    },
+    {
+      "kind": "log",
+      "content": "Чистая ВМ, c0ad931 (UTC):\n03:58:02 до: stp-p150-1.grade=1.75; советник gold_koz_year=51.87, recovery_pct=84.97\n03:58:02 POST {\"preset\":\"grade_drop\"} -> \"Содержание 1,76 г/т\"\n03:58:32 stp-p150-1.grade=1.502; советник gold_koz_year=44.28, recovery_pct=84.5\n03:59:32 POST {\"preset\":\"grade_drop\"} -> \"Содержание 2,05 г/т\"\n04:00:02 stp-p150-1.grade=1.75; советник gold_koz_year=51.87"
+    },
+    {
+      "kind": "file",
+      "content": "team/tests/test_sim.py:1338\ntest_grade_drop_lowers_the_gold — проходит на c0ad931"
+    },
+    {
+      "kind": "file",
+      "content": "team/tests/test_advisor.py:883\ntest_grade_drop — проходит на c0ad931"
+    }
+  ],
+  "submitted_at": "2026-10-29T04:26:42+00:00",
+  "code": "",
+  "explanation": ""
+}

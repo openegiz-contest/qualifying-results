@@ -1,0 +1,12 @@
+{
+  "verdict": "rejected",
+  "reasoning": "В свежем Отчёте сборки (тот же коммит 76f36ae) Решение по README не поднялось: make aktogay дважды упал при сборке extended-api. Модуль «Живая погода» там тоже отмечен как works=no. Сейчас контейнеры на VM есть. В README (строка ~65) у AKTOGAY_LIVE_WEATHER значение по умолчанию 0. docker inspect у openegiz-aktogay-sim-1 показывает SIM_LIVE_WEATHER=0. Значит, при штатном запуске по README модуль выключен, и погода берётся из климатических норм. Команда предлагает доказать работу модуля запуском с AKTOGAY_LIVE_WEATHER=1 и выходом в интернет к Open-Meteo, то есть сменой переменных окружения. По правилам такое доказательство утверждение не опровергает. Код (liveWeather.ts, тесты, проброс переменной в compose.yml) показывает, что функция реализована, но не что она работает на Стенде. Перепроверка не показывает, что модуль работает, поэтому утверждение works=no остаётся.",
+  "references": [
+    "fresh:/modules/35",
+    "original:/modules/35",
+    "vm:docker inspect openegiz-aktogay-sim-1 --format '{{range .Config.Env}}{{println .}}{{end}}' | grep -i weather",
+    "vm:sed -n 55,70p README.md",
+    "appeal:evidence[0]",
+    "appeal:evidence[5]"
+  ]
+}

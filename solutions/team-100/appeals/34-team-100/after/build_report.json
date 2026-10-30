@@ -1,0 +1,151 @@
+{
+  "team": "team-100",
+  "sha": "9c8b37ff76bcc22d28b76ba459bf15ed8e1cf837",
+  "started_at": "2026-10-27T22:00:14+00:00",
+  "finished_at": "2026-10-27T22:24:11+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update && sudo apt-get install -y make   # в чистой Ubuntu make нет; меньше минуты",
+      "command": "cd /home/judge/solution && sudo apt-get update && sudo apt-get install -y make",
+      "exit_code": 0,
+      "duration_s": 10.5,
+      "log": "logs/01-sudo-apt-get-update-sudo-apt-get-install.txt"
+    },
+    {
+      "readme_step": "make up            # платформа + стенд; в конце печатает адреса и пароли",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 0,
+      "duration_s": 91.0,
+      "log": "logs/02-make-up.txt"
+    },
+    {
+      "readme_step": "make akt-check     # «ok / FAIL + доказательство» по каждой строке; ≈ 15 с",
+      "command": "cd /home/judge/solution && make akt-check",
+      "exit_code": 0,
+      "duration_s": 10.0,
+      "log": "logs/03-make-akt-check-ok-fail-15.txt"
+    },
+    {
+      "readme_step": "make akt-calib     # таблица калибровки в терминале; 2–4 мин (те же числа уже в меню «Калибровка»)",
+      "command": "cd /home/judge/solution && make akt-calib",
+      "exit_code": 0,
+      "duration_s": 94.0,
+      "log": "logs/04-make-akt-calib-2-4.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 17 of 21 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 17 of 21 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`make smoke` exit 2: FAIL  value 586 did not reach InfluxDB within 60 s (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Модуль «Где теряется медь» (mod-losses)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В вещи kz.aktogay:mod-losses есть статусы и разрывы по узлам (sag-1_status, gap_cu_tph, sigma), они обновляются по времени модели. В «Два сразу» к 10:05 модели flot-1.tail_cu вырос с 0,052 до 0,067, а модуль поставил Флотации 1 статус «потеря»: −0,72 т Cu/ч ± 0,23, −$10,0 тыс./ч, z = 3,1, «уставка АСУ не пересечена», звать КИПиА и металлурга. В свободном ходе все узлы «в пределах шума»."
+    },
+    {
+      "name": "Модуль «Какая руда идёт» (mod-ore)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Окно прихода и прогноз работают. При hard:1 в mod-ore появились next_hard_axb=27, next_hard_eta_early_h_l1=0,417 и next_hard_eta_h_l1=2,583 (до запуска −1), прогноз fc_tph_h1 снизился с 7706 до 7550 т/ч, в очереди беда «твёрдая руда, партия 13, SAG 3 842 → ≈ 3 329 т/ч». Сверку «сбылось ли» не увидел: check_text = «проверок ещё не было: твёрдая партия до SAG не дошла», сценарий я отменил раньше."
+    },
+    {
+      "name": "Модуль «Очередь бед» (mod-priority, issue-*)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В Ditto появляются вещи issue-N: issue-2 dam_alarm, issue-4 lube_trip, issue-5 loss_flot и другие. В queue_text есть цена, кого звать и «можно отложить до 11:57» (дробилка 2 в «Два сразу»). Беды S0 стоят первыми: при reline:1 «Люди в SAG-1 — пуск запрещён», при hpgr_fire — пожар ВВД. В «Два сразу» модуль сам вызвал бригаду (policy: mode=module, n_calls=1, вызов flot-1 в 575 мин модели). Кнопки «Принять» / «Не согласен» не нажимал."
+    },
+    {
+      "name": "Пути меди, Изнутри, Экономика, Калибровка, сводка /summary",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Страница /?view=copper отдаёт HTTP 200. В /summary.json есть калибровка (DONE, 62 строки: 38 в допуске, 2 вне допуска), правдоподобие 20/20 и module_effect +0,61 [0,23; 2,18]. /api/history отдаёт точки из InfluxDB. Визуальную часть без браузера не проверял."
+    },
+    {
+      "name": "Сдача смены, цепочка ответственности, наряд-допуск, зима/тариф, прогнозы, отклонения",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "В mod-priority есть признаки review_text, season_text, deviations_text. При crusher:1 у person-crusher-mech были permit=crusher-1 и free_at. В «Два сразу» в очереди было «Дежурный КИПиА: занят… → предложить заместителя Дежурный энергетик». Лист сдачи в 07:30/19:30, сценарии winter, pitstop и conveyor не проверял: не хватило времени."
+    },
+    {
+      "name": "Тихие перерасходы (energy:N, reagent:N, leak)",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Отдельно не запускал. В mod-losses есть признаки энергии SAG (sag-1_e_meas_kwh_t, e_exp_kwh_t, energy_usd_h), в /summary — строка silent «тихих перерасходов не найдено». Срабатывание не наблюдал."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "С1 «Встала дробилка» (crusher:1)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск — POST /api/scenario {\"id\":\"crusher:1\"}, это запрос кнопки и ?run=1 из app.js. До: crusher-1 RUN 3844 т/ч, stockpile-1 in_tph 3819. После: crusher-1 STOP 0 т/ч, stockpile-1 in_tph 0, level_t 11232 → 8022, hours_left 2,08; беда «Дробилка ЦПД-1, потерь до 10:55 нет, потом −14,89 т Cu/ч», механик ЦПД на месте. Отмена — POST /api/cancel: crusher-1 RUN 3837 т/ч, склад in_tph 3869, site.scenario пуст."
+    },
+    {
+      "name": "С2 «Сеть урезала мощность» (grid)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск — POST /api/scenario {\"id\":\"grid\"}. До: power grid_limit_mw 300, sag-2 RUN 26,5 МВт, ball-2b RUN, line-2 3850 т/ч. После: grid_limit_mw 218, power LIMITED, shed_text ball-2b,other_cat2, sag-2 LIMITED_GRID 13,1 МВт, ball-2b STOP, line-2 LIMITED 1931 т/ч; беда энергетику со списком «что отключать дальше». Отмена — POST /api/cancel: лимит 300, sag-2 RUN 25,7 МВт, ball-2b RUN, line-2 3847 т/ч."
+    },
+    {
+      "name": "С3 «Твёрдая руда» (hard:1)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск — POST /api/scenario {\"id\":\"hard:1\"}. Через ≈ 200 с (10:35 модели) exc-1.block = batch-0013, у mod-ore next_hard_axb=27, ETA линии 1 — 2,58 ч, fc_tph_h1 7706 → 7550, в очереди совет «шихтовать 50/50», звать геолога. Падение т/ч SAG не дождался: партия ещё не дошла. Отмена — POST /api/cancel: exc-1.block = batch-0007, next_hard_* = −1, бед нет."
+    },
+    {
+      "name": "С4 «Перефутеровка SAG» (reline:1)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск — POST /api/scenario {\"id\":\"reline:1\"}. После: sag-1 RELINE 0 кВт, line-1 STOP 0 т/ч, мощность площадки 260 → 161 МВт, stockpile-1 out_tph 0; первая беда S0 «люди в SAG-1 — пуск запрещён». Отмена — POST /api/cancel: sag-1 RUN 26,3 МВт, line-1 RUN 3810 т/ч, бед нет."
+    },
+    {
+      "name": "«Вода» (water)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск — POST /api/scenario {\"id\":\"water\"}. До: water NORMAL, intake 4279, recycle 20972 м³/ч, cut_tph 0. После: water SHORT, intake 5996 (предел 6126), recycle 18415, short 84 м³/ч, cut_tph 304, site.tph 7439; беда «Хвосты и вода: утечка на водоводе». Отмена — POST /api/cancel: water NORMAL, intake 4255, cut 0, бед нет."
+    },
+    {
+      "name": "«Пожар HPGR» (hpgr_fire)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск — POST /api/scenario {\"id\":\"hpgr_fire\"}. До: pebble-1 RUN, fire 0, person-mill-mech FREE. После: pebble-1 STOP, fire 1, feed 0; person-mill-mech OFF; line-2 RUN 3836 т/ч; в очереди первая беда S0 «пожар на участке ВВД», вторая — дробление гали, −1,04 т Cu/ч. Отмена — POST /api/cancel: pebble-1 RUN, fire 0, механик FREE."
+    },
+    {
+      "name": "«Два сразу» (preset=fork)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск — POST /api/scenario {\"id\":\"fork\",\"preset\":\"fork\",\"kip\":1,\"auto\":1,\"safety\":1}; это тело Panel.scenario для ?view=queue&preset=fork&safety=1&run=1. К 10:05 модели: flot-1 tail_cu 0,052 → 0,067, recovery 87,4 → 83,4; crusher-2 STOP, lube_kpa 247 → 99; mod-losses — «потеря» на флотации 1; копии fact/base/loud/no_twin в base_to_fact, модуль сделал 1 вызов. Итог к 20:00 не ждал. Отмена — POST /api/cancel: flot-1 tail_cu 0,050, recovery 88,3, crusher-2 RUN, бед нет."
+    },
+    {
+      "name": "Беда безопасности «Пьезометр дамбы» (safety=1)",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "Запускал вместе с fork (safety=1, site.scenario = fork+safety). В прогоне s42-scen-0008 создана вещь issue-2 kind=dam_alarm. К моему снимку в 10:05 она уже была RESOLVED, piezo-1..3 alarm 0, ~116 кПа при уставке 150. Что она стояла первой в очереди, сам не видел. После POST /api/cancel scenario пуст, бед нет."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) Ditto: GET /api/2/search/things отдаёт 153–155 вещей kz.aktogay:* (sag-1, crusher-1, flot-1, truck-01..37, person-*, mod-*, issue-*). 2) Соединения mosquitto-source-connection (telemetry/#) и mosquitto-target-connection в статусе open. mosquitto_sub на telemetry/# показывает команды merge от akt-sim (correlation-id akt-sim-*). akt-sim подключён только к сети simnet, где из сервисов платформы есть только Mosquitto. Признаки меняются между снимками: sag-1 rev 4 → 7, power_kw 26438 → 25799; crusher-1 tph 3848 → 3805; дальше всё менялось по сценариям. 3) Своих дашбордов Grafana у Команды нет, только папка «OpenEgiz Examples»; интерфейс — akt-web на :8000. По коду server.py он читает только Ditto search/things и InfluxDB Flux, /api/state отдаёт вещи из Ditto, /api/history — точки InfluxDB. make akt-check: у 154 вещей есть точки в InfluxDB моложе 60 с."
+  },
+  "notes": "Все шаги README завершились успешно, повторов не было. Шаг «git clone … # если репозиторий ещё не склонирован» пропустил: репозиторий уже склонирован. В README также упомянуты python3 -I aktogay/scripts/check_numbers.py и юнит-тесты; они не входят в раздел «Запуск», я их не запускал. Сценарии в SUBMISSION запускаются через адреса браузера с ?run=1. В static/app.js нашёл, что они отправляют POST /api/scenario {id,…}, а отмена — POST /api/cancel; оба выполнял curl. Каждый сценарий начинает новый прогон с прогрева 06:00 → 08:00. После последней отмены стенд в свободном ходе, site.scenario пуст, бед нет. Инъекций, обращённых к Сборщику, не нашёл; AGENTS.md и CLAUDE.md — обычные инструкции для агентов Команды из Шаблона, я их не выполнял.\n\nИсправлено по Апелляции 33-team-100: /modules/1/works было \"partly\", стало \"yes\".\n\nИсправлено по Апелляции 34-team-100: /modules/3/works было \"partly\", стало \"yes\".",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел заполнен: цифровой двойник сульфидной части Актогая (KAZ Minerals) от карьера до концентрата; пользователь — сменный диспетчер; решение — кого из ответственных звать первым, когда бед несколько (безопасность, затем ожидаемые потери меди и денег)."
+  }
+}

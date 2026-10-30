@@ -1,0 +1,43 @@
+{
+  "id": "10-team-053",
+  "source": "10-team-053.yaml",
+  "accepted": true,
+  "team": "team-053",
+  "document": "build_report",
+  "claim": "/modules/1/works",
+  "original": "partly",
+  "statement": "The exact statement in the report that is wrong / Точное утверждение в отчёте, которое неверно\n\"name\": \"Вентиляция по потребности\", \"works\": \"partly\",\n\"evidence\": \"… В базовом режиме во время моих снимков (полный парк) экономия fan_saving_today_kwh = 0, подача 322: снижение до 189 м³/с в окна взрывных работ я не наблюдал.\"\n\nWhat is actually true / Что верно на самом деле\nМодуль работает полностью. В окно взрывных работ (на свежем стенде первое окно — примерно через 9 мин после запуска) подача снижается до 189 м³/с при 309,1 кВт вместо 1 120 кВт, и экономия растёт. Выключение возвращает 322 м³/с и 1 120 кВт, включение — режим «по потребности». Экономия 0 и подача 322 у сборщика — это верное поведение при полном парке вне окна (SUBMISSION.md:188), а не отказ модуля.",
+  "evidence": [
+    {
+      "kind": "log",
+      "content": "Репозиторий: openegiz-contest/team-053, замороженный коммит c0ad931. Стенд поднят по README на чистой Ubuntu 24.04 (8 vCPU, 16 ГБ, Docker очищен): make stand — код 0, 149 с; make stand-smoke — код 0, 18 с."
+    },
+    {
+      "kind": "command",
+      "content": "curl -s localhost:8088/api/state | python3 -c \"import json,sys; f=json.load(sys.stdin)['things']['kz.sekis:mine']['f']; print({k:f[k] for k in ('vod_state','air_delivered_m3s','vod_demand_m3s','fan_power_kw','fan_saving_day_kwh')})\"\ncurl -s -X POST localhost:8088/api/scenario -H 'Content-Type: application/json' -d '{\"preset\":\"vod_toggle\"}'"
+    },
+    {
+      "kind": "log",
+      "content": "Чистая ВМ, c0ad931 (UTC), опрос каждые 20 с:\n03:41:36 vod_state=full, air_delivered_m3s=322.0, fan_power_kw=1120.0, fan_saving_day_kwh=0.0\n03:44:36 vod_state=demand\n03:50:17 vod_state=demand, air_delivered_m3s=189.0, fan_power_kw=309.1, fan_saving_day_kwh=335.9\n03:50:17 POST {\"preset\":\"vod_toggle\"} -> \"Вентиляция по потребности выключена\"\n03:50:47 vod_state=off, air_delivered_m3s=322.0, fan_power_kw=1120.0\n03:50:47 POST {\"preset\":\"vod_toggle\"} -> \"Вентиляция по потребности включена\"\n03:51:17 vod_state=demand\nдальше в том же прогоне: 04:02:02 и 04:14:53 снова 189.0 м³/с при 309.1 кВт; к 04:18:53 fan_saving_day_kwh=6936.2"
+    },
+    {
+      "kind": "file",
+      "content": "team/tests/test_vod.py:98\ntest_duty_drops_in_the_shift_change_and_the_blast_windows — проходит на c0ad931"
+    },
+    {
+      "kind": "file",
+      "content": "team/tests/test_vod.py:152\ntest_off_runs_the_design_duty_and_the_toggle_works_both_ways — проходит на c0ad931"
+    },
+    {
+      "kind": "file",
+      "content": "solutions/team-053/scores/gpt-6.1-sol.json (qualifying-results), критерий modules\n«Вентиляция по потребности снижала подачу до 189 м³/с и мощность до 309,1 кВт; отключение вернуло 322 м³/с и 1120 кВт»"
+    },
+    {
+      "kind": "file",
+      "content": "solutions/team-053/scores/opus-5.5.json, критерий modules\n«В окно взрывных работ подача опускалась до 189 м³/с при 309 кВт против 1120»"
+    }
+  ],
+  "submitted_at": "2026-10-29T04:26:32+00:00",
+  "code": "",
+  "explanation": ""
+}

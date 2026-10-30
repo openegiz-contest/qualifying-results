@@ -1,0 +1,39 @@
+{
+  "id": "23-team-082",
+  "source": "23-team-082.yaml",
+  "accepted": true,
+  "team": "team-082",
+  "document": "build_report",
+  "claim": "/scenarios/5/works",
+  "original": "no",
+  "statement": "Точное утверждение в отчёте, которое неверно:\n\"works\": \"no\" — «Не запускал: не хватило лимита времени. Стенд не менял.»\n\nЧто верно на самом деле:\nСценарий работает: диспетчер переходит с оптимизации на закрепление самосвалов за экскаваторами (kz.bozshakol:haulage dispatch_policy «fixed» вместо «blend»), у экскаваторов меняется состав закреплённых самосвалов (link_trucks), прогноз «что если» пересчитывается: Cu в питании и расход ДТ выше базы, медь за 6 мес ниже. Сборщик сценарий не запускал.",
+  "evidence": [
+    {
+      "kind": "command",
+      "content": "make scenario P=dispatch_fixed\nчерез ~30 с:"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:haulage/features/dispatch_policy\nожидается «fixed» (в базе «blend»)"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:whatif/features\nчерез 20–40 с: delta_feed_grade и delta_diesel_l больше 0, delta_cu_6m_kt меньше 0"
+    },
+    {
+      "kind": "command",
+      "content": "make scenario-reset"
+    },
+    {
+      "kind": "file",
+      "content": "bozshakol/ui/presets.json:24"
+    },
+    {
+      "kind": "file",
+      "content": "bozshakol/sim/model.py:1324"
+    }
+  ],
+  "submitted_at": "2026-10-29T17:09:26+00:00",
+  "code": "",
+  "explanation": ""
+}

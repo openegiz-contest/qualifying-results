@@ -1,0 +1,20 @@
+{
+  "replayed": 3,
+  "failed_steps": [
+    "make up            # OpenEgiz + симулятор команды + интерфейс"
+  ],
+  "build_came_up": true,
+  "stack_up": true,
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 15 of 17 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 15 of 17 containers running"
+    }
+  ]
+}

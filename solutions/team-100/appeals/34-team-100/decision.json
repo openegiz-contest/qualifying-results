@@ -1,0 +1,55 @@
+{
+  "appeal": "34-team-100",
+  "team": "team-100",
+  "document": "build_report",
+  "claim": "/modules/3/works",
+  "original": "partly",
+  "status": "upheld",
+  "reasoning": "Я проверил стенд свежего прогона (коммит 9c8b37f, запущен по README) в браузере и через curl. Работают все пять частей, перечисленных в name.\n1) ?view=copper. Видна схема «Путь меди» по двум линиям с т/ч и строкой «в хвосты … т Cu/ч». Есть окисленная цепочка, «Баланс меди: питание = концентрат + хвосты», «Баланс воды» и сверка с KAZ Minerals (0,60 м³/т). Числа живые.\n2) ?view=inside. Заголовок «Изнутри: руда, дамба, люди, машины, фабрика, данные», шесть вкладок. На «Руде» есть таблица забоев, сигналы, источники и глубина.\n3) ?view=economics. Показано +0,61 т Cu за смену, 95 % ДИ +0,23…+2,18, медиана +0,09, без смены-выброса +0,26.\n4) ?view=calib. Есть «Калибровка и проверка модели» и «Независимый аудит балансов». Строка калибровки: «Строк 62: в допуске 38, вне допуска 2, без допуска 22». Также «Сейчас выполнено 20 из 20 проверок» и сверка с фактом KAZ Minerals.\n5) /summary. Сервер отдаёт текст «Стенд «Актогай»: сводка текстом» без JavaScript. /summary.json: calibration DONE 62/38/2/22, plausibility 20/20, module_effect 0.606 [0.230; 2.180]. Файлы inside.json, exp23.json, audit.json и plausibility.json отдаются с кодом 200 и не пустые.\nВ обоих отчётах (исходном и свежем) ни одна часть не названа неработающей. «partly» поставлено только потому, что у Сборщика не было браузера. Значит, утверждение неверно, верное значение — «yes».\nТекста, обращённого к Судьям или ИИ, в Апелляции и выводе стенда я не нашёл.",
+  "references": [
+    "original:/modules/3",
+    "fresh:/modules/9",
+    "vm:curl -s http://127.0.0.1:8000/summary; curl -s http://127.0.0.1:8000/summary.json | python3 ...",
+    "screenshot:copper.png",
+    "vm:browser http://localhost:8000/?view=copper",
+    "vm:browser http://localhost:8000/?view=inside",
+    "vm:browser http://localhost:8000/?view=economics",
+    "vm:browser http://localhost:8000/?view=calib",
+    "appeal:evidence[0]",
+    "appeal:evidence[1]"
+  ],
+  "submitted_at": "2026-10-29T20:14:23+00:00",
+  "decided_at": "2026-10-30T04:20:03+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 3,
+    "score": 89.17,
+    "mean_total": 89.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 88.75,
+      "gpt-6-astra": 88.75,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "corrected": "yes",
+  "after": {
+    "rank": 3,
+    "score": 89.17,
+    "mean_total": 89.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 88.75,
+      "gpt-6-astra": 88.75,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  }
+}

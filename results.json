@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-28T04:08:23+00:00",
+  "generated_at": "2026-10-30T06:14:23+00:00",
   "judges": [
     {
       "name": "gpt-6.1-sol",
@@ -140,6 +140,40 @@
     },
     {
       "rank": 4,
+      "team": "team-082",
+      "name": "NomadGeo",
+      "sha": "2305b482c94c435ef613fd561839e04cdde70aa7",
+      "status": "ranked",
+      "score": 87.5,
+      "mean_total": 87.5,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 88.75,
+        "gpt-6-astra": 83.75,
+        "opus-5.5": 90
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 82.5
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 22.92,
+        "behavior": 20,
+        "visualization": 18.75,
+        "scenarios": 10,
+        "modules": 4.58,
+        "concept": 11.25
+      }
+    },
+    {
+      "rank": 5,
       "team": "team-046",
       "name": "4SPARTA",
       "sha": "0c5d346296cbba7a119c0e17d7d2d0384ae44eb8",
@@ -168,40 +202,6 @@
         "behavior": 18.33,
         "visualization": 18.75,
         "scenarios": 7.5,
-        "modules": 4.17,
-        "concept": 11.25
-      }
-    },
-    {
-      "rank": 5,
-      "team": "team-082",
-      "name": "NomadGeo",
-      "sha": "2305b482c94c435ef613fd561839e04cdde70aa7",
-      "status": "ranked",
-      "score": 84.17,
-      "mean_total": 84.17,
-      "ceiling": [],
-      "judges": {
-        "gpt-6.1-sol": 80,
-        "gpt-6-astra": 82.5,
-        "opus-5.5": 90
-      },
-      "judge_notes": {},
-      "not_counted": [],
-      "removed_judges": {
-        "sonnet-5.5": 82.5
-      },
-      "reason": null,
-      "scored_by": 3,
-      "jury": 3,
-      "came_up": true,
-      "built_on_openegiz": "yes",
-      "injection_verdict": "clean",
-      "criteria": {
-        "model": 20.83,
-        "behavior": 20,
-        "visualization": 18.75,
-        "scenarios": 9.17,
         "modules": 4.17,
         "concept": 11.25
       }
@@ -280,11 +280,11 @@
       "name": "Суперкрошки",
       "sha": "c409df5918c286022618a72ed092ec8882f526a0",
       "status": "ranked",
-      "score": 77.5,
-      "mean_total": 77.5,
+      "score": 80,
+      "mean_total": 80,
       "ceiling": [],
       "judges": {
-        "gpt-6.1-sol": 73.75,
+        "gpt-6.1-sol": 81.25,
         "gpt-6-astra": 75,
         "opus-5.5": 83.75
       },
@@ -302,9 +302,9 @@
       "criteria": {
         "model": 18.75,
         "behavior": 20,
-        "visualization": 14.58,
+        "visualization": 16.67,
         "scenarios": 8.33,
-        "modules": 4.58,
+        "modules": 5,
         "concept": 11.25
       }
     },
@@ -344,6 +344,40 @@
     },
     {
       "rank": 10,
+      "team": "team-040",
+      "name": "Abzal",
+      "sha": "aaa7227aa9eec61932a8239bee13195db3e612d0",
+      "status": "ranked",
+      "score": 75,
+      "mean_total": 75,
+      "ceiling": [],
+      "judges": {
+        "gpt-6.1-sol": 75,
+        "gpt-6-astra": 75,
+        "opus-5.5": 75
+      },
+      "judge_notes": {},
+      "not_counted": [],
+      "removed_judges": {
+        "sonnet-5.5": 46.25
+      },
+      "reason": null,
+      "scored_by": 3,
+      "jury": 3,
+      "came_up": true,
+      "built_on_openegiz": "yes",
+      "injection_verdict": "clean",
+      "criteria": {
+        "model": 18.75,
+        "behavior": 15,
+        "visualization": 18.75,
+        "scenarios": 7.5,
+        "modules": 3.75,
+        "concept": 11.25
+      }
+    },
+    {
+      "rank": 11,
       "team": "team-037",
       "name": "Anilynx",
       "sha": "76f36ae330944ef2281286c8a11e837a226badbd",
@@ -377,7 +411,7 @@
       }
     },
     {
-      "rank": 11,
+      "rank": 12,
       "team": "team-087",
       "name": "Didar_RInat",
       "sha": "83f2e276571c2f5b1ce23e351d9f6c5e559cc24d",
@@ -411,7 +445,7 @@
       }
     },
     {
-      "rank": 12,
+      "rank": 13,
       "team": "team-011",
       "name": "NETA genius",
       "sha": "240ac22152457250b3584e011486025f67423142",
@@ -445,7 +479,7 @@
       }
     },
     {
-      "rank": 13,
+      "rank": 14,
       "team": "team-025",
       "name": "alikhvn",
       "sha": "1da99599d28fe34f79b5fcbbca29503d9201aa0c",
@@ -476,40 +510,6 @@
         "scenarios": 8.33,
         "modules": 2.5,
         "concept": 11.25
-      }
-    },
-    {
-      "rank": 14,
-      "team": "team-040",
-      "name": "Abzal",
-      "sha": "aaa7227aa9eec61932a8239bee13195db3e612d0",
-      "status": "ranked",
-      "score": 71.67,
-      "mean_total": 71.67,
-      "ceiling": [],
-      "judges": {
-        "gpt-6.1-sol": 68.75,
-        "gpt-6-astra": 75,
-        "opus-5.5": 71.25
-      },
-      "judge_notes": {},
-      "not_counted": [],
-      "removed_judges": {
-        "sonnet-5.5": 46.25
-      },
-      "reason": null,
-      "scored_by": 3,
-      "jury": 3,
-      "came_up": true,
-      "built_on_openegiz": "yes",
-      "injection_verdict": "clean",
-      "criteria": {
-        "model": 18.75,
-        "behavior": 15,
-        "visualization": 16.67,
-        "scenarios": 7.5,
-        "modules": 3.75,
-        "concept": 10
       }
     },
     {
@@ -2979,5 +2979,350 @@
       "injection_verdict": null
     }
   ],
-  "appeals": []
+  "appeals": [
+    {
+      "appeal": "01-team-084",
+      "team": "team-084",
+      "document": "build_report",
+      "claim": "/scenarios/3/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-28T07:50:48+00:00"
+    },
+    {
+      "appeal": "02-team-040",
+      "team": "team-040",
+      "document": "build_report",
+      "claim": "/modules/4/claimed_in_submission",
+      "status": "upheld",
+      "submitted_at": "2026-10-28T10:01:19+00:00"
+    },
+    {
+      "appeal": "03-team-037",
+      "team": "team-037",
+      "document": "build_report",
+      "claim": "/scenarios/7/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-28T11:43:59+00:00"
+    },
+    {
+      "appeal": "04-team-037",
+      "team": "team-037",
+      "document": "build_report",
+      "claim": "/modules/21/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-28T11:44:34+00:00"
+    },
+    {
+      "appeal": "05-team-037",
+      "team": "team-037",
+      "document": "build_report",
+      "claim": "/modules/35/works",
+      "status": "rejected",
+      "submitted_at": "2026-10-28T11:44:57+00:00"
+    },
+    {
+      "appeal": "06-team-037",
+      "team": "team-037",
+      "document": "build_report",
+      "claim": "/scenarios/8/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-28T11:45:20+00:00"
+    },
+    {
+      "appeal": "07-team-037",
+      "team": "team-037",
+      "document": "build_report",
+      "claim": "/scenarios/9/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-28T11:45:48+00:00"
+    },
+    {
+      "appeal": "08-team-053",
+      "team": "team-053",
+      "document": "build_report",
+      "claim": "/scenarios/7/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T04:26:07+00:00"
+    },
+    {
+      "appeal": "09-team-053",
+      "team": "team-053",
+      "document": "build_report",
+      "claim": "/scenarios/9/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T04:26:27+00:00"
+    },
+    {
+      "appeal": "10-team-053",
+      "team": "team-053",
+      "document": "build_report",
+      "claim": "/modules/1/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T04:26:32+00:00"
+    },
+    {
+      "appeal": "11-team-053",
+      "team": "team-053",
+      "document": "build_report",
+      "claim": "/scenarios/4/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T04:26:37+00:00"
+    },
+    {
+      "appeal": "12-team-053",
+      "team": "team-053",
+      "document": "build_report",
+      "claim": "/scenarios/5/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T04:26:42+00:00"
+    },
+    {
+      "appeal": "13-team-053",
+      "team": "team-053",
+      "document": "build_report",
+      "claim": "/scenarios/6/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T04:26:46+00:00"
+    },
+    {
+      "appeal": "14-team-053",
+      "team": "team-053",
+      "document": "build_report",
+      "claim": "/scenarios/8/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T04:26:52+00:00"
+    },
+    {
+      "appeal": "15-team-041",
+      "team": "team-041",
+      "document": "build_report",
+      "claim": "/scenarios/7/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T10:04:16+00:00"
+    },
+    {
+      "appeal": "16-team-041",
+      "team": "team-041",
+      "document": "build_report",
+      "claim": "/modules/2/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T10:04:18+00:00"
+    },
+    {
+      "appeal": "17-team-082",
+      "team": "team-082",
+      "document": "build_report",
+      "claim": "/modules/9/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T17:05:39+00:00"
+    },
+    {
+      "appeal": "18-team-082",
+      "team": "team-082",
+      "document": "build_report",
+      "claim": "/scenarios/15/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T17:07:25+00:00"
+    },
+    {
+      "appeal": "19-team-082",
+      "team": "team-082",
+      "document": "build_report",
+      "claim": "/scenarios/16/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T17:08:10+00:00"
+    },
+    {
+      "appeal": "20-team-082",
+      "team": "team-082",
+      "document": "build_report",
+      "claim": "/scenarios/17/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T17:08:29+00:00"
+    },
+    {
+      "appeal": "21-team-082",
+      "team": "team-082",
+      "document": "build_report",
+      "claim": "/scenarios/6/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T17:08:54+00:00"
+    },
+    {
+      "appeal": "22-team-082",
+      "team": "team-082",
+      "document": "build_report",
+      "claim": "/scenarios/1/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T17:09:10+00:00"
+    },
+    {
+      "appeal": "23-team-082",
+      "team": "team-082",
+      "document": "build_report",
+      "claim": "/scenarios/5/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T17:09:26+00:00"
+    },
+    {
+      "appeal": "24-team-082",
+      "team": "team-082",
+      "document": "build_report",
+      "claim": "/scenarios/7/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T17:16:19+00:00"
+    },
+    {
+      "appeal": "25-team-082",
+      "team": "team-082",
+      "document": "build_report",
+      "claim": "/scenarios/8/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T17:16:35+00:00"
+    },
+    {
+      "appeal": "26-team-082",
+      "team": "team-082",
+      "document": "build_report",
+      "claim": "/scenarios/9/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T17:16:56+00:00"
+    },
+    {
+      "appeal": "27-team-082",
+      "team": "team-082",
+      "document": "build_report",
+      "claim": "/scenarios/10/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T17:17:35+00:00"
+    },
+    {
+      "appeal": "28-team-082",
+      "team": "team-082",
+      "document": "build_report",
+      "claim": "/scenarios/11/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T17:17:58+00:00"
+    },
+    {
+      "appeal": "29-team-082",
+      "team": "team-082",
+      "document": "build_report",
+      "claim": "/scenarios/12/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T17:18:15+00:00"
+    },
+    {
+      "appeal": "30-team-082",
+      "team": "team-082",
+      "document": "build_report",
+      "claim": "/scenarios/13/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T17:18:42+00:00"
+    },
+    {
+      "appeal": "31-team-082",
+      "team": "team-082",
+      "document": "build_report",
+      "claim": "/scenarios/14/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T17:18:57+00:00"
+    },
+    {
+      "appeal": "32-team-082",
+      "team": "team-082",
+      "document": "build_report",
+      "claim": "/modules/7/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T17:22:16+00:00"
+    },
+    {
+      "appeal": "33-team-100",
+      "team": "team-100",
+      "document": "build_report",
+      "claim": "/modules/1/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T20:12:58+00:00"
+    },
+    {
+      "appeal": "34-team-100",
+      "team": "team-100",
+      "document": "build_report",
+      "claim": "/modules/3/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T20:14:23+00:00"
+    },
+    {
+      "appeal": "35-team-100",
+      "team": "team-100",
+      "document": "build_report",
+      "claim": "/scenarios/7/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T20:15:35+00:00"
+    },
+    {
+      "appeal": "36-team-100",
+      "team": "team-100",
+      "document": "build_report",
+      "claim": "/modules/5/works",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T20:17:19+00:00"
+    },
+    {
+      "appeal": "37-team-100",
+      "team": "team-100",
+      "document": "build_report",
+      "claim": "/modules",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T20:51:55+00:00"
+    },
+    {
+      "appeal": "38-team-100",
+      "team": "team-100",
+      "document": "build_report",
+      "claim": "/scenarios",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T21:12:10+00:00"
+    },
+    {
+      "appeal": "39-team-100",
+      "team": "team-100",
+      "document": "build_report",
+      "claim": "/modules/3/evidence",
+      "status": "rejected",
+      "submitted_at": "2026-10-29T21:17:16+00:00"
+    },
+    {
+      "appeal": "40-team-100",
+      "team": "team-100",
+      "document": "build_report",
+      "claim": "/concept/evidence",
+      "status": "upheld",
+      "submitted_at": "2026-10-29T21:19:19+00:00"
+    },
+    {
+      "appeal": "41-team-100",
+      "team": "team-100",
+      "document": "build_report",
+      "claim": "/notes",
+      "status": "rejected",
+      "submitted_at": "2026-10-30T02:52:54+00:00"
+    },
+    {
+      "appeal": "42-team-100",
+      "team": "team-100",
+      "document": "build_report",
+      "claim": "/modules/4/evidence",
+      "status": "rejected",
+      "submitted_at": "2026-10-30T03:14:24+00:00"
+    },
+    {
+      "appeal": "43-team-100",
+      "team": "team-100",
+      "document": "build_report",
+      "claim": "/scenarios/6/evidence",
+      "status": "rejected",
+      "submitted_at": "2026-10-30T04:28:28+00:00"
+    }
+  ]
 }

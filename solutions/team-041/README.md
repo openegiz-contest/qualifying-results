@@ -72,3 +72,10 @@
 
 Полностью: `scores/sonnet-5.5.json`, журнал Судьи — `agents/judge-sonnet-5.5.jsonl`.
 
+## Апелляции
+
+- [`15-team-041`](appeals/15-team-041/): `build_report` `/scenarios/7/works` — удовлетворена
+- [`16-team-041`](appeals/16-team-041/): `build_report` `/modules/2/works` — удовлетворена
+
+Отчёт сборки и оценки выше — после удовлетворённых Апелляций; журналы Судей повторной оценки — в папке Апелляции.
+

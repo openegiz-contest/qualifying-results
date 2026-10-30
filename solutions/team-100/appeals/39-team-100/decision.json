@@ -1,0 +1,34 @@
+{
+  "appeal": "39-team-100",
+  "team": "team-100",
+  "document": "build_report",
+  "claim": "/modules/3/evidence",
+  "original": "Страница /?view=copper отдаёт HTTP 200. В /summary.json есть калибровка (DONE, 62 строки: 38 в допуске, 2 вне допуска), правдоподобие 20/20 и module_effect +0,61 [0,23; 2,18]. /api/history отдаёт точки из InfluxDB. Визуальную часть без браузера не проверял.",
+  "status": "rejected",
+  "reasoning": "Проверил на стенде свежего прогона. GET /summary.json → calibration = {state: DONE, rows: 62, in_tolerance: 38, out_of_tolerance: 2, no_tolerance: 22}; /?view=copper отдаёт 200. Значит, каждое число в оспоренном утверждении («DONE, 62 строки: 38 в допуске, 2 вне допуска») совпадает с перепроверкой. Команда не указывает ни одного неверного факта. Её претензия в том, что утверждение неполное: в нём не упомянуты 22 строки без допуска и подробности по двум строкам вне допуска. Неполный, но верный пересказ фактической ошибкой не является. Дописывать к нему детали — вопрос полноты описания, а не исправления неверного утверждения. Свежий отчёт (fresh:/modules/9) тоже пишет «62 строки, 38 ok, 2 вне допуска». Остальные части утверждения Команда не оспаривает, и я их не пересматривал. Текста, обращённого к Судьям или ИИ, в материалах Апелляции не нашёл.",
+  "references": [
+    "vm:curl -s http://127.0.0.1:8000/summary.json | python3 -c '...calibration...'",
+    "vm:curl -s -o /dev/null -w '%{http_code}' 'http://127.0.0.1:8000/?view=copper'",
+    "fresh:/modules/9/evidence",
+    "appeal:evidence[0]",
+    "original:/modules/3/evidence"
+  ],
+  "submitted_at": "2026-10-29T21:17:16+00:00",
+  "decided_at": "2026-10-30T05:14:45+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 3,
+    "score": 89.17,
+    "mean_total": 89.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 88.75,
+      "gpt-6-astra": 88.75,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  }
+}

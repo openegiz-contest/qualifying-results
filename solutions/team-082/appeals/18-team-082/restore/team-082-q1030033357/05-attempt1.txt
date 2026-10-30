@@ -1,0 +1,17 @@
+$ cd /home/judge/solution && make selftest
+Bozshakol model self-test
+  ok    crusher: 550 t + two 136 t loads -> 1 truck(s) admitted (limit 700 t)
+  ok    crusher: max pocket over 12 h at 2 s steps 621.9 t <= 700 t
+  ok    clay plant: max hopper 309.3 t <= 320 t
+  ok    coarse ore stockpile: max 129,999 t <= 130,000 t with the mill stopped
+  ok    capacity charge: cost 6.375 M KZT = charge 6.375
+  ok    capacity charge: margin -6.375 M KZT = −charge (counted once)
+  ok    metal: empty plant, fed 0.0 t -> Cu 0.0 kg
+  ok    diesel: empty station -> tank 189 -> 189 l, truck refueling
+  ok    diesel: empty tank -> moved 0.00 m in 2 s, truck no_fuel
+  ok    plan selection: a plan breaking the 1.5-month limit never outranks one that keeps it, whatever its copper
+  ok    ГОСТ 32144: 1 of 1008 intervals -> «предварительно (1 из 1008 интервалов): в нормах»
+  ok    trucks: closest two standing trucks over 6 h (72 samples) 13.4 m apart (queue_loader / queue_loader) >= 5 m
+selftest: ok
+
+exit code: 0

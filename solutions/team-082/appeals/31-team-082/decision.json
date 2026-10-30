@@ -1,0 +1,57 @@
+{
+  "appeal": "31-team-082",
+  "team": "team-082",
+  "document": "build_report",
+  "claim": "/scenarios/14/works",
+  "original": "no",
+  "status": "upheld",
+  "reasoning": "Ни исходный, ни свежий Сборщик результат fleet_optimum не наблюдал: в исходном отчёте написано «не запускал», в свежем — «запущен в фоне, результаты не наблюдал». Поэтому «no» — не результат проверки. Я запустил сценарий сам на свежем стенде из базового режима (preset baseline, trucks_parked 0, preventive) командой `make scenario P=fleet_optimum`, как указано в SUBMISSION.md:133.\n\nЧто увидел через 50 с:\n- В control: preset fleet_optimum, trucks_parked 2, maintenance_strategy predictive.\n- whatif пересчитался под этот сценарий (status «готов», scenario «fleet_optimum: trucks_parked=2, maintenance_strategy=predictive»): вскрыша +5,3 %, ДТ −1,8 %, Cu −0,1 %, КТГ +1,1 %, очередь −48,8 %.\n- Самосвал ht-15 ушёл в to_park, а через 90 с — в parked.\n\nЭто совпадает с обещанным: preset из presets.json:120, в SUBMISSION «ДТ −0,4 %, вскрыша +7 %». Знак эффектов тот же, величина близкая. Значит, сценарий работает.\n\nОтмена `make scenario-reset` вернула preset baseline, trucks_parked 0, preventive, whatif «базовый режим».\n\nЗамечание: вместе со сценарием число самосвалов в standby/to_reserve выросло с 0 до 16 и после reset за 30 с не спало. Похоже на побочный эффект PdM: в свежем отчёте для pdm то же самое. Это касается поля undone, а оно не оспорено. Текста, обращённого к Судьям, в апелляции нет.",
+  "references": [
+    "vm:make scenario P=fleet_optimum",
+    "vm:curl -u ditto:… localhost:8080/api/2/things/kz.bozshakol:control/features",
+    "vm:curl -u ditto:… localhost:8080/api/2/things/kz.bozshakol:whatif/features",
+    "vm:curl -u ditto:… localhost:8080/api/2/search/things?filter=like(thingId,\"kz.bozshakol:ht-*\")",
+    "vm:make scenario-reset",
+    "bozshakol/ui/presets.json:120",
+    "SUBMISSION.md:133",
+    "fresh:/scenarios/14",
+    "original:/scenarios/14",
+    "appeal:evidence[0]",
+    "appeal:evidence[1]",
+    "appeal:evidence[2]"
+  ],
+  "submitted_at": "2026-10-29T17:18:57+00:00",
+  "decided_at": "2026-10-30T04:53:48+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 5,
+    "score": 84.17,
+    "mean_total": 84.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 80,
+      "gpt-6-astra": 82.5,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "corrected": "yes",
+  "after": {
+    "rank": 5,
+    "score": 84.17,
+    "mean_total": 84.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 80,
+      "gpt-6-astra": 82.5,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  }
+}

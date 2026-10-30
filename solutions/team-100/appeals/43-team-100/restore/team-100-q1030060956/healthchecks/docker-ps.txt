@@ -1,0 +1,21 @@
+openegiz-akt-calib-1	exited	Exited (0) 31 seconds ago	aktogay/calib:local
+openegiz-akt-sim-1	running	Up About a minute	aktogay/sim:local
+openegiz-akt-web-1	running	Up About a minute (healthy)	aktogay/web:local
+openegiz-akt-modules-1	running	Up About a minute (healthy)	aktogay/modules:local
+openegiz-akt-setup-1	exited	Exited (0) About a minute ago	python:3.12.11-slim-bookworm
+openegiz-extended-api-1	running	Up 2 minutes	openegiz/ditto-extended-api:local-b49663d
+openegiz-init-1	exited	Exited (0) About a minute ago	curlimages/curl:8.10.1
+openegiz-ditto-nginx-1	running	Up 2 minutes (healthy)	nginx:1.25-alpine
+openegiz-telegraf-1	running	Up 2 minutes	telegraf:1.37-alpine
+openegiz-grafana-1	running	Up 2 minutes (healthy)	grafana/grafana:12.3.0
+openegiz-things-search-1	running	Up 2 minutes (healthy)	eclipse/ditto-things-search:3.3.7
+openegiz-connectivity-1	running	Up 2 minutes (healthy)	eclipse/ditto-connectivity:3.3.7
+openegiz-policies-1	running	Up 2 minutes (healthy)	eclipse/ditto-policies:3.3.7
+openegiz-things-1	running	Up 2 minutes (healthy)	eclipse/ditto-things:3.3.7
+openegiz-gateway-1	running	Up 2 minutes (healthy)	eclipse/ditto-gateway:3.3.7
+openegiz-akt-models-1	running	Up 2 minutes (healthy)	nginx:1.25-alpine
+openegiz-unity-1	running	Up 2 minutes	nginx:1.25-alpine
+openegiz-grafana-plugins-1	exited	Exited (0) 2 minutes ago	busybox:1.36
+openegiz-mongodb-1	running	Up 2 minutes (healthy)	mongo:6.0
+openegiz-mosquitto-1	running	Up 2 minutes (healthy)	eclipse-mosquitto:2.0.18
+openegiz-influxdb-1	running	Up 2 minutes (healthy)	influxdb:2.7.4-alpine

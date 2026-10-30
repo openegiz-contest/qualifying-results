@@ -1,0 +1,15 @@
+{
+  "verdict": "upheld",
+  "reasoning": "Я проверил стенд свежего прогона на коммите 56f1f69 через шлюз :8088. Двойник mill: feed_setpoint_tph=3557, setpoint_source=plant-control, peak_min_shift=0, max_feed_tph=4079. Склад stockpile заполнен на 60 % (25616 т). Модуль module-plant: enabled=true, status=online, last_decision «Уставка питания 3557 т/ч: склад заполнен на 59 %, уставка на устойчивом потолке модуля (пик начинается при складе от 65 %)…». Именно это правило записано в SUBMISSION.md (строка module-plant): пик до 3900 т/ч только при складе от 65 %, иначе устойчивый потолок 3557 т/ч. В коде mine/modules/plant/core.py пик включается только при level_pct не ниже порога peak_from_pct, а в params.yaml peak_from_pct=65 и peak_hold_pct=55. Свежий Сборщик увидел то же самое и поставил works=\"yes\". Исходный Сборщик тоже сам назвал увиденное заявленным поведением. Он поставил \"partly\" только потому, что пик не наступил, но при складе ниже 65 % пика и не должно быть. Ни одного отклонения от заявленного не нашлось ни в одном прогоне. Поэтому утверждение \"partly\" неверно, верное значение — \"yes\". Ветку с пиком (склад от 65 %) не видел ни один прогон, и я её тоже не наблюдал. Текстов, обращённых к судье, в апелляции и в данных нет.",
+  "references": [
+    "fresh:/modules/2",
+    "original:/modules/2/evidence",
+    "vm:curl -s localhost:8088/ditto/api/2/things/kz.bozshakol:mill",
+    "vm:curl -s localhost:8088/ditto/api/2/things/kz.bozshakol:module-plant",
+    "vm:curl -s localhost:8088/ditto/api/2/things/kz.bozshakol:stockpile",
+    "mine/modules/plant/core.py:148",
+    "mine/model/params.yaml:743",
+    "appeal:evidence[0]"
+  ],
+  "corrected": "yes"
+}

@@ -1,0 +1,73 @@
+{
+  "appeal": "42-team-100",
+  "team": "team-100",
+  "document": "build_report",
+  "claim": "/modules/4/evidence",
+  "original": "В mod-priority есть признаки review_text, season_text, deviations_text. При crusher:1 у person-crusher-mech были permit=crusher-1 и free_at. В «Два сразу» в очереди было «Дежурный КИПиА: занят… → предложить заместителя Дежурный энергетик». Лист сдачи в 07:30/19:30, сценарии winter, pitstop и conveyor не проверял: не хватило времени.",
+  "status": "rejected",
+  "reasoning": "Оспорено предложение, в котором Сборщик пишет о своей работе: лист сдачи в 07:30/19:30 и сценарии winter, pitstop и conveyor он не проверял, потому что не хватило времени. Это отчёт о том, что Сборщик сделал. Перепроверка может показать, что функция работает, но не может показать, что Сборщик её проверял. Сама Команда называет утверждение «неполным», а не ложным. Её версия поля оставляет works = \"partly\" и только дописывает новые наблюдения, поэтому спор идёт о полноте текста, а не о неверном факте.\n\nЧто я проверил на стенде свежего прогона (коммит 9c8b37f, прогон s42-free-0001-30053338). Лист сдачи 07:30 действительно есть: mod-priority.handover = «Сдача смены 07:30 — в дневную смену (записан в 07:40)». В листе есть разделы «Открытые беды», «Отложенные», «Приборы под подозрением», «Руда на 12 ч», «Бригады», «Отклонения», «Тревоги», «Устранено» и «А если бы позвали иначе?». Тариф плоский, 16 тг/кВт·ч, множитель 1,0.\n\nКод и документы совпадают с тем, что пишет Команда:\n- priority.py:1474-1479 — черновик листа пишется каждый такт, лист — к сроку;\n- params.py — handover_am_h 7,5, handover_pm_h 19,5, tariff_zones_on 0, ball_norm_gt 800 г/т;\n- SUBMISSION.md:167 — норма шаров 600 г/т.\n\nСвежий отчёт тоже показывает, что лист сдачи заполнен и что pitstop, conveyor:1 и winter работают и отменяются. Эти три сценария уже внесены в /scenarios исходного отчёта по Апелляции 38-team-100. Лист 19:30 я сам не наблюдал. Сброс стенда и запуск сценариев я не делал.\n\nВсё это подтверждает, что функции работают, но не делает ложной запись Сборщика о том, что он их не проверял. Обращений к ИИ или Судьям в материалах Апелляции не нашёл.",
+  "references": [
+    "original:/modules/4/evidence",
+    "fresh:/modules/4",
+    "fresh:/modules/6",
+    "fresh:/scenarios/7",
+    "fresh:/scenarios/10",
+    "vm:curl -s \"http://127.0.0.1:8000/api/thing?id=kz.aktogay:mod-priority\"",
+    "aktogay/modules/priority.py:1474",
+    "aktogay/modules/params.py:285",
+    "aktogay/modules/params.py:318",
+    "SUBMISSION.md:167",
+    "appeal:evidence[0]",
+    "appeal:evidence[2]"
+  ],
+  "submitted_at": "2026-10-30T03:14:24+00:00",
+  "decided_at": "2026-10-30T06:05:27+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 3,
+    "score": 89.17,
+    "mean_total": 89.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 88.75,
+      "gpt-6-astra": 88.75,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "after": {
+    "rank": 3,
+    "score": 89.17,
+    "mean_total": 89.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 88.75,
+      "gpt-6-astra": 88.75,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "rescoring": {
+    "gpt-6.1-sol": {
+      "before": 88.75,
+      "rescored": 88.75,
+      "final": 88.75
+    },
+    "gpt-6-astra": {
+      "before": 88.75,
+      "rescored": 88.75,
+      "final": 88.75
+    },
+    "opus-5.5": {
+      "before": 90,
+      "rescored": 88.75,
+      "final": 90
+    }
+  }
+}

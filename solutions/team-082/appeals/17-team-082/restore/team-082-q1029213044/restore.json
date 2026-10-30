@@ -1,0 +1,21 @@
+{
+  "replayed": 5,
+  "failed_steps": [
+    "make verify        # сквозная проверка: 113 двойников — дети ГОК, у каждого тип;",
+    "make verify        # сквозная проверка: 113 двойников — дети ГОК, у каждого тип;"
+  ],
+  "build_came_up": true,
+  "stack_up": true,
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 15 of 18 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 15 of 18 containers running"
+    }
+  ]
+}

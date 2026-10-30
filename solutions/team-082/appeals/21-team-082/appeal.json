@@ -1,0 +1,43 @@
+{
+  "id": "21-team-082",
+  "source": "21-team-082.yaml",
+  "accepted": true,
+  "team": "team-082",
+  "document": "build_report",
+  "claim": "/scenarios/6/works",
+  "original": "no",
+  "statement": "Точное утверждение в отчёте, которое неверно:\n\"works\": \"no\" — «Не запускал: не хватило лимита времени. Стенд не менял.»\n\nЧто верно на самом деле:\nСценарий работает: дорога на ККД закрывается (kz.bozshakol:road-crusher status «закрыта»), самосвалы Центрального идут по южной объездной, прогноз показывает рост расхода ДТ, последствия выводятся на 3D-сцену. Это видел Судья opus-5.5 на Стенде. Сборщик сценарий не запускал.",
+  "evidence": [
+    {
+      "kind": "log",
+      "content": "solutions/team-082/screenshots/opus-5.5/t082_road_closure_3d.png\nСудья opus-5.5 запустил road_closure на Стенде: панель «Последствия сценария на сцене», подпись «road_closure: road_closed=road-crusher»."
+    },
+    {
+      "kind": "log",
+      "content": "solutions/team-082/scores/opus-5.5.json, критерий visualization\n«road_closure вывел на панель прогноз «база → сценарий» и кнопку «Показать последствия на 3D-сцене» (снимки t082_road_closure_3d, t082_combo)»"
+    },
+    {
+      "kind": "command",
+      "content": "make scenario P=road_closure\nчерез ~30 с:"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:road-crusher/features/status\nожидается «закрыта»; в kz.bozshakol:whatif delta_diesel_l больше 0"
+    },
+    {
+      "kind": "command",
+      "content": "make scenario-reset\nотмена: status «открыта»"
+    },
+    {
+      "kind": "file",
+      "content": "bozshakol/ui/presets.json:32"
+    },
+    {
+      "kind": "file",
+      "content": "bozshakol/sim/model.py:728"
+    }
+  ],
+  "submitted_at": "2026-10-29T17:08:54+00:00",
+  "code": "",
+  "explanation": ""
+}

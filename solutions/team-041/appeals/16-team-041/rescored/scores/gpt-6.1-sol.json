@@ -1,0 +1,103 @@
+{
+  "team": "team-041",
+  "judge": "gpt-6.1-sol",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 4,
+      "max": 25,
+      "points": 25,
+      "reasoning": "Проверены связанные двойники карьера и двух технологических цепочек: блоки с запасами, содержанием и глинистостью, транспорт, измельчение, обесшламливание, флотация, концентрат и хвосты. Есть иерархия, мастерская, заправка и подстанция. Назначения маршрутов и материала меняются; остановка дробилки влияет на склады. История предприятия читается из InfluxDB.",
+      "references": [
+        "ditto:kz.bozshakol:block-25",
+        "ditto:kz.bozshakol:truck-05",
+        "ditto:kz.bozshakol:desliming",
+        "ditto:kz.bozshakol:clay-flotation",
+        "ditto:kz.bozshakol:substation",
+        "mine/sim/plant.py:35",
+        "screenshot:screenshots/openegiz-app.png"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 4,
+      "max": 20,
+      "points": 20,
+      "reasoning": "Повторные снимки более чем через минуту показали смену положения, загрузки и числа рейсов truck-05. Скорости, грузы около 136 т и производительности фабрик правдоподобны; код переносит массу и медь между звеньями без создания материала. Опубликованные параметры перенесены в params.yaml и используются моделью: на Стенде ОФ-1 даёт 3557 т/ч, ОФ-2 — 755 т/ч, извлечение рудника 78,2 % против опорных 78,1 %. Зависимости от глины отдельно обозначены допущениями.",
+      "references": [
+        "ditto:kz.bozshakol:truck-05",
+        "ditto:kz.bozshakol:mine",
+        "ditto:kz.bozshakol:mill",
+        "mine/model/params.yaml:401",
+        "mine/model/params.yaml:542",
+        "mine/model/params.yaml:575",
+        "mine/sim/plant.py:40",
+        "mine/common/physics.py:26"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "Осмотрены 3D, план, забои и фабрика: представлены уступы, съезды и оборудование, живые состояния и показатели производства. Работают приближение и выбор объекта с данными и связями. Закрытие дороги и остановка дробилки отражаются на визуализации. Для уровня 4 не подтверждена плавность и согласованность отображения: состояния при командах обновлялись с существенными задержками.",
+      "references": [
+        "screenshot:screenshots/baseline.png",
+        "screenshot:screenshots/realistic.png",
+        "screenshot:screenshots/plan-road-active.png",
+        "screenshot:screenshots/crusher-clay-active.png",
+        "screenshot:screenshots/truck-card.png"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 2,
+      "max": 10,
+      "points": 5,
+      "reasoning": "Сам запустил остановку дробилки и глинистый забой: дробилка остановилась, руда пошла на рудные склады, запас дроблёной руды снизился; глинистость блока выросла 3,4→32 %, модуль изменил назначение на ОФ-2. Оба сценария отменены, глинистость восстановилась. Закрытие дороги вызвало объезд и рост времени рейса, однако после многократных отмен осталось active: последняя проверка показала road-segment-01=closed. Остановка ОФ-2 не подтвердилась. Ненадёжная доставка команд и невосстановленная дорога исключают уровень 3; дорога оставлена закрытой, иных способов восстановления не применял.",
+      "references": [
+        "ditto:kz.bozshakol:scenario-crusher-stop",
+        "ditto:kz.bozshakol:scenario-clay-face",
+        "ditto:kz.bozshakol:block-25",
+        "ditto:kz.bozshakol:scenario-road-closure",
+        "ditto:kz.bozshakol:road-segment-01",
+        "screenshot:screenshots/crusher-clay-active.png",
+        "screenshot:screenshots/scenario-after-cancels.png"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 4,
+      "max": 5,
+      "points": 5,
+      "reasoning": "Подтверждены содержательные функции разных направлений: диспетчеризация назначает рейсы, управление качеством перенаправило глинистый блок, техобслуживание отправило truck-29 в мастерскую. Управление фабрикой задаёт уставку с обоснованием. Прогноз советника выдал сравнение второй ремонтной бригады: +26,2 т меди и +162,9 млн тенге с разложением результата. Советник и его прогноз посчитаны одним механизмом.",
+      "references": [
+        "ditto:kz.bozshakol:module-dispatch",
+        "ditto:kz.bozshakol:module-grade",
+        "ditto:kz.bozshakol:module-plant",
+        "ditto:kz.bozshakol:truck-29",
+        "ditto:kz.bozshakol:workshop",
+        "ditto:kz.bozshakol:forecast-3"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 3,
+      "max": 15,
+      "points": 11.25,
+      "reasoning": "Конкретная задача начальника смены Бозшаколя определяет устройство двух фабрик, учёт глинистости, сценарии и экономическое сравнение ремонтных действий. Параметры реального предприятия перенесены в данные и узнаются на Стенде. Презентация читается, объясняет решения и раскрывает допущения. Уровень 4 не подтверждён: не все заявленные сценарии удалось воспроизвести, сроки получения ответа заметно превышали заявленные, отмена дороги не сработала.",
+      "references": [
+        "SUBMISSION.md:6",
+        "SUBMISSION.md:12",
+        "mine/model/params.yaml:401",
+        "presentation.pdf:5",
+        "presentation.pdf:10",
+        "presentation.pdf:11",
+        "presentation.pdf:15",
+        "ditto:kz.bozshakol:forecast-3",
+        "ditto:kz.bozshakol:scenario-road-closure"
+      ]
+    }
+  ],
+  "total": 85
+}

@@ -1,0 +1,16 @@
+$ cd /home/judge/solution && make verify
+Bozshakol end-to-end check
+  ok    twins: 113 twins in Ditto, 112 are children of kz.bozshakol:site, all instantiate 48 OpenTwins types
+  ok    model: model time 2026-10-20 11:34 -> 2026-10-20 11:35 (MQTT -> Ditto live)
+  ok    history: 3024 points from site, haulage and gc-01 in InfluxDB over the last 3 min (Ditto -> Telegraf -> InfluxDB)
+  ok    ui: 3D control room and its Ditto proxy answer on http://127.0.0.1:8095
+Scenario 'crusher_outage': Остановка ККД-1 (замена брони)
+  Руда уходит на склад забаланса, склад крупного дробления срабатывается, затем МПСИ останавливается.
+  The model applies it within ~3 s; the 48 h forecast is ready in ~10-20 s (make twin-status).
+Scenario 'baseline': Базовый режим
+  Плановая работа: два карьера, 20 CAT 785C (5 на Восточном) + 6 CAT 777D, 6 экскаваторов, 30 % руды с Восточного карьера, шихтовка на 0,42 % Cu, ТО по наработке.
+  The model applies it within ~3 s; the 48 h forecast is ready in ~10-20 s (make twin-status).
+  ok    what-if: crusher_outage: gc-01 running -> down (LG stockpile 420.2 kt), reset -> running
+verify: ok
+
+exit code: 0

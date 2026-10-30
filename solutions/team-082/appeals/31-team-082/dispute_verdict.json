@@ -1,0 +1,19 @@
+{
+  "verdict": "upheld",
+  "reasoning": "Ни исходный, ни свежий Сборщик результат fleet_optimum не наблюдал: в исходном отчёте написано «не запускал», в свежем — «запущен в фоне, результаты не наблюдал». Поэтому «no» — не результат проверки. Я запустил сценарий сам на свежем стенде из базового режима (preset baseline, trucks_parked 0, preventive) командой `make scenario P=fleet_optimum`, как указано в SUBMISSION.md:133.\n\nЧто увидел через 50 с:\n- В control: preset fleet_optimum, trucks_parked 2, maintenance_strategy predictive.\n- whatif пересчитался под этот сценарий (status «готов», scenario «fleet_optimum: trucks_parked=2, maintenance_strategy=predictive»): вскрыша +5,3 %, ДТ −1,8 %, Cu −0,1 %, КТГ +1,1 %, очередь −48,8 %.\n- Самосвал ht-15 ушёл в to_park, а через 90 с — в parked.\n\nЭто совпадает с обещанным: preset из presets.json:120, в SUBMISSION «ДТ −0,4 %, вскрыша +7 %». Знак эффектов тот же, величина близкая. Значит, сценарий работает.\n\nОтмена `make scenario-reset` вернула preset baseline, trucks_parked 0, preventive, whatif «базовый режим».\n\nЗамечание: вместе со сценарием число самосвалов в standby/to_reserve выросло с 0 до 16 и после reset за 30 с не спало. Похоже на побочный эффект PdM: в свежем отчёте для pdm то же самое. Это касается поля undone, а оно не оспорено. Текста, обращённого к Судьям, в апелляции нет.",
+  "references": [
+    "vm:make scenario P=fleet_optimum",
+    "vm:curl -u ditto:… localhost:8080/api/2/things/kz.bozshakol:control/features",
+    "vm:curl -u ditto:… localhost:8080/api/2/things/kz.bozshakol:whatif/features",
+    "vm:curl -u ditto:… localhost:8080/api/2/search/things?filter=like(thingId,\"kz.bozshakol:ht-*\")",
+    "vm:make scenario-reset",
+    "bozshakol/ui/presets.json:120",
+    "SUBMISSION.md:133",
+    "fresh:/scenarios/14",
+    "original:/scenarios/14",
+    "appeal:evidence[0]",
+    "appeal:evidence[1]",
+    "appeal:evidence[2]"
+  ],
+  "corrected": "yes"
+}

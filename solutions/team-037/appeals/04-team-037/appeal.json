@@ -1,0 +1,35 @@
+{
+  "id": "04-team-037",
+  "source": "04-team-037.yaml",
+  "accepted": true,
+  "team": "team-037",
+  "document": "build_report",
+  "claim": "/modules/21/works",
+  "original": "no",
+  "statement": "Точное утверждение в отчёте, которое неверно (цитата):\n\"name\": \"Сценарии на технологических системах\", \"works\": \"no\", \"evidence\": \"power_cut отправлял PUT дважды (12:50), до симулятора не дошёл: в логе нет «команда: power_cut», energy.power_cut 0, plant running. storm_water, leach_stop и weather не запускал.\"\n\nЧто верно на самом деле:\nМодуль работает. Приведённое доказательство само говорит, что одна команда не была доставлена каналом Ditto→MQTT, а три остальные вообще не запускались («не запускал»). Недоставленное и непроверенное не равно неработающему. power_cut из этого модуля Судьи запустили сами, и он отработал.",
+  "evidence": [
+    {
+      "kind": "file",
+      "content": "solutions/team-037/scores/gpt-6-astra.json: «Отключение снизило нагрузку со 119,3 до 8,2 МВт, остановило электролиз, перевело посёлок на генератор и вызвало накопление руды»."
+    },
+    {
+      "kind": "file",
+      "content": "solutions/team-037/scores/gpt-6.1-sol.json: «Отключение снизило мощность примерно 119→8,2 МВт, обнулило ток электролиза и остановило накопленную переработку»."
+    },
+    {
+      "kind": "file",
+      "content": "Коммит 76f36ae: обработчики всех четырёх Сценариев модуля в team/aktogay/app/src/platform/scenarios.ts (power_cut, storm_water, leach_stop, weather), таблицы длительностей — строки 27–28 того же файла."
+    },
+    {
+      "kind": "file",
+      "content": "Влияние ливня на хвостохранилище покрыто тестом team/aktogay/app/src/sim/__tests__/forecast.test.ts:51 («ливень на хвостохранилище виден в прогнозе запаса до гребня», вызов injectStormWater)."
+    },
+    {
+      "kind": "file",
+      "content": "Погода как Сценарий покрыта тестом team/aktogay/app/src/sim/__tests__/liveWeather.test.ts:56 («сценарий «вызвать погоду» имеет приоритет»)."
+    }
+  ],
+  "submitted_at": "2026-10-28T11:44:34+00:00",
+  "code": "",
+  "explanation": ""
+}

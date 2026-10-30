@@ -1,0 +1,39 @@
+{
+  "id": "17-team-082",
+  "source": "17-team-082.yaml",
+  "accepted": true,
+  "team": "team-082",
+  "document": "build_report",
+  "claim": "/modules/9/works",
+  "original": "partly",
+  "statement": "Точное утверждение в отчёте, которое неверно:\n\"works\": \"partly\" — «Кнопки «Посчитать месяц» и «Подобрать план» в пульте я не запускал (браузера нет), plan_status «нет».»\n\nЧто верно на самом деле:\nМодуль работает полностью: «Подобрать план» на Стенде считает 8 расстановок и записывает рекомендацию в двойник kz.bozshakol:whatif (plan_status «готов», plan_options, plan_best). Это подтвердили Судьи на том же Стенде; «нет» в plan_status означает только, что подбор ещё не запускали.",
+  "evidence": [
+    {
+      "kind": "log",
+      "content": "solutions/team-082/agents/judge-gpt-6.1-sol-vm-audit.jsonl\nСудья gpt-6.1-sol запустил подбор на Стенде; двойник whatif вернул: \"plan_status\": \"готов\", \"plan_computed_at\": \"2026-10-20 14:06\", \"plan_calc_s\": 27.0, \"plan_options\": {\"options\":[{\"name\":\"Центральный: вскрыша вперёд\", ..."
+    },
+    {
+      "kind": "log",
+      "content": "solutions/team-082/scores/gpt-6.1-sol.json, критерий modules\n«Подбор за 27 секунд сравнил восемь вариантов и рекомендовал расстановку с запасом Восточного через полгода 2,44 месяца против 0,45 у текущей.»"
+    },
+    {
+      "kind": "log",
+      "content": "solutions/team-082/scores/gpt-6-astra.json, критерий modules\n«Запущенный подбор сравнил восемь вариантов: один выполнил ограничения, предложены 2679 кт руды и запасы 3,7/2,3 месяца.»"
+    },
+    {
+      "kind": "log",
+      "content": "solutions/team-082/screenshots/gpt-6.1-sol/plan-recommendation.png и solutions/team-082/screenshots/opus-5.5/t082_plan_month.png"
+    },
+    {
+      "kind": "command",
+      "content": "python3 bozshakol/tools/twinctl.py set plan_optimize=1\nзапуск подбора без браузера (тот же счётчик, что у кнопки «Подобрать план»); через 30–60 с:"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:whatif/features/plan_status\nожидается «готов»; варианты — в features/plan_options"
+    }
+  ],
+  "submitted_at": "2026-10-29T17:05:39+00:00",
+  "code": "",
+  "explanation": ""
+}

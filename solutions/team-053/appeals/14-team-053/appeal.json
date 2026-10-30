@@ -1,0 +1,31 @@
+{
+  "id": "14-team-053",
+  "source": "14-team-053.yaml",
+  "accepted": true,
+  "team": "team-053",
+  "document": "build_report",
+  "claim": "/scenarios/8/works",
+  "original": "partly",
+  "statement": "The exact statement in the report that is wrong / Точное утверждение в отчёте, которое неверно\n\"name\": \"Цель 1,2 / 2,0 / 2,5 млн т/год\", \"works\": \"partly\",\n\"evidence\": \"step1200 и step2000: knobs target_ktpa 1200/2000, m_plant 1/2. Узкое звено, как и заявлено, осталось haulage 926; полосу «Фабрика» я не снимал. … step2500 запущен моим скриптом со «Шагом назад» в конце, но результат к концу работы не снят.\"\n\nWhat is actually true / Что верно на самом деле\nВсе три ступени работают, как заявлено в SUBMISSION.md:214–216: полоса «Фабрика» у советника 1 000 → 1 200 / 2 000 / 2 500 тыс. т/год, на фабрике в работе 3 / 5 / 6 линий, питание 124,1 → 148,9 / 248,2 / 310,2 т/ч; узким остаётся откатка 926. «Шаг назад» возвращает фабрику 1 000 и 3 линии.",
+  "evidence": [
+    {
+      "kind": "log",
+      "content": "Репозиторий: openegiz-contest/team-053, замороженный коммит c0ad931. Стенд поднят по README на чистой Ubuntu 24.04 (8 vCPU, 16 ГБ, Docker очищен): make stand — код 0, 149 с; make stand-smoke — код 0, 18 с."
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -X POST localhost:8088/api/scenario -H 'Content-Type: application/json' -d '{\"preset\":\"step2500\"}'\ncurl -s localhost:8088/api/advisor | python3 -c \"import json,sys; a=json.load(sys.stdin); print(a['binding_link'], [(l['id'], l['cap_ktpa']) for l in a['links'] if l['id']=='plant'])\"\ncurl -s localhost:8088/api/state | python3 -c \"import json,sys; f=json.load(sys.stdin)['things']['kz.sekis:plant']['f']; print(f['lines_running'], f['feed_tph'])\""
+    },
+    {
+      "kind": "log",
+      "content": "Чистая ВМ, c0ad931 (UTC):\n04:02:02 step1200 -> 04:02:32 «Фабрика» 1200, линий 3, питание 148.9 т/ч; узкое haulage 926\n04:03:02 undo -> «Фабрика» 1000, питание 124.1\n04:03:22 step2000 -> 04:03:52 «Фабрика» 2000, линий 5, питание 248.2 т/ч; узкое haulage 926\n04:04:22 undo -> «Фабрика» 1000, линий 3\n04:04:42 step2500 -> 04:05:12 «Фабрика» 2500, линий 6, питание 310.2 т/ч; узкое haulage 926\n04:05:42 undo -> 04:06:02 «Фабрика» 1000, линий 3, питание 124.1"
+    },
+    {
+      "kind": "file",
+      "content": "team/tests/test_stand_api.py:317\ntest_targets — проходит на c0ad931"
+    }
+  ],
+  "submitted_at": "2026-10-29T04:26:52+00:00",
+  "code": "",
+  "explanation": ""
+}

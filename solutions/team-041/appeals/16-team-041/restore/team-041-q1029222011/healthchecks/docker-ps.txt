@@ -1,0 +1,23 @@
+openegiz-grafana-1	running	Up 42 seconds (healthy)	grafana/grafana:12.3.0
+openegiz-mine-plant-1	running	Up 28 seconds (healthy)	bozshakol/mine:local
+openegiz-mine-advisor-1	running	Up 28 seconds (healthy)	bozshakol/mine:local
+openegiz-mine-dispatch-1	running	Up 28 seconds (healthy)	bozshakol/mine:local
+openegiz-mine-maint-1	running	Up 28 seconds (healthy)	bozshakol/mine:local
+openegiz-mine-sim-1	running	Up 28 seconds (healthy)	bozshakol/mine:local
+openegiz-mine-grade-1	running	Up 28 seconds (healthy)	bozshakol/mine:local
+openegiz-mine-ui-1	running	Up 42 seconds (healthy)	nginx:1.25-alpine
+openegiz-mine-twins-1	exited	Exited (0) 29 seconds ago	bozshakol/mine:local
+openegiz-extended-api-1	running	Up About a minute	openegiz/ditto-extended-api:local-b49663d
+openegiz-init-1	exited	Exited (0) 38 seconds ago	curlimages/curl:8.10.1
+openegiz-ditto-nginx-1	running	Up About a minute (healthy)	nginx:1.25-alpine
+openegiz-telegraf-1	running	Up About a minute	telegraf:1.37-alpine
+openegiz-policies-1	running	Up About a minute (healthy)	eclipse/ditto-policies:3.3.7
+openegiz-gateway-1	running	Up About a minute (healthy)	eclipse/ditto-gateway:3.3.7
+openegiz-things-search-1	running	Up About a minute (healthy)	eclipse/ditto-things-search:3.3.7
+openegiz-connectivity-1	running	Up About a minute (healthy)	eclipse/ditto-connectivity:3.3.7
+openegiz-things-1	running	Up About a minute (healthy)	eclipse/ditto-things:3.3.7
+openegiz-unity-1	running	Up About a minute	nginx:1.25-alpine
+openegiz-grafana-plugins-1	exited	Exited (0) 43 seconds ago	busybox:1.36
+openegiz-mongodb-1	running	Up About a minute (healthy)	mongo:6.0
+openegiz-mosquitto-1	running	Up About a minute (healthy)	eclipse-mosquitto:2.0.18
+openegiz-influxdb-1	running	Up About a minute (healthy)	influxdb:2.7.4-alpine

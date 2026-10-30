@@ -1,0 +1,105 @@
+{
+  "team": "team-100",
+  "judge": "gpt-6-astra",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 4,
+      "max": 25,
+      "points": 25,
+      "reasoning": "Сам прочитал двойников через Ditto и открыл иерархию в OpenEgiz. Подробно представлены добыча, транспорт, склады, измельчение, флотация, концентрат и окисленная цепочка; энергия, вода, приборы, люди и бригады — отдельные вещи. У партий есть масса, остаток, содержание и твёрдость; у оборудования — состояния и связи питания. Проверенные отказы распространяются между звеньями. История оборудования, транспорта, воды и электролиза читается из InfluxDB.",
+      "references": [
+        "ditto:kz.aktogay:batch-0007",
+        "ditto:kz.aktogay:face-1",
+        "ditto:kz.aktogay:sag-1",
+        "ditto:kz.aktogay:ew-1",
+        "aktogay/sim/plant.py:284",
+        "aktogay/web/server.py:515",
+        "screenshot:screenshots/openegiz-hierarchy.png"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 4,
+      "max": 20,
+      "points": 20,
+      "reasoning": "Снимки обычного режима с интервалом более минуты подтвердили изменение подачи SAG-1 с 3499,5 до 3440,3 т/ч и запаса склада с 11893,7 до 12141,4 т. В коде проверены движение партий, смешение, ограничения мощности и балансы; на Стенде — последствия остановки дробилки, ограничения сети и недостатка воды. Опубликованные параметры перенесены в данные. Калибровка в Ditto воспроизводит 62,13 против 62,1 млн т, извлечение 87,20 против 87,2%, энергию 2033,69 против 2033 ГВт·ч. Два промаха независимых проверок явно отмечены; это калиброванная, но упрощённая модель.",
+      "references": [
+        "ditto:kz.aktogay:sag-1",
+        "ditto:kz.aktogay:stockpile-1",
+        "ditto:kz.aktogay:validation-calib",
+        "aktogay/sim/params.py:376",
+        "aktogay/sim/data/kaz_quarterly.csv:2",
+        "aktogay/sim/comminution.py:56",
+        "aktogay/sim/plant.py:704"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "Осмотрены план Актогая, диорама, приближение карьера, карточка выбранного объекта и схема линии. Есть масштаб площадки, живые состояния техники и оборудования, очереди, запасы и потоки; последствия сценариев подписаны непосредственно на карте и линии, включая «3832 → 0 т/ч» у дробилки и остановленную шаровую 2B. До уровня 4 не хватает точности и оперативности представления: положения машин условные, движение между опросами воспроизводится по циклу, диорама сообщала об обновлении отдельных машин раз в примерно 85 минут модели.",
+      "references": [
+        "screenshot:screenshots/normal-map.png",
+        "screenshot:screenshots/diorama-pit-close.png",
+        "screenshot:screenshots/object-crusher-card.png",
+        "screenshot:screenshots/crusher-active-map.png",
+        "screenshot:screenshots/grid-water-line2.png"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 4,
+      "max": 10,
+      "points": 10,
+      "reasoning": "Сам запустил и отменил crusher:1, совместные grid+water и отдельно water. Дробилка и конвейер остановились, склад продолжил питать SAG; сеть снизила лимит 300 → 218 МВт, остановила шаровую 2B и сократила подачу SAG-2 примерно до 1930 т/ч; вода перешла в SHORT с урезкой руды 166 т/ч. Последствия трёх разных условий видны в Ditto и на визуализации, интерфейс показывает базу и факт. Недостаток: буквальный «+» в документированной ссылке дал HTTP 400; сочетание заработало с URL-кодированием %2B. После отмены scenario пуст, сеть 300 МВт, вода NORMAL, cut_tph=0, очередь очищена.",
+      "references": [
+        "SUBMISSION.md:154",
+        "SUBMISSION.md:176",
+        "ditto:kz.aktogay:crusher-1",
+        "ditto:kz.aktogay:sag-2",
+        "ditto:kz.aktogay:water",
+        "ditto:kz.aktogay:site",
+        "screenshot:screenshots/crusher-active-map.png",
+        "screenshot:screenshots/grid-water-active-map.png",
+        "screenshot:screenshots/water-active-map.png",
+        "screenshot:screenshots/final-cancelled.png"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 3,
+      "max": 5,
+      "points": 3.75,
+      "reasoning": "Подтвердил три содержательных механизма. «Где теряется медь» в обычном ходе выделил потерю флотации около 0,3 т Cu/ч с указанием КИПиА; «Какая руда идёт» дал прогноз на 12 часов с падением подачи от 7706 до минимума 7273 т/ч; «Очередь бед» при ограничении сети рассчитала потери, цену отсрочки и порядок дальнейших отключений, при недостатке воды — вызов технолога. Алгоритмы сверены с кодом. Четыре независимых содержательных модуля в разных направлениях не подтверждены.",
+      "references": [
+        "screenshot:screenshots/normal-diorama.png",
+        "screenshot:screenshots/ore-forecast.png",
+        "ditto:kz.aktogay:mod-ore",
+        "ditto:kz.aktogay:mod-priority",
+        "aktogay/modules/losses.py:5",
+        "aktogay/modules/ore.py:47",
+        "aktogay/modules/policy.py:6"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 3,
+      "max": 15,
+      "points": 11.25,
+      "reasoning": "Замысел конкретен: диспетчер реального Актогая выбирает ответственного и срочность реакции по последствиям для всей цепочки. Модель, карта, сценарии и рекомендации действительно обслуживают эту задачу; параметры предприятия перенесены в данные и воспроизводятся калибровкой. Презентация читается, раскрывает допущения и отделяет модельный выигрыш от результата на производстве. Уровень 4 не подтверждён: 21 насыщенная страница не укладывается в двухминутное объяснение, не каждое утверждение проверено, есть устаревшие детали — например, 8 ролей на странице 5 против 13 на Стенде.",
+      "references": [
+        "SUBMISSION.md:3",
+        "aktogay/sim/params.py:376",
+        "ditto:kz.aktogay:validation-calib",
+        "ditto:kz.aktogay:mod-priority",
+        "presentation.pdf:4",
+        "presentation.pdf:5",
+        "presentation.pdf:6",
+        "presentation.pdf:15"
+      ]
+    }
+  ],
+  "total": 88.75
+}

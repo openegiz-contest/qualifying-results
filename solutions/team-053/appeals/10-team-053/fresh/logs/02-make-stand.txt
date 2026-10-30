@@ -1,0 +1,455 @@
+Created /home/judge/solution/deploy/compose/.env with new random credentials.
+ sekis-stand Skipped 
+ sekis-advisor Skipped 
+ sekis-sim Skipped 
+ unity Skipped - Image is already being pulled by ditto-nginx 
+ extended-api Skipped - Image can be built 
+ sekis-setup Skipped - Image can be built 
+ grafana-plugins Pulling 
+ things Pulling 
+ telegraf Pulling 
+ gateway Pulling 
+ policies Pulling 
+ mongodb Pulling 
+ things-search Pulling 
+ mosquitto Pulling 
+ ditto-nginx Pulling 
+ init Pulling 
+ influxdb Pulling 
+ connectivity Pulling 
+ grafana Pulling 
+ init Pulled 
+ influxdb Pulled 
+ mosquitto Pulled 
+ grafana-plugins Pulled 
+ ditto-nginx Pulled 
+ telegraf Pulled 
+ things Pulled 
+ policies Pulled 
+ gateway Pulled 
+ connectivity Pulled 
+ things-search Pulled 
+ grafana Pulled 
+ mongodb Pulled 
+Образы скачаны.
+docker compose -f deploy/compose/docker-compose.yml up -d --build --wait --wait-timeout 900
+#1 [internal] load local bake definitions
+#1 reading from stdin 764B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 188B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-slim
+#3 DONE 0.0s
+
+#4 [1/5] FROM docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#4 resolve docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 0.0s done
+#4 DONE 0.1s
+
+#5 [internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#5 0.010 Initialized empty Git repository in /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/88/fs/
+#5 0.012 fatal: Not a valid object name b49663dea326854a2323423eaeab7e7f54d325a7^{commit}
+#5 ...
+
+#6 [2/5] WORKDIR /usr/src/app
+#6 DONE 1.0s
+
+#5 [internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#5 78.86 From https://github.com/ertis-research/extended-api-for-eclipse-ditto
+#5 78.86  * branch            b49663dea326854a2323423eaeab7e7f54d325a7 -> FETCH_HEAD
+#5 78.86 b49663dea326854a2323423eaeab7e7f54d325a7
+#5 DONE 78.9s
+
+#7 [3/5] COPY package*.json yarn.lock ./
+#7 DONE 0.0s
+
+#8 [4/5] RUN yarn install --frozen-lockfile
+#8 0.219 yarn install v1.22.22
+#8 0.246 [1/4] Resolving packages...
+#8 0.315 [2/4] Fetching packages...
+#8 15.28 [3/4] Linking dependencies...
+#8 16.68 [4/4] Building fresh packages...
+#8 16.69 Done in 16.47s.
+#8 DONE 16.9s
+
+#9 [5/5] COPY . .
+#9 DONE 0.1s
+
+#10 exporting to image
+#10 exporting layers
+#10 exporting layers 5.7s done
+#10 exporting manifest sha256:eb8d96be5a3b346567f9de69b6b91d2be32c63768c39ca689a9f4d49167216f3 done
+#10 exporting config sha256:bdf2c3c9b3675dfcf2b78107bfb9d4605b4159bd151a34ae43b9da08662a0dbc done
+#10 exporting attestation manifest sha256:abaebaec43a3f3e654eb8846ddfd7eafd3f3ba10c3783d2292868a03480b856d 0.0s done
+#10 exporting manifest list sha256:0da3851d893e9e549a5e9a9bef4da11d93d6ab78c93a6d6d0cf5f81e577a1a8a done
+#10 naming to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#10 unpacking to docker.io/openegiz/ditto-extended-api:local-b49663d
+#10 unpacking to docker.io/openegiz/ditto-extended-api:local-b49663d 2.5s done
+#10 DONE 8.3s
+
+#11 resolving provenance for metadata file
+#11 DONE 0.0s
+ openegiz/ditto-extended-api:local-b49663d  Built
+ Network openegiz_default  Creating
+ Network openegiz_default  Created
+ Volume openegiz_mosquitto-data  Creating
+ Volume openegiz_mosquitto-data  Created
+ Volume openegiz_mongodb-data  Creating
+ Volume openegiz_mongodb-data  Created
+ Volume openegiz_grafana-data  Creating
+ Volume openegiz_grafana-data  Created
+ Volume openegiz_grafana-plugins  Creating
+ Volume openegiz_grafana-plugins  Created
+ Volume openegiz_influxdb-data  Creating
+ Volume openegiz_influxdb-data  Created
+ Volume openegiz_influxdb-config  Creating
+ Volume openegiz_influxdb-config  Created
+ Container openegiz-grafana-plugins-1  Creating
+ Container openegiz-mosquitto-1  Creating
+ Container openegiz-influxdb-1  Creating
+ Container openegiz-unity-1  Creating
+ Container openegiz-mongodb-1  Creating
+ Container openegiz-unity-1  Created
+ Container openegiz-mosquitto-1  Created
+ Container openegiz-mongodb-1  Created
+ Container openegiz-things-1  Creating
+ Container openegiz-gateway-1  Creating
+ Container openegiz-connectivity-1  Creating
+ Container openegiz-policies-1  Creating
+ Container openegiz-influxdb-1  Created
+ Container openegiz-things-search-1  Creating
+ Container openegiz-telegraf-1  Creating
+ Container openegiz-grafana-plugins-1  Created
+ Container openegiz-grafana-1  Creating
+ Container openegiz-connectivity-1  Created
+ Container openegiz-gateway-1  Created
+ Container openegiz-things-1  Created
+ Container openegiz-ditto-nginx-1  Creating
+ Container openegiz-things-search-1  Created
+ Container openegiz-policies-1  Created
+ Container openegiz-telegraf-1  Created
+ Container openegiz-grafana-1  Created
+ Container openegiz-ditto-nginx-1  Created
+ Container openegiz-init-1  Creating
+ Container openegiz-extended-api-1  Creating
+ Container openegiz-init-1  Created
+ Container openegiz-extended-api-1  Created
+ Container openegiz-mongodb-1  Starting
+ Container openegiz-grafana-plugins-1  Starting
+ Container openegiz-influxdb-1  Starting
+ Container openegiz-mosquitto-1  Starting
+ Container openegiz-unity-1  Starting
+ Container openegiz-influxdb-1  Started
+ Container openegiz-mongodb-1  Started
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-unity-1  Started
+ Container openegiz-mosquitto-1  Started
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-grafana-plugins-1  Started
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-grafana-1  Starting
+ Container openegiz-grafana-1  Started
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-gateway-1  Starting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-connectivity-1  Starting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-things-1  Starting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-things-search-1  Starting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-policies-1  Starting
+ Container openegiz-things-1  Started
+ Container openegiz-gateway-1  Started
+ Container openegiz-ditto-nginx-1  Starting
+ Container openegiz-connectivity-1  Started
+ Container openegiz-policies-1  Started
+ Container openegiz-things-search-1  Started
+ Container openegiz-ditto-nginx-1  Started
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-extended-api-1  Starting
+ Container openegiz-extended-api-1  Started
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-telegraf-1  Starting
+ Container openegiz-telegraf-1  Started
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-init-1  Starting
+ Container openegiz-init-1  Started
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-extended-api-1  Waiting
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-telegraf-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-grafana-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-things-search-1  Waiting
+ Container openegiz-init-1  Waiting
+ Container openegiz-connectivity-1  Waiting
+ Container openegiz-things-1  Waiting
+ Container openegiz-unity-1  Waiting
+ Container openegiz-policies-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-gateway-1  Waiting
+ Container openegiz-things-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-things-search-1  Healthy
+ Container openegiz-extended-api-1  Healthy
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-connectivity-1  Healthy
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-grafana-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-init-1  Healthy
+ Container openegiz-gateway-1  Healthy
+ Container openegiz-telegraf-1  Healthy
+ Container openegiz-policies-1  Healthy
+ Container openegiz-unity-1  Healthy
+Waiting for Ditto to serve requests ..... ready
+docker compose -f deploy/compose/docker-compose.yml -f team/compose.yml up -d --build --wait --wait-timeout 600 || { \
+  echo "Стенд не запустился с первой попытки, пробую ещё раз через 30 с."; \
+  sleep 30; docker compose -f deploy/compose/docker-compose.yml -f team/compose.yml up -d --build --wait --wait-timeout 600; } || { \
+  echo "ОШИБКА: стенд не запустился. Журнал подготовки двойников:"; \
+  docker compose -f deploy/compose/docker-compose.yml -f team/compose.yml logs --no-color sekis-setup; exit 1; }
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.20kB done
+#1 DONE 0.0s
+
+#2 [extended-api internal] load build definition from Dockerfile
+#2 transferring dockerfile: 188B done
+#2 DONE 0.0s
+
+#3 [sekis-setup internal] load build definition from Dockerfile
+#3 transferring dockerfile: 1.07kB done
+#3 DONE 0.0s
+
+#4 [extended-api internal] load metadata for docker.io/library/node:20-slim
+#4 DONE 0.0s
+
+#5 [extended-api internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#5 DONE 0.0s
+
+#6 [extended-api 1/5] FROM docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#6 resolve docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 0.0s done
+#6 DONE 0.0s
+
+#7 [extended-api 2/5] WORKDIR /usr/src/app
+#7 CACHED
+
+#8 [extended-api 4/5] RUN yarn install --frozen-lockfile
+#8 CACHED
+
+#9 [extended-api 3/5] COPY package*.json yarn.lock ./
+#9 CACHED
+
+#10 [extended-api 5/5] COPY . .
+#10 CACHED
+
+#11 [extended-api] exporting to image
+#11 exporting layers done
+#11 exporting manifest sha256:eb8d96be5a3b346567f9de69b6b91d2be32c63768c39ca689a9f4d49167216f3 done
+#11 exporting config sha256:bdf2c3c9b3675dfcf2b78107bfb9d4605b4159bd151a34ae43b9da08662a0dbc done
+#11 exporting attestation manifest sha256:4dcfc13c17ebefda081c945a693f01d255fbcba31c8b0a7e75ca5e3b6fe1dc33
+#11 exporting attestation manifest sha256:4dcfc13c17ebefda081c945a693f01d255fbcba31c8b0a7e75ca5e3b6fe1dc33 0.0s done
+#11 exporting manifest list sha256:e26cdbff546f6938b3d30e5858950e78ff8b7d6da91cc1d6674896938d1bfc21 done
+#11 naming to docker.io/openegiz/ditto-extended-api:local-b49663d done
+#11 unpacking to docker.io/openegiz/ditto-extended-api:local-b49663d 0.0s done
+#11 DONE 0.1s
+
+#12 [extended-api] resolving provenance for metadata file
+#12 DONE 0.0s
+
+#13 [sekis-setup internal] load metadata for docker.io/library/python:3.12-slim
+#13 DONE 1.2s
+
+#14 [sekis-setup internal] load .dockerignore
+#14 transferring context: 2B done
+#14 DONE 0.0s
+
+#15 [sekis-setup src 1/4] FROM docker.io/library/python:3.12-slim@sha256:aa943ce411423c7582288f18707ff66eddcbaeb510502d747a72aeb34f30d159
+#15 resolve docker.io/library/python:3.12-slim@sha256:aa943ce411423c7582288f18707ff66eddcbaeb510502d747a72aeb34f30d159 0.0s done
+#15 DONE 0.0s
+
+#16 [sekis-setup stage-1 2/5] WORKDIR /app
+#16 DONE 0.0s
+
+#17 [sekis-setup src 2/4] WORKDIR /src
+#17 DONE 0.0s
+
+#18 [sekis-setup internal] load build context
+#18 transferring context: 7.48MB 0.0s done
+#18 DONE 0.1s
+
+#19 [sekis-setup stage-1 3/5] COPY requirements.txt .
+#19 DONE 0.0s
+
+#20 [sekis-setup stage-1 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#20 ...
+
+#21 [sekis-setup src 3/4] COPY . /src/
+#21 DONE 0.0s
+
+#22 [sekis-setup src 4/4] RUN mkdir /out  && for d in sekis model stand tests; do if [ -d "$d" ]; then cp -r "$d" /out/; fi; done  && find /out -type d -name __pycache__ -prune -exec rm -rf {} +  && chmod -R a+rX /out
+#22 DONE 0.1s
+
+#20 [sekis-setup stage-1 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#20 2.186 Collecting paho-mqtt==2.1.0 (from -r requirements.txt (line 1))
+#20 3.641   Downloading paho_mqtt-2.1.0-py3-none-any.whl.metadata (23 kB)
+#20 3.780 Downloading paho_mqtt-2.1.0-py3-none-any.whl (67 kB)
+#20 3.920 Installing collected packages: paho-mqtt
+#20 3.946 Successfully installed paho-mqtt-2.1.0
+#20 3.946 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#20 DONE 4.0s
+
+#23 [sekis-setup stage-1 5/5] COPY --from=src /out/ /app/
+#23 DONE 0.0s
+
+#24 [sekis-setup] exporting to image
+#24 exporting layers 0.1s done
+#24 exporting manifest sha256:0f61d5e3af4a4c9b33e531e9077778b45b19b777c7e95ee18a30ee71c3a1b549 done
+#24 exporting config sha256:9d2b164268112cf9b917617e0be253f764782f6acd9237742c0d4d43189bf9dd done
+#24 exporting attestation manifest sha256:cadc71219d44dc34cacefc17142689e9a4730e96f6b02a82ad24273f4b28ad56 0.0s done
+#24 exporting manifest list sha256:592aeadacbfa580931a894f98b72c60b15f0a33e7137f3afc09efd5243f19260 done
+#24 naming to docker.io/team053/sekis:local done
+#24 unpacking to docker.io/team053/sekis:local 0.0s done
+#24 DONE 0.2s
+
+#25 [sekis-setup] resolving provenance for metadata file
+#25 DONE 0.0s
+ team053/sekis:local  Built
+ openegiz/ditto-extended-api:local-b49663d  Built
+ Container openegiz-mosquitto-1  Running
+ Container openegiz-unity-1  Running
+ Container openegiz-mongodb-1  Running
+ Container openegiz-influxdb-1  Running
+ Container openegiz-connectivity-1  Running
+ Container openegiz-policies-1  Running
+ Container openegiz-things-1  Running
+ Container openegiz-things-search-1  Running
+ Container openegiz-telegraf-1  Running
+ Container openegiz-grafana-1  Recreate
+ Container openegiz-gateway-1  Running
+ Container openegiz-ditto-nginx-1  Running
+ Container openegiz-extended-api-1  Recreate
+ Container openegiz-sekis-setup-1  Creating
+ Container openegiz-sekis-setup-1  Created
+ Container openegiz-sekis-stand-1  Creating
+ Container openegiz-sekis-sim-1  Creating
+ Container openegiz-sekis-advisor-1  Creating
+ Container openegiz-sekis-advisor-1  Created
+ Container openegiz-sekis-sim-1  Created
+ Container openegiz-sekis-stand-1  Created
+ Container openegiz-extended-api-1  Recreated
+ Container openegiz-grafana-1  Recreated
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-grafana-plugins-1  Starting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-grafana-plugins-1  Started
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-grafana-1  Starting
+ Container openegiz-grafana-1  Started
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-extended-api-1  Starting
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-init-1  Starting
+ Container openegiz-init-1  Started
+ Container openegiz-init-1  Waiting
+ Container openegiz-extended-api-1  Started
+ Container openegiz-init-1  Exited
+ Container openegiz-sekis-setup-1  Starting
+ Container openegiz-sekis-setup-1  Started
+ Container openegiz-sekis-setup-1  Waiting
+ Container openegiz-sekis-setup-1  Waiting
+ Container openegiz-sekis-setup-1  Waiting
+ Container openegiz-sekis-setup-1  Exited
+ Container openegiz-sekis-sim-1  Starting
+ Container openegiz-sekis-setup-1  Exited
+ Container openegiz-sekis-stand-1  Starting
+ Container openegiz-sekis-setup-1  Exited
+ Container openegiz-sekis-advisor-1  Starting
+ Container openegiz-sekis-sim-1  Started
+ Container openegiz-sekis-advisor-1  Started
+ Container openegiz-sekis-stand-1  Started
+ Container openegiz-grafana-plugins-1  Waiting
+ Container openegiz-sekis-advisor-1  Waiting
+ Container openegiz-sekis-stand-1  Waiting
+ Container openegiz-ditto-nginx-1  Waiting
+ Container openegiz-mongodb-1  Waiting
+ Container openegiz-unity-1  Waiting
+ Container openegiz-connectivity-1  Waiting
+ Container openegiz-gateway-1  Waiting
+ Container openegiz-sekis-sim-1  Waiting
+ Container openegiz-init-1  Waiting
+ Container openegiz-grafana-1  Waiting
+ Container openegiz-mosquitto-1  Waiting
+ Container openegiz-extended-api-1  Waiting
+ Container openegiz-influxdb-1  Waiting
+ Container openegiz-things-1  Waiting
+ Container openegiz-sekis-setup-1  Waiting
+ Container openegiz-policies-1  Waiting
+ Container openegiz-things-search-1  Waiting
+ Container openegiz-telegraf-1  Waiting
+ Container openegiz-grafana-plugins-1  Exited
+ Container openegiz-grafana-1  Healthy
+ Container openegiz-init-1  Exited
+ Container openegiz-unity-1  Healthy
+ Container openegiz-things-search-1  Healthy
+ Container openegiz-things-1  Healthy
+ Container openegiz-connectivity-1  Healthy
+ Container openegiz-policies-1  Healthy
+ Container openegiz-sekis-setup-1  Exited
+ Container openegiz-influxdb-1  Healthy
+ Container openegiz-extended-api-1  Healthy
+ Container openegiz-mosquitto-1  Healthy
+ Container openegiz-gateway-1  Healthy
+ Container openegiz-telegraf-1  Healthy
+ Container openegiz-ditto-nginx-1  Healthy
+ Container openegiz-mongodb-1  Healthy
+ Container openegiz-sekis-sim-1  Healthy
+ Container openegiz-sekis-stand-1  Healthy
+ Container openegiz-sekis-advisor-1  Healthy
+Ожидание стенда на http://127.0.0.1:8088 . готово
+Двойников: 96, день симуляции: 0.0045, советник отвечает.
+
+Стенд «Секисовское» запущен.
+
+  Стенд (3D-сцена, разрез, сценарии)  http://localhost:8088
+  Grafana (панели без входа)          http://localhost:3000
+  Вход администратора Grafana         admin / eJO0Gakqpav99Voj9Aw30EB7
+
+Двойники также видны в Grafana: приложение OpenEgiz, разделы Twins и Types.
+Проверка всей системы: make stand-smoke

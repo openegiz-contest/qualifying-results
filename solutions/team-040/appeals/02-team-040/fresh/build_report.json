@@ -1,0 +1,114 @@
+{
+  "team": "team-040",
+  "sha": "aaa7227aa9eec61932a8239bee13195db3e612d0",
+  "started_at": "2026-10-29T17:22:04+00:00",
+  "finished_at": "2026-10-29T17:50:54+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt update && sudo apt install -y git make curl  # prerequisites on clean Ubuntu",
+      "command": "cd /home/judge/solution && sudo apt update && sudo apt install -y git make curl",
+      "exit_code": 0,
+      "duration_s": 11.0,
+      "log": "logs/01-sudo-apt-update-sudo-apt-install-y-git-m.txt"
+    },
+    {
+      "readme_step": "make up            # OpenEgiz + симулятор команды + интерфейс",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 2,
+      "duration_s": 527.0,
+      "log": "logs/02-make-up-openegiz.txt"
+    },
+    {
+      "readme_step": "make up            # OpenEgiz + симулятор команды + интерфейс",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 0,
+      "duration_s": 279.0,
+      "log": "logs/03-make-up-openegiz.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 15 of 17 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 15 of 17 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Рост нестабильности",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "run.start_preset p-instability (POST /ditto/api/2/things/team040.mine:shift/inbox/messages/command через прокси UI :8088) → applied, new_run run-0002; на модельной 60 с shift paused/decision, conditions=['instability:zone-a'], zone-a hazard_state normal→danger, instability_index 0.1→1, workers_in_danger=4; три двойника option-* с decision_id run-0002-d1 и общим comparison_key: observe out 0/exposure 2717, stop_withdraw_zone out 4/152, withdraw_all out 8, all_out=true, last_out 866 с."
+    },
+    {
+      "name": "Перекрытие прохода",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "p-trapped: w-07 open→closed, worker-a1..a3 остались в w-07 с egress_status=none, reason=current_working_closed, workers_no_route=4, прогноз withdraw_all out 4, all_out=false, last_out отсутствует. p-detour: w-04 closed, маршрут worker-a1 пересчитан с exit-b/641.9 м на exit-a/664.8 м (w-07→w-03→w-01), у withdraw_all прогноз 8/8 за 866 с."
+    },
+    {
+      "name": "Потеря датчика",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "p-sensor: sens-ext-a link_state online→offline, quality stale→lost, measured_at_sim_s застыл на 59, пока модельное время шло 74→194; zone-a hazard_state=unknown, data_quality=lost, last_known_hazard_state сохранено (normal). Сохранение last danger отдельно не проверял."
+    },
+    {
+      "name": "Сравнение действий",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "После action.execute_option option-withdraw_all (decision run-0002-d1) люди двигались (worker-a1 moving_to_exit w-07→w-02), lhd-a stopped/zone_stopped; к горизонту workers_out=8. Архивный двойник team040.mine:run-0002: completion_reason=horizon, comparable=true, out=8, all_out=true, last_out_s=866=forecast_last_out_s, danger_exposure 152, production_lost_t 112, conflicts 4 — совпадает с прогнозом."
+    },
+    {
+      "name": "Интерфейс диспетчера (UI + прокси Ditto)",
+      "claimed_in_submission": false,
+      "works": "yes",
+      "evidence": "http://127.0.0.1:8088/ отдаёт HTML «Пульт смены»; GET /ditto/api/2/things/team040.mine:shift через прокси возвращает живые данные Ditto (publication_seq растёт, scene из 33 элементов)."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Рост нестабильности",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск: run.start_preset p-instability через тот же POST, что и UI (team/ui/public/js/commands.js). До: zone-a normal, index 0.1. После: danger, index 1, пауза, 3 прогноза; после withdraw_all вышли 8/8. Отмена condition.instability_off после завершения прогона отклонена (rejected, not_allowed_in_state); вторая документированная отмена «начать новый прогон» (run.reset → run-0003): conditions=[], zone-a working/normal, index 0.1."
+    },
+    {
+      "name": "Перекрытие прохода",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "p-trapped: w-07 closed, 4 работника без пути (current_working_closed), workers_no_route=4. Отмена condition.open_working w-07 → applied: w-07 open, conditions=[], egress_status ok, no_route 0, прогон возобновился. p-detour: w-04 closed, маршрут worker-a1 переключился на exit-a 664.8 м; open_working w-04 → open, маршрут снова exit-b 641.9 м."
+    },
+    {
+      "name": "Потеря датчика",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "p-sensor: sens-ext-a offline, quality lost, measured_at_sim_s=59 при модельном 194; zone-a hazard unknown/lost. Отмена condition.sensor_restored → applied: link online, quality fresh, measured_at_sim_s=284, zone-a normal/fresh, conditions=[]. Стенд остался в run-0006, running, без условий."
+    },
+    {
+      "name": "Сравнение действий",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Прогнозы трёх вариантов из одного состояния (общий comparison_key), фактический архив run-0002 совпал с прогнозом withdraw_all (8/8, 866 с). Новый прогон начат через run.reset (run-0003); после него запускались и отменялись другие сценарии, итоговый прогон run-0006 без условий."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) В Ditto 38+ вещей team040.mine:* (mine, shift, w-01..w-12, worker-a1..b4, lhd-a/b, sens-ext-a/b, zone-a/b, option-*, run-*). 2) За 35 с shift tick 890→1260, publication_seq 90→127, sens-ext-a value 0.049→0.070; mosquitto_sub показывает, что симулятор публикует в telemetry/team040.mine/* Ditto-протокол modify /features; в логе connectivity MqttPublisherActor соединения mosquitto-target-connection публикует события featuresModified; по HTTP симулятор делает только PUT при bootstrap (team/sim/platform.py), команды UI идут через live-сообщения Ditto → MQTT. 3) UI на :8088 читает только API Ditto через прокси (team/gateway/server.py); Telegraf пишет opentwins/twin/events/# в InfluxDB (48816 точек за 10 минут в bucket default). В Grafana своего дашборда у Команды нет, только папка «OpenEgiz Examples»."
+  },
+  "notes": "Первый `make up` упал: сборка платформенного образа extended-api не скачала git-источник с GitHub (загрузка встала, «fatal: fetch-pack: invalid index-pack output»). Один повтор той же командой прошёл успешно. Из README выполнены только шаги установки и `make up`. Тестовые и smoke-команды из второго блока README (unittest, make smoke, team.smoke и др.) не запускал: README не делает их обязательными для запуска, а team.smoke и matrix_smoke создают и сбрасывают прогоны. Сценарии запускаются через интерфейс, поэтому команды отправлял curl-эквивалентом (python urllib) тем же POST, что и UI: /ditto/api/2/things/team040.mine:shift/inbox/messages/command?timeout=0 через прокси :8088 (тело и типы — из team/ui/public/js/commands.js и model.js). Отмена «Отменить условие» для нестабильности после завершения прогона отклонена моделью; применил вторую указанную отмену, «начать новый прогон» (run.reset). Возможных инъекций не найдено (AGENTS.md/CLAUDE.md — стандартные инструкции Шаблона для агентов Команды).",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел о подземном (условно медном) руднике: диспетчер смены сравнивает варианты остановки работ и вывода людей при нестабильности выработок и перекрытии выходов; данные синтетические."
+  }
+}

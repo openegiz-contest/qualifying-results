@@ -1,0 +1,35 @@
+{
+  "id": "32-team-082",
+  "source": "32-team-082.yaml",
+  "accepted": true,
+  "team": "team-082",
+  "document": "build_report",
+  "claim": "/modules/7/works",
+  "original": "partly",
+  "statement": "Точное утверждение в отчёте, которое неверно:\n\"works\": \"partly\" — «Двойники mwd-01 и sm-01 за всё время проверки (>5 мин) не изменили ни одного признака.»\n\nЧто верно на самом деле:\nМодуль работает полностью. mwd-01 и sm-01 проигрывают реальные записи с периодом, заданным в модели: mwd-01 — один взрывной цикл (реальная запись MWD + классификатор породы) на модельный час, то есть около 6 мин реального времени при скорости ×10; sm-01 — одна реальная запись смены сейсмостанции (UCI seismic-bumps) на модельную смену, около 72 мин. Проверка длилась около 5 мин, меньше периода обновления. Остальные части модуля Сборщик сам видел работающими: en-01 и qc-01 меняют записи, дашборд bozshakol-data-ml — 26/26 запросов с данными.",
+  "evidence": [
+    {
+      "kind": "file",
+      "content": "bozshakol/sim/realdata.py:11\n«sm-01 seismic monitoring station — one real shift record per model shift»"
+    },
+    {
+      "kind": "file",
+      "content": "bozshakol/sim/realdata.py:15\n«mwd-01 MWD rock-type classifier — one real blasting round per model hour»"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:mwd-01/features\nповторить через 7–8 мин: признаки mwd-01 (номер записи и класс породы) меняются"
+    },
+    {
+      "kind": "command",
+      "content": "python3 bozshakol/tools/twinctl.py set sim_speed=60\nпри ×60 sm-01 сменяет запись примерно через 12 мин"
+    },
+    {
+      "kind": "log",
+      "content": "в этом же Отчёте сборки, /modules/7/evidence: «en-01 проигрывает реальные данные (record_time 2019-01-24 10:30→11:00, p_mw меняется); qc-01 сменил запись ... Дашборд bozshakol-data-ml: 26/26 запросов с данными.»"
+    }
+  ],
+  "submitted_at": "2026-10-29T17:22:16+00:00",
+  "code": "",
+  "explanation": ""
+}

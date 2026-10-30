@@ -1,0 +1,95 @@
+{
+  "team": "team-037",
+  "judge": "gpt-6.1-sol",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "Проверены двойники техники, забоя, склада, фабрики, хвостохранилища и истории смены: осмысленные состояния, иерархия _parents и связи feeds отражают производственную цепочку. У забоя есть запас и содержание Cu. До уровня 4 не хватает одинаковой глубины всех звеньев: вторая фабрика получает условный подвоз, а геологическая блочная модель не управляет добычей.",
+      "references": [
+        "ditto:org.aktogay.smart:excavator-1",
+        "ditto:org.aktogay.smart:stockpile",
+        "ditto:org.aktogay.smart:tailings",
+        "ditto:org.aktogay.smart:shift",
+        "team/aktogay/app/src/sim/chain2.ts:4",
+        "team/aktogay/app/src/geo/orebody.ts:9"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 3,
+      "max": 20,
+      "points": 15,
+      "reasoning": "Повторные чтения с интервалом более минуты подтвердили движение и связанные потоки. Добыча выросла с 2200 до 3960 т; truck-101 двигался с грузом 220 т. Между двумя снимками поступление на склад выросло на 121 т, питание фабрики — на 76 т, запас склада — на 45 т: баланс сходится. Код учитывает вместимость, очереди, качество, отключение энергии и ограничения хвостохранилища. Калибровка по перенесённым паспортам или датасету не подтверждена: параметры обозначены оценками.",
+      "references": [
+        "ditto:org.aktogay.smart:mine",
+        "ditto:org.aktogay.smart:truck-101",
+        "ditto:org.aktogay.smart:stockpile",
+        "ditto:org.aktogay.smart:plant",
+        "team/aktogay/app/src/sim/engine.ts:1365",
+        "team/aktogay/app/src/sim/config.ts:5"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 2,
+      "max": 25,
+      "points": 12.5,
+      "reasoning": "Открылась пространственная визуализация Актогая с выработками, уступами, дорогами и поверхностными объектами. После начального автономного режима интерфейс подключился к Ditto: время, тоннаж и состояния обновлялись; поиск Э-1 открыл карточку объекта. Последствия собственного сценария на визуализации не подтверждены, поэтому все пять признаков уровня 3 не выполнены.",
+      "references": [
+        "screenshot:aktogay-platform.png",
+        "screenshot:aktogay-selected.png",
+        "screenshot:aktogay-final-live.png",
+        "team/aktogay/app/src/platform/bridge.ts:178"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 0,
+      "max": 10,
+      "points": 0,
+      "reasoning": "Сам отправил два документированных PUT breakdown для Э-1: оба вернули HTTP 204, но за несколько минут последствия не появились. Э-1 оставался working, repair_left=0; GET control показывал прежнюю историю без breakdown, docker logs --since 5m openegiz-aktogay-sim-1 не содержал команды. Отправил repair, получил HTTP 204; итоговая проверка: оба Э-1 работают, active_scenarios=[]. Доставка отмены также не подтверждена; задержанные поломки ограничены dur=10 минут модели. Без лично наблюдавшихся последствий сценарий не засчитан.",
+      "references": [
+        "SUBMISSION.md:150",
+        "SUBMISSION.md:165",
+        "ditto:org.aktogay:control",
+        "ditto:org.aktogay.smart:excavator-1",
+        "ditto:org.aktogay.fixed:excavator-1",
+        "screenshot:aktogay-scenario-check.png"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 3,
+      "max": 5,
+      "points": 3.75,
+      "reasoning": "Подтверждены два содержательных механизма. Диспетчеризация назначила truck-101 другой забой: fixed_excavator=0, home_excavator=2, перевозится оксид; код выбирает назначение по ETA, очередям, плану и качеству. Прогноз смены работает в интерфейсе: рассчитывает итог добычи, выполнение плана и предупреждает о недостаточном подвозе руды; forecast_mined обновляется в Ditto. Предиктивный ремонт и другие самостоятельные решения в работе не наблюдались, поэтому четырёх содержательных модулей не подтверждено.",
+      "references": [
+        "ditto:org.aktogay.smart:truck-101",
+        "ditto:org.aktogay.smart:mine",
+        "team/aktogay/app/src/sim/dispatch.ts:50",
+        "team/aktogay/app/src/sim/forecast.ts:69",
+        "screenshot:aktogay-forecast.png"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 2,
+      "max": 15,
+      "points": 7.5,
+      "reasoning": "Есть конкретная задача для диспетчера и руководства: управление сегментом парка Актогая и оценка последствий нарушений. Модель двух технологических веток, геометрия и прогноз узнаваемо реализуют замысел. Презентация читается, объясняет устройство и ограничения. Однако заявленная работоспособность команд через Ditto в моей проверке не подтвердилась; полный путь от сценария до ответа пользователю не показан. Параметры преимущественно оценочные, соответствие опубликованным данным не откалибровано.",
+      "references": [
+        "SUBMISSION.md:11",
+        "SUBMISSION.md:34",
+        "SUBMISSION.md:220",
+        "presentation.pdf:11",
+        "presentation.pdf:17",
+        "team/aktogay/app/src/sim/config.ts:5",
+        "screenshot:aktogay-forecast.png"
+      ]
+    }
+  ],
+  "total": 57.5
+}

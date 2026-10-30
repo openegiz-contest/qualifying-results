@@ -1,0 +1,100 @@
+{
+  "team": "team-037",
+  "judge": "gpt-6-astra",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "Через Ditto проверены 158 двойников десятков типов; в OpenEgiz — иерархия площадки и карьера. Есть запасы и содержания забоев, бурение, переработка, энергетика, водный баланс и инфраструктура; связи feeds соответствуют потокам материала. До уровня 4 не хватает одинаковой глубины звеньев: подвоз ко второй фабрике условный, её хвосты исключены из общего хвостохранилища; состояния отдельных агрегатов несогласованы с отключением питания.",
+      "references": [
+        "ditto:org.aktogay.smart:geology",
+        "ditto:org.aktogay.smart:excavator-1",
+        "ditto:org.aktogay.smart:stockpile",
+        "ditto:org.aktogay.smart:tailings",
+        "screenshot:screenshots/openegiz-mine-children.png",
+        "team/aktogay/app/src/sim/chain2.ts:4"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 3,
+      "max": 20,
+      "points": 15,
+      "reasoning": "Снимки с интервалом в минуту подтвердили связанный процесс: самосвал разгрузил 220 т, склад уменьшился с 3027 до 2524 т, переработка выросла с 673 до 1176 т — баланс участка сходится. Есть очереди, маршрутизация и ограничения питания. При отключении энергии переработка действительно остановилась, однако признаки фабрики ошибочно сохраняли running и 3000 т/ч. Производственные параметры остаются оценочными; перенесённые климатические нормы не подтверждают калибровку производственного поведения для уровня 4.",
+      "references": [
+        "ditto:org.aktogay.smart:truck-101",
+        "ditto:org.aktogay.smart:stockpile",
+        "ditto:org.aktogay.smart:plant",
+        "team/aktogay/app/src/sim/engine.ts:1365",
+        "team/aktogay/app/src/platform/twins.ts:639",
+        "team/aktogay/app/src/sim/config.ts:5",
+        "team/aktogay/app/src/sim/weather.ts:40"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "Осмотрены карьерная 3D-сцена и карта ГОК с масштабом, дорогами и технологическими объектами. Обновляются состояния, очереди и тоннаж; поиск Э-1 приближает объект и открывает карточку. Запущенные поломка и отключение питания отражаются непосредственно на сцене. Все пять признаков представлены. Уровень 4 не подтверждён: согласованность отображаемых состояний недостаточна — при обесточенной фабрике её двойник и агрегаты продолжают сообщать работу.",
+      "references": [
+        "screenshot:screenshots/aktogay-before.png",
+        "screenshot:screenshots/aktogay-map.png",
+        "screenshot:screenshots/aktogay-breakdown-card.png",
+        "screenshot:screenshots/aktogay-power-after.png",
+        "ditto:org.aktogay.smart:sag-mill"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 2,
+      "max": 10,
+      "points": 5,
+      "reasoning": "Сам запустил поломку Э-1 и отключение энергии. Поломка перенаправила самосвал №101 с Э-1 на Э-3; repair восстановил экскаватор. Отключение снизило нагрузку со 119,3 до 8,2 МВт, остановило электролиз, перевело посёлок на генератор и вызвало накопление руды. Последствия видны в Ditto и на сцене. Документированная отмена cancel_all отключение не сняла, хотя сообщила об успехе; поэтому уровень 3 не выполнен. Дождался окончания срока: в обоих вариантах power_cut=0, посёлок снова питается от сети, электролиз и переработка возобновились. Запущенных мной активных сценариев не осталось.",
+      "references": [
+        "SUBMISSION.md:150",
+        "ditto:org.aktogay:control",
+        "ditto:org.aktogay.smart:truck-101",
+        "ditto:org.aktogay.smart:energy",
+        "ditto:org.aktogay.fixed:energy",
+        "screenshot:screenshots/aktogay-breakdown-card.png",
+        "screenshot:screenshots/aktogay-power-after.png",
+        "team/aktogay/app/src/platform/scenarios.ts:138"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 3,
+      "max": 5,
+      "points": 3.75,
+      "reasoning": "Подтверждены два содержательных модуля: диспетчеризация фактически переназначает машины при поломке; прогноз смены рассчитывает ожидаемую добычу, диапазон и риск невыполнения плана — наблюдал 51 466 ±3853 т при плане 110 000 т. Дополнительно интерфейс выдаёт рекомендации по водителям и необходимость инструктажа. Четыре независимых содержательных модуля в работе не подтверждены; шихтовку отдельно от диспетчеризации не удваиваю.",
+      "references": [
+        "ditto:org.aktogay.smart:truck-101",
+        "ditto:org.aktogay.smart:mine",
+        "team/aktogay/app/src/sim/dispatch.ts:57",
+        "team/aktogay/app/src/sim/forecast.ts:70",
+        "screenshot:screenshots/aktogay-forecast.png",
+        "screenshot:screenshots/aktogay-driver-recommendations.png"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 2,
+      "max": 15,
+      "points": 7.5,
+      "reasoning": "Замысел выходит за типовой карьер: сегмент Актогая с сульфидной и оксидной цепочками, диспетчер как пользователь, руководство как получатель оценки эффекта. Модель и интерфейс отражают этот выбор; презентация читается и называет существенные допущения. Однако заявленная отмена всех сценариев противоречит проверенному отключению энергии, а согласованность состояний переработки неполная. Это не позволяет признать соответствие утверждений Стенду, необходимое для уровня 3.",
+      "references": [
+        "SUBMISSION.md:11",
+        "SUBMISSION.md:34",
+        "presentation.pdf:3",
+        "presentation.pdf:11",
+        "presentation.pdf:17",
+        "team/aktogay/app/src/platform/scenarios.ts:138",
+        "screenshot:screenshots/aktogay-power-after.png"
+      ]
+    }
+  ],
+  "total": 68.75
+}

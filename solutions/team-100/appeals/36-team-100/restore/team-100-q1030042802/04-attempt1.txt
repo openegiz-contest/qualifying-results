@@ -1,0 +1,72 @@
+$ cd /home/judge/solution && make akt-calib
+docker compose -f deploy/compose/docker-compose.yml -f aktogay/compose.yml run --rm --no-deps -T akt-calib \
+  || echo "akt-calib: the calibration container did not run (see above)"
+group        | name                                                        | model   | report  | unit  | deviation           | tolerance | ok | note
+-------------+-------------------------------------------------------------+---------+---------+-------+---------------------+-----------+----+-----
+fit 2025     | ore processed                                               | 62.131  | 62.100  | Mt    | +0.03089 (+0.0 %)   | +-0.3105  | ok | cal_avail 0.9308 (table 0.9200); run 4 of 4
+fit 2025     | SAG mean P/Q while running                                  | 6.746   | 6.748   | kWh/t | -0.002155 (-0.0 %)  | +-0.0337  | ok | sag_k 0.4877 (table 0.5032); 26.0 MW at 3853 t/h
+fit 2025     | recovery                                                    | 87.201  | 87.200  | %     | +0.001005           | +-0.1000  | ok | flot_rinf0_pct 93.332 (table 92.696); model feed 0.4069 % Cu
+fit 2025     | Cu in concentrate                                           | 220.43  | 220.30  | kt    | +0.1335 (+0.1 %)    | +-4.406   | ok | not fitted: ore x model feed x recovery; feed target 0.4068 % = 220.3 / (62.1 x 0.872), report grade 0.41 % is rounded
+fit 2024     | electricity                                                 | 2033.7  | 2033.0  | GWh   | +0.6931 (+0.0 %)    | +-10.165  | ok | pow_other_mw 55.55 (table 54.56); site part 488 GWh over 366 d, line part 429 GWh; run 2 of 2
+fit 2024     | water intake                                                | 34.853  | 34.852  | Mm3   | +0.0008012 (+0.0 %) | +-0.1743  | ok | water_evap_m3h 1909.5 (table 1908.9); evaporation and seepage 16.77 Mm3, tails pores 18.00 Mm3
+fit 2024     | ore processed (input)                                       | 58.281  | 58.300  | Mt    | -0.019 (-0.0 %)     | +-0.2915  | ok | availability matched to the report tonnes
+fit 2024     | availability 2024 (matched to ore)                          | 0.8567  | 0.9308  | -     | -0.07414 (-8.0 %)   | -         | -  | report column: fitted 2025 availability
+check 2024   | ore processed (input)                                       | 58.281  | 58.300  | Mt    | -0.019 (-0.0 %)     | -         | -  | availability 0.8567 from the 2024 fit (same run)
+check 2024   | feed grade (input)                                          | 0.4298  | 0.4300  | % Cu  | -0.0002035 (-0.0 %) | +-0.0050  | ok | blk_cu_mean_pct = report grade; report balance 221.0 / (58.3 x 0.879) gives 0.4313 %
+check 2024   | recovery                                                    | 87.230  | 87.900  | %     | -0.6695             | +-0.5000  | NO | model feed 0.4298 %; constant 87.2 % would be off by -0.7 pp
+check 2024   | Cu in concentrate                                           | 218.50  | 221.00  | kt    | -2.497 (-1.1 %)     | +-4.420   | ok | ore x model feed x recovery
+check 2023   | ore processed (input)                                       | 55.442  | 55.176  | Mt    | +0.2667 (+0.5 %)    | -         | -  | report column: ore implied by 1950 GWh with the 2024 fit (26.52 kWh/t for mills, crushers, conveyors and line loads that stop with the line; site part 487 GWh); 2023 ore not in sources yet
+check 2023   | availability 2023 (matched to ore from electricity)         | 0.8132  | 0.9308  | -     | -0.1176 (-12.6 %)   | -         | -  | report column: fitted 2025 availability; no reline of 2023 in the calendar
+check 2023   | electricity (input)                                         | 1952.8  | 1950.0  | GWh   | +2.821 (+0.1 %)     | -         | -  | gives the ore above, not a check
+check 2023   | feed grade (input)                                          | 0.4997  | 0.5000  | % Cu  | -0.0002505 (-0.1 %) | +-0.0050  | ok | blk_cu_mean_pct = report grade
+check 2023   | water intake                                                | 33.893  | 32.803  | Mm3   | +1.09 (+3.3 %)      | +-1.640   | ok | evaporation and seepage 16.73 Mm3 (2024 fit), tails pores 17.08 Mm3
+check 2023   | recovery                                                    | 87.745  | 87.700  | %     | +0.04478            | +-0.5000  | ok | model feed 0.4997 %; constant 87.2 % would be off by -0.5 pp
+check 2025   | feed grade (input)                                          | 0.4069  | 0.4100  | % Cu  | -0.003137 (-0.8 %)  | +-0.0050  | ok | blk_cu_mean_pct = tgt_2025_feed_pct 0.4068 % (report Cu / (ore x recovery)); block model and stockpile give the model feed
+check 2025   | electricity, site                                           | 2158.0  | 2033.0  | GWh   | +125 (+6.1 %)       | -         | -  | 2025 not published, report column: 2024 at 58.3 Mt, model 62.1 Mt; other 487 GWh (2024 fit)
+check 2025   | electricity per t ore                                       | 34.733  | 34.871  | kWh/t | -0.1379 (-0.4 %)    | +-1.046   | ok | 2024 report per t; the constant other load spreads over more ore in 2025
+check 2025   | water intake                                                | 36.012  | 34.852  | Mm3   | +1.16 (+3.3 %)      | -         | -  | 2025 not published, report column: 2024 at 58.3 Mt; evaporation and seepage 16.73 Mm3 (2024 fit)
+check 2025   | water intake per t ore                                      | 0.5796  | 0.5978  | m3/t  | -0.01819 (-3.0 %)   | +-0.0299  | ok | 2024 report per t; OVOS fresh water 0.63-0.99 m3/t
+check 2025   | water recycle per t ore                                     | 2.720   | 2.700   | m3/t  | +0.02038 (+0.8 %)   | -         | -  | OVOS
+reline       | line 2 tonnes Q3 vs Q2 2025                                 | -5.276  | -4.705  | %     | -0.5714             | +-1.500   | ok | SAG reline of line 2 in August 2025 named in the Q3 2025 report (p. 3); its length 84 h is an analog (Minera Chinalco, 84 h), not taken from this quarter; hours alone give -2.7 %; model adds stockpile, stops and the liner campaign (peak before, new-liner ramp after); run hours Q2 2071 h, Q3 1996 h
+reline       | line 2 ore Q2 2025                                          | 8128.0  | 8077.0  | kt    | +51 (+0.6 %)        | -         | -  | annual 2025 run
+reline       | line 2 ore Q3 2025                                          | 7699.2  | 7697.0  | kt    | +2.156 (+0.0 %)     | -         | -  | annual 2025 run
+quarters     | Q3 2025 recovery, model at quarter grade                    | 87.255  | 86.100  | %     | +1.155              | +-1.100   | NO | tolerance = error of the constant 87.2 %; grade 0.40 % (model feed 0.4007 %); run from day 168
+quarters     | Q3 2025 recovery, constant                                  | 87.200  | 86.100  | %     | +1.1                | -         | -  | flot_rec_ref_pct, reference error
+quarters     | Q3 2025 recovery, model at annual grade                     | 87.311  | 86.100  | %     | +1.211              | -         | -  | annual run, grade 0.4073 %
+quarters     | Q2 2025 recovery, model at annual grade                     | 87.153  | 89.100  | %     | -1.947              | -         | -  | Q2 grade not in sources yet
+quarters     | Q3 2025 ore processed                                       | 15523.7 | 15859.0 | kt    | -335.3 (-2.1 %)     | -         | -  | annual run; quarterly tonnes are not fitted
+balance 2025 | Cu: feed - concentrate - tails                              | -0.0000 | 0.0000  | %     | -3.109e-13          | +-0.5000  | ok | feed 252.8 = concentrate 220.4 + tails 32.4 kt; flotation holds no Cu
+balance 2025 | Cu: largest |residual|, plant counters                      | 0.0000  | 0.0000  | %     | +6.713e-13          | +-0.5000  | ok | Plant.balances, daily and at the end
+balance 2025 | concentrate: cleaner = thickener + filter = stock + shipped | 0.0000  | 0.0000  | %     | +4.908e-13          | +-0.5000  | ok | largest |residual|, Plant.balances
+balance 2025 | ore: stockpile in - out - level change                      | 0.0000  | 0.0000  | %     | +1.362e-11          | +-0.5000  | ok | level change +9.1 kt over the run
+balance 2025 | ore: SAG feed - stockpile out                               | 0.0000  | 0.0000  | %     | +0                  | +-0.5000  | ok | SAG feed is drawn from the stockpile only
+balance 2025 | water: intake - losses - pond change                        | -0.0000 | 0.0000  | %     | -6.824e-06          | +-0.5000  | ok | intake 36.01 = tails 19.21 + concentrate 0.079 + evaporation 16.73 + pond -0.000 Mm3
+balance 2025 | water: largest |residual| of water_step                     | 0.0000  | 0.0000  | %     | +8.492e-14          | +-0.5000  | ok | Plant.balances, daily and at the end
+balance 2025 | site power highest                                          | 263.62  | 150.00  | MW    | +113.6 (+75.7 %)    | +-150.00  | ok | band 0-300 MW (grid limit; mean 246.3 MW)
+balance 2025 | SAG power highest                                           | 28.000  | 14.000  | MW    | +14 (+100.0 %)      | +-14.000  | ok | band 0-28 MW (rated drive, shaft)
+balance 2025 | ball mill power highest                                     | 20.500  | 11.000  | MW    | +9.5 (+86.4 %)      | +-11.000  | ok | band 0-22 MW (rated drive, shaft)
+balance 2025 | SAG feed-end wear counter highest                           | 203.27  | 101.64  | mm    | +101.6 (+100.0 %)   | +-101.64  | ok | band 0-203 mm: feed end changed at intermediate relines (liner_feed_end_mm)
+balance 2024 | Cu: feed - concentrate - tails                              | -0.0000 | 0.0000  | %     | -4.328e-13          | +-0.5000  | ok | feed 250.5 = concentrate 218.5 + tails 32.0 kt; flotation holds no Cu
+balance 2024 | Cu: largest |residual|, plant counters                      | 0.0000  | 0.0000  | %     | +1.358e-12          | +-0.5000  | ok | Plant.balances, daily and at the end
+balance 2024 | concentrate: cleaner = thickener + filter = stock + shipped | 0.0000  | 0.0000  | %     | +5.033e-13          | +-0.5000  | ok | largest |residual|, Plant.balances
+balance 2024 | ore: stockpile in - out - level change                      | 0.0000  | 0.0000  | %     | +1.283e-11          | +-0.5000  | ok | level change -6.7 kt over the run
+balance 2024 | ore: SAG feed - stockpile out                               | 0.0000  | 0.0000  | %     | +1.278e-14          | +-0.5000  | ok | SAG feed is drawn from the stockpile only
+balance 2024 | water: intake - losses - pond change                        | -0.0000 | 0.0000  | %     | -3.421e-05          | +-0.5000  | ok | intake 34.85 = tails 18.00 + concentrate 0.078 + evaporation 16.77 + pond -0.000 Mm3
+balance 2024 | water: largest |residual| of water_step                     | 0.0000  | 0.0000  | %     | +8.679e-14          | +-0.5000  | ok | Plant.balances, daily and at the end
+balance 2024 | site power highest                                          | 263.62  | 150.00  | MW    | +113.6 (+75.7 %)    | +-150.00  | ok | band 0-300 MW (grid limit; mean 231.5 MW)
+balance 2024 | SAG power highest                                           | 28.000  | 14.000  | MW    | +14 (+100.0 %)      | +-14.000  | ok | band 0-28 MW (rated drive, shaft)
+balance 2024 | ball mill power highest                                     | 20.500  | 11.000  | MW    | +9.5 (+86.4 %)      | +-11.000  | ok | band 0-22 MW (rated drive, shaft)
+balance 2024 | SAG feed-end wear counter highest                           | 203.27  | 101.64  | mm    | +101.6 (+100.0 %)   | +-101.64  | ok | band 0-203 mm: feed end changed at intermediate relines (liner_feed_end_mm)
+fit params   | cal_avail                                                   | 0.9308  | 0.9200  | -     | +0.01079 (+1.2 %)   | -         | -  | report column: table value
+fit params   | sag_k                                                       | 0.4877  | 0.5032  | -     | -0.01548 (-3.1 %)   | -         | -  | report column: table value
+fit params   | flot_rinf0_pct                                              | 93.332  | 92.696  | %     | +0.6364             | -         | -  | report column: table value
+fit params   | water_evap_m3h                                              | 1909.5  | 1908.9  | m3/h  | +0.5364 (+0.0 %)    | -         | -  | report column: table value
+fit params   | pow_other_mw                                                | 55.555  | 54.559  | MW    | +0.9957 (+1.8 %)    | -         | -  | report column: table value
+fit params   | SAG running hours per line 2025                             | 8102.2  | 8059.0  | h     | +43.25 (+0.5 %)     | -         | -  | report column: OVOS design hours
+fit params   | SAG running hours per line 2024                             | 7490.2  | 8059.0  | h     | -568.8 (-7.1 %)     | -         | -  | report column: OVOS design hours
+fit params   | SAG running hours per line 2023                             | 7113.8  | 8059.0  | h     | -945.2 (-11.7 %)    | -         | -  | report column: OVOS design hours
+62 rows: 38 ok, 2 not ok, 22 without tolerance
+wrote /tmp/calib.json
+validation-calib: DONE, 62 rows, trial N 100, run akt-calib-20261030T043026Z
+
+exit code: 0

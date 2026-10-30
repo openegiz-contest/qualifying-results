@@ -1,0 +1,39 @@
+{
+  "id": "01-team-084",
+  "source": "01-team-084.yaml",
+  "accepted": true,
+  "team": "team-084",
+  "document": "build_report",
+  "claim": "/scenarios/3/works",
+  "original": "partly",
+  "statement": "The exact statement in the report that is wrong / Точное утверждение в отчёте, которое неверно\n\"name\": \"Пошла твёрдая руда\", \"works\": \"partly\", \"evidence\": \"hard_ore: pit.hard_frac 0.42 → 0.62 (заявлено около 80 %, за 3 модельных часа не достигнуто), geology.active_hard GM-033 (BWi 21.79) → GM-016 (BWi 26.05, максимум); после отмены hard_frac 0.35, active_hard GM-032 (BWi 22.12).\"\n\nWhat is actually true / Что верно на самом деле\nСценарий работает полностью, как заявлено: с первого часа события базовая доля твёрдой руды забоя становится 0,8 на 72 ч, и план переключается на самое твёрдое место GeoMet (GM-016, BWi 26,05 — это отчёт подтверждает). Значение 0,62 — одно часовое значение: к базе 0,8 модель добавляет медленную синусоиду ±0,15 с периодом 5 суток и шум σ = 0,05 (синусоида указана в SUBMISSION.md, Limitations). Среднее за время сценария — около 0,8, как заявлено «около 80 % на 72 ч».",
+  "evidence": [
+    {
+      "kind": "file",
+      "content": "team/tynys/tynys/live.py:53\nСобытие hard_ore задаёт базу доли твёрдой руды 0.8 с часа начала и возвращает базу в конце (строки 53–55): `sc.hard_frac_shift[a] = 0.8`, `sc.hard_frac_shift[b] = p.hard_frac_base`. Коммит заморозки c409df5918c286022618a72ed092ec8882f526a0."
+    },
+    {
+      "kind": "file",
+      "content": "team/tynys/tynys/sim.py:66\nПочасовая доля: `hf[t] = base + p.hard_frac_amp * math.sin(2*pi*t/(p.hard_frac_period_d*24))`, затем `hf = np.clip(hf + 0.05 * rng.standard_normal(n), 0.05, 0.95)` (строка 67); hard_frac_amp = 0.15, hard_frac_period_d = 5 (team/tynys/tynys/params.py:84–86). Поэтому отдельные часы могут быть ниже 0,8 (до ≈ 0,56), а среднее — около 0,8."
+    },
+    {
+      "kind": "file",
+      "content": "team/tynys/tynys/geology.py:73\nНа время сценария (base > базовой доли + 0.1) твёрдый забой — место GeoMet с максимальным BWi (строки 73–78); отчёт сборки это подтверждает: GM-016, BWi 26.05."
+    },
+    {
+      "kind": "file",
+      "content": "SUBMISSION.md:190\n«доля твёрдой руды в забое меняется по синусоиде (период 5 суток) плюс сценарии»."
+    },
+    {
+      "kind": "command",
+      "content": "cd team/tynys && PYTHONPATH=. python3 -c \"import numpy as np; from tynys.params import aktogay; from tynys.live import scenario_from_events; from tynys.sim import Env; p=aktogay(); m=[]; exec(\\\"for t0 in range(0,240,6):\\n sc=scenario_from_events(p,[{'kind':'hard_ore','t0':t0,'dur':72,'id':1}],start_doy=105); sc.days=15\\n m.append(Env(p,sc,7).hard_frac[t0:t0+72].mean())\\\"); print(round(np.mean(m),3), round(min(m),3), round(max(m),3))\"\nСредняя доля твёрдой руды за 72 ч сценария при 40 разных часах старта."
+    },
+    {
+      "kind": "log",
+      "content": "0.799 0.721 0.882\nСреднее 0,80; для разных часов старта среднее за событие от 0,72 до 0,88. Для сравнения, без сценария база 0,5: в отчёте до запуска 0,42, после отмены 0,35."
+    }
+  ],
+  "submitted_at": "2026-10-28T07:50:48+00:00",
+  "code": "",
+  "explanation": ""
+}

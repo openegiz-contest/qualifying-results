@@ -1,0 +1,17 @@
+{
+  "verdict": "upheld",
+  "reasoning": "В свежем отчёте записано, что стенд не поднялся (сбой git fetch при сборке extended-api). Но в момент моей проверки на той же VM стенд был поднят на коммите 76f36ae: контейнеры OpenEgiz работали, search/things/count вернул 158. Все четыре сценария модуля я запустил документированным PUT из SUBMISSION.md в org.aktogay:control/features/command/properties, код и окружение не менял. Каждый запрос вернул 204.\n\n- power_cut: в логе симулятора появилось «команда: power_cut → отключение электроснабжения на 25 мин». smart:energy.total_mw упал со 124 до 7,7, power_cut стал 1202 с, last_scenario — «отключение электроснабжения на 25 мин».\n- storm_water: в логе «ливень: приток 120 000 м³/ч». У smart:tailings storm_inflow 120000, pond_level вырос с 2,4 до 2,47, freeboard снизился с 3,6 до 3,5.\n- leach_stop: в логе «орошение карт остановлено на 30 мин», у heap-leach irrigation_hold 1241 с.\n- weather blizzard: smart:weather.sky сменился с «ясно» на «метель».\n\nВсе четыре сценария доходят до симулятора и меняют двойники в Ditto. Значит, утверждение «works: no» неверно. В исходном прогоне сбой был в перегруженном канале Ditto→MQTT, а не в модуле. Сценарии снимутся сами по истечении dur (25/30/30/15 мин модели). Отдельная команда отмены есть не у всех: power_cut, storm_water, leach_stop и weather её не имеют.\n\nПопутно: в исходном отчёте /scenarios/9 («storm_water, leach_stop, weather» = no) тоже противоречит этой проверке, но этот пункт не оспаривался, поэтому я его не исправляю. Обращений к ИИ в апелляции не нашёл.",
+  "references": [
+    "original:/modules/21",
+    "fresh:/modules/21",
+    "vm:curl -u ditto:$DITTO_PASSWORD -X PUT localhost:8080/api/2/things/org.aktogay:control/features/command/properties -d '{\"value\":\"power_cut\",\"dur\":25,...}'",
+    "vm:docker logs --since 3m openegiz-aktogay-sim-1 | grep команда",
+    "vm:curl localhost:8080/api/2/things/org.aktogay.smart:energy/features",
+    "vm:curl localhost:8080/api/2/things/org.aktogay.smart:tailings/features",
+    "vm:curl localhost:8080/api/2/things/org.aktogay.smart:weather/features/sky",
+    "vm:curl localhost:8080/api/2/things/org.aktogay.smart:heap-leach/features",
+    "team/aktogay/app/src/platform/scenarios.ts:67",
+    "appeal:evidence[2]"
+  ],
+  "corrected": "yes"
+}

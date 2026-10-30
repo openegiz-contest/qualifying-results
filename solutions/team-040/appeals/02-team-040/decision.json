@@ -1,0 +1,69 @@
+{
+  "appeal": "02-team-040",
+  "team": "team-040",
+  "document": "build_report",
+  "claim": "/modules/4/claimed_in_submission",
+  "original": false,
+  "status": "upheld",
+  "reasoning": "В VM проверил, что HEAD в /home/judge/solution — aaa7227aa9eec61932a8239bee13195db3e612d0, и прочитал SUBMISSION.md этого коммита через git show. В разделе «Mine visualization» (строки 154–160) прямо указан адрес http://127.0.0.1:8088/#/scheme?mode=3d. Там же написано, что сцена показывает геометрию и состояние из платформы, а боковые панели — условия, действия диспетчера, варианты и карточку объекта. В строке 151 сказано, что движение ПДМ, машинисты и показатели цены интегрированы в интерфейс. Значит, интерфейс диспетчера на :8088 заявлен в SUBMISSION.md замороженного коммита. Его работоспособность не оспаривается: и в исходном, и в свежем отчёте works=yes. В таблице «Modules and What-if Scenarios» интерфейс отдельной строкой не указан. Видимо, поэтому Сборщик и поставил false. Но поле говорит о заявленности в SUBMISSION, а не только в этой таблице, и для обязательного раздела визуализации интерфейс заявлен прямо. Поэтому значение false неверно, правильное — true. Просьбы Команды о повторной оценке по п. 12.3 и о публикации её результата касаются баллов и процедуры, их я не рассматриваю. Обращений к ИИ или Судьям в материалах не нашёл.",
+  "references": [
+    "vm:cd /home/judge/solution && git rev-parse HEAD && git show aaa7227aa9eec61932a8239bee13195db3e612d0:SUBMISSION.md | cat -n",
+    "SUBMISSION.md:154",
+    "SUBMISSION.md:151",
+    "original:/modules/4",
+    "fresh:/modules/4",
+    "appeal:evidence[0]",
+    "appeal:evidence[1]"
+  ],
+  "submitted_at": "2026-10-28T10:01:19+00:00",
+  "decided_at": "2026-10-29T18:53:53+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 14,
+    "score": 71.67,
+    "mean_total": 71.67,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 68.75,
+      "gpt-6-astra": 75,
+      "opus-5.5": 71.25
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "corrected": true,
+  "after": {
+    "rank": 10,
+    "score": 75,
+    "mean_total": 75,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 75,
+      "gpt-6-astra": 75,
+      "opus-5.5": 75
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "rescoring": {
+    "gpt-6.1-sol": {
+      "before": 68.75,
+      "rescored": 75,
+      "final": 75
+    },
+    "gpt-6-astra": {
+      "before": 75,
+      "rescored": 75,
+      "final": 75
+    },
+    "opus-5.5": {
+      "before": 71.25,
+      "rescored": 75,
+      "final": 75
+    }
+  }
+}

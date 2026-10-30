@@ -1,0 +1,55 @@
+{
+  "appeal": "30-team-082",
+  "team": "team-082",
+  "document": "build_report",
+  "claim": "/scenarios/13/works",
+  "original": "no",
+  "status": "upheld",
+  "reasoning": "Исходное значение «no» — не результат проверки. В evidence прямо написано, что сценарий не запускали из-за лимита времени. Я проверил сам. До запуска стенд был в базовом режиме: preset baseline, maintenance_strategy preventive. После `make scenario P=reactive` в control.maintenance_strategy стало reactive. Двойник whatif перешёл в статус «расчёт», а через ~30 с — в «готов», со scenario «reactive: maintenance_strategy=reactive». Получилось base_fleet_avail 91.8 против scen_fleet_avail 91.82: delta_fleet_avail округляется до 0.0, scen_cu_t 568.9 при base 568.97. Это совпадает с SUBMISSION (строка 132: «за 48 ч разница в отказах не проявилась»). `make scenario-reset` вернул стенд в базовый режим: preset baseline, strategy preventive, delta 0. Значит, сценарий применяется, прогноз пересчитывается и отмена работает, так что «no» неверно. Ставлю «partly», а не «yes», по двум причинам. Во-первых, заметного эффекта в прогнозе нет: утверждение Команды, что delta_fleet_avail «больше 0», верно лишь на +0.02 до округления. Во-вторых, что плановые ТО в живой модели действительно исчезают, я сам не видел. Свежий прогон тоже дал «partly». В материалах Апелляции текста, обращённого к Судьям, нет.",
+  "references": [
+    "original:/scenarios/13",
+    "fresh:/scenarios/13",
+    "vm:make scenario P=reactive",
+    "vm:curl -s -u ditto:*** localhost:8080/api/2/things/kz.bozshakol:control/features",
+    "vm:curl -s -u ditto:*** localhost:8080/api/2/things/kz.bozshakol:whatif/features",
+    "vm:make scenario-reset",
+    "bozshakol/ui/presets.json:112",
+    "SUBMISSION.md:132",
+    "appeal:evidence[0]",
+    "appeal:evidence[2]"
+  ],
+  "submitted_at": "2026-10-29T17:18:42+00:00",
+  "decided_at": "2026-10-30T04:47:17+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 5,
+    "score": 84.17,
+    "mean_total": 84.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 80,
+      "gpt-6-astra": 82.5,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "corrected": "partly",
+  "after": {
+    "rank": 5,
+    "score": 84.17,
+    "mean_total": 84.17,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 80,
+      "gpt-6-astra": 82.5,
+      "opus-5.5": 90
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  }
+}

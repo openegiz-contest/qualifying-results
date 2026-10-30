@@ -1,0 +1,155 @@
+{
+  "team": "team-053",
+  "sha": "c0ad931f9970ba8bf343313d341d50656fe0c5fd",
+  "started_at": "2026-10-29T17:11:46+00:00",
+  "finished_at": "2026-10-29T17:56:50+00:00",
+  "came_up": false,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update && sudo apt-get install -y make",
+      "command": "cd /home/judge/solution && sudo apt-get update && sudo apt-get install -y make",
+      "exit_code": 0,
+      "duration_s": 17.4,
+      "log": "logs/01-sudo-apt-get-update-sudo-apt-get-install.txt"
+    },
+    {
+      "readme_step": "make stand",
+      "command": "cd /home/judge/solution && make stand",
+      "exit_code": -1,
+      "duration_s": 2679.0,
+      "log": "logs/02-make-stand.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": false,
+      "evidence": "docker ps -a: 0 of 0 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": false,
+      "evidence": "docker ps -a: nothing running (0 of 0 containers running)"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`make smoke` not run: no running containers"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Советник по расширению",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся за 75 минут, поэтому проверить модуль на работающем стенде не удалось. `make stand` не прошёл этап платформы: сборка образа extended-api (build context — git https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663d) дважды упала с ошибкой «RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly … fetch-pack: invalid index-pack output», третья внутренняя попытка ещё качала репозиторий со скоростью ~10–30 КБ/с. Контейнеры sekis-advisor и kz.sekis:advisor не созданы, `docker ps` пуст. Код модуля есть в team/sekis/advisor/."
+    },
+    {
+      "name": "Вентиляция по потребности",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся (см. выше): контейнер sekis-sim не запущен, двойников kz.sekis:scenario, mine и вентиляторов в Ditto нет. Код модуля есть (team/sekis/sim/vod.py), но работу увидеть не удалось."
+    },
+    {
+      "name": "Имитатор процесса",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "Стенд не поднялся: `docker ps` пуст, sekis-sim не запущен, поэтому движения двойников не наблюдалось. По коду сервис публикует в MQTT через paho-mqtt (team/sekis/sim_service.py, MQTT_HOST=mosquitto в team/compose.yml)."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Цель 1,2 млн т/год",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Стенд не поднялся (сборка extended-api из GitHub не завершилась), запустить сценарий через POST /api/scenario {\"preset\":\"step1200\"} было некуда; Стенд не изменялся."
+    },
+    {
+      "name": "Цель 2,0 млн т/год",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Стенд не поднялся, сценарий не запускался."
+    },
+    {
+      "name": "Цель 2,5 млн т/год",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Стенд не поднялся, сценарий не запускался."
+    },
+    {
+      "name": "Снять узкое место",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Стенд не поднялся, сценарий не запускался."
+    },
+    {
+      "name": "Применить все меры",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Стенд не поднялся, сценарий не запускался."
+    },
+    {
+      "name": "Меры расширения − / +",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Стенд не поднялся, сценарий не запускался."
+    },
+    {
+      "name": "Закрыть уклон ТУ-2",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Стенд не поднялся, сценарий не запускался."
+    },
+    {
+      "name": "Закрыть уклон ТУ-1",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Стенд не поднялся, сценарий не запускался."
+    },
+    {
+      "name": "Отказ вентилятора ВС-2",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Стенд не поднялся, сценарий не запускался."
+    },
+    {
+      "name": "Отказ одного насоса +150",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Стенд не поднялся, сценарий не запускался."
+    },
+    {
+      "name": "Обесточена насосная +150",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Стенд не поднялся, сценарий не запускался."
+    },
+    {
+      "name": "Паводок: приток 430 м³/ч",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Стенд не поднялся, сценарий не запускался."
+    },
+    {
+      "name": "Содержание 1,76 г/т",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Стенд не поднялся, сценарий не запускался."
+    },
+    {
+      "name": "Остановить линию № 2",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Стенд не поднялся, сценарий не запускался."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "no",
+    "evidence": "На Стенде подтвердить не удалось: платформа не поднялась. `make stand` застрял на сборке образа extended-api из GitHub (две попытки упали с «curl 92 … early EOF», третья не закончилась за отведённое время), `docker ps` пуст, Ditto, MQTT и Grafana не отвечали. По коду и конфигурации архитектура соответствует условию, но это не проверено в работе: в team/model/registry.json 96 двойников и 22 типа, sekis-setup создаёт их в Ditto; sekis-sim публикует телеметрию в Mosquitto (paho-mqtt); в deploy/compose/init есть соединения Ditto с Mosquitto (source и target); все три дашборда Grafana (sekis-overview, sekis-underground, sekis-eco) берут данные из источника opentwins-influxdb, bucket «default»; стенд читает двойников из API Ditto (team/stand/server.py)."
+  },
+  "notes": "`sudo apt-get update && sudo apt-get install -y make` выполнен успешно. `make stand` запущен в фоне в 17:12. Внутри Makefile предусмотрены три попытки поднять платформу. Первые две упали: при сборке образа extended-api не скачался git build context https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663d — ошибка «RPC failed; curl 92 HTTP/2 stream … CANCEL», скорость GitHub из VM была ~8–30 КБ/с. Третья внутренняя попытка ещё шла, когда истекали 75 минут. Поэтому `make stand` ещё не завершился, и я не смог ни повторить его (на повтор не было времени), ни выполнить `make stand-smoke`; поднялось ли Решение, определят скриптовые проверки. Причина сбоя — сеть до GitHub при сборке компонента платформы, а не код Команды; но, поскольку Стенд не поднялся, все Модули и Сценарии отмечены как не проверенные, Стенд не менялся. «Базовый режим», «Шаг назад» и «Сброс» в списке сценариев опущены: это служебные действия, а не сценарии «что если». AGENTS.md и CLAUDE.md — обычные инструкции Шаблона для агентов Команды, не обращённые к Сборщику; инъекций не обнаружено.\n\nПроверки пайплайна:\n- шаг 2: задание `cd /home/judge/solution && make stand` не завершилось к концу работы Сборщика\n- шаг «make stand»: упал и не повторён (по правилам упавший шаг повторяется один раз без изменений), шаг не выполнен",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел заполнен: подземный золотой рудник Секисовское (AltynGold, ВКО); пользователи — главный инженер, отдел планирования и эколог; решение — наращивать ли переработку с 1 до 2,0–2,5 млн т/год и какими ступенями."
+  }
+}

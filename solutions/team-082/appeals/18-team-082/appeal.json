@@ -1,0 +1,43 @@
+{
+  "id": "18-team-082",
+  "source": "18-team-082.yaml",
+  "accepted": true,
+  "team": "team-082",
+  "document": "build_report",
+  "claim": "/scenarios/15/works",
+  "original": "no",
+  "statement": "Точное утверждение в отчёте, которое неверно:\n\"works\": \"no\" — «Не запускал: не хватило лимита времени. Стенд не менял.»\n\nЧто верно на самом деле:\nСценарий работает: он задаёт в двойнике control расстановку месячного плана (4 CAT 785C на Восточном, вскрыша 2 600 / 800 т/ч, ТО по состоянию), диспетчер переводит самосвалы между карьерами, а прогноз в kz.bozshakol:whatif показывает руду за месяц на уровне базы и вскрытые запасы Восточного через полгода около 1,6 мес против 0,2–0,5 в базе. Отменяется make scenario-reset. Сборщик сценарий не запускал, поэтому «no» — не результат проверки.",
+  "evidence": [
+    {
+      "kind": "command",
+      "content": "make scenario P=plan_balance\nчерез 30–60 с (прогноз 48 ч считается 20–40 с):"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:control/features\nожидается trucks_east 4, waste_central_tph 2600, waste_east_tph 800, maintenance_strategy predictive"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:whatif/features\nсравнить base_exposed6_east_mo и scen_exposed6_east_mo (сценарий выше базы), base_month_ore_kt и scen_month_ore_kt (почти равны)"
+    },
+    {
+      "kind": "command",
+      "content": "make scenario-reset"
+    },
+    {
+      "kind": "log",
+      "content": "в этом же Отчёте сборки, /modules/9/evidence, Сборщик видел в whatif базовое значение exposed6_east_mo 0.3"
+    },
+    {
+      "kind": "file",
+      "content": "bozshakol/ui/presets.json:129"
+    },
+    {
+      "kind": "file",
+      "content": "SUBMISSION.md, раздел «Сценарии \"что если\"», строка plan_balance"
+    }
+  ],
+  "submitted_at": "2026-10-29T17:07:25+00:00",
+  "code": "",
+  "explanation": ""
+}

@@ -1,0 +1,108 @@
+{
+  "team": "team-100",
+  "judge": "gpt-6-astra",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 4,
+      "max": 25,
+      "points": 25,
+      "reasoning": "Через API Ditto и приложение OpenEgiz проверена подробная модель нескольких звеньев: забои, партии руды, техника, дробление, склады, измельчение, флотация, концентрат, вода и энергия. Есть иерархия, связи питания, персонал и приборы. У партий представлены тоннаж, остаток, содержание и твёрдость. Сценарии действительно меняют связанные объекты; история техники, фабрики и воды читается из InfluxDB через API стенда. Модель существенно выходит за типовой карьер.",
+      "references": [
+        "ditto:kz.aktogay:face-1",
+        "ditto:kz.aktogay:batch-0007",
+        "ditto:kz.aktogay:sag-1",
+        "ditto:kz.aktogay:power",
+        "ditto:kz.aktogay:person-kip",
+        "aktogay/sim/plant.py:1535",
+        "aktogay/web/server.py:515",
+        "screenshot:screenshots/grafana-children.png"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 4,
+      "max": 20,
+      "points": 20,
+      "reasoning": "Повторные чтения с интервалом более минуты подтвердили изменение производительности, мощности, запасов и состояний. Проверены материальные потоки, ограничения воды и мощности, питание SAG со склада после остановки дробилки. Величины правдоподобны. Опубликованные параметры перенесены в данные; код калибровки использует модель предприятия. В Ditto результат: 62,131 против 62,1 млн т, извлечение 87,201 против 87,2 %, энергия 2033,69 против 2033 ГВт·ч. Два промаха по извлечению явно отмечены; калибровка подтверждена, хотя точность отдельных зависимостей ограничена.",
+      "references": [
+        "ditto:kz.aktogay:site",
+        "ditto:kz.aktogay:stockpile-1",
+        "ditto:kz.aktogay:validation-calib",
+        "aktogay/sim/params.py:376",
+        "aktogay/sim/data/kaz_quarterly.csv:2",
+        "aktogay/sim/calib.py:438",
+        "aktogay/sim/comminution.py:88",
+        "screenshot:screenshots/copper-grid-hard.png"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "В браузере проверены план площадки, диорама, приближение карьера и выбор объекта с карточкой. Показаны конкретная площадка, масштаб, техника с состояниями, очереди, запасы и потоки. Последствия остановки дробилки и ограничения сети видны непосредственно на визуализации, включая пары «база → сейчас». Для уровня 4 недостаточно точности и цельности: диорама обозначена как схема, машины увеличены относительно масштаба, данные отдельных машин обновляются с заметным отставанием.",
+      "references": [
+        "screenshot:screenshots/normal-plan.png",
+        "screenshot:screenshots/normal-diorama.png",
+        "screenshot:screenshots/normal-pit-close.png",
+        "screenshot:screenshots/crusher-card.png",
+        "screenshot:screenshots/crusher-propagated.png",
+        "screenshot:screenshots/grid-diorama.png"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 4,
+      "max": 10,
+      "points": 10,
+      "reasoning": "Сам запустил и отменил остановку дробилки, сочетание твёрдой руды с ограничением сети, воду и «Два сразу + безопасность». Проверены разные звенья: дробилка STOP и нулевая подача на склад; лимит 218 МВт, остановка шаровой 2b и снижение линии 2 примерно до 1930 т/ч; нехватка воды и урезка руды. В совместном примере наблюдал одновременно остановленную дробилку и потерю флотации. Интерфейс показывает базу и факт. Для твёрдой руды подтверждены прогноз и рекомендация, прохождения партии через SAG не дожидался. Буквальный «+» в ссылке дал 400; URL-кодирование позволило запустить сочетание. Всё отменено: scenario пуст, сеть 300 МВт, вода NORMAL, дробилки работают, скорость возвращена к ×60.",
+      "references": [
+        "SUBMISSION.md:154",
+        "SUBMISSION.md:176",
+        "ditto:kz.aktogay:crusher-1",
+        "ditto:kz.aktogay:stockpile-1",
+        "ditto:kz.aktogay:sag-2",
+        "ditto:kz.aktogay:water",
+        "screenshot:screenshots/grid-hard-propagated.png",
+        "screenshot:screenshots/water-propagated.png",
+        "screenshot:screenshots/fork-loss-and-crusher.png",
+        "screenshot:screenshots/final-restored.png"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 3,
+      "max": 5,
+      "points": 3.75,
+      "reasoning": "Подтверждены три содержательных механизма. Детектор обнаружил потерю флотации 0,72 т Cu/ч при непересечённой уставке АСУ. Прогноз руды выдал окно прихода партии A×b 27 и совет шихтовать 50/50. Очередь оценила срочность и цену задержки, поставила безопасность первой, автоматически вызвала КИПиА на флотацию, оставив дробилку ждать за счёт склада. Четвёртый самостоятельный содержательный модуль в другом направлении лично не подтверждён.",
+      "references": [
+        "ditto:kz.aktogay:mod-losses",
+        "ditto:kz.aktogay:mod-ore",
+        "ditto:kz.aktogay:mod-priority",
+        "aktogay/modules/policy.py:1",
+        "screenshot:screenshots/ore-forecast-combined.png",
+        "screenshot:screenshots/fork-safety-queue.png",
+        "screenshot:screenshots/modules-fork-running.png"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 3,
+      "max": 15,
+      "points": 11.25,
+      "reasoning": "Продуманный замысел для реального Актогая: помочь сменному диспетчеру выбрать, кого вызвать первым при нескольких проблемах. Модель технологической цепочки, запасы, персонал, сценарии и рекомендации непосредственно обслуживают эту задачу; основной пример подтверждён на стенде. Параметры предприятия перенесены в код и данные. Презентация читается, отделяет модельные оценки от фактов и открыто называет ограничения. До уровня 4 не хватает подтверждения всех расширенных утверждений; 21 насыщенная страница также не соответствует требованию понятности примерно за две минуты.",
+      "references": [
+        "SUBMISSION.md:3",
+        "aktogay/sim/params.py:376",
+        "presentation.pdf:4",
+        "presentation.pdf:6",
+        "presentation.pdf:12",
+        "presentation.pdf:15",
+        "ditto:kz.aktogay:mod-priority",
+        "screenshot:screenshots/fork-loss-and-crusher.png"
+      ]
+    }
+  ],
+  "total": 88.75
+}

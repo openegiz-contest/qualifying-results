@@ -1,0 +1,103 @@
+{
+  "team": "team-084",
+  "judge": "gpt-6.1-sol",
+  "criteria": [
+    {
+      "id": "model",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "Проверил двойники и иерархию в API Ditto и приложении OpenEgiz: добыча, транспорт, дробление, склады, две линии, флотация, вода, хвосты, концентрат и энергосистема имеют осмысленные состояния и технологические связи. Отказы распространяются между звеньями. До уровня 4 не хватает массива с изменяемыми запасами: 60 мест GeoMet представлены пробами в атрибуте geology, без истощаемых запасов блоков.",
+      "references": [
+        "ditto:kz.tynys:geology",
+        "ditto:kz.tynys:crusher",
+        "ditto:kz.tynys:water",
+        "team/tynys/services/setup_twins.py:70",
+        "team/tynys/tynys/geology.py:3"
+      ]
+    },
+    {
+      "id": "behavior",
+      "level": 4,
+      "max": 20,
+      "points": 20,
+      "reasoning": "Снимки за несколько минут подтверждают изменение производства, запасов и заряда. Балансы согласованы: при питании 6660 т/ч хвосты 6579,28 и концентрат 80,72 т/ч; вода 11988 = 4195,8 свежей + 7792,2 оборотной. Есть ограничения мощности, темпа подачи, зарядки и ремонтов. Данные действительно используются: самостоятельно вычисленный из CSV BWi для GM-037 и GM-060 точно совпал с Ditto — 20,06968 и 20,50030. Параметры Актогая перенесены в код, энергетическая калибровка и погодный ряд сохранены в репозитории.",
+      "references": [
+        "ditto:kz.tynys:site",
+        "ditto:kz.tynys:geology",
+        "ditto:kz.tynys:tailings",
+        "ditto:kz.tynys:concentrate",
+        "team/tynys/tynys/sim.py:354",
+        "team/tynys/tynys/params.py:175",
+        "team/tynys/tynys/weather.py:46",
+        "team/tynys/data/geomet/comminution.csv:1",
+        "team/tynys/regress.py:18"
+      ]
+    },
+    {
+      "id": "visualization",
+      "level": 3,
+      "max": 25,
+      "points": 18.75,
+      "reasoning": "Открыл Unity и лёгкую 3D-сцену. Представлены уступы, дороги, техника, переработка и энергохозяйство; показания обновляются из Ditto, видны работа оборудования и потоки. Выбор фабрики открыл карточку с подачей, составом руды, мощностью и выпуском меди. Последствия аварии линии, отказа дробилки и ограничения сети отображаются в сцене. Уровень 4 не подтверждён: геометрия и масштаб остаются схематическими, соответствие рельефу и плану реального Актогая не установлено.",
+      "references": [
+        "screenshot:screenshots/unity-normal.png",
+        "screenshot:screenshots/3d-normal.png",
+        "screenshot:screenshots/3d-line-trip.png",
+        "screenshot:screenshots/3d-crusher-kegoc.png",
+        "screenshot:screenshots/3d-kegoc-lull.png"
+      ]
+    },
+    {
+      "id": "scenarios",
+      "level": 3,
+      "max": 10,
+      "points": 7.5,
+      "reasoning": "Сам запустил аварию линии, отказ дробилки, ограничение KEGOC и штиль, включая совместные воздействия. Линия 2 остановилась, подача снизилась с 6660 до примерно 3992 т/ч, уменьшились вода и концентрат. Отказ дробилки обнулил добычу; совместные штиль и KEGOC ограничили импорт примерно 179,6 МВт и снизили питание до 3334 т/ч. Последствия видны в 3D. Отмену проверил: events=[], goal=green, оборудование работает, предел сети восстановлен примерно до 259,4 МВт. Для уровня 4 не подтвердил автоматическое сравнение «до/после» этих воздействий: сравнение V0/V2 показывает разные способы управления.",
+      "references": [
+        "ditto:kz.tynys:scenario",
+        "ditto:kz.tynys:line-2",
+        "ditto:kz.tynys:pit",
+        "ditto:kz.tynys:substation",
+        "screenshot:screenshots/3d-line-trip.png",
+        "screenshot:screenshots/3d-crusher-kegoc.png",
+        "screenshot:screenshots/3d-kegoc-lull.png"
+      ]
+    },
+    {
+      "id": "modules",
+      "level": 4,
+      "max": 5,
+      "points": 5,
+      "reasoning": "Подтвердил четыре самостоятельные содержательные функции: оперативный MPC с планом на 24 часа и применением уставок; планирование ТО по прогнозу энергии; расчёт вариантов строительства ВЭС/СЭС с эквивалентом дополнительной мощности; эксперимент «Два будущих» с проверкой ограничения и восстановления. Мой запрос завершился status=done, сохранил снимок и результаты в Ditto. Интерфейс корректно отделил снижение лимита на 80 МВт от фактического снижения импорта, равного в этом расчёте нулю.",
+      "references": [
+        "ditto:kz.tynys:coordinator",
+        "ditto:kz.tynys:line-1",
+        "ditto:kz.tynys:energy",
+        "ditto:kz.tynys:future-result",
+        "team/tynys/tynys/maintenance.py:62",
+        "team/tynys/sizing.py:28",
+        "screenshot:screenshots/dashboard-decisions.png",
+        "screenshot:screenshots/futures-result.png"
+      ]
+    },
+    {
+      "id": "concept",
+      "level": 3,
+      "max": 15,
+      "points": 11.25,
+      "reasoning": "Конкретный замысел Актогая последовательно реализован для энергетика, диспетчера и руководства: модель связывает свойства руды, помол, зарядку и энергоснабжение, а сценарии и расчёты отвечают на вопросы гибкости и строительства ВИЭ. Параметры предприятия перенесены в код; числа презентации для вариантов 300/250 совпали с sizing.csv. Презентация понятна и явно обозначает условность электрофлота, геологии и часовой анимации. Для уровня 4 не подтвердил каждое её утверждение, включая полный набор заявленных сценариев и все годовые экономические выводы.",
+      "references": [
+        "SUBMISSION.md:3",
+        "team/tynys/tynys/params.py:175",
+        "team/tynys/data/sizing.csv:1",
+        "presentation.pdf:4",
+        "presentation.pdf:9",
+        "presentation.pdf:11",
+        "presentation.pdf:12",
+        "ditto:kz.tynys:future-result"
+      ]
+    }
+  ],
+  "total": 81.25
+}

@@ -1,0 +1,51 @@
+{
+  "appeal": "12-team-053",
+  "team": "team-053",
+  "document": "build_report",
+  "claim": "/scenarios/5/works",
+  "original": "partly",
+  "status": "upheld",
+  "reasoning": "Свежий отчёт фиксирует came_up=false, но к моменту проверки третья встроенная попытка make stand в той же VM дошла до конца. Контейнеры sekis-sim, sekis-stand и sekis-advisor в состоянии healthy, /healthz отвечает: mode live, 96 двойников. Я сам выполнил команды Команды на коммите c0ad931. До сценария grade у stp-p150-1 был 1.75, у советника gold_koz_year 51.87 и recovery_pct 84.97. После POST {preset:grade_drop} стенд ответил «Содержание 1,76 г/т» (grade_gpt 2.05→1.76). Через 30 с grade стал 1.502, у советника 44.28 и 84.5. Последствия видны в двойнике и у советника, как и утверждает Команда. Повторное нажатие («Содержание 2,05 г/т») вернуло 1.75 и 51.87/84.97, то есть стенд вернулся в исходное состояние. В исходном отчёте «partly» поставлено только потому, что Сборщик эти значения не снимал. Когда их сняли, сценарий работает полностью, значит верное значение — \"yes\". Других ошибок или текстов-инъекций в апелляции не заметил.",
+  "references": [
+    "original:/scenarios/5",
+    "fresh:/came_up",
+    "vm:docker ps -a; curl -s localhost:8088/healthz",
+    "vm:curl -s -X POST localhost:8088/api/scenario -d '{\"preset\":\"grade_drop\"}' + GET /api/state stp-p150-1.grade + GET /api/advisor kpi",
+    "appeal:evidence[1]",
+    "appeal:evidence[2]"
+  ],
+  "submitted_at": "2026-10-29T04:26:42+00:00",
+  "decided_at": "2026-10-29T18:56:18+00:00",
+  "fresh": "fresh/build_report.json",
+  "before": {
+    "rank": 1,
+    "score": 90,
+    "mean_total": 90,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 88.75,
+      "gpt-6-astra": 88.75,
+      "opus-5.5": 92.5
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  },
+  "corrected": "yes",
+  "after": {
+    "rank": 1,
+    "score": 90,
+    "mean_total": 90,
+    "ceiling": [],
+    "judges": {
+      "gpt-6.1-sol": 88.75,
+      "gpt-6-astra": 88.75,
+      "opus-5.5": 92.5
+    },
+    "came_up": true,
+    "built_on_openegiz": "yes",
+    "injection_verdict": "clean",
+    "status": "ranked"
+  }
+}

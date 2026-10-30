@@ -1,0 +1,39 @@
+{
+  "id": "19-team-082",
+  "source": "19-team-082.yaml",
+  "accepted": true,
+  "team": "team-082",
+  "document": "build_report",
+  "claim": "/scenarios/16/works",
+  "original": "no",
+  "statement": "Точное утверждение в отчёте, которое неверно:\n\"works\": \"no\" — «Не запускал: не хватило лимита времени. Стенд не менял.»\n\nЧто верно на самом деле:\nСценарий работает: он задаёт 45 % руды с Восточного карьера и 7 CAT 785C на нём; прогноз в kz.bozshakol:whatif показывает, что Восточный выбирает вскрытые запасы раньше чем за полгода: scen_exposed6_east_mo = 0, недобор руды за 6 мес (scen_ore_short_6m_kt) около 1,9 Мт, медь за 6 мес ниже базы примерно на 10 %. Отменяется make scenario-reset. Сборщик сценарий не запускал.",
+  "evidence": [
+    {
+      "kind": "command",
+      "content": "make scenario P=plan_east_push\nчерез 30–60 с:"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:control/features\nожидается trucks_east 7, east_ore_share 0.45"
+    },
+    {
+      "kind": "command",
+      "content": "curl -s -u ditto:$DITTO_PASSWORD localhost:8080/api/2/things/kz.bozshakol:whatif/features\nожидается scen_exposed6_east_mo 0, scen_ore_short_6m_kt больше 0, delta_cu_6m_kt отрицательная"
+    },
+    {
+      "kind": "command",
+      "content": "make scenario-reset"
+    },
+    {
+      "kind": "file",
+      "content": "bozshakol/ui/presets.json:140"
+    },
+    {
+      "kind": "file",
+      "content": "SUBMISSION.md, раздел «Сценарии \"что если\"», строка plan_east_push"
+    }
+  ],
+  "submitted_at": "2026-10-29T17:08:10+00:00",
+  "code": "",
+  "explanation": ""
+}

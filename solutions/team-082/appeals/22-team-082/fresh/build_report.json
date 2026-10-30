@@ -1,0 +1,260 @@
+{
+  "team": "team-082",
+  "sha": "2305b482c94c435ef613fd561839e04cdde70aa7",
+  "started_at": "2026-10-29T21:02:11+00:00",
+  "finished_at": "2026-10-29T21:24:56+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update && sudo apt-get install -y make",
+      "command": "cd /home/judge/solution && sudo apt-get update && sudo apt-get install -y make",
+      "exit_code": 0,
+      "duration_s": 11.0,
+      "log": "logs/01-sudo-apt-get-update-sudo-apt-get-install.txt"
+    },
+    {
+      "readme_step": "make bozshakol",
+      "command": "cd /home/judge/solution && make bozshakol",
+      "exit_code": 0,
+      "duration_s": 128.0,
+      "log": "logs/02-make-bozshakol.txt"
+    },
+    {
+      "readme_step": "make verify        # сквозная проверка: 113 двойников — дети ГОК, у каждого тип; модель идёт (MQTT → Ditto),",
+      "command": "cd /home/judge/solution && make verify",
+      "exit_code": 2,
+      "duration_s": 17.0,
+      "log": "logs/03-make-verify-113-mqtt-ditto.txt"
+    },
+    {
+      "readme_step": "make verify        # сквозная проверка: 113 двойников — дети ГОК, у каждого тип; модель идёт (MQTT → Ditto),",
+      "command": "cd /home/judge/solution && make verify",
+      "exit_code": 0,
+      "duration_s": 14.0,
+      "log": "logs/04-make-verify-113-mqtt-ditto.txt"
+    },
+    {
+      "readme_step": "make selftest      # балансы и пределы модели без Docker: бункеры, склад, деньги, металл, дизель, окно ГОСТ, места самосвалов",
+      "command": "cd /home/judge/solution && make selftest",
+      "exit_code": 0,
+      "duration_s": 56.0,
+      "log": "logs/05-make-selftest-docker.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 15 of 18 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 15 of 18 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": true,
+      "evidence": "`make smoke` exit 0: Smoke test passed. (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Транспорт и диспетчеризация",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "ht-01 в Ditto за 35 с: hauling, 130 т → to_loader, 0 т; топливо 38,1 → 37,2 %; есть link_loader и link_destination. haulage: 26 машин, очереди; dispatch_policy переключается blend ↔ fixed. В дашборде bozshakol-haulage данные есть у 24 из 24 запросов."
+    },
+    {
+      "name": "Геология и качество руды",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "blk-01: 150-001, mining, cu 0.437, au 0.242, clay 5.4, ucs 117.6. В дашборде bozshakol-geology данные есть у 24 из 24 запросов."
+    },
+    {
+      "name": "Буровзрывные работы",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "dr-01 бурит blk-03: rop 43.8, torque, specific_energy, ucs_est. В twin-status SH-03 и LD-01 стоят в «укрытие (взрыв)». В bozshakol-drill-blast данные есть у 18 из 18 запросов."
+    },
+    {
+      "name": "Переработка",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "sag-01: running, 3127 т/ч, 25.5 МВт. Состояние gc-01 меняется по сценариям: running / down / starved. twin-status: извлечение 79.2 %. В bozshakol-plant данные есть у 29 из 29 запросов."
+    },
+    {
+      "name": "Энергетика",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "ss-220: total_mw 75.72, есть реактивная мощность, нагрузка по потребителям и tariff_zone. В bozshakol-energy данные есть у 34 из 34 запросов."
+    },
+    {
+      "name": "ТОиР и надёжность",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "ht-14: in_workshop, p_fail_24h 23.8, есть признаки cm_* (ОЖ, масло, шины, Fe/Si) и health. ws-01: HT-14 на ТО. При pdm SH-01 и SH-02 ушли на maintenance. В bozshakol-maintenance данные есть у 18 из 18 запросов."
+    },
+    {
+      "name": "Промбезопасность",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "sr-01 публикует сектора w1–w3 (скорость смещения, уровень). В bozshakol-safety данные есть у 21 из 21 запроса. Но за 35 с heavy_rain (rain 4.0 в wx-01) радар остался green: жёлтого и красного уровня и запрета работ я не увидел."
+    },
+    {
+      "name": "Открытые данные и ML",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "mwd-01: rock_ml «гранитный гнейс» (89 %) против картирования. qc-01 — запись Kaggle. sm-01: hazard_ml 5.4. en-01: forecast_2h 199.7 против actual 194.3. В bozshakol-data-ml данные есть у 26 из 26 запросов."
+    },
+    {
+      "name": "Нормы и контроль качества по ГОСТ",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "pq-01 и lab-01 в Ditto живые. Но точек pq-01 в InfluxDB 0 за 30 мин: Telegraf пишет «field type conflict: value_harmonic_filter_properties_value is type string, already exists as type boolean» и отбрасывает их. Поэтому в дашборде bozshakol-standards данные есть только у 3 из 23 запросов."
+    },
+    {
+      "name": "План месяца: два карьера и вскрытые запасы",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "pit-central / pit-east: exposed_ore_kt 5753 / 1808, exposed_months 3.0 / 2.2. В whatif.plan_traj есть траектория по месяцам. «Подобрать план» (plan_optimize) я не запускал. Сценарии plan_* до конца не наблюдал."
+    },
+    {
+      "name": "Контур карьера по Лерчу–Гроссману",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "У pit-central есть атрибут pit_shells: method Lerchs-Grossmann maximum closure, block_m 30. 3D-слой не проверял: браузера нет."
+    },
+    {
+      "name": "Прогноз «что если»",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "whatif публикует 27 KPI. Пример crusher_outage: Cu 572.6 → 126.3 т (−77.9 %). Расчёт длится до 47 с и отстаёт: при каждом сценарии статус был «расчёт» с результатом предыдущего сценария."
+    },
+    {
+      "name": "3D-пульт",
+      "claimed_in_submission": false,
+      "works": "yes",
+      "evidence": ":8095 отдаёт 200. Прокси /ditto/api/2/things/kz.bozshakol:site возвращает двойник из Ditto. В UI API='./ditto/api/2'."
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "truck_shortage",
+      "works": "yes",
+      "undone": "no",
+      "evidence": "control.trucks_parked 0 → 5. haulage.trucks_standby 0 → 2. Прогноз: Cu −0.4 %, вскрыша −9.6 %. После make scenario-reset trucks_parked=0, но trucks_standby держался 2 ещё больше 1,5 мин; это может быть и резерв диспетчера."
+    },
+    {
+      "name": "shovel_failure",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "sh-02 waiting → down. Позже прогноз: Cu −4.0 %. После reset: loader_down=none, sh-02 waiting."
+    },
+    {
+      "name": "dispatch_fixed",
+      "works": "partly",
+      "evidence": "haulage.dispatch_policy blend → fixed. Прогноз за 45 с не готов. После reset снова blend.",
+      "undone": "yes"
+    },
+    {
+      "name": "road_closure",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "control.road_closed=road-crusher. За 35 с видимых изменений в haulage нет, прогноз не готов. После reset road_closed=none."
+    },
+    {
+      "name": "speed_limit",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "haulage.speed_limit 50 → 30. Позже прогноз: Cu −1.0 %. После reset снова 50."
+    },
+    {
+      "name": "heavy_rain",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "wx-01.rain 0 → 4.0. sr-01 остался green, прогноз не готов. После reset rain 0."
+    },
+    {
+      "name": "crusher_outage",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "gc-01 running → down. Прогноз из make verify: Cu 572.6 → 126.3 т. После reset gc-01 running."
+    },
+    {
+      "name": "peak_shaving",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "control.peak_shaving=true. Сейчас в модели 13 ч, вне окна 17–23 ч: sag-01 не изменился. Позже прогноз: Cu −4.0 %. После reset false."
+    },
+    {
+      "name": "harmonic_filter_off",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "pq-01: ku 1.0 → 2.85, ku5 0.96 → 2.63, harmonic_filter «ОТКЛЮЧЕНА», violations ku95, ku5_95. После reset: ku 1.02, «включена», через сценарий violations «нет»."
+    },
+    {
+      "name": "pf_up",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "powder_factor 0.62 → 0.85. Прогноз: Cu +0.1 %. Прямых изменений за 35 с нет. После reset 0.62."
+    },
+    {
+      "name": "pf_down",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "powder_factor → 0.45. Прогноз не готов, прямых эффектов нет. После reset 0.62."
+    },
+    {
+      "name": "high_grade",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "grade_target → 0.45, gc-01 starved. Прогноз не готов. После reset 0.42, gc-01 running."
+    },
+    {
+      "name": "pdm",
+      "works": "yes",
+      "undone": "no",
+      "evidence": "maintenance_strategy=predictive. SH-01 и SH-02 → maintenance, trucks_standby 1 → 9. После reset strategy preventive, но SH-01 и SH-02 остались на maintenance, standby 10–11."
+    },
+    {
+      "name": "reactive",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "maintenance_strategy=reactive. Прогноз: Cu +4.7 %. После reset preventive."
+    },
+    {
+      "name": "fleet_optimum",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Запущен в фоне в конце, результаты не наблюдал: время вышло. Скрипт выполнил после него make scenario-reset."
+    },
+    {
+      "name": "plan_balance",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "Поставлен в фоновую очередь с последующим make scenario-reset, результатов не наблюдал: время вышло."
+    },
+    {
+      "name": "plan_east_push",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "То же: в очереди с reset, не наблюдал."
+    },
+    {
+      "name": "plan_east_strip",
+      "works": "no",
+      "undone": "yes",
+      "evidence": "То же: последний в очереди, после него make scenario-reset, не наблюдал."
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "В Ditto 113 двойников kz.bozshakol (112 — дети site) и типы. Соединения mosquitto-source (telemetry/#) и target открыты. Модель публикует в MQTT telemetry/<twin> (Ditto modify) и в Influx не пишет. ht-01 за 35 с меняется: _revision 45 → 59. 11 дашбордов Grafana читают только datasource opentwins-influxdb (данные от Telegraf). Пульт читает Ditto через прокси /ditto/."
+  },
+  "notes": "Первый make verify упал: «sim_time did not advance» (окно 6 с при шаге модели в минутах). Один повтор без изменений прошёл: «verify: ok», но в нём «reset -> down» для gc-01. make calibrate и plan-backtest не запускал: не хватило времени. Сценарии запускал make scenario P=…, отменял make scenario-reset. Прогноз whatif обычно не успевал за 35–45 с. Последние 4 сценария (fleet_optimum, plan_*) поставлены в фоновую очередь с автоматическим reset после каждого, их результаты я не видел. На Стенде после pdm SH-01 и SH-02 оставались на maintenance. AGENTS.md и CLAUDE.md — инструкции организатора для агентов Команды, инъекций в мой адрес нет.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Замысел о реальном ГОК «Бозшаколь»: на месячном совещании распределяют технику между двумя карьерами и между рудой и вскрышей с учётом вскрытых запасов."
+  }
+}

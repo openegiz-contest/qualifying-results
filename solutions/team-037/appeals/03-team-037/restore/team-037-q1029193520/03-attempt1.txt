@@ -1,0 +1,60 @@
+$ cd /home/judge/solution && make aktogay
+docker compose -f deploy/compose/docker-compose.yml up -d --build --wait --wait-timeout 900
+#1 [internal] load local bake definitions
+#1 reading from stdin 764B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 188B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-slim
+#3 DONE 6.2s
+
+#4 [1/5] FROM docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#4 resolve docker.io/library/node:20-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 0.0s done
+#4 DONE 0.0s
+
+#5 [2/5] WORKDIR /usr/src/app
+#5 CACHED
+
+#6 [internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7
+#6 0.003 fatal: Not a valid object name b49663dea326854a2323423eaeab7e7f54d325a7^{commit}
+#6 107.7 error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+#6 107.7 error: 19 bytes of body are still expected
+#6 107.7 fetch-pack: unexpected disconnect while reading sideband packet
+#6 107.7 fatal: early EOF
+#6 107.7 fatal: fetch-pack: invalid index-pack output
+#6 ERROR: failed to fetch remote https://github.com/ertis-research/extended-api-for-eclipse-ditto.git: git stderr:
+error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+error: 19 bytes of body are still expected
+fetch-pack: unexpected disconnect while reading sideband packet
+fatal: early EOF
+fatal: fetch-pack: invalid index-pack output
+: exit status 128
+------
+ > [internal] load git source https://github.com/ertis-research/extended-api-for-eclipse-ditto.git#b49663dea326854a2323423eaeab7e7f54d325a7:
+0.003 fatal: Not a valid object name b49663dea326854a2323423eaeab7e7f54d325a7^{commit}
+107.7 error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+107.7 error: 19 bytes of body are still expected
+107.7 fetch-pack: unexpected disconnect while reading sideband packet
+107.7 fatal: early EOF
+107.7 fatal: fetch-pack: invalid index-pack output
+------
+failed to solve: failed to fetch remote https://github.com/ertis-research/extended-api-for-eclipse-ditto.git: git stderr:
+
+error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly: CANCEL (err 8)
+
+error: 19 bytes of body are still expected
+
+fetch-pack: unexpected disconnect while reading sideband packet
+
+fatal: early EOF
+
+fatal: fetch-pack: invalid index-pack output
+
+: exit status 128
+
+make: *** [Makefile:21: up] Error 1
+
+exit code: 2

@@ -1,0 +1,18 @@
+{
+  "replayed": 4,
+  "failed_steps": [],
+  "build_came_up": true,
+  "stack_up": true,
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 17 of 21 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 17 of 21 containers running"
+    }
+  ]
+}

@@ -1,0 +1,199 @@
+{
+  "team": "team-100",
+  "sha": "9c8b37ff76bcc22d28b76ba459bf15ed8e1cf837",
+  "started_at": "2026-10-30T03:34:27+00:00",
+  "finished_at": "2026-10-30T04:07:53+00:00",
+  "came_up": true,
+  "steps": [
+    {
+      "readme_step": "sudo apt-get update && sudo apt-get install -y make   # в чистой Ubuntu make нет; меньше минуты",
+      "command": "cd /home/judge/solution && sudo apt-get update && sudo apt-get install -y make",
+      "exit_code": 0,
+      "duration_s": 9.5,
+      "log": "logs/01-sudo-apt-get-update-sudo-apt-get-install.txt"
+    },
+    {
+      "readme_step": "make up            # платформа + стенд; в конце печатает адреса и пароли",
+      "command": "cd /home/judge/solution && make up",
+      "exit_code": 0,
+      "duration_s": 91.0,
+      "log": "logs/02-make-up.txt"
+    },
+    {
+      "readme_step": "make akt-check     # «ok / FAIL + доказательство» по каждой строке; ≈ 15 с",
+      "command": "cd /home/judge/solution && make akt-check",
+      "exit_code": 0,
+      "duration_s": 10.7,
+      "log": "logs/03-make-akt-check-ok-fail-15.txt"
+    },
+    {
+      "readme_step": "make akt-calib     # таблица калибровки в терминале; 2–4 мин (те же числа уже в меню «Калибровка»)",
+      "command": "cd /home/judge/solution && make akt-calib",
+      "exit_code": 0,
+      "duration_s": 119.0,
+      "log": "logs/04-make-akt-calib-2-4.txt"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "containers_running",
+      "ok": true,
+      "evidence": "docker ps -a: 17 of 21 containers running (healthchecks/docker-ps.txt)"
+    },
+    {
+      "name": "containers_healthy",
+      "ok": true,
+      "evidence": "docker ps -a: no unhealthy, restarting or failed containers; 17 of 21 containers running"
+    },
+    {
+      "name": "smoke",
+      "ok": false,
+      "evidence": "`make smoke` exit 2: FAIL  value 526 did not reach InfluxDB within 60 s (healthchecks/smoke.txt)"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Модуль «Где теряется медь» (mod-losses)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Контейнер akt-modules healthy, mod-losses.processed_sim_time идёт за симулятором. В свободном ходе top_text = «Потерь сверх шума не найдено». На preset=fork recovery flot-1 упал с 87,2 до 82,2 %, модуль написал «Флотация 1: −0,71 т Cu/ч ± 0,22 · не уверен (z = 3,2)», затем «−0,57 т Cu/ч · потеря»; беда loss_flot (issue-5) получила статус CALLED. После отмены z упал до 0,6"
+    },
+    {
+      "name": "Модуль «Какая руда идёт» (mod-ore)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Без сценария mod-ore.fc_text = «Прогноз на 12 ч: 7 706 т/ч…; линия 1: твёрдой руды в плане на 12 ч нет». Через 75 мин модели после hard:1: «минимум 7 016 т/ч в 15:00…; линия 1: твёрдая руда партия 13 (A×b 27…)», в очереди беда hard_ore «через ≈1 ч 10 мин… SAG 3 906 → ≈3 306 т/ч». После отмены прогноз снова «твёрдой руды нет». Долю попаданий проверить не успел: hit_rate = -1, партия до SAG ещё не дошла"
+    },
+    {
+      "name": "Модуль «Очередь бед» (mod-priority, issue-*)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "Вещи issue-N создаются и закрываются по ходу работы. В fork+safety появилась S0 dam_alarm («пьезометр дамбы выше уставки: П-1 155 кПа, П-2 160 кПа · класс S0 — впереди всего»), потом lube_trip дробилки 2 с rank 1 и «потерь до 16:59 нет»; модуль записал auto_call {issue-5, flot-1, sim_time 575}. На grid, reline, hpgr_fire, water, icy в очереди первой стояла правильная беда с ответственным и ценой, S0 — впереди денежных"
+    },
+    {
+      "name": "Модель рудника: ≈150 вещей в Ditto с Thing Models",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "В Ditto 154 вещи kz.aktogay:* (141 постоянная + партии и беды), 50 типов. Thing Models отдаются на :8092/tm/, у фич есть definition вида http://akt-models/tm/*.tm.jsonld. make akt-check: все строки ok"
+    },
+    {
+      "name": "Сдача смены и «не прибыл» (mod-priority.handover, issue-N.escalation)",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "mod-priority.handover заполнен («Сдача смены 07:30 — в дневную смену (записан в 07:40)»). Сценарий «не прибыл» и эскалацию отдельно не проверял"
+    },
+    {
+      "name": "Цепочка ответственности, наряд-допуск, цена выбора бригады",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "У issue-N заполнено поле chain (список людей: person-dispatcher и др.). Поля chain_text, choice_text и permit_text на проверенной беде пустые. Обзор «А если бы позвали иначе?» не проверял"
+    },
+    {
+      "name": "Зима, тариф по часам",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "mod-priority.tariff = {band flat, 16 тг/кВт·ч}. После сценария winter water.winter стал 1.0, beach_dry_pct 5; после отмены winter снова 0"
+    },
+    {
+      "name": "Помол крупнее нормы, Cu в концентрате ниже нормы, перерасход шаров",
+      "claimed_in_submission": true,
+      "works": "no",
+      "evidence": "conc:1 приняли (control seq 14), но site.scenario остался пустым (скрытая причина). За 55 с беды conc_low не появилось, очередь «Бед нет». grind_coarse и balls:1 не проверял"
+    },
+    {
+      "name": "Прогнозы (mod-priority.forecast)",
+      "claimed_in_submission": true,
+      "works": "yes",
+      "evidence": "mod-priority.forecast обновляется по времени модели (t 510; склад по линиям: level_t 11 553 т, out_tph 3 822, pit_state)"
+    },
+    {
+      "name": "Путь меди, «Изнутри», Экономика, Калибровка (страницы akt-web)",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Страницы ?view=copper/inside/economics/calib отдают одну SPA-оболочку (200, 3 302 байта); содержимое рисуется JS, без браузера не проверено. /inside.json — 200, 107 КБ. /summary строит текст на сервере из Ditto и InfluxDB (время модели, прогон, 154 вещи). validation-calib.state = DONE после make akt-calib: 62 строки, 38 ok, 2 вне допуска"
+    },
+    {
+      "name": "Grafana: дерево Twins и история через Explore",
+      "claimed_in_submission": true,
+      "works": "partly",
+      "evidence": "Grafana работает, приложение ertis-opentwins-app установлено, datasource opentwins (InfluxDB). Своих дашбордов нет, только папка «OpenEgiz Examples» шаблона; Команда сама пишет об этом в «Не сделано»"
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "«Два сразу» с бедой безопасности «Пьезометр дамбы» (preset=fork, kip=1, safety=1)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Запуск: POST /api/scenario {id:fork,preset:fork,kip:1,auto:1,safety:1} (тело — как в app.js при ?preset=fork&safety=1). Новый прогон s42-scen-0002, site.scenario = fork+safety. Флотация 1: recovery 87,2 → 82,2 %. В 09:20 модели crusher-2 RUN 3 849 т/ч → STOP 0. В 08:15 модели появилась S0 dam_alarm (П-1 155, П-2 160 кПа против 114–118 до запуска). После POST /api/cancel: scenario пуст, crusher-2 RUN 3 890 т/ч, recovery flot-1 86,3 %, беды RESOLVED"
+    },
+    {
+      "name": "С1 «Встала дробилка» (crusher:1)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "crusher-1: RUN 3 848 т/ч → STOP 0, conveyor-1 STOP. Склад 1: in_tph 0, out 3 822, hours_left 2,4. Беда crusher_stop «Механик ЦПД», «потерь до 10:55 нет, потом −14,30 т Cu/ч». После cancel: crusher-1 RUN 3 901, conveyor-1 RUN, склад in 3 871 т/ч, беда RESOLVED"
+    },
+    {
+      "name": "С2 «Сеть урезала мощность» (grid)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "power: NORMAL, лимит 300 → LIMITED, grid_limit_mw 218, shed_text ball-2b,other_cat2. line-2 LIMITED, sag-2 LIMITED_GRID (25 698 → 13 087 кВт), ball-2b STOP. Беда grid_limited «Дежурный энергетик» rank 1. После cancel: power NORMAL, лимит 300, sag-2 RUN 25 089 кВт, ball-2b RUN"
+    },
+    {
+      "name": "С3 «Твёрдая руда» (hard:1)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "Через ~1,5 ч модели в mod-ore.fc_text появилась «твёрдая руда партия 13 (A×b 27)», минимум прогноза снизился с 7 281 до 7 016 т/ч. Беда hard_ore rank 1 (геолог, горный диспетчер, металлург), «SAG 3 906 → ≈3 306 т/ч». До SAG партия ещё не дошла, по описанию это и ожидается. После cancel прогноз снова «твёрдой руды нет», беда RESOLVED"
+    },
+    {
+      "name": "С4 «Перефутеровка SAG» (reline:1)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "sag-1: RUN 3 842 т/ч → RELINE 0, line-1 STOP, мощность площадки 258 → 161 МВт. S0 reline «люди в SAG-1 — пуск запрещён» первой в очереди. После cancel: sag-1 RUN 3 870, line-1 RUN, 258 МВт, беда RESOLVED"
+    },
+    {
+      "name": "«Вода» (water)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "water: NORMAL → SHORT. intake 4 255 → 6 079 м³/ч (предел 6 126), recycle 20 957 → 18 655, short 171 м³/ч, cut_tph 166. site.tph 7 744 → 7 483. Беда water_short rank 1. После cancel: NORMAL, intake 4 257, short 0, cut 0, беда RESOLVED"
+    },
+    {
+      "name": "«Пожар HPGR» (hpgr_fire)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "pebble-1: RUN → STOP, fire = 1. line-1 LIMITED 3 870 → 3 640 т/ч. S0 hpgr_fire rank 1 («вывести людей… обесточить»), pebble_stop rank 2. После cancel: pebble-1 RUN, fire 0, line-1 RUN 3 821, беды RESOLVED"
+    },
+    {
+      "name": "pitstop и conveyor:N",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "pitstop: exc-1/2/3 DIG → DOWN, появились беды pit_stop. После cancel экскаваторы DIG, беды RESOLVED. conveyor:1: conveyor-1 RUN → STOP, беда conveyor_stop «Механик ЦПД». После cancel RUN, беда RESOLVED"
+    },
+    {
+      "name": "Люди в опасной зоне при пуске (startup:1) и пыление пляжа (dust)",
+      "works": "partly",
+      "undone": "yes",
+      "evidence": "dust: water.beach_dry_pct 55 → 85, wind 3,9 → 11 м/с, беда S1 tailings_dust; после cancel RESOLVED. startup:1: за 60 с только беда ball_stop (шаровая 1A стоит, CALLED); обещанной беды S0 startup_zone я не увидел. После cancel scenario пуст, ball_stop RESOLVED"
+    },
+    {
+      "name": "Тир S: зимняя дорога (icy)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "S0 road_winter rank 1 («видимость 120 м (порог 150), сцепление 0,30 (порог 0,40), ветер 11 м/с»), fleet_short rank 2. После cancel scenario пуст, обе беды RESOLVED. Остальные сценарии тира S (fatigue, roping, phdrift, hpgr:2, mantle, oil) не проверял"
+    },
+    {
+      "name": "Зима (winter)",
+      "works": "yes",
+      "undone": "yes",
+      "evidence": "water.winter 0 → 1, beach_dry_pct 55 → 5. После cancel winter 0"
+    }
+  ],
+  "built_on_openegiz": {
+    "verdict": "yes",
+    "evidence": "1) В Ditto 154 вещи kz.aktogay:* (GET /api/2/search/things), у фич есть WoT definition. 2) Соединения mosquitto-source (telemetry/#) и mosquitto-target открыты. akt-sim сидит только в сети openegiz_simnet и публикует в MQTT команды merge протокола Ditto (mosquitto_sub: 88 сообщений telemetry/kz.aktogay/* за 5 с). Снимки с разницей 35 с: sag-1 sim_time 505 → 540, feed_tph 3 904 → 3 954; site.tph 7 738 → 7 801. 3) akt-web читает Ditto (/api/2/search/things, /things) и InfluxDB (Flux; /api/history для sag-1.feed_tph вернул точки), пишет только в вещи control и journal через Ditto. Сценарий идёт так: POST /api/scenario → control.scenario в Ditto → событие → симулятор. Модули akt-modules читают только Ditto и InfluxDB и пишут mod-*/issue-* через Ditto. В InfluxDB 150 вещей с точками моложе 60 с (make akt-check). Grafana: datasource opentwins (InfluxDB) и приложение OpenEgiz Twins; своего дашборда нет, основной интерфейс — akt-web поверх Ditto и Influx."
+  },
+  "notes": "Все шаги README прошли с первого раза, повторов не было. Шаг «git clone … # если репозиторий ещё не склонирован» пропустил: репозиторий уже лежал в /home/judge/solution. Сценарии запускал и отменял командами терминала из README и SUBMISSION (POST /api/scenario и /api/cancel на :8000). Для fork+safety и сценариев, у которых в README есть только URL или кнопка (startup:1, dust, winter, icy, pitstop, conveyor:1, conc:1), тело запроса брал из aktogay/web/static/app.js (Panel.scenario). Из сценариев SUBMISSION не проверял тир S (кроме icy), balls:1, grind_coarse и тихие перерасходы. После всех проверок стенд оставлен без сценария: последний cancel, site.scenario пуст, прогон s42-scen-0015, свободный ход. Возможных инъекций не нашёл: AGENTS.md и CLAUDE.md — стандартные файлы Шаблона.",
+  "concept": {
+    "filled": "yes",
+    "evidence": "Concept заполнен Командой: двойник сульфидной части рудника Актогай (KAZ Minerals) от карьера до концентрата; пользователь — сменный диспетчер; решение — в каком порядке вызывать бригады по цене потерь, люди и авария первыми."
+  }
+}
